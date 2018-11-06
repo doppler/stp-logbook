@@ -1,0 +1,27 @@
+.Header {
+  grid-area: header;
+}
+.Header {
+  display: flex;
+}
+.Header div {
+  flex: auto;
+  display: flex;
+  justify-content: center;
+}
+.Header div:nth-child(1) {
+  justify-content: flex-start;
+}
+.Header div:nth-child(3) {
+  justify-content: flex-end;
+}
+.Header button {
+  color: #ccc;
+  background-color: #333;
+  border: 2px;
+  border-color: #ccc;
+  border-style: outset;
+  border-radius: 10px;
+  height: 20px;
+  margin: 10px 5px 0 10px;
+}

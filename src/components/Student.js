@@ -21,10 +21,15 @@ export default class Student extends Component {
 
   render() {
     const { student } = this.state;
+    const { location } = this.props;
     if (!student) return null;
     return (
       <>
-        <Header title={student.name} />
+        <Header
+          location={location}
+          title={student.name}
+          handleBackButtonClick={this.props.history.goBack}
+        />
         <div className="Student">
           <table>
             <thead>

@@ -5,10 +5,15 @@ import "./Students.css";
 import Header from "./Header";
 import Footer from "./Footer";
 
-export default ({ students }) => {
+export default props => {
+  const { students, location, history } = props;
+  const handleStudentRowClick = student => {
+    history.push(`/student/${student.id}`);
+  };
+
   return (
     <>
-      <Header title="Students" />
+      <Header title="Students" location={location} />
       <div className="Students">
         <table>
           <thead>
@@ -21,10 +26,8 @@ export default ({ students }) => {
           <tbody>
             {students.map((student, i) => {
               return (
-                <tr key={i}>
-                  <td>
-                    <Link to={`/student/${student.id}`}>{student.name}</Link>
-                  </td>
+                <tr key={i} onClick={() => handleStudentRowClick(student)}>
+                  <td>{student.name}</td>
                   <td>{student.email}</td>
                   <td>{student.phone}</td>
                 </tr>
