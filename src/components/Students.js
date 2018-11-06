@@ -3,6 +3,7 @@ import React from "react";
 import "./Students.css";
 
 const Students = ({ students, handleStudentClick }) => {
+  // console.log(props);
   if (!students) {
     return "Waiting...";
   }

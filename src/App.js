@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 
 import Students from "./components/Students";
+import Student from "./components/Student";
 
 import fetchStudents from "./api/fetchStudents";
 
@@ -20,23 +21,35 @@ class App extends Component {
     this.setState({ students });
   };
 
-  handleStudentClick = student => {
-    console.log(student);
+  handleStudentClick = _student => {
+    const student = this.state.students.find(s => s.id === _student.id);
     this.setState({
-      student: this.state.students.find(s => s.id === student.id)
+      page: student.name,
+      student
     });
   };
 
   render() {
+    const mergedProps = {
+      ...this.props,
+      ...this.state,
+      handleStudentClick: this.handleStudentClick
+    };
+    const { student } = mergedProps;
+    let ContentComponent;
+    switch (true) {
+      case student !== null:
+        ContentComponent = Student;
+        break;
+      default:
+        ContentComponent = Students;
+    }
     return (
       <div className="App">
         <div className="Header">
           <h1>{this.state.page}</h1>
         </div>
-        <Students
-          students={this.state.students}
-          handleStudentClick={this.handleStudentClick}
-        />
+        <ContentComponent {...mergedProps} />
         <div className="Footer">
           <h1>Footer</h1>
         </div>
