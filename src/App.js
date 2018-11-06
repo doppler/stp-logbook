@@ -1,25 +1,45 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
+
+import Students from "./components/Students";
+
+import fetchStudents from "./api/fetchStudents";
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      page: "Students",
+      students: null,
+      student: null
+    };
+  }
+
+  componentDidMount = async () => {
+    const students = await fetchStudents();
+    this.setState({ students });
+  };
+
+  handleStudentClick = student => {
+    console.log(student);
+    this.setState({
+      student: this.state.students.find(s => s.id === student.id)
+    });
+  };
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <div className="Header">
+          <h1>{this.state.page}</h1>
+        </div>
+        <Students
+          students={this.state.students}
+          handleStudentClick={this.handleStudentClick}
+        />
+        <div className="Footer">
+          <h1>Footer</h1>
+        </div>
       </div>
     );
   }
