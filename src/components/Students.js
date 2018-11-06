@@ -1,23 +1,22 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import "./Students.css";
 
 import Header from "./Header";
 import Footer from "./Footer";
 
 export default props => {
-  const { students, location, history } = props;
+  const { students } = props;
   const handleStudentRowClick = student => {
-    history.push(`/student/${student.id}`);
+    props.history.push(`/student/${student.id}`);
   };
 
   return (
     <>
-      <Header title="Students" location={location} />
+      <Header title="Students" location={props.location} />
       <div className="Students">
         <table>
           <thead>
-            <tr className="Header">
+            <tr>
               <th>Name</th>
               <th>Email</th>
               <th>Phone</th>

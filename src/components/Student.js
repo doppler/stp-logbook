@@ -21,15 +21,10 @@ export default class Student extends Component {
 
   render() {
     const { student } = this.state;
-    const { location } = this.props;
     if (!student) return null;
     return (
       <>
-        <Header
-          location={location}
-          title={student.name}
-          handleBackButtonClick={this.props.history.goBack}
-        />
+        <Header title={student.name} />
         <div className="Student">
           <table>
             <thead>
@@ -42,7 +37,14 @@ export default class Student extends Component {
             </thead>
             <tbody>
               {student.jumps.map((jump, i) => (
-                <tr key={i}>
+                <tr
+                  key={i}
+                  onClick={() =>
+                    this.props.history.push(
+                      `/student/${this.state.student.id}/jump/${jump.number}`
+                    )
+                  }
+                >
                   <td>{jump.number}</td>
                   <td>{jump.diveFlow}</td>
                   <td>{jump.date}</td>

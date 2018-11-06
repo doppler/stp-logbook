@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import "./App.css";
 import Students from "./components/Students";
 import Student from "./components/Student";
+import Jump from "./components/Jump";
 
 import fetchStudents from "./api/fetchStudents";
 
@@ -29,7 +30,10 @@ class App extends Component {
             <Students {...props} students={this.state.students} />
           )}
         />
-        <Route path="/student/:id" component={Student} />
+        <Switch>
+          <Route path="/student/:studentId/jump/:jumpNumber" component={Jump} />
+          <Route path="/student/:id" component={Student} />
+        </Switch>
       </div>
     );
   }

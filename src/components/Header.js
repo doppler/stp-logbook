@@ -1,15 +1,15 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
 
 import "./Header.css";
 
-export default props => {
-  const { location, title, handleBackButtonClick } = props;
-  console.log(props);
+const Header = props => {
+  const { title } = props;
   return (
     <div className="Header">
       <div className="Nav">
-        {location.pathname !== "/" ? (
-          <button onClick={() => handleBackButtonClick()}>Back</button>
+        {props.location.pathname !== "/" ? (
+          <button onClick={() => props.history.goBack()}>Back</button>
         ) : null}
       </div>
       <div className="Title">
@@ -21,3 +21,5 @@ export default props => {
     </div>
   );
 };
+
+export default withRouter(Header);
