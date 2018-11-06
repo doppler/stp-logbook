@@ -3,6 +3,10 @@ import { withRouter } from "react-router-dom";
 
 import "./Header.css";
 
+const handleActionButtonClick = props => {
+  props.history.push(`/student/new`);
+};
+
 const Header = props => {
   const { title } = props;
   return (
@@ -16,7 +20,11 @@ const Header = props => {
         <h1>{title}</h1>
       </div>
       <div className="Actions">
-        <button>Action</button>
+        {props.location.pathname === "/" ? (
+          <button onClick={() => handleActionButtonClick(props)}>
+            Add Student
+          </button>
+        ) : null}
       </div>
     </div>
   );
