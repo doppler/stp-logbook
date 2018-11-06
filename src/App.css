@@ -10,6 +10,9 @@
 .Header {
   grid-area: header;
 }
+.Header > div {
+  display: inline-block;
+}
 .Students {
   grid-area: content;
 }

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
-
+import Header from "./components/Header";
 import Students from "./components/Students";
 import Student from "./components/Student";
 
@@ -29,11 +29,16 @@ class App extends Component {
     });
   };
 
+  handleBackButtonClick = () => {
+    this.setState({ student: null, page: "Students" });
+  };
+
   render() {
     const mergedProps = {
       ...this.props,
       ...this.state,
-      handleStudentClick: this.handleStudentClick
+      handleStudentClick: this.handleStudentClick,
+      handleBackButtonClick: this.handleBackButtonClick
     };
     const { student } = mergedProps;
     let ContentComponent;
@@ -46,9 +51,7 @@ class App extends Component {
     }
     return (
       <div className="App">
-        <div className="Header">
-          <h1>{this.state.page}</h1>
-        </div>
+        <Header {...mergedProps} />
         <ContentComponent {...mergedProps} />
         <div className="Footer">
           <h1>Footer</h1>
