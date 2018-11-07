@@ -38,4 +38,17 @@ app.post("/api/student", (req, res) => {
   db.end();
   res.send(student);
 });
+
+app.get("/api/instructors", (req, res) => {
+  res.send(
+    JSON.stringify([
+      "David Rose",
+      "Mihailo Matic",
+      "Darcy King",
+      "Cray Adamson",
+      "Matteo Something"
+    ])
+  );
+});
+
 app.listen(PORT, () => console.log(`api-server listening on port ${PORT}`));
