@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import getStudent from "../api/getStudent";
 import saveStudent from "../api/saveStudent";
 import distanceInWordsToNow from "date-fns/distance_in_words_to_now";
 
@@ -26,10 +27,8 @@ export default props => {
 
   useEffect(
     async () => {
-      const res = await fetch("/api/students");
-      const json = await res.json();
-      const student = json.find(obj => obj.id === props.match.params.id);
-      setStudent(student);
+      const json = await getStudent(props.match.params.id);
+      setStudent(json);
     },
     [setStudent]
   );
