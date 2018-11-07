@@ -10,12 +10,16 @@ export default props => {
   const [student, setStudent] = useState();
   const [jump, setJump] = useState();
 
-  useEffect(async () => {
-    const { studentId, jumpNumber } = props.match.params;
-    const student = await fetchStudent(studentId);
-    setStudent(student);
-    setJump(student.jumps.find(jump => (jump.number = Number(jumpNumber))));
-  });
+  useEffect(
+    async () => {
+      const { studentId, jumpNumber } = props.match.params;
+      const student = await fetchStudent(studentId);
+      setStudent(student);
+      setJump(student.jumps.find(jump => (jump.number = Number(jumpNumber))));
+      return () => console.log("Unmounting Jump");
+    },
+    [setStudent, setJump]
+  );
 
   if (!student || !jump) return null;
   return (

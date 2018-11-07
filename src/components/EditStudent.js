@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
-import fetchStudent from "../api/fetchStudent";
-import fetchStudents from "../api/fetchStudents";
 import saveStudents from "../api/saveStudents";
 
 import "./EditStudent.css";
@@ -9,26 +7,29 @@ import "./EditStudent.css";
 import Header from "./Header";
 import Footer from "./Footer";
 
-const EditStudent = props => {
-  const { match } = props;
-  const [student, setStudent] = useState();
+const initialState = {
+  id: Math.round(Math.random(10) * 100000000).toString(16),
+  name: "",
+  email: "",
+  phone: "",
+  jumps: []
+};
 
-  useEffect(async () => {
-    if (!student) {
-      const savedStudent = await fetchStudent(match.params.id);
-      if (savedStudent) {
-        setStudent(savedStudent);
-      } else {
-        setStudent({
-          id: Math.round(Math.random(10) * 100000000).toString(16),
-          name: "",
-          email: "",
-          phone: "",
-          jumps: []
-        });
-      }
-    }
-  });
+const EditStudent = props => {
+  const { params } = props.match;
+  const [student, setStudent] = useState(initialState);
+
+  useEffect(
+    async () => {
+      if (!params.id) return null;
+      const res = await fetch("/api/students");
+      const json = await res.json();
+      const student = json.find(obj => obj.id === params.id);
+      console.log(student);
+      setStudent(student);
+    },
+    [setStudent]
+  );
 
   const setStudentAttribute = event => {
     const { id, value } = event.target;
@@ -38,16 +39,16 @@ const EditStudent = props => {
 
   const saveStudent = async e => {
     e.preventDefault();
-    const students = await fetchStudents();
-    const savedStudent = students.find(_student => _student.id === student.id);
+    const res = await fetch("/api/students");
+    const json = await res.json();
+    const savedStudent = json.find(obj => obj.id === student.id);
     const editedStudent = savedStudent ? savedStudent : student;
     saveStudents([
       editedStudent,
-      ...students.filter(_student => _student.id !== student.id)
+      ...json.filter(obj => obj.id !== student.id)
     ]).then(() => props.history.push(`/student/${student.id}`));
   };
 
-  if (!student) return null;
   return (
     <>
       <Header title="New Student" />

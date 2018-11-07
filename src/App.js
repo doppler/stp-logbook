@@ -6,30 +6,16 @@ import Students from "./components/Students";
 import Student from "./components/Student";
 import Jump from "./components/Jump";
 
-// import fetchStudents from "./api/fetchStudents";
-
 class App extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     students: []
-  //   };
-  // }
-  //
-  // componentDidMount = async () => {
-  //   const students = await fetchStudents();
-  //   this.setState({ students });
-  // };
-
   render() {
     return (
       <div className="App">
-        <Route exact path="/" component={Students} />
         <Switch>
+          <Route exact path="/" component={Students} />
           <Route path="/student/:studentId/jump/:jumpNumber" component={Jump} />
           <Route path="/student/new" component={EditStudent} />
-          <Route path="/student/:id/edit" component={EditStudent} />
           <Route path="/student/:id" component={Student} />
+          <Route path="/student/:id/edit" component={EditStudent} />
         </Switch>
       </div>
     );
@@ -37,12 +23,3 @@ class App extends Component {
 }
 
 export default App;
-/*
-<Route
-  exact
-  path="/"
-  render={props => (
-    <Students {...props} students={this.state.students} />
-  )}
-/>
-*/

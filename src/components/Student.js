@@ -5,19 +5,20 @@ import "./Student.css";
 import Header from "./Header";
 import Footer from "./Footer";
 
-import fetchStudent from "../api/fetchStudent";
-
 export default props => {
-  const [student, setStudent] = useState();
+  const [student, setStudent] = useState({});
 
-  useEffect(async () => {
-    if (!student) {
-      const student = await fetchStudent(props.match.params.id);
+  useEffect(
+    async () => {
+      const res = await fetch("/api/students");
+      const json = await res.json();
+      const student = json.find(obj => obj.id === props.match.params.id);
       setStudent(student);
-    }
-  });
+    },
+    [setStudent]
+  );
 
-  if (!student) return null;
+  if (!student.id) return null;
   return (
     <>
       <Header title={student.name} />
