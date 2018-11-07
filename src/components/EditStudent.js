@@ -87,15 +87,17 @@ const EditStudent = props => {
               placeholder="instructor"
             />
           </div>
-          <div className="input-group">
-            <label htmlFor="previousJumps">Previous Jumps</label>
-            <input
-              type="number"
-              id="previousJumps"
-              onChange={setStudentAttribute}
-              value={student.previousJumps || 2}
-            />
-          </div>
+          {student.jumps.length === 0 ? (
+            <div className="input-group">
+              <label htmlFor="previousJumps">Previous Jumps</label>
+              <input
+                type="number"
+                id="previousJumps"
+                onChange={setStudentAttribute}
+                value={student.previousJumps || 2}
+              />
+            </div>
+          ) : null}
           <button>Save Student</button>
         </form>
       </div>
