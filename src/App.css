@@ -9,6 +9,7 @@
 }
 .Content {
   background-color: var(--content-bg-color);
+  overflow: scroll;
 }
 .Footer {
   grid-area: footer;
