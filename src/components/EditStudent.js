@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
+import getStudent from "../api/getStudent";
 import saveStudents from "../api/saveStudents";
 
 import "./EditStudent.css";
@@ -23,10 +24,8 @@ const EditStudent = props => {
   useEffect(
     async () => {
       if (!params.id) return null;
-      const res = await fetch("/api/students");
-      const json = await res.json();
-      const student = json.find(obj => obj.id === params.id);
-      setStudent(student);
+      const json = await getStudent(params.id);
+      setStudent(json);
     },
     [setStudent]
   );

@@ -4,7 +4,7 @@ import "./Jump.css";
 import Header from "./Header";
 import Footer from "./Footer";
 
-import fetchStudent from "../api/fetchStudent";
+import getStudent from "../api/getStudent";
 
 export default props => {
   const [student, setStudent] = useState();
@@ -13,9 +13,9 @@ export default props => {
   useEffect(
     async () => {
       const { studentId, jumpNumber } = props.match.params;
-      const student = await fetchStudent(studentId);
-      setStudent(student);
-      setJump(student.jumps.find(jump => (jump.number = Number(jumpNumber))));
+      const json = await getStudent(studentId);
+      setStudent(json);
+      setJump(json.jumps.find(jump => (jump.number = Number(jumpNumber))));
     },
     [setStudent, setJump]
   );
