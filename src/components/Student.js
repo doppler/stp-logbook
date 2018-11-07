@@ -13,7 +13,11 @@ const nextJump = student => {
   const lastJump = student.jumps[student.jumps.length - 1];
   const { number, diveFlow, instructor } = lastJump
     ? { ...lastJump }
-    : { number: 2, diveFlow: 0, instructor: student.instructor };
+    : {
+        number: Number(student.previousJumps),
+        diveFlow: 0,
+        instructor: student.instructor
+      };
   return {
     number: number + 1,
     diveFlow: diveFlow + 1,
