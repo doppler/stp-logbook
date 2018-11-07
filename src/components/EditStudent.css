@@ -2,7 +2,10 @@
   background-color: #333;
   color: #ccc;
 }
-
+h2,
+.input-group {
+  margin-left: 10px;
+}
 button {
   color: #ccc;
   background-color: #333;
@@ -20,4 +23,25 @@ button:focus {
 }
 button:active {
   background-color: green;
+}
+
+.input-group {
+  width: 90vh;
+  display: flex;
+  margin-bottom: 10px;
+}
+.input-group > label {
+  display: flex;
+  font-weight: bold;
+  padding: 5px 0 0 5px;
+  color: #333;
+  background-color: #ccc;
+  border: 1px solid #666;
+  border-radius: 5px 0 0 5px;
+  width: 25%;
+}
+.input-group > input {
+  font-size: 1.5em;
+  width: 75%;
+  border-radius: 0 5px 5px 0;
 }
