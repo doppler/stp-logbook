@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import getStudents from "../api/getStudents";
+import parse from "date-fns/parse";
 import format from "date-fns/format";
+import differenceInDays from "date-fns/difference_in_days";
 import "./Students.css";
 
 import Header from "./Header";
@@ -42,6 +44,21 @@ export default props => {
     setFilter(e.target.value);
   };
 
+  const currencyColor = daysSinceLastJump => {
+    if (daysSinceLastJump > 30) {
+      return `rgb(255, 0, 0)`;
+    }
+    if (daysSinceLastJump > 21) {
+      return `rgb(255, ${192 -
+        Math.floor((64 / 7) * (daysSinceLastJump - 21))}, 0)`;
+    }
+    if (daysSinceLastJump > 14) {
+      return `rgb(255, ${255 -
+        Math.floor((64 / 7) * (daysSinceLastJump - 14))}, 0)`;
+    }
+    return `rgb(${Math.floor((255 / 14) * daysSinceLastJump)}, 255, 0)`;
+  };
+
   return (
     <>
       <Header
@@ -64,6 +81,9 @@ export default props => {
           <tbody>
             {filteredStudents.map((student, i) => {
               const lastJump = student.jumps[student.jumps.length - 1];
+              const daysSinceLastJump = lastJump
+                ? differenceInDays(new Date(), lastJump.date)
+                : 9999;
               const lastJumpStr = lastJump
                 ? `${format(lastJump.date, "ddd MMM Do")}`
                 : null;
@@ -77,7 +97,15 @@ export default props => {
                   <td>{student.name}</td>
                   <td>{student.email}</td>
                   <td>{student.phone}</td>
-                  <td>{lastJumpStr}</td>
+                  <td>
+                    {lastJumpStr}
+                    <span
+                      className="currency-color"
+                      style={{
+                        backgroundColor: `${currencyColor(daysSinceLastJump)}`
+                      }}
+                    />
+                  </td>
                   <td>{lastDfStr}</td>
                 </tr>
               );
