@@ -12,7 +12,6 @@ export default props => {
 
   useEffect(
     async () => {
-      // const res = await fetch("/api/students");
       const json = await getStudents();
       setStudents(json);
       setFilteredStudents(json);
