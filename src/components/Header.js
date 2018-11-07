@@ -21,7 +21,11 @@ const Header = props => {
             <Link to="/">Home</Link>
           </button>
         ) : match.path === "/" ? (
-          <input onChange={onFilterChange} value={filter} />
+          <input
+            onChange={onFilterChange}
+            value={filter}
+            placeholder="Filter by name"
+          />
         ) : null}
       </div>
       <div className="Title">
