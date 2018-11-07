@@ -47,7 +47,7 @@ const EditStudent = props => {
 
   return (
     <>
-      <Header title="New Student" />
+      <Header title={student.name !== "" ? student.name : "New Student"} />
       <div className="NewStudent">
         <form onSubmit={saveStudent}>
           <h2>Editing {student.name ? student.name : "New Student"}</h2>

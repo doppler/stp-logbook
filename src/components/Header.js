@@ -25,7 +25,7 @@ const Header = props => {
         ) : null}
       </div>
       <div className="Title">
-        <h1>{title || student.name}</h1>
+        <h1>{title}</h1>
       </div>
       <div className="Actions">
         {match.path === "/" ? (
