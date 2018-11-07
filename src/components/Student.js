@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import distanceInWordsToNow from "date-fns/distance_in_words_to_now";
 
 import "./Student.css";
 
@@ -71,7 +72,10 @@ export default props => {
               >
                 <td>{jump.number}</td>
                 <td>{jump.diveFlow}</td>
-                <td>{jump.date}</td>
+                <td>
+                  {format(jump.date, "MM/DD/YY")} (
+                  {distanceInWordsToNow(jump.date)})
+                </td>
                 <td>{jump.instructor}</td>
               </tr>
             ))}
