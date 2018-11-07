@@ -33,6 +33,12 @@ export default props => {
     [setStudent, setJump]
   );
 
+  const [instructors, setInstructors] = useState([]);
+  useEffect(async () => {
+    const json = await fetch("/api/instructors").then(res => res.json());
+    setInstructors(json);
+  });
+
   const setAttribute = event => {
     const { id, value } = event.target;
     jump[id] = value;
@@ -83,11 +89,13 @@ export default props => {
           </div>
           <div className="input-group">
             <label htmlFor="instructor">Instructor</label>
-            <input
+            <select
               id="instructor"
               value={jump.instructor}
               onChange={setAttribute}
-            />
+            >
+              <InstructorOptions instructors={instructors} />
+            </select>
           </div>
           <div className="input-group">
             <label htmlFor="aircraft">Aircraft</label>
@@ -133,6 +141,14 @@ export default props => {
       <Footer />
     </>
   );
+};
+
+const InstructorOptions = ({ instructors }) => {
+  return instructors.map((instructor, i) => (
+    <option key={i} value={instructor}>
+      {instructor}
+    </option>
+  ));
 };
 
 const ExitAltitudeOptions = () => {
