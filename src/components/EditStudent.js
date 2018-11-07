@@ -21,7 +21,6 @@ const initialState = {
 const EditStudent = props => {
   const { params } = props.match;
   const [student, setStudent] = useState(initialState);
-
   useEffect(
     async () => {
       if (!params.id) return null;
@@ -30,6 +29,12 @@ const EditStudent = props => {
     },
     [setStudent]
   );
+
+  const [instructors, setInstructors] = useState([]);
+  useEffect(async () => {
+    const json = await fetch("/api/instructors").then(res => res.json());
+    setInstructors(json);
+  });
 
   const setAttribute = event => {
     const { id, value } = event.target;
@@ -80,12 +85,13 @@ const EditStudent = props => {
           </div>
           <div className="input-group">
             <label htmlFor="instructor">Instructor</label>
-            <input
+            <select
               id="instructor"
-              onChange={setAttribute}
               value={student.instructor}
-              placeholder="instructor"
-            />
+              onChange={setAttribute}
+            >
+              <InstructorOptions instructors={instructors} />
+            </select>
           </div>
           {student.jumps.length === 0 ? (
             <div className="input-group">
@@ -107,3 +113,11 @@ const EditStudent = props => {
 };
 
 export default withRouter(EditStudent);
+
+const InstructorOptions = ({ instructors }) => {
+  return instructors.map((instructor, i) => (
+    <option key={i} value={instructor}>
+      {instructor}
+    </option>
+  ));
+};
