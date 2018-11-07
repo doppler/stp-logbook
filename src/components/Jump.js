@@ -35,10 +35,11 @@ export default props => {
   const [instructors, setInstructors] = useState([]);
   useEffect(
     async () => {
-      const json = await fetch("/api/instructors").then(res => res.json());
+      const res = await fetch("/api/instructors");
+      const json = await res.json();
       setInstructors(json);
     },
-    [instructors]
+    [setInstructors]
   );
 
   const setAttribute = event => {
@@ -54,15 +55,13 @@ export default props => {
     event.preventDefault();
     const json = await saveStudent(student);
     props.history.push(`/student/${json.id}`);
-    return () => {};
   };
 
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
-  const deleteJump = event => {
+  const deleteJump = async event => {
     event.preventDefault();
     if (deleteConfirmation) return reallyDeleteJump();
     setDeleteConfirmation(true);
-    return () => {};
   };
 
   const reallyDeleteJump = async () => {
