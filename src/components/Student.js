@@ -21,7 +21,7 @@ export default props => {
   if (!student.id) return null;
   return (
     <>
-      <Header title={student.name} />
+      <Header student={student} />
       <div className="Student">
         <table>
           <thead>
@@ -48,6 +48,9 @@ export default props => {
                 <td>{jump.instructor}</td>
               </tr>
             ))}
+            <tr>
+              <td colSpan={4}>Add New Jump</td>
+            </tr>
           </tbody>
         </table>
       </div>

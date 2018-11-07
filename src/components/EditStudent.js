@@ -25,7 +25,6 @@ const EditStudent = props => {
       const res = await fetch("/api/students");
       const json = await res.json();
       const student = json.find(obj => obj.id === params.id);
-      console.log(student);
       setStudent(student);
     },
     [setStudent]
@@ -41,19 +40,16 @@ const EditStudent = props => {
     e.preventDefault();
     const res = await fetch("/api/students");
     const json = await res.json();
-    const savedStudent = json.find(obj => obj.id === student.id);
-    const editedStudent = savedStudent ? savedStudent : student;
-    saveStudents([
-      editedStudent,
-      ...json.filter(obj => obj.id !== student.id)
-    ]).then(() => props.history.push(`/student/${student.id}`));
+    saveStudents([student, ...json.filter(obj => obj.id !== student.id)]).then(
+      () => props.history.push(`/student/${student.id}`)
+    );
   };
 
   return (
     <>
       <Header title="New Student" />
       <div className="NewStudent">
-        <form>
+        <form onSubmit={saveStudent}>
           <h2>Editing {student.name ? student.name : "New Student"}</h2>
           <div className="id">{student.id}</div>
           <div className="input-group">
@@ -83,7 +79,7 @@ const EditStudent = props => {
               placeholder="Phone"
             />
           </div>
-          <button onClick={saveStudent}>Save Student</button>
+          <button>Save Student</button>
         </form>
       </div>
       <Footer />

@@ -8,23 +8,27 @@ const handleActionButtonClick = props => {
 };
 
 const Header = props => {
-  const { title } = props;
+  const { title, student, match } = props;
   return (
     <div className="Header">
       <div className="Nav">
-        {props.location.pathname !== "/" ? (
+        {match.path !== "/" ? (
           <button style={{ display: "block" }}>
             <Link to="/">Back</Link>
           </button>
         ) : null}
       </div>
       <div className="Title">
-        <h1>{title}</h1>
+        <h1>{title || student.name}</h1>
       </div>
       <div className="Actions">
-        {props.location.pathname === "/" ? (
+        {match.path === "/" ? (
           <button onClick={() => handleActionButtonClick(props)}>
             Add Student
+          </button>
+        ) : match.path === "/student/:id" ? (
+          <button style={{ display: "block" }}>
+            <Link to={`/student/${student.id}/edit`}>Edit</Link>
           </button>
         ) : null}
       </div>
@@ -33,3 +37,4 @@ const Header = props => {
 };
 
 export default withRouter(Header);
+// export default Header;

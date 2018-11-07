@@ -14,8 +14,8 @@ class App extends Component {
           <Route exact path="/" component={Students} />
           <Route path="/student/:studentId/jump/:jumpNumber" component={Jump} />
           <Route path="/student/new" component={EditStudent} />
-          <Route path="/student/:id" component={Student} />
           <Route path="/student/:id/edit" component={EditStudent} />
+          <Route path="/student/:id" component={Student} />
         </Switch>
       </div>
     );
