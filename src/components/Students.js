@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import getStudents from "../api/getStudents";
+import format from "date-fns/format";
 import "./Students.css";
 
 import Header from "./Header";
@@ -47,15 +48,28 @@ export default props => {
               <th>Name</th>
               <th>Email</th>
               <th>Phone</th>
+              <th>Last Jump</th>
+              <th>Last DiveFlow</th>
             </tr>
           </thead>
           <tbody>
             {filteredStudents.map((student, i) => {
+              const lastJump = student.jumps[student.jumps.length - 1];
+              const lastJumpStr = lastJump
+                ? `${format(lastJump.date, "ddd MMM Do")}`
+                : null;
+              const lastDfStr = lastJump
+                ? `DF ${lastJump.diveFlow} ${[
+                    ...lastJump.instructor.match(/[A-Z]/g)
+                  ].join("")}`
+                : null;
               return (
                 <tr key={i} onClick={() => handleStudentRowClick(student)}>
                   <td>{student.name}</td>
                   <td>{student.email}</td>
                   <td>{student.phone}</td>
+                  <td>{lastJumpStr}</td>
+                  <td>{lastDfStr}</td>
                 </tr>
               );
             })}
