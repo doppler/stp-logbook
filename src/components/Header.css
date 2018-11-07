@@ -30,3 +30,6 @@
   color: #ccc;
   text-decoration: none;
 }
+.Header input {
+  margin-left: 5px;
+}
