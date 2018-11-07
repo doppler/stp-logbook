@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import getStudent from "../api/getStudent";
+import getStudents from "../api/getStudents";
 import saveStudents from "../api/saveStudents";
 
 import "./EditStudent.css";
@@ -38,8 +39,7 @@ const EditStudent = props => {
 
   const saveStudent = async e => {
     e.preventDefault();
-    const res = await fetch("/api/students");
-    const json = await res.json();
+    const json = await getStudents();
     saveStudents([student, ...json.filter(obj => obj.id !== student.id)]).then(
       () => props.history.push(`/student/${student.id}`)
     );
