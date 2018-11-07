@@ -51,9 +51,8 @@ const EditStudent = props => {
       <div className="NewStudent">
         <form onSubmit={saveStudent}>
           <h2>Editing {student.name ? student.name : "New Student"}</h2>
-          <div className="id">{student.id}</div>
           <div className="input-group">
-            <label htmlFor="name">Name: </label>
+            <label htmlFor="name">Name</label>
             <input
               id="name"
               onChange={setStudentAttribute}
@@ -62,7 +61,7 @@ const EditStudent = props => {
             />
           </div>
           <div className="input-group">
-            <label htmlFor="email">Email: </label>
+            <label htmlFor="email">Email</label>
             <input
               id="email"
               onChange={setStudentAttribute}
@@ -71,7 +70,7 @@ const EditStudent = props => {
             />
           </div>
           <div className="input-group">
-            <label htmlFor="phone">Phone: </label>
+            <label htmlFor="phone">Phone</label>
             <input
               id="phone"
               onChange={setStudentAttribute}
@@ -80,12 +79,21 @@ const EditStudent = props => {
             />
           </div>
           <div className="input-group">
-            <label htmlFor="instructor">Instructor: </label>
+            <label htmlFor="instructor">Instructor</label>
             <input
               id="instructor"
               onChange={setStudentAttribute}
               value={student.instructor}
               placeholder="instructor"
+            />
+          </div>
+          <div className="input-group">
+            <label htmlFor="previousJumps">Previous Jumps</label>
+            <input
+              type="number"
+              id="previousJumps"
+              onChange={setStudentAttribute}
+              value={student.previousJumps || 2}
             />
           </div>
           <button>Save Student</button>
