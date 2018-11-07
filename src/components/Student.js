@@ -62,7 +62,7 @@ export default props => {
   return (
     <>
       <Header title={student.name} student={student} />
-      <div className="Student">
+      <div className="Content">
         <table>
           <thead>
             <tr>

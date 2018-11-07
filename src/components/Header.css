@@ -17,19 +17,22 @@
   justify-content: flex-end;
 }
 .Header button {
-  color: #ccc;
-  background-color: #333;
-  border: 2px;
-  border-color: #ccc;
+  color: var(--button-text-color);
+  background-color: var(--button-bg-color);
+  border: var(--button-border-width);
+  border-color: var(--button-border-color);
   border-style: outset;
   border-radius: 10px;
-  height: 20px;
+  height: 2em;
   margin: 10px 5px 0 10px;
 }
 .Header button > a {
-  color: #ccc;
+  color: var(--button-text-color);
   text-decoration: none;
 }
 .Header input {
+  background-color: var(--input-bg-color);
+  border-color: var(--input-border-color);
   margin-left: 5px;
+  height: var(--input-size);
 }

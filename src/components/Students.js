@@ -67,7 +67,7 @@ export default props => {
         filter={filter}
         onFilterChange={handleFilterChange}
       />
-      <div className="Students">
+      <div className="Content">
         <table>
           <thead>
             <tr>

@@ -1,23 +1,17 @@
-.Student {
-  background-color: #333;
-  color: #ccc;
-  overflow: scroll;
-}
-
 table {
   width: 100%;
 }
 
 th {
-  background-color: #222228;
+  background-color: var(--content-border-color);
   border-bottom: 1px solid #666;
 }
 
 tr:hover {
   cursor: pointer;
-  background-color: #555558;
+  background-color: var(--content-hover-color);
 }
 td {
   padding: 3px 0 5px 0;
-  border-bottom: 1px solid #555558;
+  border-bottom: 1px solid var(--content-border-color);
 }

@@ -1,19 +1,21 @@
-.NewStudent {
-  background-color: #333;
-  color: #ccc;
+div.jump-details {
+  display: flex;
+}
+div.jump-details > div {
+  flex: 1;
 }
 h2,
 .input-group {
-  margin-left: 10px;
+  margin: 10px 0px 0px 10px;
 }
 button {
-  color: #ccc;
-  background-color: #333;
-  border: 2px;
-  border-color: #ccc;
+  color: var(--button-text-color);
+  background-color: var(--button-bg-color);
+  border: var(--button-border-width);
+  border-color: var(--button-border-color);
   border-style: outset;
   border-radius: 10px;
-  height: 20px;
+  height: 2em;
   margin: 10px 5px 0 10px;
 }
 
@@ -22,37 +24,42 @@ button:focus {
   background-color: #ccc;
 }
 button:active {
-  background-color: green;
+  background-color: var(--content-hover-color);
 }
-
 .input-group {
-  width: 90vh;
+  /* width: 100vh; */
   display: flex;
   margin-bottom: 10px;
 }
 .input-group > input,
-.input-group > select {
-  border: 1px solid #666;
+.input-group > select,
+.input-group > textarea {
+  background-color: var(--input-bg-color);
+  border: 1px solid var(--content-border-color);
   font-size: 1.5em;
-  width: 75%;
+  width: 80%;
+  padding-left: 5px;
 }
 .input-group > span.append {
-  background-color: #ccc;
-  color: #333;
+  background-color: var(--label-bg-color);
+  color: var(--label-color);
   font-weight: bold;
   border: 1px solid #666;
   border-radius: 0 5px 5px 0;
   padding: 5px 5px 5px 0;
 }
 .input-group *:first-child {
-  width: 25%;
+  width: 25vh;
   padding: 5px 0 0 5px;
   display: flex;
   font-weight: bold;
-  color: #333;
-  background-color: #ccc;
+  color: var(--label-color);
+  background-color: var(--label-bg-color);
   border: 1px solid #666;
   border-radius: 5px 0 0 5px;
+}
+.input-group select {
+  appearance: none;
 }
 .input-group *:last-child {
   border-radius: 0 5px 5px 0;

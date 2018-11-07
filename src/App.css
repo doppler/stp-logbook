@@ -7,15 +7,15 @@
   grid-gap: 1px;
   color: #ccc;
 }
-.Students {
-  grid-area: content;
+.Content {
+  background-color: var(--content-bg-color);
 }
 .Footer {
   grid-area: footer;
 }
 .Header,
 .Footer {
-  background-color: #333;
+  background-color: var(--content-bg-color);
 }
 .Header h1,
 .Footer h1 {

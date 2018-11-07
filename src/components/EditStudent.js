@@ -53,57 +53,61 @@ const EditStudent = props => {
   return (
     <>
       <Header title={student.name !== "" ? student.name : "New Student"} />
-      <div className="NewStudent">
+      <div className="Content">
         <form onSubmit={saveStudent}>
-          <h2>Editing {student.name ? student.name : "New Student"}</h2>
-          <div className="input-group">
-            <label htmlFor="name">Name</label>
-            <input
-              id="name"
-              onChange={setAttribute}
-              value={student.name}
-              placeholder="Full Name"
-            />
-          </div>
-          <div className="input-group">
-            <label htmlFor="email">Email</label>
-            <input
-              id="email"
-              onChange={setAttribute}
-              value={student.email}
-              placeholder="email@domain.com"
-            />
-          </div>
-          <div className="input-group">
-            <label htmlFor="phone">Phone</label>
-            <input
-              id="phone"
-              onChange={setAttribute}
-              value={student.phone}
-              placeholder="Phone"
-            />
-          </div>
-          <div className="input-group">
-            <label htmlFor="instructor">Instructor</label>
-            <select
-              id="instructor"
-              value={student.instructor}
-              onChange={setAttribute}
-            >
-              <InstructorOptions instructors={instructors} />
-            </select>
-          </div>
-          {student.jumps.length === 0 ? (
+          <fieldset>
+            <legend>
+              Editing {student.name ? student.name : "New Student"}
+            </legend>
             <div className="input-group">
-              <label htmlFor="previousJumps">Previous Jumps</label>
+              <label htmlFor="name">Name</label>
               <input
-                type="number"
-                id="previousJumps"
+                id="name"
                 onChange={setAttribute}
-                value={student.previousJumps || 2}
+                value={student.name}
+                placeholder="Full Name"
               />
             </div>
-          ) : null}
+            <div className="input-group">
+              <label htmlFor="email">Email</label>
+              <input
+                id="email"
+                onChange={setAttribute}
+                value={student.email}
+                placeholder="email@domain.com"
+              />
+            </div>
+            <div className="input-group">
+              <label htmlFor="phone">Phone</label>
+              <input
+                id="phone"
+                onChange={setAttribute}
+                value={student.phone}
+                placeholder="Phone"
+              />
+            </div>
+            <div className="input-group">
+              <label htmlFor="instructor">Instructor</label>
+              <select
+                id="instructor"
+                value={student.instructor}
+                onChange={setAttribute}
+              >
+                <InstructorOptions instructors={instructors} />
+              </select>
+            </div>
+            {student.jumps.length === 0 ? (
+              <div className="input-group">
+                <label htmlFor="previousJumps">Previous Jumps</label>
+                <input
+                  type="number"
+                  id="previousJumps"
+                  onChange={setAttribute}
+                  value={student.previousJumps || 2}
+                />
+              </div>
+            ) : null}
+          </fieldset>
           <button>Save Student</button>
         </form>
       </div>
