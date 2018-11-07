@@ -1,15 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import fetchStudents from "../api/fetchStudents";
 import "./Students.css";
 
 import Header from "./Header";
 import Footer from "./Footer";
 
 export default props => {
-  const { students } = props;
+  const [students, setStudents] = useState();
+
+  useEffect(async () => {
+    if (!students) {
+      const students = await fetchStudents();
+      setStudents(students);
+    }
+  });
+
   const handleStudentRowClick = student => {
     props.history.push(`/student/${student.id}`);
   };
 
+  if (!students) return null;
   return (
     <>
       <Header title="Students" location={props.location} />

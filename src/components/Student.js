@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-// import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+
 import "./Student.css";
 
 import Header from "./Header";
@@ -7,55 +7,50 @@ import Footer from "./Footer";
 
 import fetchStudent from "../api/fetchStudent";
 
-export default class Student extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      student: undefined
-    };
-  }
-  componentDidMount = async () => {
-    const student = await fetchStudent(this.props.match.params.id);
-    this.setState({ student });
-  };
+export default props => {
+  const [student, setStudent] = useState();
 
-  render() {
-    const { student } = this.state;
-    if (!student) return null;
-    return (
-      <>
-        <Header title={student.name} />
-        <div className="Student">
-          <table>
-            <thead>
-              <tr>
-                <th>Jump #</th>
-                <th>Dive Flow</th>
-                <th>Date</th>
-                <th>Instructor</th>
+  useEffect(async () => {
+    if (!student) {
+      const student = await fetchStudent(props.match.params.id);
+      setStudent(student);
+    }
+  });
+
+  if (!student) return null;
+  return (
+    <>
+      <Header title={student.name} />
+      <div className="Student">
+        <table>
+          <thead>
+            <tr>
+              <th>Jump #</th>
+              <th>Dive Flow</th>
+              <th>Date</th>
+              <th>Instructor</th>
+            </tr>
+          </thead>
+          <tbody>
+            {student.jumps.map((jump, i) => (
+              <tr
+                key={i}
+                onClick={() =>
+                  props.history.push(
+                    `/student/${student.id}/jump/${jump.number}`
+                  )
+                }
+              >
+                <td>{jump.number}</td>
+                <td>{jump.diveFlow}</td>
+                <td>{jump.date}</td>
+                <td>{jump.instructor}</td>
               </tr>
-            </thead>
-            <tbody>
-              {student.jumps.map((jump, i) => (
-                <tr
-                  key={i}
-                  onClick={() =>
-                    this.props.history.push(
-                      `/student/${this.state.student.id}/jump/${jump.number}`
-                    )
-                  }
-                >
-                  <td>{jump.number}</td>
-                  <td>{jump.diveFlow}</td>
-                  <td>{jump.date}</td>
-                  <td>{jump.instructor}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <Footer />
-      </>
-    );
-  }
-}
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <Footer />
+    </>
+  );
+};

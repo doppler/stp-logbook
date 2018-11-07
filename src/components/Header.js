@@ -1,5 +1,5 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 
 import "./Header.css";
 
@@ -13,7 +13,9 @@ const Header = props => {
     <div className="Header">
       <div className="Nav">
         {props.location.pathname !== "/" ? (
-          <button onClick={() => props.history.goBack()}>Back</button>
+          <button style={{ display: "block" }}>
+            <Link to="/">Back</Link>
+          </button>
         ) : null}
       </div>
       <div className="Title">

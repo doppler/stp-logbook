@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-
+import React, { useState, useEffect } from "react";
 import "./Jump.css";
 
 import Header from "./Header";
@@ -7,30 +6,25 @@ import Footer from "./Footer";
 
 import fetchStudent from "../api/fetchStudent";
 
-export default class Jump extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { student: undefined, jump: undefined };
-  }
+export default props => {
+  const [student, setStudent] = useState();
+  const [jump, setJump] = useState();
 
-  componentDidMount = async () => {
-    const { studentId, jumpNumber } = this.props.match.params;
+  useEffect(async () => {
+    const { studentId, jumpNumber } = props.match.params;
     const student = await fetchStudent(studentId);
-    const jump = student.jumps.find(jump => jump.number === Number(jumpNumber));
-    this.setState({ student, jump });
-  };
+    setStudent(student);
+    setJump(student.jumps.find(jump => (jump.number = Number(jumpNumber))));
+  });
 
-  render() {
-    const { student, jump } = this.state;
-    if (!student) return null;
-    return (
-      <>
-        <Header title={student.name} />
-        <div className="Jump">
-          <h1>Jump {jump.number}</h1>
-        </div>
-        <Footer />
-      </>
-    );
-  }
-}
+  if (!student || !jump) return null;
+  return (
+    <>
+      <Header title={student.name} />
+      <div className="Jump">
+        <h1>Jump {jump.number}</h1>
+      </div>
+      <Footer />
+    </>
+  );
+};
