@@ -31,7 +31,7 @@ const EditStudent = props => {
     [setStudent]
   );
 
-  const setStudentAttribute = event => {
+  const setAttribute = event => {
     const { id, value } = event.target;
     student[id] = value;
     setStudent(student);
@@ -55,7 +55,7 @@ const EditStudent = props => {
             <label htmlFor="name">Name</label>
             <input
               id="name"
-              onChange={setStudentAttribute}
+              onChange={setAttribute}
               value={student.name}
               placeholder="Full Name"
             />
@@ -64,7 +64,7 @@ const EditStudent = props => {
             <label htmlFor="email">Email</label>
             <input
               id="email"
-              onChange={setStudentAttribute}
+              onChange={setAttribute}
               value={student.email}
               placeholder="email@domain.com"
             />
@@ -73,7 +73,7 @@ const EditStudent = props => {
             <label htmlFor="phone">Phone</label>
             <input
               id="phone"
-              onChange={setStudentAttribute}
+              onChange={setAttribute}
               value={student.phone}
               placeholder="Phone"
             />
@@ -82,7 +82,7 @@ const EditStudent = props => {
             <label htmlFor="instructor">Instructor</label>
             <input
               id="instructor"
-              onChange={setStudentAttribute}
+              onChange={setAttribute}
               value={student.instructor}
               placeholder="instructor"
             />
@@ -93,7 +93,7 @@ const EditStudent = props => {
               <input
                 type="number"
                 id="previousJumps"
-                onChange={setStudentAttribute}
+                onChange={setAttribute}
                 value={student.previousJumps || 2}
               />
             </div>
