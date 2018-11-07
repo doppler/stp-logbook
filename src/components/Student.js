@@ -30,8 +30,17 @@ const nextJump = student => {
   };
 };
 
+const initialState = {
+  name: "",
+  email: "",
+  phone: "",
+  instructor: "",
+  jumps: [],
+  previousJumps: 0
+};
+
 export default props => {
-  const [student, setStudent] = useState({});
+  const [student, setStudent] = useState(initialState);
 
   useEffect(
     async () => {
