@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import getStudents from "../api/getStudents";
 import "./Students.css";
 
 import Header from "./Header";
@@ -11,8 +12,8 @@ export default props => {
 
   useEffect(
     async () => {
-      const res = await fetch("/api/students");
-      const json = await res.json();
+      // const res = await fetch("/api/students");
+      const json = await getStudents();
       setStudents(json);
       setFilteredStudents(json);
     },
