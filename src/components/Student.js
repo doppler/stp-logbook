@@ -44,7 +44,7 @@ export default props => {
   if (!student.id) return null;
   return (
     <>
-      <Header student={student} />
+      <Header title={student.name} student={student} />
       <div className="Student">
         <table>
           <thead>
