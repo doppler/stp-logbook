@@ -12,6 +12,7 @@ const initialState = {
   name: "",
   email: "",
   phone: "",
+  instructor: "",
   jumps: []
 };
 
@@ -77,6 +78,15 @@ const EditStudent = props => {
               onChange={setStudentAttribute}
               value={student.phone}
               placeholder="Phone"
+            />
+          </div>
+          <div className="input-group">
+            <label htmlFor="instructor">Instructor: </label>
+            <input
+              id="instructor"
+              onChange={setStudentAttribute}
+              value={student.instructor}
+              placeholder="instructor"
             />
           </div>
           <button>Save Student</button>

@@ -12,9 +12,13 @@ const Header = props => {
   return (
     <div className="Header">
       <div className="Nav">
-        {match.path !== "/" ? (
+        {match.path === "/student/:studentId/jump/:jumpNumber" ? (
+          <button>
+            <Link to={`/student/${match.params.studentId}`}>Jumps</Link>
+          </button>
+        ) : match.path !== "/" ? (
           <button style={{ display: "block" }}>
-            <Link to="/">Back</Link>
+            <Link to="/">Home</Link>
           </button>
         ) : null}
       </div>
@@ -38,3 +42,11 @@ const Header = props => {
 
 export default withRouter(Header);
 // export default Header;
+
+/*
+<Link
+  to={`/student/${student.id}/jump/${
+    student.jumps[student.jumps.length].number
+  }`}
+/>
+*/
