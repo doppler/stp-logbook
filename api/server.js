@@ -31,13 +31,11 @@ app.post("/api/student", (req, res) => {
   console.log("req", JSON.stringify(req.body));
   const student = req.body;
   const students = require(studentsDb);
-  const updatedStudents = [
-    student,
-    ...students.filter(obj => obj.id !== student.id)
-  ];
+  const otherStudents = students.filter(obj => obj.id !== student.id);
+  const updatedStudents = [student, ...otherStudents];
   const db = fs.createWriteStream(studentsDb);
   db.write(JSON.stringify(updatedStudents, undefined, 2));
   db.end();
-  res.send(updatedStudents);
+  res.send(student);
 });
 app.listen(PORT, () => console.log(`api-server listening on port ${PORT}`));
