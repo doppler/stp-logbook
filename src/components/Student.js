@@ -22,7 +22,11 @@ const nextJump = student => {
     number: number + 1,
     diveFlow: diveFlow + 1,
     date: format(new Date()),
-    instructor
+    instructor,
+    aircraft: "",
+    exitAltitude: 14000,
+    deploymentAltitude: 5000,
+    freefallTime: 0
   };
 };
 
@@ -78,8 +82,12 @@ export default props => {
                 <td>{jump.instructor}</td>
               </tr>
             ))}
-            <tr onClick={addJump}>
-              <td colSpan={4}>Add New Jump</td>
+            <tr>
+              <td colSpan={4}>
+                <p>
+                  <button onClick={addJump}>Add Jump</button>
+                </p>
+              </td>
             </tr>
           </tbody>
         </table>
