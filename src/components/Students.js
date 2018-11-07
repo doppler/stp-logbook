@@ -24,9 +24,12 @@ export default props => {
   };
 
   const handleFilterChange = e => {
-    setFilter(e.target.value);
-    const filteredStudents = students.filter(obj => obj.name.match(filter));
+    const filter = e.target.value.toLowerCase();
+    const filteredStudents = students.filter(obj =>
+      obj.name.toLowerCase().match(filter)
+    );
     setFilteredStudents(filteredStudents);
+    setFilter(e.target.value);
   };
 
   return (
