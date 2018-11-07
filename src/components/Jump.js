@@ -22,7 +22,6 @@ const initialJumpState = {
 export default props => {
   const [student, setStudent] = useState();
   const [jump, setJump] = useState(initialJumpState);
-
   useEffect(
     async () => {
       const { studentId, jumpNumber } = props.match.params;
@@ -34,10 +33,13 @@ export default props => {
   );
 
   const [instructors, setInstructors] = useState([]);
-  useEffect(async () => {
-    const json = await fetch("/api/instructors").then(res => res.json());
-    setInstructors(json);
-  });
+  useEffect(
+    async () => {
+      const json = await fetch("/api/instructors").then(res => res.json());
+      setInstructors(json);
+    },
+    [instructors]
+  );
 
   const setAttribute = event => {
     const { id, value } = event.target;
@@ -50,6 +52,21 @@ export default props => {
 
   const saveJump = async event => {
     event.preventDefault();
+    const json = await saveStudent(student);
+    props.history.push(`/student/${json.id}`);
+    return () => {};
+  };
+
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const deleteJump = event => {
+    event.preventDefault();
+    if (deleteConfirmation) return reallyDeleteJump();
+    setDeleteConfirmation(true);
+    return () => {};
+  };
+
+  const reallyDeleteJump = async () => {
+    student.jumps = student.jumps.filter(obj => obj.number !== jump.number);
     const json = await saveStudent(student);
     props.history.push(`/student/${json.id}`);
   };
@@ -136,6 +153,12 @@ export default props => {
             <span className="append">Seconds</span>
           </div>
           <button>Save Jump</button>
+          <button
+            onClick={deleteJump}
+            style={{ backgroundColor: deleteConfirmation ? "red" : null }}
+          >
+            Delete Jump
+          </button>
         </form>
       </div>
       <Footer />
