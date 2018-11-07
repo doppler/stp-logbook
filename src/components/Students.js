@@ -14,6 +14,15 @@ export default props => {
   useEffect(
     async () => {
       const json = await getStudents();
+      json.sort((a, b) => {
+        let lastJumpA = [...a.jumps].reverse().pop() || {
+          date: new Date(1971, 9, 25)
+        };
+        let lastJumpB = [...b.jumps].reverse().pop() || {
+          date: new Date(1971, 9, 25)
+        };
+        return parse(lastJumpB.date) - parse(lastJumpA.date);
+      });
       setStudents(json);
       setFilteredStudents(json);
     },
