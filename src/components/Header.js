@@ -8,7 +8,7 @@ const handleActionButtonClick = props => {
 };
 
 const Header = props => {
-  const { title, student, match } = props;
+  const { title, student, match, filter, onFilterChange } = props;
   return (
     <div className="Header">
       <div className="Nav">
@@ -20,6 +20,8 @@ const Header = props => {
           <button style={{ display: "block" }}>
             <Link to="/">Home</Link>
           </button>
+        ) : match.path === "/" ? (
+          <input onChange={onFilterChange} value={filter} />
         ) : null}
       </div>
       <div className="Title">

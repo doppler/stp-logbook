@@ -1,6 +1,7 @@
 .Student {
   background-color: #333;
   color: #ccc;
+  overflow: scroll;
 }
 
 table {

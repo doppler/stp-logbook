@@ -1,0 +1,75 @@
+const faker = require("faker");
+
+console.log(faker.name.findName());
+
+const arr = [
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1
+];
+const fakeData = arr.map(a => {
+  return {
+    id: Math.round(Math.random() * 1000000000).toString(16),
+    name: faker.name.findName(),
+    email: faker.internet.email(),
+    phone: faker.phone.phoneNumber(),
+    instructor: faker.name.findName(),
+    jumps: []
+  };
+});
+
+console.log(JSON.stringify(fakeData, undefined, 2));

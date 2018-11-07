@@ -7,6 +7,7 @@
 .Header div {
   flex: auto;
   display: flex;
+  align-items: center;
   justify-content: center;
 }
 .Header div:nth-child(1) {

@@ -6,12 +6,15 @@ import Footer from "./Footer";
 
 export default props => {
   const [students, setStudents] = useState([]);
+  const [filteredStudents, setFilteredStudents] = useState([]);
+  const [filter, setFilter] = useState("");
 
   useEffect(
     async () => {
       const res = await fetch("/api/students");
       const json = await res.json();
       setStudents(json);
+      setFilteredStudents(json);
     },
     [setStudents]
   );
@@ -20,9 +23,20 @@ export default props => {
     props.history.push(`/student/${student.id}`);
   };
 
+  const handleFilterChange = e => {
+    setFilter(e.target.value);
+    const filteredStudents = students.filter(obj => obj.name.match(filter));
+    setFilteredStudents(filteredStudents);
+  };
+
   return (
     <>
-      <Header title="Students" location={props.location} />
+      <Header
+        title="Students"
+        location={props.location}
+        filter={filter}
+        onFilterChange={handleFilterChange}
+      />
       <div className="Students">
         <table>
           <thead>
@@ -33,7 +47,7 @@ export default props => {
             </tr>
           </thead>
           <tbody>
-            {students.map((student, i) => {
+            {filteredStudents.map((student, i) => {
               return (
                 <tr key={i} onClick={() => handleStudentRowClick(student)}>
                   <td>{student.name}</td>

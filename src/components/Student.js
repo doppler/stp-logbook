@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import saveStudent from "../api/saveStudent";
 import distanceInWordsToNow from "date-fns/distance_in_words_to_now";
 
 import "./Student.css";
@@ -36,12 +37,7 @@ export default props => {
   const addJump = async () => {
     const jump = nextJump(student);
     student.jumps.push(jump);
-    const res = await fetch("/api/student", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(student)
-    });
-    const json = await res.json();
+    const json = await saveStudent(student);
     setStudent(json);
     props.history.push(`/student/${student.id}/jump/${jump.number}`);
   };
