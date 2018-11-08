@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { store, collect } from "react-recollect";
 import getStudents from "../api/getStudents";
 import parse from "date-fns/parse";
 import format from "date-fns/format";
 import differenceInDays from "date-fns/difference_in_days";
 import "./Students.css";
 
-import Header from "./Header";
-import Footer from "./Footer";
+export default collect(props => {
+  const { students, filteredStudents } = store.app;
 
-export default props => {
-  const [students, setStudents] = useState([]);
-  const [filteredStudents, setFilteredStudents] = useState([]);
-  const [filter, setFilter] = useState("");
+  store.app.match = props.match;
 
-  useEffect(
-    async () => {
+  store.app.header.title = "Students";
+
+  if (students.length === 0) {
+    (async () => {
       const json = await getStudents();
       json.sort((a, b) => {
         let lastJumpA = [...a.jumps].reverse().pop() || {
@@ -25,23 +25,14 @@ export default props => {
         };
         return parse(lastJumpB.date) - parse(lastJumpA.date);
       });
-      setStudents(json);
-      setFilteredStudents(json);
-    },
-    [setStudents]
-  );
+      store.app.students = json;
+      store.app.filteredStudents = json;
+      console.log(store.app);
+    })();
+  }
 
   const handleStudentRowClick = student => {
     props.history.push(`/student/${student.id}`);
-  };
-
-  const handleFilterChange = e => {
-    const filter = e.target.value.toLowerCase();
-    const filteredStudents = students.filter(obj =>
-      obj.name.toLowerCase().match(filter)
-    );
-    setFilteredStudents(filteredStudents);
-    setFilter(e.target.value);
   };
 
   const currencyColor = daysSinceLastJump => {
@@ -60,60 +51,51 @@ export default props => {
   };
 
   return (
-    <React.Fragment>
-      <Header
-        title="Students"
-        location={props.location}
-        filter={filter}
-        onFilterChange={handleFilterChange}
-      />
-      <div className="Content">
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>Last Jump</th>
-              <th>Last DiveFlow</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredStudents.map((student, i) => {
-              const lastJump = student.jumps[student.jumps.length - 1];
-              const daysSinceLastJump = lastJump
-                ? differenceInDays(new Date(), lastJump.date)
-                : 9999;
-              const lastJumpStr = lastJump
-                ? `${format(lastJump.date, "ddd MMM Do")}`
-                : null;
-              const lastDfStr = lastJump
-                ? `DF ${lastJump.diveFlow} ${[
-                    ...lastJump.instructor.match(/[A-Z]/g)
-                  ].join("")}`
-                : null;
-              return (
-                <tr key={i} onClick={() => handleStudentRowClick(student)}>
-                  <td>{student.name}</td>
-                  <td>{student.email}</td>
-                  <td>{student.phone}</td>
-                  <td>
-                    {lastJumpStr}
-                    <span
-                      className="currency-color"
-                      style={{
-                        backgroundColor: `${currencyColor(daysSinceLastJump)}`
-                      }}
-                    />
-                  </td>
-                  <td>{lastDfStr}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-      <Footer />
-    </React.Fragment>
+    <div className="Content">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Last Jump</th>
+            <th>Last DiveFlow</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredStudents.map((student, i) => {
+            const lastJump = student.jumps[student.jumps.length - 1];
+            const daysSinceLastJump = lastJump
+              ? differenceInDays(new Date(), lastJump.date)
+              : 9999;
+            const lastJumpStr = lastJump
+              ? `${format(lastJump.date, "ddd MMM Do")}`
+              : null;
+            const lastDfStr = lastJump
+              ? `DF ${lastJump.diveFlow} ${[
+                  ...lastJump.instructor.match(/[A-Z]/g)
+                ].join("")}`
+              : null;
+            return (
+              <tr key={i} onClick={() => handleStudentRowClick(student)}>
+                <td>{student.name}</td>
+                <td>{student.email}</td>
+                <td>{student.phone}</td>
+                <td>
+                  {lastJumpStr}
+                  <span
+                    className="currency-color"
+                    style={{
+                      backgroundColor: `${currencyColor(daysSinceLastJump)}`
+                    }}
+                  />
+                </td>
+                <td>{lastDfStr}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
   );
-};
+});
