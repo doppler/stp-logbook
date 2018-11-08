@@ -51,7 +51,7 @@ const EditStudent = props => {
   };
 
   return (
-    <>
+    <React.Fragment>
       <Header title={student.name !== "" ? student.name : "New Student"} />
       <div className="Content">
         <form onSubmit={saveStudent}>
@@ -112,7 +112,7 @@ const EditStudent = props => {
         </form>
       </div>
       <Footer />
-    </>
+    </React.Fragment>
   );
 };
 

@@ -60,7 +60,7 @@ export default props => {
   };
 
   return (
-    <>
+    <React.Fragment>
       <Header
         title="Students"
         location={props.location}
@@ -114,6 +114,6 @@ export default props => {
         </table>
       </div>
       <Footer />
-    </>
+    </React.Fragment>
   );
 };

@@ -60,7 +60,7 @@ export default props => {
 
   if (!student.id) return null;
   return (
-    <>
+    <React.Fragment>
       <Header title={student.name} student={student} />
       <div className="Content">
         <table>
@@ -102,6 +102,6 @@ export default props => {
         </table>
       </div>
       <Footer />
-    </>
+    </React.Fragment>
   );
 };

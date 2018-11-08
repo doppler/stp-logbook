@@ -58,21 +58,20 @@ export default props => {
   };
 
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const reallyDeleteJump = async () => {
+    student.jumps = student.jumps.filter(obj => obj.number !== jump.number);
+    const json = await saveStudent(student);
+    props.history.push(`/student/${json.id}`);
+  };
   const deleteJump = async event => {
     event.preventDefault();
     if (deleteConfirmation) return reallyDeleteJump();
     setDeleteConfirmation(true);
   };
 
-  const reallyDeleteJump = async () => {
-    student.jumps = student.jumps.filter(obj => obj.number !== jump.number);
-    const json = await saveStudent(student);
-    props.history.push(`/student/${json.id}`);
-  };
-
   if (!student || !jump) return null;
   return (
-    <>
+    <React.Fragment>
       <Header title={student.name} />
       <div className="Content">
         <form onSubmit={saveJump}>
@@ -205,7 +204,7 @@ export default props => {
         </form>
       </div>
       <Footer />
-    </>
+    </React.Fragment>
   );
 };
 
