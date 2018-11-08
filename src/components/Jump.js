@@ -114,7 +114,10 @@ export default props => {
                     value={jump.instructor}
                     onChange={setAttribute}
                   >
-                    <InstructorOptions instructors={instructors} />
+                    <InstructorOptions
+                      instructors={instructors}
+                      instructor={jump.instructor}
+                    />
                   </select>
                 </div>
               </div>
@@ -206,7 +209,8 @@ export default props => {
   );
 };
 
-const InstructorOptions = ({ instructors }) => {
+const InstructorOptions = ({ instructors, instructor }) => {
+  if (instructors.indexOf(instructor) < 0) instructors.push(instructor);
   return instructors.map((instructor, i) => (
     <option key={i} value={instructor}>
       {instructor}
