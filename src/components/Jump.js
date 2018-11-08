@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { withRouter } from "react-router-dom";
 import saveStudent from "../api/saveStudent";
 import format from "date-fns/format";
 import "./Jump.css";
@@ -19,7 +20,7 @@ const initialJumpState = {
   freefallTime: ""
 };
 
-export default props => {
+export default withRouter(props => {
   const [student, setStudent] = useState();
   const [jump, setJump] = useState(initialJumpState);
   useEffect(
@@ -206,7 +207,7 @@ export default props => {
       <Footer />
     </React.Fragment>
   );
-};
+});
 
 const InstructorOptions = ({ instructors, instructor }) => {
   if (instructors.indexOf(instructor) < 0) instructors.push(instructor);
