@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import "./Footer.css";
 
 export default props => {
-  console.log(props);
   const { match } = props;
   return (
     <div className="Footer">
@@ -24,6 +23,3 @@ export default props => {
     </div>
   );
 };
-
-{
-}
