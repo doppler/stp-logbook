@@ -32,7 +32,7 @@ const EditStudent = props => {
   };
 
   if (
-    !match.path === "/student/:studentId" &&
+    match.path === "/student/:studentId/edit" &&
     (!student || student.id !== props.match.params.studentId)
   )
     fetchStudent(props.match.params.studentId);
