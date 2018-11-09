@@ -40,7 +40,6 @@ export default collect(props => {
       value = Number(value);
     }
     jump[id] = value;
-    console.log(id, value);
     jump.freefallTime = Math.ceil(
       ((jump.exitAltitude - jump.deploymentAltitude) / 1000) * 5.5
     );
@@ -189,6 +188,7 @@ export default collect(props => {
               <textarea id="notes" value={jump.notes} onChange={setAttribute} />
             </div>
           </fieldset>
+          <input type="submit" style={{ display: "hidden" }} />
         </form>
       </div>
       <Footer

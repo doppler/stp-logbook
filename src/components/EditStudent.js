@@ -98,15 +98,22 @@ const EditStudent = props => {
               </div>
             ) : null}
           </fieldset>
-          <button>Save Student</button>
+          <input type="submit" style={{ display: "hidden" }} />
         </form>
       </div>
-      <Footer match={props.match} />
+      <Footer
+        match={props.match}
+        buttons={<FooterButtons saveStudent={saveStudent} />}
+      />
     </React.Fragment>
   );
 };
 
 export default collect(EditStudent);
+
+const FooterButtons = ({ saveStudent }) => (
+  <button onClick={saveStudent}>Save Student</button>
+);
 
 const InstructorOptions = ({ instructors }) => {
   return instructors.list.map((instructor, i) => (
