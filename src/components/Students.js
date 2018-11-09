@@ -11,6 +11,8 @@ import Footer from "./Footer";
 export default collect(props => {
   const { students, filteredStudents } = store;
 
+  store.student = null;
+
   if (students.length === 0) {
     (async () => {
       const json = await getStudents();
