@@ -31,7 +31,10 @@ const EditStudent = props => {
     store.student = json;
   };
 
-  if (!student || student.id !== props.match.params.studentId)
+  if (
+    !match.path === "/student/:studentId" &&
+    (!student || student.id !== props.match.params.studentId)
+  )
     fetchStudent(props.match.params.studentId);
 
   const setAttribute = event => {
