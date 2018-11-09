@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { store, collect } from "react-recollect";
 
 import Header from "./Header";
@@ -52,17 +52,17 @@ export default collect(props => {
     props.history.push(`/student/${json.id}`);
   };
 
-  // const [deleteConfirmation, setDeleteConfirmation] = useState(false);
-  // const reallyDeleteJump = async () => {
-  //   student.jumps = student.jumps.filter(obj => obj.number !== jump.number);
-  //   const json = await saveStudent(student);
-  //   props.history.push(`/student/${json.id}`);
-  // };
-  // const deleteJump = async event => {
-  //   event.preventDefault();
-  //   if (deleteConfirmation) return reallyDeleteJump();
-  //   setDeleteConfirmation(true);
-  // };
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const reallyDeleteJump = async () => {
+    student.jumps = student.jumps.filter(obj => obj.number !== jump.number);
+    const json = await saveStudent(student);
+    props.history.push(`/student/${json.id}`);
+  };
+  const deleteJump = async event => {
+    event.preventDefault();
+    if (deleteConfirmation) return reallyDeleteJump();
+    setDeleteConfirmation(true);
+  };
 
   if (!student || !jump) return null;
   return (
@@ -190,10 +190,15 @@ export default collect(props => {
             </div>
           </fieldset>
           <button>Save Jump</button>
-          <button>Delete Jump</button>
+          <button
+            onClick={deleteJump}
+            className={`${deleteConfirmation ? "pending" : null}`}
+          >
+            Delete Jump
+          </button>
         </form>
       </div>
-      <Footer />
+      <Footer match={match} />
     </React.Fragment>
   );
 });

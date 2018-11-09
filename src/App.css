@@ -52,6 +52,10 @@ button:focus {
 button:active {
   background-color: var(--content-hover-color);
 }
+button.pending {
+  background-color: #900;
+  color: white;
+}
 .input-group {
   /* width: 100vh; */
   display: flex;
