@@ -3,6 +3,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 
 import { store, collect } from "react-recollect";
+import getStudent from "../api/getStudent";
 import getStudents from "../api/getStudents";
 import saveStudents from "../api/saveStudents";
 
@@ -24,6 +25,14 @@ const EditStudent = props => {
   const { student, instructors } = store;
 
   if (!student && match.path === "/student/new") store.student = initialState;
+
+  const fetchStudent = async id => {
+    const json = await getStudent(id);
+    store.student = json;
+  };
+
+  if (!student || student.id !== props.match.params.studentId)
+    fetchStudent(props.match.params.studentId);
 
   const setAttribute = event => {
     const { id, value } = event.target;
@@ -98,7 +107,7 @@ const EditStudent = props => {
               </div>
             ) : null}
           </fieldset>
-          <input type="submit" style={{ display: "hidden" }} tabIndex={-1} />
+          <input type="submit" style={{ display: "©" }} tabIndex={-1} />
         </form>
       </div>
       <Footer
