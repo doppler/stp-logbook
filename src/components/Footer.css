@@ -13,3 +13,10 @@
   color: var(--button-text-color);
   text-decoration: none;
 }
+button:active {
+  background-color: var(--content-hover-color);
+}
+button.pending {
+  background-color: #900;
+  color: white;
+}

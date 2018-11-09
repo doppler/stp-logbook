@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import "./Footer.css";
 
 export default props => {
-  const { match } = props;
+  const { match, buttons } = props;
   return (
     <div className="Footer">
       <div className="Nav">
@@ -19,6 +19,7 @@ export default props => {
             </Link>
           </button>
         ) : null}
+        {buttons}
       </div>
     </div>
   );

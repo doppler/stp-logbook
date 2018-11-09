@@ -189,19 +189,35 @@ export default collect(props => {
               <textarea id="notes" value={jump.notes} onChange={setAttribute} />
             </div>
           </fieldset>
-          <button>Save Jump</button>
-          <button
-            onClick={deleteJump}
-            className={`${deleteConfirmation ? "pending" : null}`}
-          >
-            Delete Jump
-          </button>
         </form>
       </div>
-      <Footer match={match} />
+      <Footer
+        match={match}
+        buttons={
+          <FooterButtons
+            saveJump={saveJump}
+            deleteJump={deleteJump}
+            deleteConfirmation={deleteConfirmation}
+          />
+        }
+      />
     </React.Fragment>
   );
 });
+
+const FooterButtons = ({ saveJump, deleteJump, deleteConfirmation }) => {
+  return (
+    <React.Fragment>
+      <button onClick={saveJump}>Save Jump</button>
+      <button
+        onClick={deleteJump}
+        className={`${deleteConfirmation ? "pending" : null}`}
+      >
+        Delete Jump
+      </button>
+    </React.Fragment>
+  );
+};
 
 const InstructorOptions = ({ instructors, instructor }) => {
   if (instructors.list.indexOf(instructor) < 0)
