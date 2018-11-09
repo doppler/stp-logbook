@@ -4,8 +4,8 @@ import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
 import format from "date-fns/format";
 import distanceInWordsToNow from "date-fns/distance_in_words_to_now";
-import getStudent from "../api/getStudent";
-import saveStudent from "../api/saveStudent";
+import getStudents from "../api/getStudents";
+import saveStudents from "../api/saveStudents";
 
 import Header from "./Header";
 import Footer from "./Footer";
@@ -23,8 +23,15 @@ const AddJumpButton = ({ key, onClick }) => (
 );
 
 const EditStudentButton = ({ key, onClick }) => (
-  <button key={key}>Edit Student</button>
+  <button key={key} onClick={onClick}>
+    Edit Student
+  </button>
 );
+// const EditStudentButton = ({ key, formTarget }) => (
+//   <form key={key} method="get" action={formTarget}>
+//     <button type="submit">Edit Student</button>
+//   </form>
+// );
 
 const nextJump = student => {
   const lastJump = student.jumps[student.jumps.length - 1];
@@ -51,20 +58,22 @@ export default collect(props => {
   const { student } = store;
 
   const fetchStudent = async id => {
-    const json = await getStudent(id);
-    store.student = json;
+    store.students = await getStudents();
+    store.student = store.students.find(obj => obj.id === id);
   };
 
   if (!student || student.id !== props.match.params.studentId)
     fetchStudent(props.match.params.studentId);
 
   const addJump = async () => {
+    console.log("addJump");
     const jump = nextJump(student);
     student.jumps.push(jump);
-    const json = await saveStudent(student);
-    store.student = json;
-    // setStudent(json);
-    props.history.push(`/student/${student.id}/jump/${jump.number}`);
+    store.students = await getStudents();
+    saveStudents([
+      student,
+      ...store.students.filter(obj => obj.id !== student.id)
+    ]).then(() => props.history.push(`/student/${student.id}/${jump.number}`));
   };
 
   if (!student) return null;
@@ -113,10 +122,7 @@ export default collect(props => {
           AddJumpButton({ key: "a", onClick: addJump }),
           EditStudentButton({
             key: "e",
-            onClick: () =>
-              props.history.push(
-                `/student/${props.match.params.studentId}/edit`
-              )
+            onClick: () => props.history.push(`/student/${student.id}/edit`)
           })
         ]}
       />

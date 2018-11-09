@@ -55,10 +55,11 @@ const EditStudent = props => {
   };
 
   const saveStudent = async () => {
-    const json = await getStudents();
-    saveStudents([student, ...json.filter(obj => obj.id !== student.id)]).then(
-      () => props.history.push(`/student/${student.id}`)
-    );
+    store.students = await getStudents();
+    saveStudents([
+      student,
+      ...store.students.filter(obj => obj.id !== student.id)
+    ]).then(() => props.history.push(`/student/${student.id}`));
   };
 
   if (!student || !instructors) return null;
