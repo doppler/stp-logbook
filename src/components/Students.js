@@ -54,7 +54,11 @@ export default collect(props => {
   const [activeRow, setActiveRow] = useState(0);
 
   const onKeyDown = (keyName, e, handle) => {
-    if (e.srcElement.type !== undefined) return true;
+    console.log(e.srcElement.type);
+    if (e.srcElement.type === "submit" && keyName === "enter") {
+      return e.srcElement.children[0].click();
+    }
+    if (e.srcElement.type !== undefined) return false;
     switch (true) {
       case ["down", "j"].includes(keyName):
         setActiveRow(activeRow + 1);
@@ -70,15 +74,16 @@ export default collect(props => {
     }
   };
 
-  const studentCount = students.length;
-  if (studentCount > 0 && activeRow === students.length) setActiveRow(0);
+  const studentCount = filteredStudents.length;
+  if (studentCount > 0 && activeRow === filteredStudents.length)
+    setActiveRow(0);
   if (studentCount > 0 && activeRow === -1) setActiveRow(studentCount - 1);
 
   return (
     <HotKeys keyName="down,j,up,k,enter,right" onKeyDown={onKeyDown}>
       <Header match={props.match} />
       <div className="Content">
-        <table>
+        <table tabIndex={0}>
           <thead>
             <tr>
               <th>Name</th>
