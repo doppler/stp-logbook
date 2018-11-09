@@ -8,7 +8,8 @@ import Footer from "./Footer";
 
 import format from "date-fns/format";
 
-import saveStudent from "../api/saveStudent";
+import getStudents from "../api/getStudents";
+import saveStudents from "../api/saveStudents";
 
 const HomeButton = ({ key, onClick }) => (
   <button id="homeButton" key={key} onClick={onClick}>
@@ -69,9 +70,11 @@ export default collect(props => {
     );
   };
 
-  const saveJump = async () => {
-    const json = await saveStudent(student);
-    props.history.push(`/student/${json.id}`);
+  const saveStudent = async () => {
+    const json = await getStudents();
+    saveStudents([student, ...json.filter(obj => obj.id !== student.id)]).then(
+      () => props.history.push(`/student/${student.id}`)
+    );
   };
 
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
@@ -97,7 +100,7 @@ export default collect(props => {
         props.history.push("/");
         break;
       case keyName === "s":
-        saveJump();
+        saveStudent();
         break;
       case keyName === "d":
         const deleteJumpButton = document.getElementById("deleteJumpButton");
@@ -116,7 +119,7 @@ export default collect(props => {
         match={match}
         buttons={[
           HomeButton({ key: "h", onClick: () => props.history.push("/") }),
-          SaveJumpButton({ key: "s", onClick: saveJump }),
+          SaveJumpButton({ key: "s", onClick: saveStudent }),
           DeleteJumpButton({
             key: "d",
             onClick: deleteJump,
@@ -125,7 +128,7 @@ export default collect(props => {
         ]}
       />
       <div className="Content">
-        <form onSubmit={saveJump}>
+        <form onSubmit={saveStudent}>
           <fieldset>
             <legend>Jump Details</legend>
             <div className="jump-details">
