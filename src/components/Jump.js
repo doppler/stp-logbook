@@ -74,7 +74,7 @@ export default collect(props => {
             <div className="jump-details">
               <div>
                 <div className="input-group">
-                  <label htmlFor="number">Dive Flow</label>
+                  <label htmlFor="diveFlow">Dive Flow</label>
                   <input
                     type="number"
                     id="diveFlow"
@@ -88,7 +88,7 @@ export default collect(props => {
                     type="number"
                     id="number"
                     value={jump.number}
-                    onChange={setAttribute}
+                    disabled
                   />
                 </div>
                 <div className="input-group">
