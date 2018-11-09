@@ -188,7 +188,7 @@ export default collect(props => {
               <textarea id="notes" value={jump.notes} onChange={setAttribute} />
             </div>
           </fieldset>
-          <input type="submit" style={{ display: "hidden" }} tabIndex={-1} />
+          <input type="submit" style={{ display: "none" }} tabIndex={-1} />
         </form>
       </div>
       <Footer
