@@ -54,7 +54,8 @@ const EditStudent = props => {
     student[id] = value;
   };
 
-  const saveStudent = async () => {
+  const saveStudent = async e => {
+    if (e) e.preventDefault();
     store.students = await getStudents();
     saveStudents([
       student,
@@ -146,7 +147,7 @@ const EditStudent = props => {
               </div>
             ) : null}
           </fieldset>
-          <input type="submit" style={{ display: "none" }} tabIndex={-1} />
+          <input type="submit" style={{ display: "none" }} />
         </form>
       </div>
       <Footer />

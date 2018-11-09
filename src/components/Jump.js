@@ -70,7 +70,8 @@ export default collect(props => {
     );
   };
 
-  const saveStudent = async () => {
+  const saveStudent = async e => {
+    if (e) e.preventDefault();
     store.students = await getStudents();
     saveStudents([
       student,
