@@ -36,21 +36,25 @@ h2,
 }
 button {
   color: var(--button-text-color);
+  font-weight: var(--button-font-weight);
   background-color: var(--button-bg-color);
   border: var(--button-border-width);
   border-color: var(--button-border-color);
-  border-style: outset;
-  border-radius: 10px;
-  height: 2em;
+  border-style: var(--button-border-style);
+  border-radius: var(--button-border-radius);
+  height: var(--button-height);
   margin: 10px 5px 0 10px;
 }
-
-button:focus {
-  color: #333;
-  background-color: #ccc;
+button > a {
+  color: var(--button-text-color);
+  text-decoration: none;
 }
 button:active {
   background-color: var(--content-hover-color);
+}
+button.pending {
+  background-color: #900;
+  color: white;
 }
 button.pending {
   background-color: #900;
@@ -93,4 +97,24 @@ button.pending {
 }
 .input-group *:last-child {
   border-radius: 0 5px 5px 0;
+}
+table {
+  width: 100%;
+}
+
+th {
+  background-color: var(--content-border-color);
+  border-bottom: 1px solid #666;
+}
+
+tr:hover {
+  cursor: pointer;
+  background-color: var(--content-hover-color);
+}
+tr.active {
+  background-color: var(--content-hover-color);
+}
+td {
+  padding: 3px 0 5px 0;
+  border-bottom: 1px solid var(--content-border-color);
 }

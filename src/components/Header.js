@@ -23,7 +23,7 @@ const Header = props => {
             <Link to={`/student/${match.params.studentId}`}>Jumps</Link>
           </button>
         ) : match.path !== "/" ? (
-          <button style={{ display: "block" }}>
+          <button>
             <Link to="/">Home</Link>
           </button>
         ) : match.path === "/" ? (

@@ -13,7 +13,7 @@ export default props => {
             <Link to="/student/new">Add Student</Link>
           </button>
         ) : match.path === "/student/:studentId" ? (
-          <button style={{ display: "block" }}>
+          <button>
             <Link to={`/student/${match.params.studentId}/edit`}>
               Edit Student
             </Link>
