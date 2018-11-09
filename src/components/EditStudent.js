@@ -98,7 +98,7 @@ const EditStudent = props => {
               </div>
             ) : null}
           </fieldset>
-          <input type="submit" style={{ display: "hidden" }} />
+          <input type="submit" style={{ display: "hidden" }} tabIndex={-1} />
         </form>
       </div>
       <Footer
