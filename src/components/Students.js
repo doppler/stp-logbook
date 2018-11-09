@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
 
@@ -13,11 +13,6 @@ import Footer from "./Footer";
 
 export default collect(props => {
   const { students, filteredStudents } = store;
-
-  const onKeyUp = (keyName, e, handle) => {
-    console.log(keyName, e, handle);
-  };
-
   store.student = null;
 
   if (students.length === 0) {
@@ -56,8 +51,32 @@ export default collect(props => {
     return `rgb(${Math.floor((255 / 14) * daysSinceLastJump)}, 255, 0)`;
   };
 
+  const [activeRow, setActiveRow] = useState(0);
+
+  const onKeyDown = (keyName, e, handle) => {
+    console.log(e.srcElement.type);
+    if (e.srcElement.type === "text") return false;
+    switch (true) {
+      case ["down", "j"].includes(keyName):
+        setActiveRow(activeRow + 1);
+        break;
+      case ["up", "k"].includes(keyName):
+        setActiveRow(activeRow - 1);
+        break;
+      case ["enter", "right"].includes(keyName):
+        props.history.push(`/student/${students[activeRow].id}`);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const studentCount = students.length;
+  if (studentCount > 0 && activeRow === students.length) setActiveRow(0);
+  if (studentCount > 0 && activeRow === -1) setActiveRow(studentCount - 1);
+
   return (
-    <HotKeys keyName="j,k,up,down" onKeyUp={onKeyUp}>
+    <HotKeys keyName="down,j,up,k,enter,right" onKeyDown={onKeyDown}>
       <Header match={props.match} />
       <div className="Content">
         <table>
@@ -85,7 +104,11 @@ export default collect(props => {
                   ].join("")}`
                 : null;
               return (
-                <tr key={i} onClick={() => handleStudentRowClick(student)}>
+                <tr
+                  key={i}
+                  onClick={() => handleStudentRowClick(student)}
+                  className={i === activeRow ? "active" : ""}
+                >
                   <td>{student.name}</td>
                   <td>{student.email}</td>
                   <td>{student.phone}</td>
