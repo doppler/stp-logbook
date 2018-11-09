@@ -1,14 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Header from "./Header";
-import Footer from "./Footer";
+import HotKeys from "react-hot-keys";
 
 import { store, collect } from "react-recollect";
 import format from "date-fns/format";
 import distanceInWordsToNow from "date-fns/distance_in_words_to_now";
-
 import getStudent from "../api/getStudent";
 import saveStudent from "../api/saveStudent";
+
+import Header from "./Header";
+import Footer from "./Footer";
+
+const HomeButton = ({ key }) => (
+  <button key={key}>
+    <Link to="/">Home</Link>
+  </button>
+);
+const EditStudentButton = ({ key, match }) => (
+  <button key={key}>
+    <Link to={`/student/${match.params.studentId}/edit`}>Edit Student</Link>
+  </button>
+);
 
 const nextJump = student => {
   const lastJump = student.jumps[student.jumps.length - 1];
@@ -31,17 +43,6 @@ const nextJump = student => {
   };
 };
 
-const HomeButton = ({ key }) => (
-  <button key={key}>
-    <Link to="/">Home</Link>
-  </button>
-);
-const EditStudentButton = ({ key, match }) => (
-  <button key={key}>
-    <Link to={`/student/${match.params.studentId}/edit`}>Edit Student</Link>
-  </button>
-);
-
 export default collect(props => {
   const { student } = store;
 
@@ -63,8 +64,35 @@ export default collect(props => {
   };
 
   if (!student) return null;
+
+  const rowCount = student.jumps.length;
+  const [activeRow, setActiveRow] = useState(rowCount - 1);
+  const onKeyDown = (keyName, e, handle) => {
+    if (e.srcElement.type === "submit" && keyName === "enter") {
+      return e.srcElement.children[0].click();
+    }
+    if (e.srcElement.type !== undefined) return false;
+    switch (true) {
+      case ["down", "j"].includes(keyName):
+        setActiveRow(activeRow + 1);
+        break;
+      case ["up", "k"].includes(keyName):
+        setActiveRow(activeRow - 1);
+        break;
+      case ["enter", "right"].includes(keyName):
+        props.history.push(
+          `/student/${student.id}/jump/${student.jumps[activeRow].number}`
+        );
+        break;
+      default:
+        break;
+    }
+  };
+  if (rowCount > 0 && activeRow === rowCount) setActiveRow(0);
+  if (rowCount > 0 && activeRow === -1) setActiveRow(rowCount - 1);
+
   return (
-    <React.Fragment>
+    <HotKeys keyName="down,j,up,k,enter,right" onKeyDown={onKeyDown}>
       <Header
         match={props.match}
         title={student.name}
@@ -92,6 +120,7 @@ export default collect(props => {
                     `/student/${student.id}/jump/${jump.number}`
                   )
                 }
+                className={i === activeRow ? "active" : ""}
               >
                 <td>{jump.number}</td>
                 <td>{jump.diveFlow}</td>
@@ -113,6 +142,6 @@ export default collect(props => {
         </table>
       </div>
       <Footer match={props.match} />
-    </React.Fragment>
+    </HotKeys>
   );
 });

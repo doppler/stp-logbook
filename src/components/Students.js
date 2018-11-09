@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import HotKeys from "react-hot-keys";
-import { store, collect } from "react-recollect";
 
+import { store, collect } from "react-recollect";
 import getStudents from "../api/getStudents";
 import parse from "date-fns/parse";
 import format from "date-fns/format";
@@ -10,6 +10,12 @@ import differenceInDays from "date-fns/difference_in_days";
 
 import Header from "./Header";
 import Footer from "./Footer";
+
+const AddStudentButton = ({ key }) => (
+  <button key={key}>
+    <Link to="/student/new">Add Student</Link>
+  </button>
+);
 
 export default collect(props => {
   const { students, filteredStudents, filter } = store;
@@ -52,7 +58,6 @@ export default collect(props => {
   };
 
   const [activeRow, setActiveRow] = useState(0);
-
   const onKeyDown = (keyName, e, handle) => {
     console.log(e.srcElement.type);
     if (e.srcElement.type === "submit" && keyName === "enter") {
@@ -74,10 +79,9 @@ export default collect(props => {
     }
   };
 
-  const studentCount = filteredStudents.length;
-  if (studentCount > 0 && activeRow === filteredStudents.length)
-    setActiveRow(0);
-  if (studentCount > 0 && activeRow === -1) setActiveRow(studentCount - 1);
+  const rowCount = filteredStudents.length;
+  if (rowCount > 0 && activeRow === rowCount) setActiveRow(0);
+  if (rowCount > 0 && activeRow === -1) setActiveRow(rowCount - 1);
 
   const handleFilterChange = e => {
     const filter = e.target.value.toLowerCase();
@@ -154,9 +158,3 @@ export default collect(props => {
     </HotKeys>
   );
 });
-
-const AddStudentButton = ({ key }) => (
-  <button key={key}>
-    <Link to="/student/new">Add Student</Link>
-  </button>
-);
