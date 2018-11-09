@@ -1,15 +1,22 @@
 import React from "react";
+import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
+
 import getStudents from "../api/getStudents";
 import parse from "date-fns/parse";
 import format from "date-fns/format";
 import differenceInDays from "date-fns/difference_in_days";
+
 import "./Students.css";
 import Header from "./Header";
 import Footer from "./Footer";
 
 export default collect(props => {
   const { students, filteredStudents } = store;
+
+  const onKeyUp = (keyName, e, handle) => {
+    console.log(keyName, e, handle);
+  };
 
   store.student = null;
 
@@ -50,7 +57,7 @@ export default collect(props => {
   };
 
   return (
-    <React.Fragment>
+    <HotKeys keyName="j,k,up,down" onKeyUp={onKeyUp}>
       <Header match={props.match} />
       <div className="Content">
         <table>
@@ -99,6 +106,6 @@ export default collect(props => {
         </table>
       </div>
       <Footer match={props.match} />
-    </React.Fragment>
+    </HotKeys>
   );
 });
