@@ -3,24 +3,26 @@ import Header from "./Header";
 import Footer from "./Footer";
 
 import { store, collect } from "react-recollect";
-import getStudent from "../api/getStudent";
 import getStudents from "../api/getStudents";
 import saveStudents from "../api/saveStudents";
 
 import "./EditStudent.css";
 
-// const initialState = {
-//   id: Math.round(Math.random(10) * 100000000).toString(16),
-//   name: "",
-//   email: "",
-//   phone: "",
-//   instructor: "",
-//   jumps: []
-// };
+const initialState = {
+  id: Math.round(Math.random() * 2 ** 32).toString(16),
+  name: "",
+  email: "",
+  phone: "",
+  instructor: "",
+  jumps: []
+};
 
 const EditStudent = props => {
-  const { params } = props.match;
+  const { match } = props;
+
   const { student, instructors } = store;
+
+  if (!student && match.path === "/student/new") store.student = initialState;
 
   const setAttribute = event => {
     const { id, value } = event.target;
@@ -43,7 +45,8 @@ const EditStudent = props => {
         <form onSubmit={saveStudent}>
           <fieldset>
             <legend>
-              Editing {student.name ? student.name : "New Student"}
+              Editing{" "}
+              {student.name ? student.name : `New Student (id:${student.id})`}
             </legend>
             <div className="input-group">
               <label htmlFor="name">Name</label>
