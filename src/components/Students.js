@@ -42,6 +42,14 @@ export default collect(props => {
     props.history.push(`/student/${student.id}`);
   };
 
+  const handleFilterChange = e => {
+    const filter = e.target.value.toLowerCase();
+    store.filteredStudents = store.students.filter(obj =>
+      obj.name.toLowerCase().match(filter)
+    );
+    store.filter = e.target.value;
+  };
+
   const currencyColor = daysSinceLastJump => {
     if (daysSinceLastJump > 30) {
       return `rgb(255, 0, 0)`;
@@ -59,7 +67,6 @@ export default collect(props => {
 
   const [activeRow, setActiveRow] = useState(0);
   const onKeyDown = (keyName, e, handle) => {
-    console.log(e.srcElement.type);
     if (e.srcElement.type === "submit" && keyName === "enter") {
       return e.srcElement.children[0].click();
     }
@@ -74,6 +81,9 @@ export default collect(props => {
       case ["enter", "right"].includes(keyName):
         props.history.push(`/student/${students[activeRow].id}`);
         break;
+      case keyName === "a":
+        props.history.push("/student/new");
+        break;
       default:
         break;
     }
@@ -83,16 +93,8 @@ export default collect(props => {
   if (rowCount > 0 && activeRow === rowCount) setActiveRow(0);
   if (rowCount > 0 && activeRow === -1) setActiveRow(rowCount - 1);
 
-  const handleFilterChange = e => {
-    const filter = e.target.value.toLowerCase();
-    store.filteredStudents = store.students.filter(obj =>
-      obj.name.toLowerCase().match(filter)
-    );
-    store.filter = e.target.value;
-  };
-
   return (
-    <HotKeys keyName="down,j,up,k,enter,right" onKeyDown={onKeyDown}>
+    <HotKeys keyName="down,j,up,k,enter,right,a" onKeyDown={onKeyDown}>
       <Header
         match={props.match}
         buttons={[AddStudentButton({ key: "addStudentButton" })]}
