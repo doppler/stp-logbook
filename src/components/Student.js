@@ -95,7 +95,7 @@ export default collect(props => {
           </tbody>
         </table>
       </div>
-      <Footer />
+      <Footer match={props.match} />
     </React.Fragment>
   );
 });

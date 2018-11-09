@@ -1,7 +1,29 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-export default () => (
-  <div className="Footer">
-    <h1>Footer</h1>
-  </div>
-);
+import "./Footer.css";
+
+export default props => {
+  console.log(props);
+  const { match } = props;
+  return (
+    <div className="Footer">
+      <div className="Nav">
+        {match.path === "/" ? (
+          <button>
+            <Link to="/student/new">Add Student</Link>
+          </button>
+        ) : match.path === "/student/:studentId" ? (
+          <button style={{ display: "block" }}>
+            <Link to={`/student/${match.params.studentId}/edit`}>
+              Edit Student
+            </Link>
+          </button>
+        ) : null}
+      </div>
+    </div>
+  );
+};
+
+{
+}

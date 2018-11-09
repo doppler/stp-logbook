@@ -97,7 +97,7 @@ const EditStudent = props => {
           <button>Save Student</button>
         </form>
       </div>
-      <Footer />
+      <Footer match={props.match} />
     </React.Fragment>
   );
 };

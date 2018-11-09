@@ -37,17 +37,7 @@ const Header = props => {
       <div className="Title">
         <h1>{title || "Students"}</h1>
       </div>
-      <div className="Actions">
-        {match.path === "/" ? (
-          <button>
-            <Link to="/student/new">Add Student</Link>
-          </button>
-        ) : match.path === "/student/:studentId" ? (
-          <button style={{ display: "block" }}>
-            <Link to={`/student/${match.params.studentId}/edit`}>Edit</Link>
-          </button>
-        ) : null}
-      </div>
+      <div className="Actions" />
     </div>
   );
 };

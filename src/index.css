@@ -4,10 +4,15 @@
   --content-border-color: #345;
   --content-hover-color: #235;
 
-  --button-text-color: #fed;
-  --botton-bg-color: #321;
-  --button-border-color: #abc;
+  --button-font-weight: bold;
+  --button-text-color: #ccc;
+  --button-bg-color: #222228;
   --button-border-width: 1px;
+  --button-border-style: outset;
+  --button-border-color: #abf;
+  --button-border-width: 1px;
+  --button-border-radius: 5px;
+  --button-height: 2em;
 
   --label-bg-color: #345;
   --input-bg-color: #e0e0ff;
