@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import HotKeys from "react-hot-keys";
 
 import { store, collect } from "react-recollect";
@@ -20,9 +19,9 @@ const initialState = {
   jumps: []
 };
 
-const HomeButton = ({ key }) => (
-  <button key={key}>
-    <Link to="/">Home</Link>
+const HomeButton = ({ key, onClick }) => (
+  <button key={key} onClick={onClick}>
+    Home
   </button>
 );
 
@@ -56,7 +55,6 @@ const EditStudent = props => {
   };
 
   const saveStudent = async () => {
-    // e.preventDefault();
     const json = await getStudents();
     saveStudents([student, ...json.filter(obj => obj.id !== student.id)]).then(
       () => props.history.push(`/student/${student.id}`)
@@ -87,7 +85,7 @@ const EditStudent = props => {
       <Header
         match={props.match}
         buttons={[
-          HomeButton({ key: "h" }),
+          HomeButton({ key: "h", onClick: () => props.history.push("/") }),
           SaveStudentButton({ key: "s", onClick: saveStudent })
         ]}
       />

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import HotKeys from "react-hot-keys";
 
 import { store, collect } from "react-recollect";
@@ -11,9 +10,9 @@ import saveStudent from "../api/saveStudent";
 import Header from "./Header";
 import Footer from "./Footer";
 
-const HomeButton = ({ key }) => (
-  <button key={key}>
-    <Link to="/">Home</Link>
+const HomeButton = ({ key, onClick }) => (
+  <button key={key} onClick={onClick}>
+    Home
   </button>
 );
 
@@ -23,10 +22,8 @@ const AddJumpButton = ({ key, onClick }) => (
   </button>
 );
 
-const EditStudentButton = ({ key, match }) => (
-  <button key={key}>
-    <Link to={`/student/${match.params.studentId}/edit`}>Edit Student</Link>
-  </button>
+const EditStudentButton = ({ key, onClick }) => (
+  <button key={key}>Edit Student</button>
 );
 
 const nextJump = student => {
@@ -76,7 +73,7 @@ export default collect(props => {
   const [activeRow, setActiveRow] = useState(rowCount - 1);
   const onKeyDown = (keyName, e, handle) => {
     if (e.srcElement.type === "submit" && keyName === "enter") {
-      return e.srcElement.children[0].click();
+      return e.srcElement.click();
     }
     if (e.srcElement.type !== undefined) return false;
     switch (true) {
@@ -110,12 +107,17 @@ export default collect(props => {
   return (
     <HotKeys keyName="down,j,up,k,enter,right,h,a,e" onKeyDown={onKeyDown}>
       <Header
-        match={props.match}
         title={student.name}
         buttons={[
-          HomeButton({ key: "h" }),
+          HomeButton({ key: "h", onClick: () => props.history.push("/") }),
           AddJumpButton({ key: "a", onClick: addJump }),
-          EditStudentButton({ key: "e", match: props.match })
+          EditStudentButton({
+            key: "e",
+            onClick: () =>
+              props.history.push(
+                `/student/${props.match.params.studentId}/edit`
+              )
+          })
         ]}
       />
       <div className="Content">

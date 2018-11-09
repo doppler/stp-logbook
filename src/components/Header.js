@@ -2,7 +2,7 @@ import React from "react";
 
 import "./Header.css";
 
-export default ({ title, buttons = [], match }) => {
+export default ({ title, buttons = [] }) => {
   return (
     <div className="Header">
       <div className="Nav">{buttons.map((Button, i) => Button)}</div>

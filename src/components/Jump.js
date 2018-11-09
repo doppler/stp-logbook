@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import HotKeys from "react-hot-keys";
+
 import { store, collect } from "react-recollect";
 
 import Header from "./Header";
@@ -9,9 +10,9 @@ import format from "date-fns/format";
 
 import saveStudent from "../api/saveStudent";
 
-const HomeButton = ({ key }) => (
-  <button key={key}>
-    <Link to="/">Home</Link>
+const HomeButton = ({ key, onClick }) => (
+  <button id="homeButton" key={key} onClick={onClick}>
+    Home
   </button>
 );
 
@@ -23,6 +24,7 @@ const SaveJumpButton = ({ key, onClick }) => (
 
 const DeleteJumpButton = ({ key, onClick, deleteConfirmation }) => (
   <button
+    id="deleteJumpButton"
     key={key}
     onClick={onClick}
     className={`${deleteConfirmation ? "pending" : null}`}
@@ -67,8 +69,7 @@ export default collect(props => {
     );
   };
 
-  const saveJump = async event => {
-    event.preventDefault();
+  const saveJump = async () => {
     const json = await saveStudent(student);
     props.history.push(`/student/${json.id}`);
   };
@@ -79,20 +80,42 @@ export default collect(props => {
     const json = await saveStudent(student);
     props.history.push(`/student/${json.id}`);
   };
-  const deleteJump = async event => {
-    event.preventDefault();
+  const deleteJump = async () => {
     if (deleteConfirmation) return reallyDeleteJump();
     setDeleteConfirmation(true);
   };
 
   if (!student || !jump) return null;
+
+  const onKeyDown = (keyName, e, handle) => {
+    if (e.srcElement.type === "submit" && keyName === "enter") {
+      return e.srcElement.children[0].click();
+    }
+    if (e.srcElement.type !== undefined) return false;
+    switch (true) {
+      case keyName === "h":
+        props.history.push("/");
+        break;
+      case keyName === "s":
+        saveJump();
+        break;
+      case keyName === "d":
+        const deleteJumpButton = document.getElementById("deleteJumpButton");
+        deleteJumpButton.focus();
+        deleteJumpButton.click();
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
-    <React.Fragment>
+    <HotKeys keyName={"h,s,d"} onKeyDown={onKeyDown}>
       <Header
         title={student.name}
         match={match}
         buttons={[
-          HomeButton({ key: "h" }),
+          HomeButton({ key: "h", onClick: () => props.history.push("/") }),
           SaveJumpButton({ key: "s", onClick: saveJump }),
           DeleteJumpButton({
             key: "d",
@@ -226,7 +249,7 @@ export default collect(props => {
         </form>
       </div>
       <Footer />
-    </React.Fragment>
+    </HotKeys>
   );
 });
 
