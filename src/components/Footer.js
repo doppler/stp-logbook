@@ -1,8 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import "./Footer.css";
-
 export default props => {
   const { match, buttons } = props;
   return (

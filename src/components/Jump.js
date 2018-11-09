@@ -3,7 +3,6 @@ import { store, collect } from "react-recollect";
 
 import Header from "./Header";
 import Footer from "./Footer";
-import "./Jump.css";
 
 import format from "date-fns/format";
 

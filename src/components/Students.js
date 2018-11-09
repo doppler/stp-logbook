@@ -7,7 +7,6 @@ import parse from "date-fns/parse";
 import format from "date-fns/format";
 import differenceInDays from "date-fns/difference_in_days";
 
-import "./Students.css";
 import Header from "./Header";
 import Footer from "./Footer";
 

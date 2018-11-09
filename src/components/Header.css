@@ -16,20 +16,6 @@
 .Header div:nth-child(3) {
   justify-content: flex-end;
 }
-.Header button {
-  color: var(--button-text-color);
-  background-color: var(--button-bg-color);
-  border: var(--button-border-width);
-  border-color: var(--button-border-color);
-  border-style: var(--button-border-style);
-  border-radius: var(--button-border-radius);
-  height: var(--button-height);
-  margin: 10px 5px 0 10px;
-}
-.Header button > a {
-  color: var(--button-text-color);
-  text-decoration: none;
-}
 .Header input {
   padding-left: 5px;
   color: var(--button-text-color);

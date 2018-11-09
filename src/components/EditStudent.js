@@ -7,8 +7,6 @@ import getStudent from "../api/getStudent";
 import getStudents from "../api/getStudents";
 import saveStudents from "../api/saveStudents";
 
-import "./EditStudent.css";
-
 const initialState = {
   id: Math.round(Math.random() * 2 ** 32).toString(16),
   name: "",

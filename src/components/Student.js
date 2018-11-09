@@ -2,8 +2,6 @@ import React from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 
-import "./Student.css";
-
 import { store, collect } from "react-recollect";
 import format from "date-fns/format";
 import distanceInWordsToNow from "date-fns/distance_in_words_to_now";
