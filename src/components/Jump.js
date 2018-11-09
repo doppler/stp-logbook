@@ -7,19 +7,7 @@ import "./Jump.css";
 
 import format from "date-fns/format";
 
-import getStudent from "../api/getStudent";
 import saveStudent from "../api/saveStudent";
-
-const initialJumpState = {
-  number: 0,
-  diveFlow: 0,
-  date: "",
-  instructor: "",
-  aircraft: "",
-  exitAltitude: 14000,
-  deploymentAltitude: 5000,
-  freefallTime: ""
-};
 
 export default collect(props => {
   const { match } = props;
