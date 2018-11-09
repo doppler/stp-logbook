@@ -54,8 +54,7 @@ export default collect(props => {
   const [activeRow, setActiveRow] = useState(0);
 
   const onKeyDown = (keyName, e, handle) => {
-    console.log(e.srcElement.type);
-    if (e.srcElement.type === "text") return false;
+    if (e.srcElement.type !== undefined) return true;
     switch (true) {
       case ["down", "j"].includes(keyName):
         setActiveRow(activeRow + 1);

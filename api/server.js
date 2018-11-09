@@ -14,12 +14,14 @@ app.use(bodyParser.json());
 app.get("/api", (req, res) => res.json({ hello: "dook" }));
 
 app.get("/api/students", (req, res) => {
+  console.log("GET /api/students");
   res.sendFile(studentsDb, {
     headers: { "Content-Type": "application/json" }
   });
 });
 
 app.post("/api/students", (req, res) => {
+  console.log("POST /api/students");
   console.log("req", JSON.stringify(req.body));
   const db = fs.createWriteStream(studentsDb);
   db.write(JSON.stringify(req.body, undefined, 2));

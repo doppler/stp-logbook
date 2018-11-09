@@ -18,14 +18,15 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "start-api": "node api/server.js",
+    "start-api": "nodemon api/server.js",
     "dev": "concurrently \"yarn start\" \"yarn start-api\""
   },
   "nodemonConfig": {
     "verbose": true,
     "ignore": [
       "public/*",
-      "src/*"
+      "src/*",
+      "api/db/*"
     ]
   },
   "eslintConfig": {
