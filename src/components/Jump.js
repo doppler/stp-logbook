@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { store, collect } from "react-recollect";
-import { withRouter } from "react-router-dom";
-import saveStudent from "../api/saveStudent";
-import format from "date-fns/format";
+
+import Header from "./Header";
+import Footer from "./Footer";
 import "./Jump.css";
 
+import format from "date-fns/format";
+
 import getStudent from "../api/getStudent";
+import saveStudent from "../api/saveStudent";
 
 const initialJumpState = {
   number: 0,
@@ -18,59 +21,65 @@ const initialJumpState = {
   freefallTime: ""
 };
 
-export default collect(
-  withRouter(props => {
-    const [student, setStudent] = useState();
-    const [jump, setJump] = useState(initialJumpState);
-    useEffect(
-      async () => {
-        const { studentId, jumpNumber } = props.match.params;
-        const json = await getStudent(studentId);
-        setStudent(json);
-        setJump(json.jumps.find(jump => jump.number === Number(jumpNumber)));
-      },
-      [setStudent, setJump]
+export default collect(props => {
+  const { match } = props;
+  const { student, instructors } = store;
+  let jump = null;
+
+  if (!student) {
+    (async () => {
+      const res = await fetch("/api/students");
+      const json = await res.json();
+      store.student = json.find(obj => obj.id === match.params.studentId);
+    })();
+  }
+  if (student) {
+    jump = student.jumps.find(
+      obj => obj.number === Number(match.params.jumpNumber)
     );
+  }
 
-    const [instructors, setInstructors] = useState([]);
-    useEffect(
-      async () => {
-        const res = await fetch("/api/instructors");
-        const json = await res.json();
-        setInstructors(json);
-      },
-      [setInstructors]
+  const numericValues = [
+    "diveFlow",
+    "jumpNumber",
+    "exitAltitude",
+    "deploymentAltitude",
+    "freefallTime"
+  ];
+  const setAttribute = event => {
+    let { id, value } = event.target;
+    if (numericValues.includes(id)) {
+      value = Number(value);
+    }
+    jump[id] = value;
+    console.log(id, value);
+    jump.freefallTime = Math.ceil(
+      ((jump.exitAltitude - jump.deploymentAltitude) / 1000) * 5.5
     );
+  };
 
-    const setAttribute = event => {
-      const { id, value } = event.target;
-      jump[id] = value;
-      jump.freefallTime = Math.ceil(
-        ((jump.exitAltitude - jump.deploymentAltitude) / 1000) * 5.5
-      );
-      setJump(jump);
-    };
+  const saveJump = async event => {
+    event.preventDefault();
+    const json = await saveStudent(student);
+    props.history.push(`/student/${json.id}`);
+  };
 
-    const saveJump = async event => {
-      event.preventDefault();
-      const json = await saveStudent(student);
-      props.history.push(`/student/${json.id}`);
-    };
+  // const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  // const reallyDeleteJump = async () => {
+  //   student.jumps = student.jumps.filter(obj => obj.number !== jump.number);
+  //   const json = await saveStudent(student);
+  //   props.history.push(`/student/${json.id}`);
+  // };
+  // const deleteJump = async event => {
+  //   event.preventDefault();
+  //   if (deleteConfirmation) return reallyDeleteJump();
+  //   setDeleteConfirmation(true);
+  // };
 
-    const [deleteConfirmation, setDeleteConfirmation] = useState(false);
-    const reallyDeleteJump = async () => {
-      student.jumps = student.jumps.filter(obj => obj.number !== jump.number);
-      const json = await saveStudent(student);
-      props.history.push(`/student/${json.id}`);
-    };
-    const deleteJump = async event => {
-      event.preventDefault();
-      if (deleteConfirmation) return reallyDeleteJump();
-      setDeleteConfirmation(true);
-    };
-
-    if (!student || !jump) return null;
-    return (
+  if (!student || !jump) return null;
+  return (
+    <React.Fragment>
+      <Header title={student.name} match={match} />
       <div className="Content">
         <form onSubmit={saveJump}>
           <fieldset>
@@ -193,21 +202,18 @@ export default collect(
             </div>
           </fieldset>
           <button>Save Jump</button>
-          <button
-            onClick={deleteJump}
-            style={{ backgroundColor: deleteConfirmation ? "red" : null }}
-          >
-            Delete Jump
-          </button>
+          <button>Delete Jump</button>
         </form>
       </div>
-    );
-  })
-);
+      <Footer />
+    </React.Fragment>
+  );
+});
 
 const InstructorOptions = ({ instructors, instructor }) => {
-  if (instructors.indexOf(instructor) < 0) instructors.push(instructor);
-  return instructors.map((instructor, i) => (
+  if (instructors.list.indexOf(instructor) < 0)
+    instructors.list.push(instructor);
+  return instructors.list.map((instructor, i) => (
     <option key={i} value={instructor}>
       {instructor}
     </option>

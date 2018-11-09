@@ -5,29 +5,22 @@ import { store } from "react-recollect";
 import "./App.css";
 import StudentRouter from "./components/StudentRouter";
 
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-
-const initialState = {
-  match: {},
-  student: null,
-  students: [],
-  filteredStudents: [],
-  header: {
-    title: ""
-  },
-  filter: ""
-};
 const App = () => {
-  store.app = initialState;
+  store.students = [];
+  store.filteredStudents = [];
+  store.filter = "";
   return (
     <div className="App">
-      <Header />
       <Route exact path="/" component={StudentRouter} />
       <Route path="/student" component={StudentRouter} />
-      <Footer />
     </div>
   );
 };
 
 export default App;
+
+fetch("/api/instructors")
+  .then(res => res.json())
+  .then(json => {
+    store.instructors = { list: json };
+  });

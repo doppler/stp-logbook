@@ -1,13 +1,15 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
-import { store, collect } from "react-recollect";
-import getStudent from "../api/getStudent";
-import saveStudent from "../api/saveStudent";
-import distanceInWordsToNow from "date-fns/distance_in_words_to_now";
+import Header from "./Header";
+import Footer from "./Footer";
 
 import "./Student.css";
 
+import { store, collect } from "react-recollect";
 import format from "date-fns/format";
+import distanceInWordsToNow from "date-fns/distance_in_words_to_now";
+
+import getStudent from "../api/getStudent";
+import saveStudent from "../api/saveStudent";
 
 const nextJump = student => {
   const lastJump = student.jumps[student.jumps.length - 1];
@@ -30,37 +32,30 @@ const nextJump = student => {
   };
 };
 
-export default collect(
-  withRouter(props => {
-    // pass path params up to App so they can
-    // be used in Header
-    store.app.match = props.match;
+export default collect(props => {
+  const { student } = store;
 
-    const { student } = store.app;
+  const fetchStudent = async id => {
+    const json = await getStudent(id);
+    store.student = json;
+  };
 
-    const fetchStudent = async id => {
-      const json = await getStudent(id);
-      store.app.student = json;
-    };
+  if (!student || student.id !== props.match.params.studentId)
+    fetchStudent(props.match.params.studentId);
 
-    if (
-      !store.app.student ||
-      store.app.student.id !== props.match.params.studentId
-    )
-      fetchStudent(props.match.params.studentId);
-    else store.app.header.title = store.app.student.name;
+  const addJump = async () => {
+    const jump = nextJump(student);
+    student.jumps.push(jump);
+    const json = await saveStudent(student);
+    store.student = json;
+    // setStudent(json);
+    props.history.push(`/student/${student.id}/jump/${jump.number}`);
+  };
 
-    const addJump = async () => {
-      const jump = nextJump(student);
-      student.jumps.push(jump);
-      const json = await saveStudent(student);
-      store.app.student = json;
-      // setStudent(json);
-      props.history.push(`/student/${student.id}/jump/${jump.number}`);
-    };
-
-    if (!student) return null;
-    return (
+  if (!student) return null;
+  return (
+    <React.Fragment>
+      <Header match={props.match} title={student.name} />
       <div className="Content">
         <table>
           <thead>
@@ -100,6 +95,7 @@ export default collect(
           </tbody>
         </table>
       </div>
-    );
-  })
-);
+      <Footer />
+    </React.Fragment>
+  );
+});

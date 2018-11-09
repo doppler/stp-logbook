@@ -1,59 +1,44 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import Header from "./Header";
+import Footer from "./Footer";
+
 import { store, collect } from "react-recollect";
-import { withRouter } from "react-router-dom";
 import getStudent from "../api/getStudent";
 import getStudents from "../api/getStudents";
 import saveStudents from "../api/saveStudents";
 
 import "./EditStudent.css";
 
-const initialState = {
-  id: Math.round(Math.random(10) * 100000000).toString(16),
-  name: "",
-  email: "",
-  phone: "",
-  instructor: "",
-  jumps: []
-};
+// const initialState = {
+//   id: Math.round(Math.random(10) * 100000000).toString(16),
+//   name: "",
+//   email: "",
+//   phone: "",
+//   instructor: "",
+//   jumps: []
+// };
 
-const EditStudent = collect(
-  withRouter(props => {
-    const { params } = props.match;
-    const [student, setStudent] = useState(initialState);
-    useEffect(
-      async () => {
-        if (!params.id) return null;
-        const json = await getStudent(params.id);
-        setStudent(json);
-      },
-      [setStudent]
+const EditStudent = props => {
+  const { params } = props.match;
+  const { student, instructors } = store;
+
+  const setAttribute = event => {
+    const { id, value } = event.target;
+    student[id] = value;
+  };
+
+  const saveStudent = async e => {
+    e.preventDefault();
+    const json = await getStudents();
+    saveStudents([student, ...json.filter(obj => obj.id !== student.id)]).then(
+      () => props.history.push(`/student/${student.id}`)
     );
+  };
 
-    const [instructors, setInstructors] = useState([]);
-    useEffect(
-      async () => {
-        const json = await fetch("/api/instructors").then(res => res.json());
-        setInstructors(json);
-      },
-      [setInstructors]
-    );
-
-    const setAttribute = event => {
-      const { id, value } = event.target;
-      student[id] = value;
-      setStudent(student);
-    };
-
-    const saveStudent = async e => {
-      e.preventDefault();
-      const json = await getStudents();
-      saveStudents([
-        student,
-        ...json.filter(obj => obj.id !== student.id)
-      ]).then(() => props.history.push(`/student/${student.id}`));
-    };
-
-    return (
+  if (!student || !instructors) return null;
+  return (
+    <React.Fragment>
+      <Header match={props.match} />
       <div className="Content">
         <form onSubmit={saveStudent}>
           <fieldset>
@@ -112,14 +97,15 @@ const EditStudent = collect(
           <button>Save Student</button>
         </form>
       </div>
-    );
-  })
-);
+      <Footer />
+    </React.Fragment>
+  );
+};
 
-export default withRouter(EditStudent);
+export default collect(EditStudent);
 
 const InstructorOptions = ({ instructors }) => {
-  return instructors.map((instructor, i) => (
+  return instructors.list.map((instructor, i) => (
     <option key={i} value={instructor}>
       {instructor}
     </option>

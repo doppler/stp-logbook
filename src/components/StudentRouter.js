@@ -11,8 +11,8 @@ const StudentRouter = props => {
       <Route exact path="/" component={Students} />
       <Route path="/student/:studentId/jump/:jumpNumber" component={Jump} />
       <Route path="/student/:studentId/edit" component={EditStudent} />
-      <Route path="/student/new" component={EditStudent} />;
-      <Route path="/student/:studentId" component={Student} />;
+      <Route path="/student/new" component={EditStudent} />
+      <Route path="/student/:studentId" component={Student} />
     </Switch>
   );
 };
