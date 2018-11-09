@@ -11,7 +11,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 
 export default collect(props => {
-  const { students, filteredStudents } = store;
+  const { students, filteredStudents, filter } = store;
   store.student = null;
 
   if (students.length === 0) {
@@ -78,21 +78,36 @@ export default collect(props => {
     setActiveRow(0);
   if (studentCount > 0 && activeRow === -1) setActiveRow(studentCount - 1);
 
+  const handleFilterChange = e => {
+    const filter = e.target.value.toLowerCase();
+    store.filteredStudents = store.students.filter(obj =>
+      obj.name.toLowerCase().match(filter)
+    );
+    store.filter = e.target.value;
+  };
+
   return (
     <HotKeys keyName="down,j,up,k,enter,right" onKeyDown={onKeyDown}>
       <Header match={props.match} />
       <div className="Content">
-        <table tabIndex={0}>
+        <table id="students">
           <thead>
             <tr>
-              <th>Name</th>
+              <th>
+                {" "}
+                <input
+                  onChange={handleFilterChange}
+                  value={filter}
+                  placeholder="Filter by name"
+                />
+              </th>
               <th>Email</th>
               <th>Phone</th>
               <th>Last Jump</th>
               <th>Last DiveFlow</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody tabIndex={0}>
             {filteredStudents.map((student, i) => {
               const lastJump = student.jumps[student.jumps.length - 1];
               const daysSinceLastJump = lastJump

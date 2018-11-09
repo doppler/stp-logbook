@@ -101,12 +101,27 @@ button.pending {
 table {
   width: 100%;
 }
-
 th {
   background-color: var(--content-border-color);
   border-bottom: 1px solid #666;
 }
-
+table#students th:first-child > input {
+  float: left;
+  padding-left: 5px;
+  color: var(--button-text-color);
+  font-weight: var(--button-font-weight);
+  background-color: var(--button-bg-color);
+  border: var(--button-border-width);
+  border-style: inset;
+  border-color: var(--button-border-color);
+  border-radius: var(--button-border-radius);
+  margin-left: 5px;
+  height: var(--input-size);
+}
+table#students th:first-child > input::placeholder {
+  font-weight: var(--button-font-weight);
+  color: var(--button-text-color);
+}
 tr:hover {
   cursor: pointer;
   background-color: var(--content-hover-color);
