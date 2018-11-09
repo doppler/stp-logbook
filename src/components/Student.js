@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 
@@ -30,6 +31,17 @@ const nextJump = student => {
   };
 };
 
+const HomeButton = ({ key }) => (
+  <button key={key}>
+    <Link to="/">Home</Link>
+  </button>
+);
+const EditStudentButton = ({ key, match }) => (
+  <button key={key}>
+    <Link to={`/student/${match.params.studentId}/edit`}>Edit Student</Link>
+  </button>
+);
+
 export default collect(props => {
   const { student } = store;
 
@@ -53,7 +65,14 @@ export default collect(props => {
   if (!student) return null;
   return (
     <React.Fragment>
-      <Header match={props.match} title={student.name} />
+      <Header
+        match={props.match}
+        title={student.name}
+        buttons={[
+          HomeButton({ key: "homeButton" }),
+          EditStudentButton({ key: "editStudentButton", match: props.match })
+        ]}
+      />
       <div className="Content">
         <table>
           <thead>

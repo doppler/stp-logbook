@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { store, collect } from "react-recollect";
 
 import Header from "./Header";
@@ -7,6 +8,28 @@ import Footer from "./Footer";
 import format from "date-fns/format";
 
 import saveStudent from "../api/saveStudent";
+
+const HomeButton = ({ key }) => (
+  <button key={key}>
+    <Link to="/">Home</Link>
+  </button>
+);
+
+const SaveJumpButton = ({ key, onClick }) => (
+  <button key={key} onClick={onClick}>
+    Save Jump
+  </button>
+);
+
+const DeleteJumpButton = ({ key, onClick, deleteConfirmation }) => (
+  <button
+    key={key}
+    onClick={onClick}
+    className={`${deleteConfirmation ? "pending" : null}`}
+  >
+    Delete Jump
+  </button>
+);
 
 export default collect(props => {
   const { match } = props;
@@ -65,7 +88,19 @@ export default collect(props => {
   if (!student || !jump) return null;
   return (
     <React.Fragment>
-      <Header title={student.name} match={match} />
+      <Header
+        title={student.name}
+        match={match}
+        buttons={[
+          HomeButton({ key: "h" }),
+          SaveJumpButton({ key: "s", onClick: saveJump }),
+          DeleteJumpButton({
+            key: "d",
+            onClick: deleteJump,
+            deleteConfirmation: deleteConfirmation
+          })
+        ]}
+      />
       <div className="Content">
         <form onSubmit={saveJump}>
           <fieldset>
@@ -190,33 +225,10 @@ export default collect(props => {
           <input type="submit" style={{ display: "none" }} tabIndex={-1} />
         </form>
       </div>
-      <Footer
-        match={match}
-        buttons={
-          <FooterButtons
-            saveJump={saveJump}
-            deleteJump={deleteJump}
-            deleteConfirmation={deleteConfirmation}
-          />
-        }
-      />
+      <Footer />
     </React.Fragment>
   );
 });
-
-const FooterButtons = ({ saveJump, deleteJump, deleteConfirmation }) => {
-  return (
-    <React.Fragment>
-      <button onClick={saveJump}>Save Jump</button>
-      <button
-        onClick={deleteJump}
-        className={`${deleteConfirmation ? "pending" : null}`}
-      >
-        Delete Jump
-      </button>
-    </React.Fragment>
-  );
-};
 
 const InstructorOptions = ({ instructors, instructor }) => {
   if (instructors.list.indexOf(instructor) < 0)

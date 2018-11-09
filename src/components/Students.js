@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
 
@@ -88,7 +89,10 @@ export default collect(props => {
 
   return (
     <HotKeys keyName="down,j,up,k,enter,right" onKeyDown={onKeyDown}>
-      <Header match={props.match} />
+      <Header
+        match={props.match}
+        buttons={[AddStudentButton({ key: "addStudentButton" })]}
+      />
       <div className="Content">
         <table id="students">
           <thead>
@@ -150,3 +154,9 @@ export default collect(props => {
     </HotKeys>
   );
 });
+
+const AddStudentButton = ({ key }) => (
+  <button key={key}>
+    <Link to="/student/new">Add Student</Link>
+  </button>
+);
