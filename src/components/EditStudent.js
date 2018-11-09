@@ -14,6 +14,7 @@ const initialState = {
   email: "",
   phone: "",
   instructor: "",
+  previousJumps: 2,
   jumps: []
 };
 
@@ -92,7 +93,7 @@ const EditStudent = props => {
                   type="number"
                   id="previousJumps"
                   onChange={setAttribute}
-                  value={student.previousJumps || 2}
+                  value={student.previousJumps}
                 />
               </div>
             ) : null}
