@@ -1,11 +1,14 @@
 import React from "react";
-import Header from "./Header";
-import Footer from "./Footer";
+import { Link } from "react-router-dom";
+import HotKeys from "react-hot-keys";
 
 import { store, collect } from "react-recollect";
 import getStudent from "../api/getStudent";
 import getStudents from "../api/getStudents";
 import saveStudents from "../api/saveStudents";
+
+import Header from "./Header";
+import Footer from "./Footer";
 
 const initialState = {
   id: Math.round(Math.random() * 2 ** 32).toString(16),
@@ -16,6 +19,18 @@ const initialState = {
   previousJumps: 2,
   jumps: []
 };
+
+const HomeButton = ({ key }) => (
+  <button key={key}>
+    <Link to="/">Home</Link>
+  </button>
+);
+
+const SaveStudentButton = ({ key, onClick }) => (
+  <button key={key} onClick={onClick}>
+    Save Student
+  </button>
+);
 
 const EditStudent = props => {
   const { match } = props;
@@ -40,8 +55,8 @@ const EditStudent = props => {
     student[id] = value;
   };
 
-  const saveStudent = async e => {
-    e.preventDefault();
+  const saveStudent = async () => {
+    // e.preventDefault();
     const json = await getStudents();
     saveStudents([student, ...json.filter(obj => obj.id !== student.id)]).then(
       () => props.history.push(`/student/${student.id}`)
@@ -49,9 +64,33 @@ const EditStudent = props => {
   };
 
   if (!student || !instructors) return null;
+
+  const onKeyDown = (keyName, e, handle) => {
+    if (e.srcElement.type === "submit" && keyName === "enter") {
+      return e.srcElement.children[0].click();
+    }
+    if (e.srcElement.type !== undefined) return false;
+    switch (true) {
+      case keyName === "h":
+        props.history.push("/");
+        break;
+      case keyName === "s":
+        saveStudent();
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
-    <React.Fragment>
-      <Header match={props.match} />
+    <HotKeys keyName="h,s" onKeyDown={onKeyDown}>
+      <Header
+        match={props.match}
+        buttons={[
+          HomeButton({ key: "h" }),
+          SaveStudentButton({ key: "s", onClick: saveStudent })
+        ]}
+      />
       <div className="Content">
         <form onSubmit={saveStudent}>
           <fieldset>
@@ -111,19 +150,16 @@ const EditStudent = props => {
           <input type="submit" style={{ display: "none" }} tabIndex={-1} />
         </form>
       </div>
-      <Footer
-        match={props.match}
-        buttons={<FooterButtons saveStudent={saveStudent} />}
-      />
-    </React.Fragment>
+      <Footer />
+    </HotKeys>
   );
 };
 
 export default collect(EditStudent);
 
-const FooterButtons = ({ saveStudent }) => (
-  <button onClick={saveStudent}>Save Student</button>
-);
+// const FooterButtons = ({ saveStudent }) => (
+//   <button onClick={saveStudent}>Save Student</button>
+// );
 
 const InstructorOptions = ({ instructors }) => {
   return instructors.list.map((instructor, i) => (
