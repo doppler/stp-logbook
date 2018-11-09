@@ -16,6 +16,13 @@ const HomeButton = ({ key }) => (
     <Link to="/">Home</Link>
   </button>
 );
+
+const AddJumpButton = ({ key, onClick }) => (
+  <button key={key} onClick={onClick}>
+    Add Jump
+  </button>
+);
+
 const EditStudentButton = ({ key, match }) => (
   <button key={key}>
     <Link to={`/student/${match.params.studentId}/edit`}>Edit Student</Link>
@@ -84,6 +91,15 @@ export default collect(props => {
           `/student/${student.id}/jump/${student.jumps[activeRow].number}`
         );
         break;
+      case keyName === "h":
+        props.history.push("/");
+        break;
+      case keyName === "a":
+        addJump();
+        break;
+      case keyName === "e":
+        props.history.push(`/student/${student.id}/edit`);
+        break;
       default:
         break;
     }
@@ -92,13 +108,14 @@ export default collect(props => {
   if (rowCount > 0 && activeRow === -1) setActiveRow(rowCount - 1);
 
   return (
-    <HotKeys keyName="down,j,up,k,enter,right" onKeyDown={onKeyDown}>
+    <HotKeys keyName="down,j,up,k,enter,right,h,a,e" onKeyDown={onKeyDown}>
       <Header
         match={props.match}
         title={student.name}
         buttons={[
-          HomeButton({ key: "homeButton" }),
-          EditStudentButton({ key: "editStudentButton", match: props.match })
+          HomeButton({ key: "h" }),
+          AddJumpButton({ key: "a", onClick: addJump }),
+          EditStudentButton({ key: "e", match: props.match })
         ]}
       />
       <div className="Content">
@@ -131,13 +148,6 @@ export default collect(props => {
                 <td>{jump.instructor}</td>
               </tr>
             ))}
-            <tr>
-              <td colSpan={4}>
-                <p>
-                  <button onClick={addJump}>Add Jump</button>
-                </p>
-              </td>
-            </tr>
           </tbody>
         </table>
       </div>
