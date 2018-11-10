@@ -95,12 +95,10 @@ export default collect(props => {
 
   return (
     <HotKeys keyName="down,j,up,k,enter,right,a" onKeyDown={onKeyDown}>
-      <Header
-        match={props.match}
-        buttons={[AddStudentButton({ key: "addStudentButton" })]}
-      />
+      <Header buttons={[AddStudentButton({ key: "addStudentButton" })]} />
       <div className="Content">
         <table id="students">
+          <caption>Students</caption>
           <thead>
             <tr>
               <th>

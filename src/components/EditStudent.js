@@ -84,7 +84,6 @@ const EditStudent = props => {
   return (
     <HotKeys keyName="h,s" onKeyDown={onKeyDown}>
       <Header
-        match={props.match}
         buttons={[
           HomeButton({ key: "h", onClick: () => props.history.push("/") }),
           SaveStudentButton({ key: "s", onClick: saveStudent })

@@ -116,7 +116,6 @@ export default collect(props => {
   return (
     <HotKeys keyName="down,j,up,k,enter,right,h,a,e" onKeyDown={onKeyDown}>
       <Header
-        title={student.name}
         buttons={[
           HomeButton({ key: "h", onClick: () => props.history.push("/") }),
           AddJumpButton({ key: "a", onClick: addJump }),
@@ -128,6 +127,7 @@ export default collect(props => {
       />
       <div className="Content">
         <table>
+          <caption>{student.name}</caption>
           <thead>
             <tr>
               <th>Jump #</th>

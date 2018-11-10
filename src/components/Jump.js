@@ -120,8 +120,6 @@ export default collect(props => {
   return (
     <HotKeys keyName={"h,s,d"} onKeyDown={onKeyDown}>
       <Header
-        title={student.name}
-        match={match}
         buttons={[
           HomeButton({ key: "h", onClick: () => props.history.push("/") }),
           SaveJumpButton({ key: "s", onClick: saveStudent }),
@@ -135,125 +133,132 @@ export default collect(props => {
       <div className="Content">
         <form onSubmit={saveStudent}>
           <fieldset>
-            <legend>Jump Details</legend>
-            <div className="jump-details">
-              <div>
-                <div className="input-group">
-                  <label htmlFor="diveFlow">Dive Flow</label>
-                  <input
-                    type="number"
-                    id="diveFlow"
-                    value={jump.diveFlow}
-                    onChange={setAttribute}
-                  />
-                </div>
-                <div className="input-group">
-                  <label htmlFor="number">Jump Number</label>
-                  <input
-                    type="number"
-                    id="number"
-                    value={jump.number}
-                    disabled
-                  />
-                </div>
-                <div className="input-group">
-                  <label htmlFor="date">Date</label>
-                  <input
-                    type="date"
-                    id="date"
-                    value={format(jump.date, "YYYY-MM-DD")}
-                    onChange={setAttribute}
-                  />
-                </div>
-                <div className="input-group">
-                  <label htmlFor="instructor">Instructor</label>
-                  <select
-                    id="instructor"
-                    value={jump.instructor}
-                    onChange={setAttribute}
-                  >
-                    <InstructorOptions
-                      instructors={instructors}
-                      instructor={jump.instructor}
+            <legend>{`${student.name} Dive Flow ${jump.diveFlow}`}</legend>
+            <fieldset class="inner">
+              <legend>Jump Details</legend>
+              <div className="jump-details">
+                <div>
+                  <div className="input-group">
+                    <label htmlFor="diveFlow">Dive Flow</label>
+                    <input
+                      type="number"
+                      id="diveFlow"
+                      value={jump.diveFlow}
+                      onChange={setAttribute}
                     />
-                  </select>
+                  </div>
+                  <div className="input-group">
+                    <label htmlFor="number">Jump Number</label>
+                    <input
+                      type="number"
+                      id="number"
+                      value={jump.number}
+                      disabled
+                    />
+                  </div>
+                  <div className="input-group">
+                    <label htmlFor="date">Date</label>
+                    <input
+                      type="date"
+                      id="date"
+                      value={format(jump.date, "YYYY-MM-DD")}
+                      onChange={setAttribute}
+                    />
+                  </div>
+                  <div className="input-group">
+                    <label htmlFor="instructor">Instructor</label>
+                    <select
+                      id="instructor"
+                      value={jump.instructor}
+                      onChange={setAttribute}
+                    >
+                      <InstructorOptions
+                        instructors={instructors}
+                        instructor={jump.instructor}
+                      />
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <div className="input-group">
+                    <label htmlFor="aircraft">Aircraft</label>
+                    <select
+                      value={jump.aircraft}
+                      id="aircraft"
+                      onChange={setAttribute}
+                    >
+                      <option value="Caravan">Caravan</option>
+                      <option value="Otter">Otter</option>
+                      <option value="King Air">King Air</option>
+                    </select>
+                  </div>
+                  <div className="input-group">
+                    <label htmlFor="exitAltitude">Exit Altitude</label>
+                    <select
+                      value={jump.exitAltitude}
+                      id="exitAltitude"
+                      onChange={setAttribute}
+                    >
+                      <ExitAltitudeOptions />
+                    </select>
+                  </div>
+                  <div className="input-group">
+                    <label htmlFor="deploymentAltitude">
+                      Deployment Altitude
+                    </label>
+                    <select
+                      value={jump.deploymentAltitude}
+                      id="deploymentAltitude"
+                      onChange={setAttribute}
+                    >
+                      <DeploymentAltitudeOptions />
+                    </select>
+                  </div>
+                  <div className="input-group">
+                    <label htmlFor="freefallTime">Freefall Time</label>
+                    <input
+                      id="freefallTime"
+                      value={`${jump.freefallTime} seconds`}
+                      onChange={setAttribute}
+                      disabled={true}
+                    />
+                  </div>
                 </div>
               </div>
-              <div>
-                <div className="input-group">
-                  <label htmlFor="aircraft">Aircraft</label>
-                  <select
-                    value={jump.aircraft}
-                    id="aircraft"
-                    onChange={setAttribute}
-                  >
-                    <option value="Caravan">Caravan</option>
-                    <option value="Otter">Otter</option>
-                    <option value="King Air">King Air</option>
-                  </select>
-                </div>
-                <div className="input-group">
-                  <label htmlFor="exitAltitude">Exit Altitude</label>
-                  <select
-                    value={jump.exitAltitude}
-                    id="exitAltitude"
-                    onChange={setAttribute}
-                  >
-                    <ExitAltitudeOptions />
-                  </select>
-                </div>
-                <div className="input-group">
-                  <label htmlFor="deploymentAltitude">
-                    Deployment Altitude
-                  </label>
-                  <select
-                    value={jump.deploymentAltitude}
-                    id="deploymentAltitude"
-                    onChange={setAttribute}
-                  >
-                    <DeploymentAltitudeOptions />
-                  </select>
-                </div>
-                <div className="input-group">
-                  <label htmlFor="freefallTime">Freefall Time</label>
-                  <input
-                    id="freefallTime"
-                    value={`${jump.freefallTime} seconds`}
-                    onChange={setAttribute}
-                    disabled={true}
-                  />
-                </div>
+            </fieldset>
+            <fieldset class="inner">
+              <legend>Freefall / Canopy</legend>
+              <div className="input-group">
+                <label htmlFor="exit">Exit</label>
+                <textarea id="exit" value={jump.exit} onChange={setAttribute} />
               </div>
-            </div>
+              <div className="input-group">
+                <label htmlFor="freefall">Freefall</label>
+                <textarea
+                  id="freefall"
+                  value={jump.freefall}
+                  onChange={setAttribute}
+                />
+              </div>
+              <div className="input-group">
+                <label htmlFor="canopy">Canopy</label>
+                <textarea
+                  id="canopy"
+                  value={jump.canopy}
+                  onChange={setAttribute}
+                />
+              </div>
+              <div className="input-group">
+                <label htmlFor="notes">Notes</label>
+                <textarea
+                  id="notes"
+                  value={jump.notes}
+                  onChange={setAttribute}
+                />
+              </div>
+            </fieldset>
+            <input type="submit" style={{ display: "none" }} tabIndex={-1} />
           </fieldset>
-          <fieldset>
-            <legend>Freefall / Canopy</legend>
-            <div className="input-group">
-              <label htmlFor="exit">Exit</label>
-              <textarea id="exit" value={jump.exit} onChange={setAttribute} />
-            </div>
-            <div className="input-group">
-              <label htmlFor="freefall">Freefall</label>
-              <textarea
-                id="freefall"
-                value={jump.freefall}
-                onChange={setAttribute}
-              />
-            </div>
-            <div className="input-group">
-              <label htmlFor="canopy">Canopy</label>
-              <textarea
-                id="canopy"
-                value={jump.canopy}
-                onChange={setAttribute}
-              />
-            </div>
-            <div className="input-group">
-              <label htmlFor="notes">Notes</label>
-              <textarea id="notes" value={jump.notes} onChange={setAttribute} />
-            </div>
-          </fieldset>
-          <input type="submit" style={{ display: "none" }} tabIndex={-1} />
         </form>
       </div>
       <Footer />

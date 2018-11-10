@@ -20,6 +20,7 @@
 }
 .Header h1,
 .Footer h1 {
+  font-size: 1.25em;
   margin: 0;
   padding: 5px 5px 0 5px;
 }
@@ -68,6 +69,21 @@ button.pending {
 button.pending {
   background-color: #900;
   color: white;
+}
+fieldset {
+  margin-top: 10px;
+  border: 5px;
+  border-style: groove;
+  border-color: rgba(255, 239, 223, 0.05);
+}
+fieldset > legend {
+  font-weight: bold;
+}
+fieldset.inner {
+  margin-top: 10px;
+}
+fieldset.inner > legend {
+  opacity: 0.75;
 }
 .input-group {
   /* width: 100vh; */
