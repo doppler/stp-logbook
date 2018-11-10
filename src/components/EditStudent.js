@@ -3,8 +3,8 @@ import HotKeys from "react-hot-keys";
 
 import { store, collect } from "react-recollect";
 import getStudent from "../api/getStudent";
-import getStudents from "../api/getStudents";
-import saveStudents from "../api/saveStudents";
+import save from "../api/saveStudent";
+import flash from "../utils/flash.js";
 
 import Header from "./Header";
 import Footer from "./Footer";
@@ -56,11 +56,10 @@ const EditStudent = props => {
 
   const saveStudent = async e => {
     if (e) e.preventDefault();
-    store.students = await getStudents();
-    saveStudents([
-      student,
-      ...store.students.filter(obj => obj.id !== student.id)
-    ]).then(() => props.history.push(`/student/${student.id}`));
+    const res = await save(student);
+    if (res.error) return flash(res);
+    flash({ success: `Saved ${res.name}` });
+    props.history.push(`/student/${student.id}`);
   };
 
   if (!student || !instructors) return null;

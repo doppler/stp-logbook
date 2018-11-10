@@ -4,11 +4,34 @@
 .Header {
   display: flex;
 }
-.Header div {
-  flex: auto;
+.Header > div {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.flash {
+  font-weight: bold;
+  padding: 10px;
+  margin-right: 10px;
+}
+/* .flash.info,
+.flash.success,
+.flash.error {
+  opacity: 1;
+  transition: 5s linear all;
+} */
+.flash.info {
+  border: 1px solid #00f;
+  background-color: #008;
+}
+.flash.success {
+  border: 1px solid #0f0;
+  background-color: #080;
+}
+.flash.error {
+  border: 1px solid #f00;
+  background-color: #800;
 }
 .Header div:nth-child(1) {
   justify-content: flex-start;

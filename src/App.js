@@ -10,6 +10,7 @@ class App extends Component {
     store.students = [];
     store.filteredStudents = [];
     store.filter = "";
+    store.flash = store.flash || {};
     return (
       <div className="App">
         <Route exact path="/" component={StudentRouter} />

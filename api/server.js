@@ -43,13 +43,15 @@ app.post("/api/student", (req, res) => {
 
 app.get("/api/instructors", (req, res) => {
   res.send(
-    JSON.stringify([
-      "David Rose",
-      "Mihailo Matic",
-      "Darcy King",
-      "Cray Adamson",
-      "Matteo Something"
-    ])
+    JSON.stringify(
+      [
+        "",
+        "David Rose",
+        "Darcy King",
+        "Cray Adamson",
+        "Matteo Something"
+      ].sort()
+    )
   );
 });
 
