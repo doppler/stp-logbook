@@ -95,7 +95,6 @@ export default collect(props => {
     if (e.srcElement.type === "submit" && keyName === "enter") {
       return e.srcElement.children[0].click();
     }
-    if (e.srcElement.type !== undefined) return false;
     switch (true) {
       case keyName === "ctrl+h":
         props.history.push("/");
