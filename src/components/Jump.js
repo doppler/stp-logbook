@@ -39,7 +39,7 @@ export default collect(props => {
 
   if (!student) {
     (async () => {
-      store.students = await getStudent(match.params.studentId);
+      store.student = await getStudent(match.params.studentId);
     })();
   }
   if (student) {
