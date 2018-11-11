@@ -79,7 +79,7 @@ export default collect(props => {
         setActiveRow(activeRow - 1);
         break;
       case ["enter", "right"].includes(keyName):
-        props.history.push(`/student/${students[activeRow].id}`);
+        props.history.push(`/student/${filteredStudents[activeRow].id}`);
         break;
       case keyName === "ctrl+a":
         props.history.push("/student/new");
