@@ -39,7 +39,7 @@ export default collect(props => {
 
   if (!student) {
     (async () => {
-      store.students = await getStudent(match.params.studentId);
+      store.student = await getStudent(match.params.studentId);
     })();
   }
   if (student) {
@@ -95,7 +95,6 @@ export default collect(props => {
     if (e.srcElement.type === "submit" && keyName === "enter") {
       return e.srcElement.children[0].click();
     }
-    if (e.srcElement.type !== undefined) return false;
     switch (true) {
       case keyName === "ctrl+h":
         props.history.push("/");
@@ -130,7 +129,7 @@ export default collect(props => {
         <form onSubmit={saveStudent}>
           <fieldset>
             <legend>{`${student.name} Dive Flow ${jump.diveFlow}`}</legend>
-            <fieldset class="inner">
+            <fieldset className="inner">
               <legend>Jump Details</legend>
               <div className="jump-details">
                 <div>
@@ -222,7 +221,7 @@ export default collect(props => {
                 </div>
               </div>
             </fieldset>
-            <fieldset class="inner">
+            <fieldset className="inner">
               <legend>Freefall / Canopy</legend>
               <div className="input-group">
                 <label htmlFor="exit">Exit</label>

@@ -122,7 +122,7 @@ export default collect(props => {
         ]}
       />
       <div className="Content">
-        <table>
+        <table tabIndex={0}>
           <caption>{student.name}</caption>
           <thead>
             <tr>

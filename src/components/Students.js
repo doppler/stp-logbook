@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import HotKeys from "react-hot-keys";
 
 import { store, collect } from "react-recollect";
@@ -11,9 +10,9 @@ import differenceInDays from "date-fns/difference_in_days";
 import Header from "./Header";
 import Footer from "./Footer";
 
-const AddStudentButton = ({ key }) => (
-  <button key={key}>
-    <Link to="/student/new">Add Student</Link>
+const AddStudentButton = ({ key, onClick }) => (
+  <button key={key} onClick={onClick}>
+    Add Student
   </button>
 );
 
@@ -68,7 +67,7 @@ export default collect(props => {
   const [activeRow, setActiveRow] = useState(0);
   const onKeyDown = (keyName, e, handle) => {
     if (e.srcElement.type === "submit" && keyName === "enter") {
-      return e.srcElement.children[0].click();
+      return true;
     }
     if (e.srcElement.type !== undefined) return false;
     switch (true) {
@@ -79,7 +78,7 @@ export default collect(props => {
         setActiveRow(activeRow - 1);
         break;
       case ["enter", "right"].includes(keyName):
-        props.history.push(`/student/${students[activeRow].id}`);
+        props.history.push(`/student/${filteredStudents[activeRow].id}`);
         break;
       case keyName === "ctrl+a":
         props.history.push("/student/new");
@@ -95,7 +94,14 @@ export default collect(props => {
 
   return (
     <HotKeys keyName="down,j,up,k,enter,right,ctrl+a" onKeyDown={onKeyDown}>
-      <Header buttons={[AddStudentButton({ key: "addStudentButton" })]} />
+      <Header
+        buttons={[
+          AddStudentButton({
+            key: "a",
+            onClick: () => props.history.push("/student/new")
+          })
+        ]}
+      />
       <div className="Content">
         <table id="students">
           <caption>Students</caption>
