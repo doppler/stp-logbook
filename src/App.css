@@ -55,6 +55,9 @@ button {
   height: var(--button-height);
   margin: 10px 5px 0 10px;
 }
+button::first-letter {
+  color: white;
+}
 button > a {
   color: var(--button-text-color);
   text-decoration: none;
@@ -126,6 +129,12 @@ fieldset.inner > legend {
 table {
   width: 100%;
 }
+caption {
+  margin: 10px;
+  font-weight: bold;
+  text-align: left;
+  caption-side: top;
+}
 th {
   background-color: var(--content-border-color);
   border-bottom: 1px solid #666;
@@ -155,6 +164,6 @@ tr.active {
   background-color: var(--content-hover-color);
 }
 td {
-  padding: 3px 0 5px 0;
+  padding: 5px 0 5px 10px;
   border-bottom: 1px solid var(--content-border-color);
 }

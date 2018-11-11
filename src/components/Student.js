@@ -4,8 +4,9 @@ import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
 import format from "date-fns/format";
 import distanceInWordsToNow from "date-fns/distance_in_words_to_now";
-import getStudents from "../api/getStudents";
-import saveStudents from "../api/saveStudents";
+import getStudent from "../api/getStudent";
+import save from "../api/saveStudent";
+import flash from "../utils/flash";
 
 import Header from "./Header";
 import Footer from "./Footer";
@@ -27,11 +28,6 @@ const EditStudentButton = ({ key, onClick }) => (
     Edit Student
   </button>
 );
-// const EditStudentButton = ({ key, formTarget }) => (
-//   <form key={key} method="get" action={formTarget}>
-//     <button type="submit">Edit Student</button>
-//   </form>
-// );
 
 const nextJump = student => {
   const lastJump = student.jumps[student.jumps.length - 1];
@@ -57,23 +53,20 @@ const nextJump = student => {
 export default collect(props => {
   const { student } = store;
 
-  const fetchStudent = async id => {
-    store.students = await getStudents();
-    store.student = store.students.find(obj => obj.id === id);
-  };
-
   if (!student || student.id !== props.match.params.studentId)
-    fetchStudent(props.match.params.studentId);
+    (async () =>
+      (store.student = await getStudent(props.match.params.studentId)))();
 
   const addJump = async () => {
     console.log("addJump");
     const jump = nextJump(student);
     student.jumps.push(jump);
-    store.students = await getStudents();
-    saveStudents([
-      student,
-      ...store.students.filter(obj => obj.id !== student.id)
-    ]).then(() => props.history.push(`/student/${student.id}/${jump.number}`));
+    (async () => {
+      const res = await save(student);
+      if (res.error) return flash(res);
+      flash({ success: `Saved ${res.name}` });
+      props.history.push(`/student/${student.id}/${jump.number}`);
+    })();
   };
 
   if (!student) return null;
@@ -97,13 +90,13 @@ export default collect(props => {
           `/student/${student.id}/jump/${student.jumps[activeRow].number}`
         );
         break;
-      case keyName === "h":
+      case keyName === "ctrl+h":
         props.history.push("/");
         break;
-      case keyName === "a":
+      case keyName === "ctrl+a":
         addJump();
         break;
-      case keyName === "e":
+      case keyName === "ctrl+e":
         props.history.push(`/student/${student.id}/edit`);
         break;
       default:
@@ -114,7 +107,10 @@ export default collect(props => {
   if (rowCount > 0 && activeRow === -1) setActiveRow(rowCount - 1);
 
   return (
-    <HotKeys keyName="down,j,up,k,enter,right,h,a,e" onKeyDown={onKeyDown}>
+    <HotKeys
+      keyName="down,j,up,k,enter,right,ctrl+h,ctrl+a,ctrl+e"
+      onKeyDown={onKeyDown}
+    >
       <Header
         buttons={[
           HomeButton({ key: "h", onClick: () => props.history.push("/") }),

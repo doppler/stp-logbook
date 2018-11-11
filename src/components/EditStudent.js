@@ -4,7 +4,7 @@ import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
 import getStudent from "../api/getStudent";
 import save from "../api/saveStudent";
-import flash from "../utils/flash.js";
+import flash from "../utils/flash";
 
 import Header from "./Header";
 import Footer from "./Footer";
@@ -38,16 +38,12 @@ const EditStudent = props => {
 
   if (!student && match.path === "/student/new") store.student = initialState;
 
-  const fetchStudent = async id => {
-    const json = await getStudent(id);
-    store.student = json;
-  };
-
   if (
     match.path === "/student/:studentId/edit" &&
     (!student || student.id !== props.match.params.studentId)
   )
-    fetchStudent(props.match.params.studentId);
+    (async () =>
+      (store.student = await getStudent(props.match.params.studentId)))();
 
   const setAttribute = event => {
     const { id, value } = event.target;
@@ -70,10 +66,10 @@ const EditStudent = props => {
     }
     if (e.srcElement.type !== undefined) return false;
     switch (true) {
-      case keyName === "h":
+      case keyName === "ctrl+h":
         props.history.push("/");
         break;
-      case keyName === "s":
+      case keyName === "ctrl+s":
         saveStudent();
         break;
       default:
@@ -82,7 +78,7 @@ const EditStudent = props => {
   };
 
   return (
-    <HotKeys keyName="h,s" onKeyDown={onKeyDown}>
+    <HotKeys keyName="ctrl+h,ctrl+s" onKeyDown={onKeyDown}>
       <Header
         buttons={[
           HomeButton({ key: "h", onClick: () => props.history.push("/") }),

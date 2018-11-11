@@ -2,14 +2,12 @@ import React, { useState } from "react";
 import HotKeys from "react-hot-keys";
 
 import { store, collect } from "react-recollect";
-
+import format from "date-fns/format";
+import getStudent from "../api/getStudent";
+import save from "../api/saveStudent";
+import flash from "../utils/flash";
 import Header from "./Header";
 import Footer from "./Footer";
-
-import format from "date-fns/format";
-
-import getStudents from "../api/getStudents";
-import saveStudents from "../api/saveStudents";
 
 const HomeButton = ({ key, onClick }) => (
   <button id="homeButton" key={key} onClick={onClick}>
@@ -41,9 +39,7 @@ export default collect(props => {
 
   if (!student) {
     (async () => {
-      const res = await fetch("/api/students");
-      const json = await res.json();
-      store.student = json.find(obj => obj.id === match.params.studentId);
+      store.students = await getStudent(match.params.studentId);
     })();
   }
   if (student) {
@@ -52,15 +48,15 @@ export default collect(props => {
     );
   }
 
-  const numericValues = [
-    "diveFlow",
-    "jumpNumber",
-    "exitAltitude",
-    "deploymentAltitude",
-    "freefallTime"
-  ];
   const setAttribute = event => {
     let { id, value } = event.target;
+    const numericValues = [
+      "diveFlow",
+      "jumpNumber",
+      "exitAltitude",
+      "deploymentAltitude",
+      "freefallTime"
+    ];
     if (numericValues.includes(id)) {
       value = Number(value);
     }
@@ -72,21 +68,21 @@ export default collect(props => {
 
   const saveStudent = async e => {
     if (e) e.preventDefault();
-    store.students = await getStudents();
-    saveStudents([
-      student,
-      ...store.students.filter(obj => obj.id !== student.id)
-    ]).then(() => props.history.push(`/student/${student.id}`));
+    const res = await save(student);
+    if (res.error) return flash(res);
+    flash({ success: `Saved ${res.name}` });
+    props.history.push(`/student/${student.id}`);
   };
 
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const reallyDeleteJump = async () => {
     student.jumps = student.jumps.filter(obj => obj.number !== jump.number);
-    store.students = await getStudents();
-    saveStudents([
-      student,
-      ...store.students.filter(obj => obj.id !== student.id)
-    ]).then(() => props.history.push(`/student/${student.id}`));
+    (async () => {
+      const res = await save(student);
+      if (res.error) return flash(res);
+      flash({ success: `Saved ${res.name}` });
+      props.history.push(`/student/${student.id}`);
+    })();
   };
   const deleteJump = async () => {
     if (deleteConfirmation) return reallyDeleteJump();
@@ -101,13 +97,13 @@ export default collect(props => {
     }
     if (e.srcElement.type !== undefined) return false;
     switch (true) {
-      case keyName === "h":
+      case keyName === "ctrl+h":
         props.history.push("/");
         break;
-      case keyName === "s":
+      case keyName === "ctrl+s":
         saveStudent();
         break;
-      case keyName === "d":
+      case keyName === "ctrl+d":
         const deleteJumpButton = document.getElementById("deleteJumpButton");
         deleteJumpButton.focus();
         deleteJumpButton.click();
@@ -118,7 +114,7 @@ export default collect(props => {
   };
 
   return (
-    <HotKeys keyName={"h,s,d"} onKeyDown={onKeyDown}>
+    <HotKeys keyName={"ctrl+h,ctrl+s,ctrl+d"} onKeyDown={onKeyDown}>
       <Header
         buttons={[
           HomeButton({ key: "h", onClick: () => props.history.push("/") }),
@@ -281,7 +277,7 @@ const ExitAltitudeOptions = () => {
   for (let x = 5000; x <= 17000; x += 500) {
     altitudes.push(x);
   }
-  return altitudes.map(x => (
+  return altitudes.reverse().map(x => (
     <option key={x} value={x}>
       {x.toString().replace(/(\d{3}$)/, ",$1")}
     </option>
@@ -293,7 +289,7 @@ const DeploymentAltitudeOptions = () => {
   for (let x = 3000; x <= 17000; x += 500) {
     altitudes.push(x);
   }
-  return altitudes.map(x => (
+  return altitudes.reverse().map(x => (
     <option key={x} value={x}>
       {x.toString().replace(/(\d{3}$)/, ",$1")}
     </option>

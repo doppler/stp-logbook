@@ -81,7 +81,7 @@ export default collect(props => {
       case ["enter", "right"].includes(keyName):
         props.history.push(`/student/${students[activeRow].id}`);
         break;
-      case keyName === "a":
+      case keyName === "ctrl+a":
         props.history.push("/student/new");
         break;
       default:
@@ -94,7 +94,7 @@ export default collect(props => {
   if (rowCount > 0 && activeRow === -1) setActiveRow(rowCount - 1);
 
   return (
-    <HotKeys keyName="down,j,up,k,enter,right,a" onKeyDown={onKeyDown}>
+    <HotKeys keyName="down,j,up,k,enter,right,ctrl+a" onKeyDown={onKeyDown}>
       <Header buttons={[AddStudentButton({ key: "addStudentButton" })]} />
       <div className="Content">
         <table id="students">
