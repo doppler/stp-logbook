@@ -1,21 +1,15 @@
+const validate = require("./validateStudent");
+
 export default async student => {
   // first, make sure we have up-to-date student list
   const dbStudents = await fetch("/api/students").then(res => res.json());
 
-  // check required field
-  const requiredFields = [
-    "name",
-    "email",
-    "phone",
-    "instructor",
-    "previousJumps"
-  ];
-  const blankFields = requiredFields
-    .map(f => (student[f] === "" ? f : null))
-    .filter(f => f !== null);
-  if (blankFields.length > 0) {
-    return { error: `${blankFields.join(", ")} cannot be blank` };
+  const validation = validate(student);
+  if (validation.error) {
+    console.table(validation.error.details);
+    return { error: validation.error.details };
   }
+
   // new list with current student appended to
   // previous list with student filtered out
   const students = [student, ...dbStudents.filter(o => o.id !== student.id)];

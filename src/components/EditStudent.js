@@ -53,7 +53,10 @@ const EditStudent = props => {
   const saveStudent = async e => {
     if (e) e.preventDefault();
     const res = await save(student);
-    if (res.error) return flash(res);
+    if (res.error) {
+      console.table(res.error);
+      return flash({ error: res.error });
+    }
     flash({ success: `Saved ${res.name}` });
     props.history.push(`/student/${student.id}`);
   };
