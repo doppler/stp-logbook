@@ -129,7 +129,7 @@ export default collect(props => {
         <form onSubmit={saveStudent}>
           <fieldset>
             <legend>{`${student.name} Dive Flow ${jump.diveFlow}`}</legend>
-            <fieldset class="inner">
+            <fieldset className="inner">
               <legend>Jump Details</legend>
               <div className="jump-details">
                 <div>
@@ -221,7 +221,7 @@ export default collect(props => {
                 </div>
               </div>
             </fieldset>
-            <fieldset class="inner">
+            <fieldset className="inner">
               <legend>Freefall / Canopy</legend>
               <div className="input-group">
                 <label htmlFor="exit">Exit</label>
