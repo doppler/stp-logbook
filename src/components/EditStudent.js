@@ -5,6 +5,7 @@ import { store, collect } from "react-recollect";
 import getStudent from "../api/getStudent";
 import save from "../api/saveStudent";
 import flash from "../utils/flash";
+import handleFormError from "../utils/handleFormError";
 
 import Header from "./Header";
 import Footer from "./Footer";
@@ -45,19 +46,42 @@ const EditStudent = props => {
     (async () =>
       (store.student = await getStudent(props.match.params.studentId)))();
 
+  const formatPhoneNumber = value => {
+    let newValue;
+    switch (true) {
+      case /^\d{4}/.test(value):
+        newValue = value.replace(/^(\d{3})(\d{1})/, "$1-$2");
+        break;
+      case /^\d{3}-\d{4}/.test(value):
+        newValue = value.replace(/^(\d{3}-\d{3})(\d{1})/, "$1-$2");
+        break;
+      default:
+        newValue = value;
+        break;
+    }
+    return newValue;
+  };
+
   const setAttribute = event => {
     const { id, value } = event.target;
-    student[id] = value;
+    switch (id) {
+      case "phone":
+        student[id] = formatPhoneNumber(value);
+        break;
+      default:
+        student[id] = value;
+        break;
+    }
   };
 
   const saveStudent = async e => {
     if (e) e.preventDefault();
     const res = await save(student);
     if (res.error) {
-      console.table(res.error);
-      return flash({ error: res.error });
+      flash({ error: "Please check form for errors." });
+      return handleFormError(res.error);
     }
-    flash({ success: `Saved ${res.name}` });
+    flash({ success: `Saved ${student.name}` });
     props.history.push(`/student/${student.id}`);
   };
 
@@ -101,6 +125,8 @@ const EditStudent = props => {
                 onChange={setAttribute}
                 value={student.name}
                 placeholder="Full Name"
+                className="formField required"
+                required
               />
             </div>
             <div className="input-group">
@@ -109,7 +135,10 @@ const EditStudent = props => {
                 id="email"
                 onChange={setAttribute}
                 value={student.email}
+                type="email"
                 placeholder="email@domain.com"
+                className="formField required"
+                required
               />
             </div>
             <div className="input-group">
@@ -118,7 +147,11 @@ const EditStudent = props => {
                 id="phone"
                 onChange={setAttribute}
                 value={student.phone}
-                placeholder="Phone"
+                type="tel"
+                placeholder="123-456-7890"
+                pattern="\d{3}-\d{3}-\d{4}"
+                className="formField required"
+                required
               />
             </div>
             <div className="input-group">
@@ -127,6 +160,8 @@ const EditStudent = props => {
                 id="instructor"
                 value={student.instructor}
                 onChange={setAttribute}
+                className="formField required"
+                required
               >
                 <InstructorOptions instructors={instructors} />
               </select>
@@ -139,6 +174,8 @@ const EditStudent = props => {
                   id="previousJumps"
                   onChange={setAttribute}
                   value={student.previousJumps}
+                  className="formField required"
+                  required
                 />
               </div>
             ) : null}
