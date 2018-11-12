@@ -10,24 +10,12 @@ import flash from "../utils/flash";
 
 import Header from "./Header";
 import Footer from "./Footer";
-
-const HomeButton = ({ key, onClick }) => (
-  <button key={key} onClick={onClick}>
-    Home
-  </button>
-);
-
-const AddJumpButton = ({ key, onClick }) => (
-  <button key={key} onClick={onClick}>
-    Add Jump
-  </button>
-);
-
-const EditStudentButton = ({ key, onClick }) => (
-  <button key={key} onClick={onClick}>
-    Edit Student
-  </button>
-);
+import {
+  HomeButton,
+  BackButton,
+  AddJumpButton,
+  EditStudentButton
+} from "./nav-buttons";
 
 const nextJump = student => {
   const lastJump = student.jumps[student.jumps.length - 1];
@@ -50,29 +38,29 @@ const nextJump = student => {
   };
 };
 
-export default collect(props => {
+const Student = ({ match, history }) => {
   const { student } = store;
 
-  if (!student || student.id !== props.match.params.studentId)
-    (async () =>
-      (store.student = await getStudent(props.match.params.studentId)))();
-
-  const addJump = async () => {
-    console.log("addJump");
-    const jump = nextJump(student);
-    student.jumps.push(jump);
-    (async () => {
-      const res = await save(student);
-      if (res.error) return flash(res);
-      flash({ success: `Saved ${res.name}` });
-      props.history.push(`/student/${student.id}/${jump.number}`);
-    })();
-  };
+  if (!student || student.id !== match.params.studentId)
+    (async () => (store.student = await getStudent(match.params.studentId)))();
 
   if (!student) return null;
 
   const rowCount = student.jumps.length;
   const [activeRow, setActiveRow] = useState(rowCount - 1);
+
+  const addJump = async () => {
+    const jump = nextJump(student);
+    student.jumps.push(jump);
+    setActiveRow(activeRow + 1);
+    (async () => {
+      const res = await save(student);
+      if (res.error) return flash(res);
+      flash({ success: `Saved ${res.name}` });
+      history.push(`/student/${student.id}/jump/${jump.number}`);
+    })();
+  };
+
   const onKeyDown = (keyName, e, handle) => {
     if (e.srcElement.type === "submit" && keyName === "enter") {
       return e.srcElement.click();
@@ -86,20 +74,12 @@ export default collect(props => {
         setActiveRow(activeRow - 1);
         break;
       case ["enter", "right"].includes(keyName):
-        props.history.push(
+        history.push(
           `/student/${student.id}/jump/${student.jumps[activeRow].number}`
         );
         break;
-      case keyName === "ctrl+h":
-        props.history.push("/");
-        break;
-      case keyName === "ctrl+a":
-        addJump();
-        break;
-      case keyName === "ctrl+e":
-        props.history.push(`/student/${student.id}/edit`);
-        break;
       default:
+        document.getElementById(keyName.match(/.$/)).click();
         break;
     }
   };
@@ -108,16 +88,17 @@ export default collect(props => {
 
   return (
     <HotKeys
-      keyName="down,j,up,k,enter,right,ctrl+h,ctrl+a,ctrl+e"
+      keyName="down,j,up,k,enter,right,ctrl+h,ctrl+b,ctrl+a,ctrl+e"
       onKeyDown={onKeyDown}
     >
       <Header
         buttons={[
-          HomeButton({ key: "h", onClick: () => props.history.push("/") }),
+          HomeButton({ key: "h", onClick: () => history.push("/") }),
+          BackButton({ key: "b", onClick: () => history.goBack(1) }),
           AddJumpButton({ key: "a", onClick: addJump }),
           EditStudentButton({
             key: "e",
-            onClick: () => props.history.push(`/student/${student.id}/edit`)
+            onClick: () => history.push(`/student/${student.id}/edit`)
           })
         ]}
       />
@@ -137,9 +118,7 @@ export default collect(props => {
               <tr
                 key={i}
                 onClick={() =>
-                  props.history.push(
-                    `/student/${student.id}/jump/${jump.number}`
-                  )
+                  history.push(`/student/${student.id}/jump/${jump.number}`)
                 }
                 className={i === activeRow ? "active" : ""}
               >
@@ -155,7 +134,9 @@ export default collect(props => {
           </tbody>
         </table>
       </div>
-      <Footer match={props.match} />
+      <Footer match={match} />
     </HotKeys>
   );
-});
+};
+
+export default collect(Student);

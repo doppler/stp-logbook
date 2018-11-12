@@ -9,14 +9,9 @@ import differenceInDays from "date-fns/difference_in_days";
 
 import Header from "./Header";
 import Footer from "./Footer";
+import { AddStudentButton } from "./nav-buttons";
 
-const AddStudentButton = ({ key, onClick }) => (
-  <button key={key} onClick={onClick}>
-    Add Student
-  </button>
-);
-
-export default collect(props => {
+const Students = ({ match, history }) => {
   const { students, filteredStudents, filter } = store;
   store.student = null;
 
@@ -38,7 +33,7 @@ export default collect(props => {
   }
 
   const handleStudentRowClick = student => {
-    props.history.push(`/student/${student.id}`);
+    history.push(`/student/${student.id}`);
   };
 
   const handleFilterChange = e => {
@@ -78,12 +73,10 @@ export default collect(props => {
         setActiveRow(activeRow - 1);
         break;
       case ["enter", "right"].includes(keyName):
-        props.history.push(`/student/${filteredStudents[activeRow].id}`);
-        break;
-      case keyName === "ctrl+a":
-        props.history.push("/student/new");
+        history.push(`/student/${filteredStudents[activeRow].id}`);
         break;
       default:
+        document.getElementById(keyName.match(/.$/)).click();
         break;
     }
   };
@@ -98,7 +91,7 @@ export default collect(props => {
         buttons={[
           AddStudentButton({
             key: "a",
-            onClick: () => props.history.push("/student/new")
+            onClick: () => history.push("/student/new")
           })
         ]}
       />
@@ -160,7 +153,9 @@ export default collect(props => {
           </tbody>
         </table>
       </div>
-      <Footer match={props.match} />
+      <Footer />
     </HotKeys>
   );
-});
+};
+
+export default collect(Students);

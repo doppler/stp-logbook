@@ -9,6 +9,7 @@ import handleFormError from "../utils/handleFormError";
 
 import Header from "./Header";
 import Footer from "./Footer";
+import { HomeButton, BackButton, SaveStudentButton } from "./nav-buttons";
 
 const initialState = {
   id: Math.round(Math.random() * 2 ** 32).toString(16),
@@ -20,31 +21,16 @@ const initialState = {
   jumps: []
 };
 
-const HomeButton = ({ key, onClick }) => (
-  <button key={key} onClick={onClick}>
-    Home
-  </button>
-);
-
-const SaveStudentButton = ({ key, onClick }) => (
-  <button key={key} onClick={onClick}>
-    Save Student
-  </button>
-);
-
-const EditStudent = props => {
-  const { match } = props;
-
+const EditStudent = ({ match, history }) => {
   const { student, instructors } = store;
 
   if (!student && match.path === "/student/new") store.student = initialState;
 
   if (
     match.path === "/student/:studentId/edit" &&
-    (!student || student.id !== props.match.params.studentId)
+    (!student || student.id !== match.params.studentId)
   )
-    (async () =>
-      (store.student = await getStudent(props.match.params.studentId)))();
+    (async () => (store.student = await getStudent(match.params.studentId)))();
 
   const formatPhoneNumber = value => {
     let newValue;
@@ -82,7 +68,7 @@ const EditStudent = props => {
       return handleFormError(res.error);
     }
     flash({ success: `Saved ${student.name}` });
-    props.history.push(`/student/${student.id}`);
+    history.push(`/student/${student.id}`);
   };
 
   if (!student || !instructors) return null;
@@ -92,22 +78,18 @@ const EditStudent = props => {
       return e.srcElement.children[0].click();
     }
     switch (true) {
-      case keyName === "ctrl+h":
-        props.history.push("/");
-        break;
-      case keyName === "ctrl+s":
-        saveStudent();
-        break;
       default:
+        document.getElementById(keyName.match(/.$/)).click();
         break;
     }
   };
 
   return (
-    <HotKeys keyName="ctrl+h,ctrl+s" onKeyDown={onKeyDown}>
+    <HotKeys keyName="ctrl+h,ctrl+b,ctrl+s" onKeyDown={onKeyDown}>
       <Header
         buttons={[
-          HomeButton({ key: "h", onClick: () => props.history.push("/") }),
+          HomeButton({ key: "h", onClick: () => history.push("/") }),
+          BackButton({ key: "b", onClick: () => history.goBack(1) }),
           SaveStudentButton({ key: "s", onClick: saveStudent })
         ]}
       />
@@ -189,10 +171,6 @@ const EditStudent = props => {
 };
 
 export default collect(EditStudent);
-
-// const FooterButtons = ({ saveStudent }) => (
-//   <button onClick={saveStudent}>Save Student</button>
-// );
 
 const InstructorOptions = ({ instructors }) => {
   return instructors.list.map((instructor, i) => (

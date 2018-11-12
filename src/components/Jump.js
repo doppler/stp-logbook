@@ -2,6 +2,12 @@ import React, { useState } from "react";
 import HotKeys from "react-hot-keys";
 import Header from "./Header";
 import Footer from "./Footer";
+import {
+  HomeButton,
+  BackButton,
+  SaveJumpButton,
+  DeleteJumpButton
+} from "./nav-buttons";
 
 import { store, collect } from "react-recollect";
 import format from "date-fns/format";
@@ -72,38 +78,30 @@ const Jump = ({ match, history }) => {
       return e.srcElement.children[0].click();
     }
     switch (true) {
-      case keyName === "ctrl+h":
-        history.push("/");
-        break;
-      case keyName === "ctrl+s":
-        saveStudent();
-        break;
       case keyName === "ctrl+d":
-        const deleteJumpButton = document.getElementById("deleteJumpButton");
+        const deleteJumpButton = document.getElementById("d");
         deleteJumpButton.focus();
         deleteJumpButton.click();
         break;
       default:
+        document.getElementById(keyName.match(/.$/)).click();
         break;
     }
   };
 
   return (
-    <HotKeys keyName={"ctrl+h,ctrl+s,ctrl+d"} onKeyDown={onKeyDown}>
+    <HotKeys keyName={"ctrl+h,ctrl+b,ctrl+s,ctrl+d"} onKeyDown={onKeyDown}>
       <Header
-        buttons={
-          /* eslint-disable */
-          [
-            HomeButton({ key: "h", onClick: () => history.push("/") }),
-            SaveJumpButton({ key: "s", onClick: saveStudent }),
-            DeleteJumpButton({
-              key: "d",
-              onClick: deleteJump,
-              deleteConfirmation: deleteConfirmation
-            })
-          ]
-          /* eslint-enable */
-        }
+        buttons={[
+          HomeButton({ key: "h", onClick: () => history.push("/") }),
+          BackButton({ key: "b", onClick: () => history.goBack(1) }),
+          SaveJumpButton({ key: "s", onClick: saveStudent }),
+          DeleteJumpButton({
+            key: "d",
+            onClick: deleteJump,
+            deleteConfirmation: deleteConfirmation
+          })
+        ]}
       />
       <div className="Content">
         <form onSubmit={saveStudent}>
@@ -242,29 +240,6 @@ const Jump = ({ match, history }) => {
 };
 
 export default collect(Jump);
-
-const HomeButton = ({ key, onClick }) => (
-  <button id="homeButton" key={key} onClick={onClick}>
-    Home
-  </button>
-);
-
-const SaveJumpButton = ({ key, onClick }) => (
-  <button key={key} onClick={onClick}>
-    Save Jump
-  </button>
-);
-
-const DeleteJumpButton = ({ key, onClick, deleteConfirmation }) => (
-  <button
-    id="deleteJumpButton"
-    key={key}
-    onClick={onClick}
-    className={`${deleteConfirmation ? "pending" : null}`}
-  >
-    Delete Jump
-  </button>
-);
 
 const InstructorOptions = ({ instructors, instructor }) => {
   if (instructors.list.indexOf(instructor) < 0)
