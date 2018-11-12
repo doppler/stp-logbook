@@ -1,7 +1,10 @@
-export default async () => {
-  return fetch("/api/students")
-    .then(res => res.json())
-    .then(json => {
-      return json;
-    });
+const exampleStudent = require("./example-student");
+console.log(exampleStudent);
+const getStudents = async () => {
+  const students =
+    JSON.parse(localStorage.getItem("stp-logbook:students")) ||
+    exampleStudent.default;
+  return students;
 };
+
+export default getStudents;

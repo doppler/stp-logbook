@@ -7,22 +7,14 @@ const saveStudent = async (student, jump) => {
     return { error: validation.error.details };
   }
 
-  const students = await fetch("/api/students")
-    .then(res => res.json())
-    .then(json => [student, ...json.filter(o => o.id !== student.id)]);
+  const res = JSON.parse(localStorage.getItem("stp-logbook:students"));
+  const students = res
+    ? [student, ...res.filter(o => o.id !== student.id)]
+    : [student];
 
-  return fetch("/api/students", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(students)
-  })
-    .then(res => res.json())
-    .then(json => {
-      return json[0];
-    })
-    .catch(e => {
-      return { error: e.message };
-    });
+  localStorage.setItem("stp-logbook:students", JSON.stringify(students));
+
+  return {};
 };
 
 export default saveStudent;
