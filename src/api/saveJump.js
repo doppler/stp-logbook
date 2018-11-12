@@ -1,13 +1,13 @@
-const validate = require("./validateStudent");
+const validate = require("./validateJump");
 
-const saveStudent = async student => {
+const saveJump = async (jump, student) => {
   const removeErrorClass = ({ value }) => {
     const els = document.getElementsByClassName("formField error");
     while (els[0]) {
       els[0].classList.remove("error");
     }
   };
-  const validation = validate(student);
+  const validation = validate(jump);
   removeErrorClass(validation);
   if (validation.error) {
     return { error: validation.error.details };
@@ -31,4 +31,4 @@ const saveStudent = async student => {
     });
 };
 
-export default saveStudent;
+export default saveJump;

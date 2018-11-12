@@ -12,8 +12,9 @@ import {
 import { store, collect } from "react-recollect";
 import format from "date-fns/format";
 import getStudent from "../api/getStudent";
-import save from "../api/saveStudent";
+import save from "../api/saveJump";
 import flash from "../utils/flash";
+import handleFormError from "../utils/handleFormError";
 
 const Jump = ({ match, history }) => {
   const { student, instructors } = store;
@@ -48,10 +49,13 @@ const Jump = ({ match, history }) => {
     );
   };
 
-  const saveStudent = async e => {
+  const saveJump = async e => {
     if (e) e.preventDefault();
-    const res = await save(student);
-    if (res.error) return flash(res);
+    const res = await save(jump, student);
+    if (res.error) {
+      flash({ error: "Please check form for errors." });
+      return handleFormError(res.error);
+    }
     flash({ success: `Saved ${res.name}` });
     history.push(`/student/${student.id}`);
   };
@@ -95,7 +99,7 @@ const Jump = ({ match, history }) => {
         buttons={[
           HomeButton({ key: "h", onClick: () => history.push("/") }),
           BackButton({ key: "b", onClick: () => history.goBack(1) }),
-          SaveJumpButton({ key: "s", onClick: saveStudent }),
+          SaveJumpButton({ key: "s", onClick: saveJump }),
           DeleteJumpButton({
             key: "d",
             onClick: deleteJump,
@@ -104,7 +108,7 @@ const Jump = ({ match, history }) => {
         ]}
       />
       <div className="Content">
-        <form onSubmit={saveStudent}>
+        <form onSubmit={saveJump}>
           <fieldset>
             <legend>{`${student.name} Dive Flow ${jump.diveFlow}`}</legend>
             <fieldset className="inner">
@@ -118,6 +122,8 @@ const Jump = ({ match, history }) => {
                       id="diveFlow"
                       value={jump.diveFlow}
                       onChange={setAttribute}
+                      className="formField required"
+                      required
                     />
                   </div>
                   <div className="input-group">
@@ -126,6 +132,8 @@ const Jump = ({ match, history }) => {
                       type="number"
                       id="number"
                       value={jump.number}
+                      className="formField required"
+                      required
                       disabled
                     />
                   </div>
@@ -136,6 +144,8 @@ const Jump = ({ match, history }) => {
                       id="date"
                       value={format(jump.date, "YYYY-MM-DD")}
                       onChange={setAttribute}
+                      className="formField required"
+                      required
                     />
                   </div>
                   <div className="input-group">
@@ -144,6 +154,8 @@ const Jump = ({ match, history }) => {
                       id="instructor"
                       value={jump.instructor}
                       onChange={setAttribute}
+                      className="formField required"
+                      required
                     >
                       <InstructorOptions
                         instructors={instructors}
@@ -159,7 +171,10 @@ const Jump = ({ match, history }) => {
                       value={jump.aircraft}
                       id="aircraft"
                       onChange={setAttribute}
+                      className="formField required"
+                      required
                     >
+                      <option value="" />
                       <option value="Caravan">Caravan</option>
                       <option value="Otter">Otter</option>
                       <option value="King Air">King Air</option>
@@ -171,6 +186,8 @@ const Jump = ({ match, history }) => {
                       value={jump.exitAltitude}
                       id="exitAltitude"
                       onChange={setAttribute}
+                      className="formField required"
+                      required
                     >
                       <ExitAltitudeOptions />
                     </select>
@@ -183,6 +200,8 @@ const Jump = ({ match, history }) => {
                       value={jump.deploymentAltitude}
                       id="deploymentAltitude"
                       onChange={setAttribute}
+                      className="formField required"
+                      required
                     >
                       <DeploymentAltitudeOptions />
                     </select>
@@ -193,7 +212,9 @@ const Jump = ({ match, history }) => {
                       id="freefallTime"
                       value={`${jump.freefallTime} seconds`}
                       onChange={setAttribute}
-                      disabled={true}
+                      className="formField required"
+                      required
+                      disabled
                     />
                   </div>
                 </div>
@@ -203,7 +224,12 @@ const Jump = ({ match, history }) => {
               <legend>Freefall / Canopy</legend>
               <div className="input-group">
                 <label htmlFor="exit">Exit</label>
-                <textarea id="exit" value={jump.exit} onChange={setAttribute} />
+                <textarea
+                  id="exit"
+                  value={jump.exit}
+                  onChange={setAttribute}
+                  className="formField"
+                />
               </div>
               <div className="input-group">
                 <label htmlFor="freefall">Freefall</label>
@@ -211,6 +237,7 @@ const Jump = ({ match, history }) => {
                   id="freefall"
                   value={jump.freefall}
                   onChange={setAttribute}
+                  className="formField"
                 />
               </div>
               <div className="input-group">
@@ -219,6 +246,7 @@ const Jump = ({ match, history }) => {
                   id="canopy"
                   value={jump.canopy}
                   onChange={setAttribute}
+                  className="formField"
                 />
               </div>
               <div className="input-group">
@@ -227,6 +255,7 @@ const Jump = ({ match, history }) => {
                   id="notes"
                   value={jump.notes}
                   onChange={setAttribute}
+                  className="formField"
                 />
               </div>
             </fieldset>

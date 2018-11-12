@@ -20,7 +20,9 @@ const schema = Joi.object().keys({
   jumps: Joi.array().required()
 });
 
-module.exports = student => {
+const validateStudent = student => {
   const result = Joi.validate(student, schema, { abortEarly: false });
   return result;
 };
+
+module.exports = validateStudent;
