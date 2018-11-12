@@ -1,39 +1,15 @@
 import React, { useState } from "react";
 import HotKeys from "react-hot-keys";
+import Header from "./Header";
+import Footer from "./Footer";
 
 import { store, collect } from "react-recollect";
 import format from "date-fns/format";
 import getStudent from "../api/getStudent";
 import save from "../api/saveStudent";
 import flash from "../utils/flash";
-import Header from "./Header";
-import Footer from "./Footer";
 
-const HomeButton = ({ key, onClick }) => (
-  <button id="homeButton" key={key} onClick={onClick}>
-    Home
-  </button>
-);
-
-const SaveJumpButton = ({ key, onClick }) => (
-  <button key={key} onClick={onClick}>
-    Save Jump
-  </button>
-);
-
-const DeleteJumpButton = ({ key, onClick, deleteConfirmation }) => (
-  <button
-    id="deleteJumpButton"
-    key={key}
-    onClick={onClick}
-    className={`${deleteConfirmation ? "pending" : null}`}
-  >
-    Delete Jump
-  </button>
-);
-
-export default collect(props => {
-  const { match } = props;
+const Jump = ({ match, history }) => {
   const { student, instructors } = store;
   let jump = null;
 
@@ -71,7 +47,7 @@ export default collect(props => {
     const res = await save(student);
     if (res.error) return flash(res);
     flash({ success: `Saved ${res.name}` });
-    props.history.push(`/student/${student.id}`);
+    history.push(`/student/${student.id}`);
   };
 
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
@@ -81,7 +57,7 @@ export default collect(props => {
       const res = await save(student);
       if (res.error) return flash(res);
       flash({ success: `Saved ${res.name}` });
-      props.history.push(`/student/${student.id}`);
+      history.push(`/student/${student.id}`);
     })();
   };
   const deleteJump = async () => {
@@ -97,7 +73,7 @@ export default collect(props => {
     }
     switch (true) {
       case keyName === "ctrl+h":
-        props.history.push("/");
+        history.push("/");
         break;
       case keyName === "ctrl+s":
         saveStudent();
@@ -115,15 +91,19 @@ export default collect(props => {
   return (
     <HotKeys keyName={"ctrl+h,ctrl+s,ctrl+d"} onKeyDown={onKeyDown}>
       <Header
-        buttons={[
-          HomeButton({ key: "h", onClick: () => props.history.push("/") }),
-          SaveJumpButton({ key: "s", onClick: saveStudent }),
-          DeleteJumpButton({
-            key: "d",
-            onClick: deleteJump,
-            deleteConfirmation: deleteConfirmation
-          })
-        ]}
+        buttons={
+          /* eslint-disable */
+          [
+            HomeButton({ key: "h", onClick: () => history.push("/") }),
+            SaveJumpButton({ key: "s", onClick: saveStudent }),
+            DeleteJumpButton({
+              key: "d",
+              onClick: deleteJump,
+              deleteConfirmation: deleteConfirmation
+            })
+          ]
+          /* eslint-enable */
+        }
       />
       <div className="Content">
         <form onSubmit={saveStudent}>
@@ -259,7 +239,32 @@ export default collect(props => {
       <Footer />
     </HotKeys>
   );
-});
+};
+
+export default collect(Jump);
+
+const HomeButton = ({ key, onClick }) => (
+  <button id="homeButton" key={key} onClick={onClick}>
+    Home
+  </button>
+);
+
+const SaveJumpButton = ({ key, onClick }) => (
+  <button key={key} onClick={onClick}>
+    Save Jump
+  </button>
+);
+
+const DeleteJumpButton = ({ key, onClick, deleteConfirmation }) => (
+  <button
+    id="deleteJumpButton"
+    key={key}
+    onClick={onClick}
+    className={`${deleteConfirmation ? "pending" : null}`}
+  >
+    Delete Jump
+  </button>
+);
 
 const InstructorOptions = ({ instructors, instructor }) => {
   if (instructors.list.indexOf(instructor) < 0)
