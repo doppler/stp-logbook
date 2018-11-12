@@ -65,7 +65,10 @@ const Jump = ({ match, history }) => {
     student.jumps = student.jumps.filter(obj => obj.number !== jump.number);
     (async () => {
       const res = await save(student);
-      if (res.error) return flash(res);
+      if (res.error) {
+        flash({ error: "Please check form for errors." });
+        return handleFormError(res.error);
+      }
       flash({ success: `Saved ${res.name}` });
       history.push(`/student/${student.id}`);
     })();
