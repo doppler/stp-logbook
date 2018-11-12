@@ -1,14 +1,20 @@
 const validate = require("./validateStudent");
 
 export default async student => {
-  // first, make sure we have up-to-date student list
-  const dbStudents = await fetch("/api/students").then(res => res.json());
-
+  const removeErrorClass = ({ value }) => {
+    const els = document.getElementsByClassName("formField error");
+    while (els[0]) {
+      els[0].classList.remove("error");
+    }
+  };
   const validation = validate(student);
+  removeErrorClass(validation);
   if (validation.error) {
-    console.table(validation.error.details);
+    // console.table(validation);
     return { error: validation.error.details };
   }
+  // first, make sure we have up-to-date student list
+  const dbStudents = await fetch("/api/students").then(res => res.json());
 
   // new list with current student appended to
   // previous list with student filtered out
