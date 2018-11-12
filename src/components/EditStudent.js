@@ -62,7 +62,6 @@ const EditStudent = ({ match, history }) => {
   };
 
   const saveStudent = async e => {
-    document.forms[0].checkValidity();
     if (e) {
       document.querySelector("input[type='submit']").click();
       e.preventDefault();

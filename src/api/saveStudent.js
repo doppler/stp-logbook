@@ -1,7 +1,8 @@
-const validate = require("./validateStudent");
+const validateStudent = require("./validateStudent");
+const validateJump = require("./validateJump");
 
 const saveStudent = async (student, jump) => {
-  const validation = validate(student);
+  const validation = jump ? validateJump(jump) : validateStudent(student);
   if (validation.error) {
     return { error: validation.error.details };
   }

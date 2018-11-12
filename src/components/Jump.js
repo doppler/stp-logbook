@@ -12,9 +12,10 @@ import {
 import { store, collect } from "react-recollect";
 import format from "date-fns/format";
 import getStudent from "../api/getStudent";
-import save from "../api/saveJump";
+import save from "../api/saveStudent";
 import flash from "../utils/flash";
 import handleFormError from "../utils/handleFormError";
+import removeErrorClass from "../utils/removeErrorClass";
 
 const Jump = ({ match, history }) => {
   const { student, instructors } = store;
@@ -50,13 +51,18 @@ const Jump = ({ match, history }) => {
   };
 
   const saveJump = async e => {
-    if (e) e.preventDefault();
+    console.log(e);
+    if (e) {
+      document.querySelector("input[type='submit']").click();
+      e.preventDefault();
+    }
+    removeErrorClass();
     const res = await save(student, jump);
     if (res.error) {
       flash({ error: "Please check form for errors." });
       return handleFormError(res.error);
     }
-    flash({ success: `Saved ${res.name}` });
+    flash({ success: `Saved ${student.name}` });
     history.push(`/student/${student.id}`);
   };
 
