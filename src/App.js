@@ -13,7 +13,6 @@ class App extends Component {
     store.flash = store.flash || {};
     return (
       <div className="App">
-        <div id="snackbar">SNACKBAR</div>
         <Route exact path="/" component={StudentRouter} />
         <Route path="/student" component={StudentRouter} />
       </div>
