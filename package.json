@@ -6,7 +6,7 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "date-fns": "^1.29.0",
-    "joi": "^14.0.4",
+    "joi": "^14.0.6",
     "react": "^16.7.0-alpha.0",
     "react-dom": "^16.7.0-alpha.0",
     "react-hot-keys": "^1.2.2",

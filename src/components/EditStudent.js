@@ -6,6 +6,7 @@ import getStudent from "../api/getStudent";
 import save from "../api/saveStudent";
 import flash from "../utils/flash";
 import handleFormError from "../utils/handleFormError";
+import removeErrorClass from "../utils/removeErrorClass";
 
 import Header from "./Header";
 import Footer from "./Footer";
@@ -61,7 +62,12 @@ const EditStudent = ({ match, history }) => {
   };
 
   const saveStudent = async e => {
-    if (e) e.preventDefault();
+    document.forms[0].checkValidity();
+    if (e) {
+      document.querySelector("input[type='submit']").click();
+      e.preventDefault();
+    }
+    removeErrorClass();
     const res = await save(student);
     if (res.error) {
       flash({ error: "Please check form for errors." });

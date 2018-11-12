@@ -1,14 +1,7 @@
 const validate = require("./validateStudent");
 
-const saveStudent = async student => {
-  const removeErrorClass = ({ value }) => {
-    const els = document.getElementsByClassName("formField error");
-    while (els[0]) {
-      els[0].classList.remove("error");
-    }
-  };
+const saveStudent = async (student, jump) => {
   const validation = validate(student);
-  removeErrorClass(validation);
   if (validation.error) {
     return { error: validation.error.details };
   }
