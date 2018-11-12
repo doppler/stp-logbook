@@ -4,6 +4,8 @@ const handleFormError = errors => {
     el.classList.add("error");
     return null;
   });
+  const errorFields = document.querySelectorAll(".formField.error");
+  errorFields.item(0).focus();
   return false;
 };
 
