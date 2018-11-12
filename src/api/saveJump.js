@@ -1,6 +1,6 @@
 const validate = require("./validateJump");
 
-const saveJump = async (jump, student) => {
+const saveJump = async (student, jump) => {
   const removeErrorClass = ({ value }) => {
     const els = document.getElementsByClassName("formField error");
     while (els[0]) {

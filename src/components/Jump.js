@@ -51,7 +51,7 @@ const Jump = ({ match, history }) => {
 
   const saveJump = async e => {
     if (e) e.preventDefault();
-    const res = await save(jump, student);
+    const res = await save(student, jump);
     if (res.error) {
       flash({ error: "Please check form for errors." });
       return handleFormError(res.error);
