@@ -86,7 +86,7 @@ const Show = ({ match, history }) => {
         children: "List Students"
       },
       { id: "b", onClick: () => history.goBack(1), children: "Back" },
-      { id: "a", onClick: () => addJump, children: "Add Jump" },
+      { id: "a", onClick: addJump, children: "Add Jump" },
       {
         id: "e",
         onClick: () => history.push(`/students/${student.id}/edit`),
