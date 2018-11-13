@@ -2,7 +2,8 @@ import React from "react";
 
 const AddStudentButton = ({ key, onClick }) => (
   <button id={key} key={key} onClick={onClick}>
-    Add Student
+    <span className="hotkey">A</span>
+    dd Student
   </button>
 );
 

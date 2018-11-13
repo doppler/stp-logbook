@@ -12,7 +12,7 @@ import flash from "../../utils/flash";
 import Header from "../Header";
 import Footer from "../Footer";
 import {
-  HomeButton,
+  StudentListButton,
   BackButton,
   AddJumpButton,
   EditStudentButton
@@ -89,12 +89,15 @@ const Show = ({ match, history }) => {
 
   return (
     <HotKeys
-      keyName="down,j,up,k,enter,right,ctrl+h,ctrl+b,ctrl+a,ctrl+e"
+      keyName="down,j,up,k,enter,right,ctrl+l,ctrl+b,ctrl+a,ctrl+e"
       onKeyDown={onKeyDown}
     >
       <Header
         buttons={[
-          HomeButton({ key: "h", onClick: () => history.push("/") }),
+          StudentListButton({
+            key: "l",
+            onClick: () => history.push("/students")
+          }),
           BackButton({ key: "b", onClick: () => history.goBack(1) }),
           AddJumpButton({ key: "a", onClick: addJump }),
           EditStudentButton({

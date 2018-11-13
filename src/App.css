@@ -55,7 +55,7 @@ button {
   height: var(--button-height);
   margin: 10px 5px 0 10px;
 }
-button::first-letter {
+button > span.hotkey {
   color: white;
 }
 button > a {

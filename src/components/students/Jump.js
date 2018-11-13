@@ -13,7 +13,7 @@ import removeErrorClass from "../../utils/removeErrorClass";
 import Header from "../Header";
 import Footer from "../Footer";
 import {
-  HomeButton,
+  StudentListButton,
   BackButton,
   SaveJumpButton,
   DeleteJumpButton
@@ -77,7 +77,7 @@ const Jump = ({ match, history }) => {
         flash({ error: "Please check form for errors." });
         return handleFormError(res.error);
       }
-      flash({ success: `Saved ${res.name}` });
+      flash({ success: `Saved ${student.name}` });
       history.push(`/students/${student.id}`);
     })();
   };
@@ -105,10 +105,13 @@ const Jump = ({ match, history }) => {
   };
 
   return (
-    <HotKeys keyName={"ctrl+h,ctrl+b,ctrl+s,ctrl+d"} onKeyDown={onKeyDown}>
+    <HotKeys keyName={"ctrl+l,ctrl+b,ctrl+s,ctrl+d"} onKeyDown={onKeyDown}>
       <Header
         buttons={[
-          HomeButton({ key: "h", onClick: () => history.push("/") }),
+          StudentListButton({
+            key: "l",
+            onClick: () => history.push("/students")
+          }),
           BackButton({ key: "b", onClick: () => history.goBack(1) }),
           SaveJumpButton({ key: "s", onClick: saveJump }),
           DeleteJumpButton({

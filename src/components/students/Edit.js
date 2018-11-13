@@ -10,7 +10,11 @@ import removeErrorClass from "../../utils/removeErrorClass";
 
 import Header from "../Header";
 import Footer from "../Footer";
-import { HomeButton, BackButton, SaveStudentButton } from "../nav-buttons";
+import {
+  StudentListButton,
+  BackButton,
+  SaveStudentButton
+} from "../nav-buttons";
 
 const initialState = {
   id: Math.round(Math.random() * 2 ** 32).toString(16),
@@ -90,10 +94,13 @@ const Edit = ({ match, history }) => {
   };
 
   return (
-    <HotKeys keyName="ctrl+h,ctrl+b,ctrl+s" onKeyDown={onKeyDown}>
+    <HotKeys keyName="ctrl+l,ctrl+b,ctrl+s" onKeyDown={onKeyDown}>
       <Header
         buttons={[
-          HomeButton({ key: "h", onClick: () => history.push("/") }),
+          StudentListButton({
+            key: "l",
+            onClick: () => history.push("/students")
+          }),
           BackButton({ key: "b", onClick: () => history.goBack(1) }),
           SaveStudentButton({ key: "s", onClick: saveStudent })
         ]}

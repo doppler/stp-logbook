@@ -8,7 +8,7 @@ import Jump from "./Jump";
 const StudentRouter = props => {
   return (
     <Switch>
-      <Route exact path="/" component={List} />
+      <Route exact path="/students" component={List} />
       <Route path="/students/:studentId/jump/:jumpNumber" component={Jump} />
       <Route path="/students/:studentId/edit" component={Edit} />
       <Route path="/students/new" component={Edit} />
