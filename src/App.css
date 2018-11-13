@@ -8,6 +8,7 @@
   color: #ccc;
 }
 .Content {
+  padding: 10px;
   background-color: var(--content-bg-color);
   overflow: scroll;
 }
@@ -40,7 +41,6 @@ div.jump-details {
 div.jump-details > div {
   flex: 1;
 }
-h2,
 .input-group {
   margin: 10px 0px 0px 10px;
 }
