@@ -5,6 +5,7 @@ import getInstructors from "../../api/getInstructors";
 
 const List = ({ history }) => {
   const { instructors } = store;
+  store.instructor = null;
 
   if (instructors.length === 0)
     (async () => {
@@ -17,7 +18,7 @@ const List = ({ history }) => {
   };
 
   const addInstructor = () => {
-    console.log("addInstructor");
+    history.push("/instructors/new");
   };
 
   const [activeRow, setActiveRow] = useState(0);
@@ -49,12 +50,12 @@ const List = ({ history }) => {
   if (store.headerButtons.length === 0)
     store.headerButtons = [
       { id: "h", onClick: () => history.push("/"), children: "Home" },
-      { id: "a", onClick: addInstructor, children: "Add Instructor" }
+      { id: "n", onClick: addInstructor, children: "New Instructor" }
     ];
 
   return (
     <HotKeys
-      keyName="down,j,up,k,enter,right,ctrl+h,ctrl+a"
+      keyName="down,j,up,k,enter,right,ctrl+h,ctrl+n"
       onKeyDown={onKeyDown}
     >
       <div className="Content">

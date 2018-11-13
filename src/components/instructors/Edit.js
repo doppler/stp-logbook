@@ -2,27 +2,60 @@ import React from "react";
 import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
 
-import getInstructors from "../../api/getInstructors";
+import getInstructor from "../../api/getInstructor";
+import save from "../../api/saveInstructor";
+import flash from "../../utils/flash";
+import handleFormError from "../../utils/handleFormError";
+import removeErrorClass from "../../utils/removeErrorClass";
+
+const initialState = {
+  id: Math.round(Math.random() * 2 ** 32).toString(16),
+  name: "",
+  email: "",
+  phone: ""
+};
 
 const Edit = ({ match, history }) => {
-  const { instructors } = store;
+  const { instructor } = store;
 
-  if (instructors.length === 0) {
-    (async () => {
-      const instructors = await getInstructors();
-      store.instructors = instructors;
-    })();
-    return false;
+  if (!instructor && match.path === "/instructors/new")
+    store.instructor = initialState;
+
+  if (
+    match.path === "/instructors/:id" &&
+    (!instructor || instructor.id !== match.params.id)
+  ) {
+    (async () => (store.instructor = await getInstructor(match.params.id)))();
   }
 
-  const instructor = instructors.find(o => (o.id = match.params.id));
+  if (!instructor) return false;
 
   const saveInstructor = async e => {
-    console.log("saveInstructor");
+    if (e) {
+      document.querySelector("input[type='submit']").click();
+      e.preventDefault();
+    }
+    removeErrorClass();
+    const res = await save(instructor);
+    if (res.error) {
+      flash({ error: "Please check form for errors." });
+      return handleFormError(res.error);
+    }
+    flash({ success: `Saved ${instructor.name}` });
+    store.instructor = null;
+    history.push(`/instructors`);
   };
 
-  const deleteInstructor = async e => {
-    console.log("deleteInstructor");
+  const reallyDeleteInstructor = async () => {
+    const instructors = store.instructors.filter(o => o.id !== instructor.id);
+    localStorage.setItem("stp-logbook:instructors", instructors);
+    flash({ success: `Deleted ${instructor.name}` });
+    history.push("/instructors");
+  };
+
+  const deleteInstructor = () => {
+    if (store.deleteConfirmation) return reallyDeleteInstructor();
+    store.deleteConfirmation = true;
   };
 
   const formatPhoneNumber = value => {
@@ -120,6 +153,7 @@ const Edit = ({ match, history }) => {
               />
             </div>
           </fieldset>
+          <input type="submit" style={{ display: "none" }} />
         </form>
       </div>
     </HotKeys>

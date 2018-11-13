@@ -17,6 +17,7 @@ const DashboardRouter = props => {
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/instructors" component={List} />
+        <Route path="/instructors/new" component={Edit} />
         <Route path="/instructors/:id" component={Edit} />
       </Switch>
       <Footer />
