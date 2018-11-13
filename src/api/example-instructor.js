@@ -1,6 +1,9 @@
 const exampleInstructor = [
   {
-    name: "Example Instructor"
+    id: "exampleInstructor",
+    name: "Example Instructor",
+    email: "example@domain.com",
+    phone: "123-456-7890"
   }
 ];
 

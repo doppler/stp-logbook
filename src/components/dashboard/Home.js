@@ -20,12 +20,12 @@ const Home = ({ history }) => {
       },
       {
         id: "i",
-        onClick: () => history.push("/dashboard/instructors"),
+        onClick: () => history.push("/instructors"),
         children: "Instructors"
       },
       {
         id: "a",
-        onClick: () => history.push("/dashboard/aircraft"),
+        onClick: () => history.push("/aircraft"),
         children: "Aircraft"
       }
     ];

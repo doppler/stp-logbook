@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
-
 import getInstructors from "../../api/getInstructors";
 
-const Instructors = ({ history }) => {
+const List = ({ history }) => {
   const { instructors } = store;
 
   if (instructors.length === 0)
@@ -13,17 +12,39 @@ const Instructors = ({ history }) => {
       store.instructors = instructors;
     })();
 
+  const handleRowClick = instructor => {
+    history.push(`/instructors/${instructor.id}`);
+  };
+
   const addInstructor = () => {
     console.log("addInstructor");
   };
 
+  const [activeRow, setActiveRow] = useState(0);
   const onKeyDown = (keyName, e, handle) => {
+    if (e.srcElement.type === "submit" && keyName === "enter") {
+      return true;
+    }
+    if (e.srcElement.type !== undefined) return false;
     switch (true) {
+      case ["down", "j"].includes(keyName):
+        setActiveRow(activeRow + 1);
+        break;
+      case ["up", "k"].includes(keyName):
+        setActiveRow(activeRow - 1);
+        break;
+      case ["enter", "right"].includes(keyName):
+        history.push(`/instructors/${instructors[activeRow].id}`);
+        break;
       default:
         document.getElementById(keyName.match(/.$/)).click();
         break;
     }
   };
+
+  const rowCount = instructors.length;
+  if (rowCount > 0 && activeRow === rowCount) setActiveRow(0);
+  if (rowCount > 0 && activeRow === -1) setActiveRow(rowCount - 1);
 
   if (store.headerButtons.length === 0)
     store.headerButtons = [
@@ -32,7 +53,10 @@ const Instructors = ({ history }) => {
     ];
 
   return (
-    <HotKeys keyName="ctrl+h,ctrl+a" onKeyDown={onKeyDown}>
+    <HotKeys
+      keyName="down,j,up,k,enter,right,ctrl+h,ctrl+a"
+      onKeyDown={onKeyDown}
+    >
       <div className="Content">
         <table id="instructors">
           <caption>Instructors</caption>
@@ -45,7 +69,11 @@ const Instructors = ({ history }) => {
           </thead>
           <tbody>
             {instructors.map((instructor, i) => (
-              <tr key={i}>
+              <tr
+                key={i}
+                className={i === activeRow ? "active" : ""}
+                onClick={() => handleRowClick(instructor)}
+              >
                 <td>{instructor.name}</td>
                 <td>{instructor.email}</td>
                 <td>{instructor.phone}</td>
@@ -58,4 +86,4 @@ const Instructors = ({ history }) => {
   );
 };
 
-export default collect(Instructors);
+export default collect(List);
