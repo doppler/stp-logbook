@@ -2,16 +2,17 @@ import React, { useState } from "react";
 import HotKeys from "react-hot-keys";
 
 import { store, collect } from "react-recollect";
-import getStudents from "../api/getStudents";
 import parse from "date-fns/parse";
 import format from "date-fns/format";
 import differenceInDays from "date-fns/difference_in_days";
 
-import Header from "./Header";
-import Footer from "./Footer";
-import { AddStudentButton } from "./nav-buttons";
+import getStudents from "../../api/getStudents";
 
-const Students = ({ match, history }) => {
+import Header from "../Header";
+import Footer from "../Footer";
+import { AddStudentButton } from "../nav-buttons";
+
+const List = ({ match, history }) => {
   const { students, filteredStudents, filter } = store;
   store.student = null;
 
@@ -33,7 +34,7 @@ const Students = ({ match, history }) => {
   }
 
   const handleStudentRowClick = student => {
-    history.push(`/student/${student.id}`);
+    history.push(`/students/${student.id}`);
   };
 
   const handleFilterChange = e => {
@@ -73,7 +74,7 @@ const Students = ({ match, history }) => {
         setActiveRow(activeRow - 1);
         break;
       case ["enter", "right"].includes(keyName):
-        history.push(`/student/${filteredStudents[activeRow].id}`);
+        history.push(`/students/${filteredStudents[activeRow].id}`);
         break;
       default:
         document.getElementById(keyName.match(/.$/)).click();
@@ -91,7 +92,7 @@ const Students = ({ match, history }) => {
         buttons={[
           AddStudentButton({
             key: "a",
-            onClick: () => history.push("/student/new")
+            onClick: () => history.push("/students/new")
           })
         ]}
       />
@@ -158,4 +159,4 @@ const Students = ({ match, history }) => {
   );
 };
 
-export default collect(Students);
+export default collect(List);

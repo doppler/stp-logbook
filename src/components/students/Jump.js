@@ -1,21 +1,23 @@
 import React, { useState } from "react";
 import HotKeys from "react-hot-keys";
-import Header from "./Header";
-import Footer from "./Footer";
+
+import { store, collect } from "react-recollect";
+import format from "date-fns/format";
+
+import getStudent from "../../api/getStudent";
+import save from "../../api/saveStudent";
+import flash from "../../utils/flash";
+import handleFormError from "../../utils/handleFormError";
+import removeErrorClass from "../../utils/removeErrorClass";
+
+import Header from "../Header";
+import Footer from "../Footer";
 import {
   HomeButton,
   BackButton,
   SaveJumpButton,
   DeleteJumpButton
-} from "./nav-buttons";
-
-import { store, collect } from "react-recollect";
-import format from "date-fns/format";
-import getStudent from "../api/getStudent";
-import save from "../api/saveStudent";
-import flash from "../utils/flash";
-import handleFormError from "../utils/handleFormError";
-import removeErrorClass from "../utils/removeErrorClass";
+} from "../nav-buttons";
 
 const Jump = ({ match, history }) => {
   const { student, instructors } = store;
@@ -63,7 +65,7 @@ const Jump = ({ match, history }) => {
       return handleFormError(res.error);
     }
     flash({ success: `Saved ${student.name}` });
-    history.push(`/student/${student.id}`);
+    history.push(`/students/${student.id}`);
   };
 
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
@@ -76,7 +78,7 @@ const Jump = ({ match, history }) => {
         return handleFormError(res.error);
       }
       flash({ success: `Saved ${res.name}` });
-      history.push(`/student/${student.id}`);
+      history.push(`/students/${student.id}`);
     })();
   };
   const deleteJump = async () => {
