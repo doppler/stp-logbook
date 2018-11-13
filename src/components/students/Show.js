@@ -9,15 +9,6 @@ import getStudent from "../../api/getStudent";
 import save from "../../api/saveStudent";
 import flash from "../../utils/flash";
 
-import Header from "../Header";
-import Footer from "../Footer";
-import {
-  StudentListButton,
-  BackButton,
-  AddJumpButton,
-  EditStudentButton
-} from "../nav-buttons";
-
 const nextJump = student => {
   const lastJump = student.jumps[student.jumps.length - 1];
   const { number, diveFlow, instructor } = lastJump
@@ -87,25 +78,26 @@ const Show = ({ match, history }) => {
   if (rowCount > 0 && activeRow === rowCount) setActiveRow(0);
   if (rowCount > 0 && activeRow === -1) setActiveRow(rowCount - 1);
 
+  if (store.headerButtons.length === 0)
+    store.headerButtons = [
+      {
+        id: "l",
+        onClick: () => history.push("/students"),
+        children: "List Students"
+      },
+      { id: "b", onClick: () => history.goBack(1), children: "Back" },
+      { id: "a", onClick: () => addJump, children: "Add Jump" },
+      {
+        id: "e",
+        onClick: () => history.push(`/students/${student.id}/edit`),
+        children: "Edit Student"
+      }
+    ];
   return (
     <HotKeys
       keyName="down,j,up,k,enter,right,ctrl+l,ctrl+b,ctrl+a,ctrl+e"
       onKeyDown={onKeyDown}
     >
-      <Header
-        buttons={[
-          StudentListButton({
-            key: "l",
-            onClick: () => history.push("/students")
-          }),
-          BackButton({ key: "b", onClick: () => history.goBack(1) }),
-          AddJumpButton({ key: "a", onClick: addJump }),
-          EditStudentButton({
-            key: "e",
-            onClick: () => history.push(`/students/${student.id}/edit`)
-          })
-        ]}
-      />
       <div className="Content">
         <table tabIndex={0}>
           <caption>{student.name}</caption>
@@ -138,7 +130,6 @@ const Show = ({ match, history }) => {
           </tbody>
         </table>
       </div>
-      <Footer match={match} />
     </HotKeys>
   );
 };

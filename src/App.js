@@ -12,6 +12,7 @@ class App extends Component {
     store.filteredStudents = [];
     store.filter = "";
     store.flash = store.flash || {};
+    store.headerButtons = [];
     return (
       <div className="App">
         <Route exact path="/" component={DashboardRouter} />

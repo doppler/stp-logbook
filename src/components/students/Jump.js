@@ -10,15 +10,6 @@ import flash from "../../utils/flash";
 import handleFormError from "../../utils/handleFormError";
 import removeErrorClass from "../../utils/removeErrorClass";
 
-import Header from "../Header";
-import Footer from "../Footer";
-import {
-  StudentListButton,
-  BackButton,
-  SaveJumpButton,
-  DeleteJumpButton
-} from "../nav-buttons";
-
 const Jump = ({ match, history }) => {
   const { student, instructors } = store;
   let jump = null;
@@ -67,7 +58,7 @@ const Jump = ({ match, history }) => {
     history.push(`/students/${student.id}`);
   };
 
-  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const [deleteConfirmation, setDeleteConfirmation] = useState(true);
   const reallyDeleteJump = async () => {
     student.jumps = student.jumps.filter(obj => obj.number !== jump.number);
     (async () => {
@@ -81,6 +72,7 @@ const Jump = ({ match, history }) => {
     })();
   };
   const deleteJump = async () => {
+    console.log("deleteJump");
     if (deleteConfirmation) return reallyDeleteJump();
     setDeleteConfirmation(true);
   };
@@ -103,23 +95,24 @@ const Jump = ({ match, history }) => {
     }
   };
 
+  if (store.headerButtons.length === 0)
+    store.headerButtons = [
+      {
+        id: "l",
+        onClick: () => history.push("/students"),
+        children: "List Students"
+      },
+      { id: "b", onClick: () => history.goBack(1), children: "Back" },
+      { id: "s", onClick: saveJump, children: "Save Jump" },
+      {
+        id: "d",
+        onClick: deleteJump,
+        deleteConfirmation: deleteConfirmation,
+        children: "Delete Jump"
+      }
+    ];
   return (
     <HotKeys keyName={"ctrl+l,ctrl+b,ctrl+s,ctrl+d"} onKeyDown={onKeyDown}>
-      <Header
-        buttons={[
-          StudentListButton({
-            key: "l",
-            onClick: () => history.push("/students")
-          }),
-          BackButton({ key: "b", onClick: () => history.goBack(1) }),
-          SaveJumpButton({ key: "s", onClick: saveJump }),
-          DeleteJumpButton({
-            key: "d",
-            onClick: deleteJump,
-            deleteConfirmation: deleteConfirmation
-          })
-        ]}
-      />
       <div className="Content">
         <form onSubmit={saveJump}>
           <fieldset>
@@ -276,7 +269,6 @@ const Jump = ({ match, history }) => {
           </fieldset>
         </form>
       </div>
-      <Footer />
     </HotKeys>
   );
 };
