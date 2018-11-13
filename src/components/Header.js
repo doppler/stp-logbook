@@ -21,7 +21,7 @@ const Button = props => (
   <button
     id={props.id}
     onClick={props.onClick}
-    className={props.deleteConfirmation ? "pending" : null}
+    className={props.id === "d" && store.deleteConfirmation ? "pending" : null}
   >
     {props.children}
   </button>
@@ -33,11 +33,14 @@ const Header = ({ title, buttons }) => {
   return (
     <div className="Header">
       <div className="Nav">
-        {buttons.map((button, i) => (
-          <Button key={i} id={button.id} onClick={button.onClick}>
-            {button.children}
-          </Button>
-        ))}
+        {buttons.map((button, i) => {
+          const { children } = button;
+          return (
+            <Button key={i} {...button}>
+              {children}
+            </Button>
+          );
+        })}
       </div>
       <div className="Title">
         <h1>{title}</h1>

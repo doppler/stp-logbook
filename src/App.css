@@ -55,13 +55,6 @@ button {
   height: var(--button-height);
   margin: 10px 5px 0 10px;
 }
-button > span.hotkey {
-  color: white;
-}
-button > a {
-  color: var(--button-text-color);
-  text-decoration: none;
-}
 button:active {
   background-color: var(--content-hover-color);
 }
@@ -72,6 +65,13 @@ button.pending {
 button.pending {
   background-color: #900;
   color: white;
+}
+button::first-letter {
+  color: white;
+}
+button > a {
+  color: var(--button-text-color);
+  text-decoration: none;
 }
 fieldset {
   margin-top: 10px;

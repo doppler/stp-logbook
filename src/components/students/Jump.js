@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import HotKeys from "react-hot-keys";
 
 import { store, collect } from "react-recollect";
@@ -18,12 +18,13 @@ const Jump = ({ match, history }) => {
     (async () => {
       store.student = await getStudent(match.params.studentId);
     })();
-  }
-  if (student) {
+  } else {
     jump = student.jumps.find(
       obj => obj.number === Number(match.params.jumpNumber)
     );
   }
+
+  if (!student || !jump || !instructors) return null;
 
   const setAttribute = event => {
     let { id, value } = event.target;
@@ -58,7 +59,6 @@ const Jump = ({ match, history }) => {
     history.push(`/students/${student.id}`);
   };
 
-  const [deleteConfirmation, setDeleteConfirmation] = useState(true);
   const reallyDeleteJump = async () => {
     student.jumps = student.jumps.filter(obj => obj.number !== jump.number);
     (async () => {
@@ -71,13 +71,10 @@ const Jump = ({ match, history }) => {
       history.push(`/students/${student.id}`);
     })();
   };
-  const deleteJump = async () => {
-    console.log("deleteJump");
-    if (deleteConfirmation) return reallyDeleteJump();
-    setDeleteConfirmation(true);
+  const deleteJump = () => {
+    if (store.deleteConfirmation) return reallyDeleteJump();
+    store.deleteConfirmation = true;
   };
-
-  if (!student || !jump) return null;
 
   const onKeyDown = (keyName, e, handle) => {
     if (e.srcElement.type === "submit" && keyName === "enter") {
@@ -107,7 +104,7 @@ const Jump = ({ match, history }) => {
       {
         id: "d",
         onClick: deleteJump,
-        deleteConfirmation: deleteConfirmation,
+        deleteConfirmation: store.deleteConfirmation,
         children: "Delete Jump"
       }
     ];

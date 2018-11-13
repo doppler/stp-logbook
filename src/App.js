@@ -13,6 +13,7 @@ class App extends Component {
     store.filter = "";
     store.flash = store.flash || {};
     store.headerButtons = [];
+    store.deleteConfirmation = false;
     return (
       <div className="App">
         <Route exact path="/" component={DashboardRouter} />
