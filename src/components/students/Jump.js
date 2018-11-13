@@ -53,7 +53,6 @@ const Jump = ({ match, history }) => {
   };
 
   const saveJump = async e => {
-    console.log(e);
     if (e) {
       document.querySelector("input[type='submit']").click();
       e.preventDefault();
