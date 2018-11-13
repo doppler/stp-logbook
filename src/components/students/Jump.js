@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import HotKeys from "react-hot-keys";
 
 import { store, collect } from "react-recollect";
@@ -10,15 +10,6 @@ import flash from "../../utils/flash";
 import handleFormError from "../../utils/handleFormError";
 import removeErrorClass from "../../utils/removeErrorClass";
 
-import Header from "../Header";
-import Footer from "../Footer";
-import {
-  HomeButton,
-  BackButton,
-  SaveJumpButton,
-  DeleteJumpButton
-} from "../nav-buttons";
-
 const Jump = ({ match, history }) => {
   const { student, instructors } = store;
   let jump = null;
@@ -27,12 +18,13 @@ const Jump = ({ match, history }) => {
     (async () => {
       store.student = await getStudent(match.params.studentId);
     })();
-  }
-  if (student) {
+  } else {
     jump = student.jumps.find(
       obj => obj.number === Number(match.params.jumpNumber)
     );
   }
+
+  if (!student || !jump || !instructors) return null;
 
   const setAttribute = event => {
     let { id, value } = event.target;
@@ -53,7 +45,6 @@ const Jump = ({ match, history }) => {
   };
 
   const saveJump = async e => {
-    console.log(e);
     if (e) {
       document.querySelector("input[type='submit']").click();
       e.preventDefault();
@@ -68,7 +59,6 @@ const Jump = ({ match, history }) => {
     history.push(`/students/${student.id}`);
   };
 
-  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const reallyDeleteJump = async () => {
     student.jumps = student.jumps.filter(obj => obj.number !== jump.number);
     (async () => {
@@ -77,16 +67,14 @@ const Jump = ({ match, history }) => {
         flash({ error: "Please check form for errors." });
         return handleFormError(res.error);
       }
-      flash({ success: `Saved ${res.name}` });
+      flash({ success: `Saved ${student.name}` });
       history.push(`/students/${student.id}`);
     })();
   };
-  const deleteJump = async () => {
-    if (deleteConfirmation) return reallyDeleteJump();
-    setDeleteConfirmation(true);
+  const deleteJump = () => {
+    if (store.deleteConfirmation) return reallyDeleteJump();
+    store.deleteConfirmation = true;
   };
-
-  if (!student || !jump) return null;
 
   const onKeyDown = (keyName, e, handle) => {
     if (e.srcElement.type === "submit" && keyName === "enter") {
@@ -104,20 +92,24 @@ const Jump = ({ match, history }) => {
     }
   };
 
+  if (store.headerButtons.length === 0)
+    store.headerButtons = [
+      {
+        id: "l",
+        onClick: () => history.push("/students"),
+        children: "List Students"
+      },
+      { id: "b", onClick: () => history.goBack(1), children: "Back" },
+      { id: "s", onClick: saveJump, children: "Save Jump" },
+      {
+        id: "d",
+        onClick: deleteJump,
+        deleteConfirmation: store.deleteConfirmation,
+        children: "Delete Jump"
+      }
+    ];
   return (
-    <HotKeys keyName={"ctrl+h,ctrl+b,ctrl+s,ctrl+d"} onKeyDown={onKeyDown}>
-      <Header
-        buttons={[
-          HomeButton({ key: "h", onClick: () => history.push("/") }),
-          BackButton({ key: "b", onClick: () => history.goBack(1) }),
-          SaveJumpButton({ key: "s", onClick: saveJump }),
-          DeleteJumpButton({
-            key: "d",
-            onClick: deleteJump,
-            deleteConfirmation: deleteConfirmation
-          })
-        ]}
-      />
+    <HotKeys keyName={"ctrl+l,ctrl+b,ctrl+s,ctrl+d"} onKeyDown={onKeyDown}>
       <div className="Content">
         <form onSubmit={saveJump}>
           <fieldset>
@@ -274,7 +266,6 @@ const Jump = ({ match, history }) => {
           </fieldset>
         </form>
       </div>
-      <Footer />
     </HotKeys>
   );
 };

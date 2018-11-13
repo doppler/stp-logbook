@@ -2,7 +2,8 @@ import React from "react";
 
 const AddJumpButton = ({ key, onClick }) => (
   <button id={key} key={key} onClick={onClick}>
-    Add Jump
+    <span className="hotkey">A</span>
+    dd Jump
   </button>
 );
 

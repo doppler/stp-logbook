@@ -8,9 +8,13 @@ import flash from "../../utils/flash";
 import handleFormError from "../../utils/handleFormError";
 import removeErrorClass from "../../utils/removeErrorClass";
 
-import Header from "../Header";
-import Footer from "../Footer";
-import { HomeButton, BackButton, SaveStudentButton } from "../nav-buttons";
+// import Header from "../Header";
+// import Footer from "../Footer";
+// import {
+//   StudentListButton,
+//   BackButton,
+//   SaveStudentButton
+// } from "../nav-buttons";
 
 const initialState = {
   id: Math.round(Math.random() * 2 ** 32).toString(16),
@@ -89,15 +93,18 @@ const Edit = ({ match, history }) => {
     }
   };
 
+  if (store.headerButtons.length === 0)
+    store.headerButtons = [
+      {
+        id: "l",
+        onClick: () => history.push("/students"),
+        children: "List Students"
+      },
+      { id: "b", onClick: () => history.goBack(1), children: "Back" },
+      { id: "s", onClick: saveStudent, children: "Save Student" }
+    ];
   return (
-    <HotKeys keyName="ctrl+h,ctrl+b,ctrl+s" onKeyDown={onKeyDown}>
-      <Header
-        buttons={[
-          HomeButton({ key: "h", onClick: () => history.push("/") }),
-          BackButton({ key: "b", onClick: () => history.goBack(1) }),
-          SaveStudentButton({ key: "s", onClick: saveStudent })
-        ]}
-      />
+    <HotKeys keyName="ctrl+l,ctrl+b,ctrl+s" onKeyDown={onKeyDown}>
       <div className="Content">
         <form onSubmit={saveStudent}>
           <fieldset>
@@ -170,7 +177,6 @@ const Edit = ({ match, history }) => {
           <input type="submit" style={{ display: "none" }} />
         </form>
       </div>
-      <Footer />
     </HotKeys>
   );
 };

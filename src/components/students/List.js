@@ -8,10 +8,6 @@ import differenceInDays from "date-fns/difference_in_days";
 
 import getStudents from "../../api/getStudents";
 
-import Header from "../Header";
-import Footer from "../Footer";
-import { AddStudentButton } from "../nav-buttons";
-
 const List = ({ match, history }) => {
   const { students, filteredStudents, filter } = store;
   store.student = null;
@@ -86,16 +82,16 @@ const List = ({ match, history }) => {
   if (rowCount > 0 && activeRow === rowCount) setActiveRow(0);
   if (rowCount > 0 && activeRow === -1) setActiveRow(rowCount - 1);
 
+  if (store.headerButtons.length === 0)
+    store.headerButtons = [
+      {
+        id: "a",
+        onClick: () => history.push("/students/new"),
+        children: "Add Student"
+      }
+    ];
   return (
     <HotKeys keyName="down,j,up,k,enter,right,ctrl+a" onKeyDown={onKeyDown}>
-      <Header
-        buttons={[
-          AddStudentButton({
-            key: "a",
-            onClick: () => history.push("/students/new")
-          })
-        ]}
-      />
       <div className="Content">
         <table id="students">
           <caption>Students</caption>
@@ -154,7 +150,6 @@ const List = ({ match, history }) => {
           </tbody>
         </table>
       </div>
-      <Footer />
     </HotKeys>
   );
 };

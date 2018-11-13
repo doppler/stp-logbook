@@ -7,7 +7,8 @@ const DeleteJumpButton = ({ key, onClick, deleteConfirmation }) => (
     onClick={onClick}
     className={`${deleteConfirmation ? "pending" : null}`}
   >
-    Delete Jump
+    <span className="hotkey">D</span>
+    elete Jump
   </button>
 );
 
