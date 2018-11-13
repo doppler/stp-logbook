@@ -4,18 +4,19 @@ import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
 import format from "date-fns/format";
 import distanceInWordsToNow from "date-fns/distance_in_words_to_now";
-import getStudent from "../api/getStudent";
-import save from "../api/saveStudent";
-import flash from "../utils/flash";
 
-import Header from "./Header";
-import Footer from "./Footer";
+import getStudent from "../../api/getStudent";
+import save from "../../api/saveStudent";
+import flash from "../../utils/flash";
+
+import Header from "../Header";
+import Footer from "../Footer";
 import {
   HomeButton,
   BackButton,
   AddJumpButton,
   EditStudentButton
-} from "./nav-buttons";
+} from "../nav-buttons";
 
 const nextJump = student => {
   const lastJump = student.jumps[student.jumps.length - 1];
@@ -38,7 +39,7 @@ const nextJump = student => {
   };
 };
 
-const Student = ({ match, history }) => {
+const Show = ({ match, history }) => {
   const { student } = store;
 
   if (!student || student.id !== match.params.studentId)
@@ -56,8 +57,8 @@ const Student = ({ match, history }) => {
     (async () => {
       const res = await save(student);
       if (res.error) return flash(res);
-      flash({ success: `Saved ${res.name}` });
-      history.push(`/student/${student.id}/jump/${jump.number}`);
+      flash({ success: `Saved ${student.name}` });
+      history.push(`/students/${student.id}/jump/${jump.number}`);
     })();
   };
 
@@ -75,7 +76,7 @@ const Student = ({ match, history }) => {
         break;
       case ["enter", "right"].includes(keyName):
         history.push(
-          `/student/${student.id}/jump/${student.jumps[activeRow].number}`
+          `/students/${student.id}/jump/${student.jumps[activeRow].number}`
         );
         break;
       default:
@@ -98,7 +99,7 @@ const Student = ({ match, history }) => {
           AddJumpButton({ key: "a", onClick: addJump }),
           EditStudentButton({
             key: "e",
-            onClick: () => history.push(`/student/${student.id}/edit`)
+            onClick: () => history.push(`/students/${student.id}/edit`)
           })
         ]}
       />
@@ -118,7 +119,7 @@ const Student = ({ match, history }) => {
               <tr
                 key={i}
                 onClick={() =>
-                  history.push(`/student/${student.id}/jump/${jump.number}`)
+                  history.push(`/students/${student.id}/jump/${jump.number}`)
                 }
                 className={i === activeRow ? "active" : ""}
               >
@@ -139,4 +140,4 @@ const Student = ({ match, history }) => {
   );
 };
 
-export default collect(Student);
+export default collect(Show);

@@ -2,15 +2,15 @@ import React from "react";
 import HotKeys from "react-hot-keys";
 
 import { store, collect } from "react-recollect";
-import getStudent from "../api/getStudent";
-import save from "../api/saveStudent";
-import flash from "../utils/flash";
-import handleFormError from "../utils/handleFormError";
-import removeErrorClass from "../utils/removeErrorClass";
+import getStudent from "../../api/getStudent";
+import save from "../../api/saveStudent";
+import flash from "../../utils/flash";
+import handleFormError from "../../utils/handleFormError";
+import removeErrorClass from "../../utils/removeErrorClass";
 
-import Header from "./Header";
-import Footer from "./Footer";
-import { HomeButton, BackButton, SaveStudentButton } from "./nav-buttons";
+import Header from "../Header";
+import Footer from "../Footer";
+import { HomeButton, BackButton, SaveStudentButton } from "../nav-buttons";
 
 const initialState = {
   id: Math.round(Math.random() * 2 ** 32).toString(16),
@@ -22,13 +22,13 @@ const initialState = {
   jumps: []
 };
 
-const EditStudent = ({ match, history }) => {
+const Edit = ({ match, history }) => {
   const { student, instructors } = store;
 
-  if (!student && match.path === "/student/new") store.student = initialState;
+  if (!student && match.path === "/students/new") store.student = initialState;
 
   if (
-    match.path === "/student/:studentId/edit" &&
+    match.path === "/students/:studentId/edit" &&
     (!student || student.id !== match.params.studentId)
   )
     (async () => (store.student = await getStudent(match.params.studentId)))();
@@ -73,7 +73,7 @@ const EditStudent = ({ match, history }) => {
       return handleFormError(res.error);
     }
     flash({ success: `Saved ${student.name}` });
-    history.push(`/student/${student.id}`);
+    history.push(`/students/${student.id}`);
   };
 
   if (!student || !instructors) return null;
@@ -175,7 +175,7 @@ const EditStudent = ({ match, history }) => {
   );
 };
 
-export default collect(EditStudent);
+export default collect(Edit);
 
 const InstructorOptions = ({ instructors }) => {
   return instructors.list.map((instructor, i) => (

@@ -3,7 +3,7 @@ import { Route } from "react-router-dom";
 import { store } from "react-recollect";
 
 import "./App.css";
-import StudentRouter from "./components/StudentRouter";
+import StudentRouter from "./components/students/StudentRouter";
 
 class App extends Component {
   render() {
@@ -14,7 +14,7 @@ class App extends Component {
     return (
       <div className="App">
         <Route exact path="/" component={StudentRouter} />
-        <Route path="/student" component={StudentRouter} />
+        <Route path="/students" component={StudentRouter} />
       </div>
     );
   }
