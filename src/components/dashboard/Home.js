@@ -1,7 +1,16 @@
 import React from "react";
+import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
 
 const Home = ({ history }) => {
+  const onKeyDown = (keyName, e, handle) => {
+    switch (true) {
+      default:
+        document.getElementById(keyName.match(/.$/)).click();
+        break;
+    }
+  };
+
   if (store.headerButtons.length === 0)
     store.headerButtons = [
       {
@@ -21,7 +30,13 @@ const Home = ({ history }) => {
       }
     ];
 
-  return <div className="Content">Home</div>;
+  return (
+    <HotKeys keyName="ctrl+l,ctrl+i,ctrl+a" onKeyDown={onKeyDown}>
+      <div className="Content">
+        <h1>Home</h1>
+      </div>
+    </HotKeys>
+  );
 };
 
 export default collect(Home);

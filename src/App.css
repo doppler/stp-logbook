@@ -62,12 +62,8 @@ button.pending {
   background-color: #900;
   color: white;
 }
-button.pending {
-  background-color: #900;
-  color: white;
-}
-button::first-letter {
-  color: white;
+button.header-button::first-letter {
+  color: #fc0;
 }
 button > a {
   color: var(--button-text-color);

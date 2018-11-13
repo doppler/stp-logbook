@@ -1,14 +1,10 @@
 import React from "react";
+import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
 
 import getInstructors from "../../api/getInstructors";
 
 const Instructors = ({ history }) => {
-  if (store.headerButtons.length === 0)
-    store.headerButtons = [
-      { id: "h", onClick: () => history.push("/"), children: "Home" }
-    ];
-
   const { instructors } = store;
 
   if (instructors.length === 0)
@@ -17,28 +13,48 @@ const Instructors = ({ history }) => {
       store.instructors = instructors;
     })();
 
+  const addInstructor = () => {
+    console.log("addInstructor");
+  };
+
+  const onKeyDown = (keyName, e, handle) => {
+    switch (true) {
+      default:
+        document.getElementById(keyName.match(/.$/)).click();
+        break;
+    }
+  };
+
+  if (store.headerButtons.length === 0)
+    store.headerButtons = [
+      { id: "h", onClick: () => history.push("/"), children: "Home" },
+      { id: "a", onClick: addInstructor, children: "Add Instructor" }
+    ];
+
   return (
-    <div className="Content">
-      <table id="instructors">
-        <caption>Instructors</caption>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {instructors.map((instructor, i) => (
-            <tr key={i}>
-              <td>{instructor.name}</td>
-              <td>
-                <button>Delete</button>
-              </td>
+    <HotKeys keyName="ctrl+h,ctrl+a" onKeyDown={onKeyDown}>
+      <div className="Content">
+        <table id="instructors">
+          <caption>Instructors</caption>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {instructors.map((instructor, i) => (
+              <tr key={i}>
+                <td>{instructor.name}</td>
+                <td>{instructor.email}</td>
+                <td>{instructor.phone}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </HotKeys>
   );
 };
 
