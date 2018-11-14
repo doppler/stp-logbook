@@ -5,7 +5,6 @@ import getInstructors from "../../api/getInstructors";
 
 const List = ({ history }) => {
   const { instructors } = store;
-  store.instructor = null;
 
   if (instructors.length === 0)
     (async () => {

@@ -2,6 +2,7 @@ import React from "react";
 import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
 
+import getInstructors from "../../api/getInstructors";
 import getInstructor from "../../api/getInstructor";
 import save from "../../api/saveInstructor";
 import flash from "../../utils/flash";
@@ -49,14 +50,19 @@ const Edit = ({ match, history }) => {
   };
 
   const reallyDeleteInstructor = async () => {
-    const instructors = store.instructors.filter(o => o.id !== instructor.id);
-    localStorage.setItem("stp-logbook:instructors", instructors);
+    const instructors = await getInstructors();
+    const newInstructors = instructors.filter(o => o.id !== instructor.id);
+    localStorage.setItem(
+      "stp-logbook:instructors",
+      JSON.stringify(newInstructors)
+    );
     flash({ success: `Deleted ${instructor.name}` });
     history.push("/instructors");
   };
 
   const deleteInstructor = () => {
     if (store.deleteConfirmation) return reallyDeleteInstructor();
+    document.getElementById("d").focus();
     store.deleteConfirmation = true;
   };
 
@@ -78,7 +84,6 @@ const Edit = ({ match, history }) => {
 
   const setAttribute = event => {
     const { id, value } = event.target;
-    console.table({ id, value });
     switch (id) {
       case "phone":
         instructor[id] = formatPhoneNumber(value);
