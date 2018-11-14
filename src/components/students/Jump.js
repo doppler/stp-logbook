@@ -4,7 +4,7 @@ import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
 import format from "date-fns/format";
 
-import getInstructors from "../../api/getInstructors";
+import getInstructors from "../instructors/api/getInstructors";
 import getStudent from "./api/getStudent";
 import save from "./api/saveStudent";
 import flash from "../../utils/flash";

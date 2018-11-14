@@ -2,7 +2,7 @@ import React from "react";
 import HotKeys from "react-hot-keys";
 
 import { store, collect } from "react-recollect";
-import getInstructors from "../../api/getInstructors";
+import getInstructors from "../instructors/api/getInstructors";
 import getStudent from "./api/getStudent";
 import formatPhoneNumber from "../../utils/formatPhoneNumber";
 import save from "./api/saveStudent";
