@@ -4,14 +4,16 @@ import { store } from "react-recollect";
 
 import "./App.css";
 import Home from "./components/Home";
-import InstructorRouter from "./components/instructors/InstructorRouter";
 import StudentRouter from "./components/students/StudentRouter";
+import InstructorRouter from "./components/instructors/InstructorRouter";
+import AircraftRouter from "./components/aircraft/AircraftRouter";
 
 class App extends Component {
   render() {
     store.students = [];
     store.filteredStudents = [];
     store.instructors = [];
+    store.aircraft = [];
     store.filter = "";
     store.flash = store.flash || {};
     store.headerButtons = [];
@@ -19,8 +21,9 @@ class App extends Component {
     return (
       <div className="App">
         <Route exact path="/" component={Home} />
-        <Route path="/instructors" component={InstructorRouter} />
         <Route path="/students" component={StudentRouter} />
+        <Route path="/instructors" component={InstructorRouter} />
+        <Route path="/aircraft" component={AircraftRouter} />
       </div>
     );
   }
