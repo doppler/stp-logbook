@@ -5,8 +5,8 @@ import { store, collect } from "react-recollect";
 import format from "date-fns/format";
 
 import getInstructors from "../../api/getInstructors";
-import getStudent from "../../api/getStudent";
-import save from "../../api/saveStudent";
+import getStudent from "./api/getStudent";
+import save from "./api/saveStudent";
 import flash from "../../utils/flash";
 import handleFormError from "../../utils/handleFormError";
 import removeErrorClass from "../../utils/removeErrorClass";

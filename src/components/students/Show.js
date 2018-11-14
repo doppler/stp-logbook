@@ -5,8 +5,8 @@ import { store, collect } from "react-recollect";
 import format from "date-fns/format";
 import distanceInWordsToNow from "date-fns/distance_in_words_to_now";
 
-import getStudent from "../../api/getStudent";
-import save from "../../api/saveStudent";
+import getStudent from "./api/getStudent";
+import save from "./api/saveStudent";
 import flash from "../../utils/flash";
 
 const nextJump = student => {
