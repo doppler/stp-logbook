@@ -1,13 +1,13 @@
 {
-  "main.css": "/stp-logbook/static/css/main.cb0c038b.chunk.css",
-  "main.js": "/stp-logbook/static/js/main.de2a3703.chunk.js",
-  "main.js.map": "/stp-logbook/static/js/main.de2a3703.chunk.js.map",
+  "main.css": "/stp-logbook/static/css/main.b182a242.chunk.css",
+  "main.js": "/stp-logbook/static/js/main.cbc64d0f.chunk.js",
+  "main.js.map": "/stp-logbook/static/js/main.cbc64d0f.chunk.js.map",
   "static/js/1.40fbca4f.chunk.js": "/stp-logbook/static/js/1.40fbca4f.chunk.js",
   "static/js/1.40fbca4f.chunk.js.map": "/stp-logbook/static/js/1.40fbca4f.chunk.js.map",
   "runtime~main.js": "/stp-logbook/static/js/runtime~main.787534b6.js",
   "runtime~main.js.map": "/stp-logbook/static/js/runtime~main.787534b6.js.map",
-  "static/css/main.cb0c038b.chunk.css.map": "/stp-logbook/static/css/main.cb0c038b.chunk.css.map",
+  "static/css/main.b182a242.chunk.css.map": "/stp-logbook/static/css/main.b182a242.chunk.css.map",
   "index.html": "/stp-logbook/index.html",
-  "precache-manifest.7060af0d1eaf0dd54e0e4d3ebdb3dd12.js": "/stp-logbook/precache-manifest.7060af0d1eaf0dd54e0e4d3ebdb3dd12.js",
+  "precache-manifest.056b25b85b55be4a3b0c1237a54e7d9f.js": "/stp-logbook/precache-manifest.056b25b85b55be4a3b0c1237a54e7d9f.js",
   "service-worker.js": "/stp-logbook/service-worker.js"
 }
