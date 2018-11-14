@@ -58,6 +58,10 @@ const List = ({ history }) => {
       onKeyDown={onKeyDown}
     >
       <div className="Content">
+        <div>
+          <strong>Note: </strong> This feature will require authorization in an
+          upcoming release.
+        </div>
         <table id="instructors">
           <caption>Instructors</caption>
           <thead>

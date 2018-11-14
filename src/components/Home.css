@@ -1,3 +1,18 @@
+.Home section {
+  border: 1px solid var(--content-border-color);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+.Home table {
+  border: 1px solid var(--content-border-color);
+}
+.Home table tr:last-child td {
+  border-bottom: 0px;
+}
+.Home li {
+  margin-bottom: 10px;
+}
 .warning {
   width: 50vw;
   color: white;

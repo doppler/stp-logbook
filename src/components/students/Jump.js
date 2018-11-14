@@ -126,6 +126,10 @@ const Jump = ({ match, history }) => {
   return (
     <HotKeys keyName={"ctrl+l,ctrl+b,ctrl+s,ctrl+d"} onKeyDown={onKeyDown}>
       <div className="Content">
+        <div>
+          <strong>Note: </strong> This feature will be read-only except by
+          authorized users in an upcoming release.
+        </div>
         <form onSubmit={saveJump}>
           <fieldset>
             <legend>{`${student.name} Dive Flow ${jump.diveFlow}`}</legend>

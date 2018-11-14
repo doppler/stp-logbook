@@ -101,6 +101,11 @@ const List = ({ match, history }) => {
       onKeyDown={onKeyDown}
     >
       <div className="Content">
+        <div>
+          <strong>Note: </strong> This feature will be read-only except by
+          authorized users in an upcoming release.
+        </div>
+
         <table id="students">
           <caption>Students</caption>
           <thead>
@@ -129,9 +134,9 @@ const List = ({ match, history }) => {
                 ? `${format(lastJump.date, "ddd MMM Do")}`
                 : null;
               const lastDfStr = lastJump
-                ? `DF ${lastJump.diveFlow} ${[
-                    ...lastJump.instructor.match(/[A-Z]/g)
-                  ].join("")}`
+                ? `DF ${lastJump.diveFlow} - ${[
+                    ...lastJump.instructor.match(/(\w+) ([A-Z])/)[0]
+                  ].join("")}.`
                 : null;
               return (
                 <tr
