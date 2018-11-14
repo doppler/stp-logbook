@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "02822a67939591056d90",
+    "revision": "de2a37035d2729bbd427",
     "url": "/stp-logbook/static/css/main.cb0c038b.chunk.css"
   },
   {
-    "revision": "02822a67939591056d90",
-    "url": "/stp-logbook/static/js/main.02822a67.chunk.js"
+    "revision": "de2a37035d2729bbd427",
+    "url": "/stp-logbook/static/js/main.de2a3703.chunk.js"
   },
   {
     "revision": "40fbca4f2261b053356b",
@@ -16,7 +16,7 @@ self.__precacheManifest = [
     "url": "/stp-logbook/static/js/runtime~main.787534b6.js"
   },
   {
-    "revision": "481c217443e6fda81de08d3c7f6d293e",
+    "revision": "4ae37b055171161766bd854731903469",
     "url": "/stp-logbook/index.html"
   }
 ];
