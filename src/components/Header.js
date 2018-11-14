@@ -31,7 +31,7 @@ const Button = props => (
   </button>
 );
 
-const Header = ({ title, buttons }) => {
+const Header = ({ buttons }) => {
   const { type, message } = store.flash;
 
   return (
@@ -45,9 +45,6 @@ const Header = ({ title, buttons }) => {
             </Button>
           );
         })}
-      </div>
-      <div className="Title">
-        <h1>{title}</h1>
       </div>
       <div className="Actions" style={{ overflow: "scroll" }}>
         <Flash type={type} message={message} />

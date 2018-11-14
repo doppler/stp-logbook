@@ -16,12 +16,6 @@
   padding: 10px;
   margin-right: 10px;
 }
-/* .flash.info,
-.flash.success,
-.flash.error {
-  opacity: 1;
-  transition: 5s linear all;
-} */
 .flash.info {
   border: 1px solid #00f;
   background-color: #008;
@@ -39,20 +33,4 @@
 }
 .Header div:nth-child(3) {
   justify-content: flex-end;
-}
-.Header input {
-  padding-left: 5px;
-  color: var(--button-text-color);
-  font-weight: var(--button-font-weight);
-  background-color: var(--button-bg-color);
-  border: var(--button-border-width);
-  border-style: inset;
-  border-color: var(--button-border-color);
-  border-radius: var(--button-border-radius);
-  margin-left: 5px;
-  height: var(--input-size);
-}
-.Header input::placeholder {
-  font-weight: var(--button-font-weight);
-  color: var(--button-text-color);
 }
