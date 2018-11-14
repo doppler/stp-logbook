@@ -3,7 +3,8 @@ import { Route } from "react-router-dom";
 import { store } from "react-recollect";
 
 import "./App.css";
-import DashboardRouter from "./components/dashboard/DashboardRouter";
+import Home from "./components/Home";
+import InstructorRouter from "./components/instructors/InstructorRouter";
 import StudentRouter from "./components/students/StudentRouter";
 
 class App extends Component {
@@ -17,8 +18,8 @@ class App extends Component {
     store.deleteConfirmation = false;
     return (
       <div className="App">
-        <Route exact path="/" component={DashboardRouter} />
-        <Route path="/instructors" component={DashboardRouter} />
+        <Route exact path="/" component={Home} />
+        <Route path="/instructors" component={InstructorRouter} />
         <Route path="/students" component={StudentRouter} />
       </div>
     );
