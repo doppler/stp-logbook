@@ -2,7 +2,7 @@
   "name": "stp-logbook",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:4000",
+  "homepage": "https://doppler.github.io/stp-logbook",
   "dependencies": {
     "body-parser": "^1.18.3",
     "date-fns": "^1.29.0",
@@ -15,6 +15,8 @@
     "react-scripts": "2.1.1"
   },
   "scripts": {
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build",
     "start": "PORT=3002 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
