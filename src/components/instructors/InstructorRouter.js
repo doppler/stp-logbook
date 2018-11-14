@@ -4,8 +4,8 @@ import { Route, Switch } from "react-router-dom";
 import { store, collect } from "react-recollect";
 
 import Header from "../Header";
-import List from "../instructors/List";
-import Edit from "../instructors/Edit";
+import List from "./List";
+import Edit from "./Edit";
 import Footer from "../Footer";
 
 const InstructorRouter = props => {
