@@ -212,9 +212,7 @@ const Jump = ({ match, history }) => {
                     </select>
                   </div>
                   <div className="input-group">
-                    <label htmlFor="deploymentAltitude">
-                      Deployment Altitude
-                    </label>
+                    <label htmlFor="deploymentAltitude">Pull Altitude</label>
                     <select
                       value={jump.deploymentAltitude}
                       id="deploymentAltitude"
