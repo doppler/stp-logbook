@@ -2,6 +2,9 @@ import React from "react";
 import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
 
+import Header from "./Header";
+import Footer from "./Footer";
+
 const Home = ({ history }) => {
   const onKeyDown = (keyName, e, handle) => {
     switch (true) {
@@ -31,11 +34,15 @@ const Home = ({ history }) => {
     ];
 
   return (
-    <HotKeys keyName="ctrl+l,ctrl+i,ctrl+a" onKeyDown={onKeyDown}>
-      <div className="Content">
-        <h1>Home</h1>
-      </div>
-    </HotKeys>
+    <React.Fragment>
+      <Header buttons={store.headerButtons} />
+      <HotKeys keyName="ctrl+l,ctrl+i,ctrl+a" onKeyDown={onKeyDown}>
+        <div className="Content">
+          <h1>Home</h1>
+        </div>
+      </HotKeys>
+      <Footer />
+    </React.Fragment>
   );
 };
 
