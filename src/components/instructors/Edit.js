@@ -4,6 +4,7 @@ import { store, collect } from "react-recollect";
 
 import getInstructors from "../../api/getInstructors";
 import getInstructor from "../../api/getInstructor";
+import formatPhoneNumber from "../../utils/formatPhoneNumber";
 import save from "../../api/saveInstructor";
 import flash from "../../utils/flash";
 import handleFormError from "../../utils/handleFormError";
@@ -64,22 +65,6 @@ const Edit = ({ match, history }) => {
     if (store.deleteConfirmation) return reallyDeleteInstructor();
     document.getElementById("d").focus();
     store.deleteConfirmation = true;
-  };
-
-  const formatPhoneNumber = value => {
-    let newValue;
-    switch (true) {
-      case /^\d{4}/.test(value):
-        newValue = value.replace(/^(\d{3})(\d{1})/, "$1-$2");
-        break;
-      case /^\d{3}-\d{4}/.test(value):
-        newValue = value.replace(/^(\d{3}-\d{3})(\d{1})/, "$1-$2");
-        break;
-      default:
-        newValue = value;
-        break;
-    }
-    return newValue;
   };
 
   const setAttribute = event => {

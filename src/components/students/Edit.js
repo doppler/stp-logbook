@@ -4,6 +4,7 @@ import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
 import getInstructors from "../../api/getInstructors";
 import getStudent from "../../api/getStudent";
+import formatPhoneNumber from "../../utils/formatPhoneNumber";
 import save from "../../api/saveStudent";
 import flash from "../../utils/flash";
 import handleFormError from "../../utils/handleFormError";
@@ -36,25 +37,8 @@ const Edit = ({ match, history }) => {
       store.instructors = instructors;
     })();
 
-  const formatPhoneNumber = value => {
-    let newValue;
-    switch (true) {
-      case /^\d{4}/.test(value):
-        newValue = value.replace(/^(\d{3})(\d{1})/, "$1-$2");
-        break;
-      case /^\d{3}-\d{4}/.test(value):
-        newValue = value.replace(/^(\d{3}-\d{3})(\d{1})/, "$1-$2");
-        break;
-      default:
-        newValue = value;
-        break;
-    }
-    return newValue;
-  };
-
   const setAttribute = event => {
     const { id, value } = event.target;
-    console.table({ id, value });
     switch (id) {
       case "phone":
         student[id] = formatPhoneNumber(value);
