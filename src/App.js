@@ -1,22 +1,29 @@
 import React, { Component } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route } from "react-router-dom";
+import { store } from "react-recollect";
+
 import "./App.css";
-import EditStudent from "./components/EditStudent";
-import Students from "./components/Students";
-import Student from "./components/Student";
-import Jump from "./components/Jump";
+import Home from "./components/Home";
+import StudentRouter from "./components/students/StudentRouter";
+import InstructorRouter from "./components/instructors/InstructorRouter";
+import AircraftRouter from "./components/aircraft/AircraftRouter";
 
 class App extends Component {
   render() {
+    store.students = [];
+    store.filteredStudents = [];
+    store.instructors = [];
+    store.aircraft = [];
+    store.filter = "";
+    store.flash = store.flash || {};
+    store.headerButtons = [];
+    store.deleteConfirmation = false;
     return (
       <div className="App">
-        <Switch>
-          <Route exact path="/" component={Students} />
-          <Route path="/student/:studentId/jump/:jumpNumber" component={Jump} />
-          <Route path="/student/new" component={EditStudent} />
-          <Route path="/student/:id/edit" component={EditStudent} />
-          <Route path="/student/:id" component={Student} />
-        </Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="/students" component={StudentRouter} />
+        <Route path="/instructors" component={InstructorRouter} />
+        <Route path="/aircraft" component={AircraftRouter} />
       </div>
     );
   }

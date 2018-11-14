@@ -1,58 +1,59 @@
 import React from "react";
-import { withRouter, Link } from "react-router-dom";
+import { store } from "react-recollect";
 
 import "./Header.css";
 
-const handleActionButtonClick = props => {
-  props.history.push(`/student/new`);
+const Flash = ({ type, message }) => {
+  let messageList;
+  if (typeof message === "object") {
+    messageList = (
+      <ul>
+        {message.map((o, i) => (
+          <li key={i}>{o.message}</li>
+        ))}
+      </ul>
+    );
+  }
+  return <div className={`flash ${type}`}>{messageList || message}</div>;
 };
 
-const Header = props => {
-  const { title, student, match, filter, onFilterChange } = props;
+const Button = props => (
+  <button
+    id={props.id}
+    onClick={props.onClick}
+    className={
+      props.id === "d" && store.deleteConfirmation
+        ? "header-button pending"
+        : "header-button"
+    }
+  >
+    {props.children}
+  </button>
+);
+
+const Header = ({ title, buttons }) => {
+  const { type, message } = store.flash;
+
   return (
     <div className="Header">
       <div className="Nav">
-        {match.path === "/student/:studentId/jump/:jumpNumber" ? (
-          <button>
-            <Link to={`/student/${match.params.studentId}`}>Jumps</Link>
-          </button>
-        ) : match.path !== "/" ? (
-          <button style={{ display: "block" }}>
-            <Link to="/">Home</Link>
-          </button>
-        ) : match.path === "/" ? (
-          <input
-            onChange={onFilterChange}
-            value={filter}
-            placeholder="Filter by name"
-          />
-        ) : null}
+        {buttons.map((button, i) => {
+          const { children } = button;
+          return (
+            <Button key={i} {...button}>
+              {children}
+            </Button>
+          );
+        })}
       </div>
       <div className="Title">
         <h1>{title}</h1>
       </div>
-      <div className="Actions">
-        {match.path === "/" ? (
-          <button onClick={() => handleActionButtonClick(props)}>
-            Add Student
-          </button>
-        ) : match.path === "/student/:id" ? (
-          <button style={{ display: "block" }}>
-            <Link to={`/student/${student.id}/edit`}>Edit</Link>
-          </button>
-        ) : null}
+      <div className="Actions" style={{ overflow: "scroll" }}>
+        <Flash type={type} message={message} />
       </div>
     </div>
   );
 };
 
-export default withRouter(Header);
-// export default Header;
-
-/*
-<Link
-  to={`/student/${student.id}/jump/${
-    student.jumps[student.jumps.length].number
-  }`}
-/>
-*/
+export default Header;

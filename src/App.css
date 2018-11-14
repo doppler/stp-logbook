@@ -8,6 +8,7 @@
   color: #ccc;
 }
 .Content {
+  padding: 10px;
   background-color: var(--content-bg-color);
   overflow: scroll;
 }
@@ -20,6 +21,151 @@
 }
 .Header h1,
 .Footer h1 {
+  font-size: 1.25em;
   margin: 0;
   padding: 5px 5px 0 5px;
+}
+span.currency-color {
+  float: right;
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid #036;
+  margin-top: 4px;
+  /* margin-left: 0; */
+}
+div.jump-details {
+  display: flex;
+}
+div.jump-details > div {
+  flex: 1;
+}
+.input-group {
+  margin: 10px 0px 0px 10px;
+}
+button {
+  color: var(--button-text-color);
+  font-weight: var(--button-font-weight);
+  background-color: var(--button-bg-color);
+  border: var(--button-border-width);
+  border-color: var(--button-border-color);
+  border-style: var(--button-border-style);
+  border-radius: var(--button-border-radius);
+  height: var(--button-height);
+  margin: 10px 5px 0 10px;
+}
+button:active {
+  background-color: var(--content-hover-color);
+}
+button.pending {
+  background-color: #900;
+  color: white;
+}
+button.header-button::first-letter {
+  color: #fc0;
+}
+button > a {
+  color: var(--button-text-color);
+  text-decoration: none;
+}
+fieldset {
+  margin-top: 10px;
+  border: 5px;
+  border-style: groove;
+  border-color: rgba(255, 239, 223, 0.05);
+}
+fieldset > legend {
+  font-weight: bold;
+}
+fieldset.inner {
+  margin-top: 10px;
+}
+fieldset.inner > legend {
+  opacity: 0.75;
+}
+.input-group {
+  /* width: 100vh; */
+  display: flex;
+  margin-bottom: 10px;
+}
+.input-group > input,
+.input-group > select,
+.input-group > textarea {
+  background-color: var(--input-bg-color);
+  border: 1px solid var(--content-border-color);
+  font-size: 1.5em;
+  width: 80%;
+  padding-left: 5px;
+}
+.input-group > span.append {
+  background-color: var(--label-bg-color);
+  color: var(--label-color);
+  font-weight: bold;
+  border: 1px solid #666;
+  border-radius: 0 5px 5px 0;
+  padding: 5px 5px 5px 0;
+}
+.input-group *:first-child {
+  width: 25vh;
+  padding: 5px 0 0 5px;
+  display: flex;
+  font-weight: bold;
+  color: var(--label-color);
+  background-color: var(--label-bg-color);
+  border: 1px solid #666;
+  border-radius: 5px 0 0 5px;
+}
+.input-group select {
+  appearance: none;
+}
+.input-group *:last-child {
+  border-radius: 0 5px 5px 0;
+}
+.input-group > input.error,
+.input-group > select.error {
+  border-color: #f00;
+  background-color: #feb;
+}
+
+table {
+  width: 100%;
+}
+caption {
+  margin: 10px;
+  font-weight: bold;
+  text-align: left;
+  caption-side: top;
+}
+th {
+  background-color: var(--content-border-color);
+  border-bottom: 1px solid #666;
+}
+table#students th:first-child > input {
+  float: left;
+  padding-left: 5px;
+  color: var(--button-text-color);
+  font-weight: var(--button-font-weight);
+  background-color: var(--button-bg-color);
+  border: var(--button-border-width);
+  border-style: inset;
+  border-color: var(--button-border-color);
+  border-radius: var(--button-border-radius);
+  margin-left: 5px;
+  height: var(--input-size);
+}
+table#students th:first-child > input::placeholder {
+  font-weight: var(--button-font-weight);
+  color: var(--button-text-color);
+}
+tr:hover {
+  cursor: pointer;
+  background-color: var(--content-hover-color);
+}
+tr.active {
+  background-color: var(--content-hover-color);
+}
+td {
+  padding: 5px 0 5px 10px;
+  border-bottom: 1px solid var(--content-border-color);
 }

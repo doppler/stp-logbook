@@ -14,12 +14,14 @@ app.use(bodyParser.json());
 app.get("/api", (req, res) => res.json({ hello: "dook" }));
 
 app.get("/api/students", (req, res) => {
+  console.log("GET /api/students");
   res.sendFile(studentsDb, {
     headers: { "Content-Type": "application/json" }
   });
 });
 
 app.post("/api/students", (req, res) => {
+  console.log("POST /api/students");
   console.log("req", JSON.stringify(req.body));
   const db = fs.createWriteStream(studentsDb);
   db.write(JSON.stringify(req.body, undefined, 2));
@@ -41,14 +43,16 @@ app.post("/api/student", (req, res) => {
 
 app.get("/api/instructors", (req, res) => {
   res.send(
-    JSON.stringify([
-      "David Rose",
-      "Mihailo Matic",
-      "Darcy King",
-      "Cray Adamson",
-      "Matteo Something"
-    ])
+    JSON.stringify(
+      ["", "David Rose", "Darcy King", "Cray Adamson", "Matteo Fialdini"].sort()
+    )
   );
+});
+
+app.use(express.static(path.join(__dirname, "..", "build")));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "build", "index.html"));
 });
 
 app.listen(PORT, () => console.log(`api-server listening on port ${PORT}`));
