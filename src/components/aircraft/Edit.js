@@ -4,7 +4,7 @@ import { store, collect } from "react-recollect";
 
 import getAircraft from "../../api/getAircraft";
 import getSingleAircraft from "../../api/getSingleAircraft";
-import save from "../../api/saveInstructor";
+import save from "../../api/saveAircraft";
 import flash from "../../utils/flash";
 import handleFormError from "../../utils/handleFormError";
 import removeErrorClass from "../../utils/removeErrorClass";
@@ -24,7 +24,7 @@ const Edit = ({ match, history }) => {
     store.currentAircraft = initialState;
 
   if (
-    match.path === "/instructors/:id" &&
+    match.path === "/aircraft/:id" &&
     (!currentAircraft || currentAircraft.id !== match.params.id)
   ) {
     (async () =>
@@ -45,14 +45,14 @@ const Edit = ({ match, history }) => {
       return handleFormError(res.error);
     }
     flash({ success: `Saved ${currentAircraft.name}` });
-    document.location.pathname = "/instructors";
+    document.location.pathname = "/aircraft";
   };
 
   const reallyDeleteAircraft = async () => {
     const aircraft = await getAircraft();
     const newAircraft = aircraft.filter(o => o.id !== currentAircraft.id);
     localStorage.setItem("stp-logbook:aircraft", JSON.stringify(newAircraft));
-    flash({ success: `Deleted ${aircraft.name}` });
+    flash({ success: `Deleted ${currentAircraft.name}` });
     history.push("/aircraft");
   };
 
@@ -85,7 +85,7 @@ const Edit = ({ match, history }) => {
   if (store.headerButtons.length === 0)
     store.headerButtons = [
       { id: "b", onClick: () => history.goBack(1), children: "Back" },
-      { id: "s", onClick: saveAircraft, children: "Save Instructor" }
+      { id: "s", onClick: saveAircraft, children: "Save Aircraft" }
     ];
   if (match.params.id && !store.headerButtons.find(o => o.id === "d")) {
     store.headerButtons.push({
