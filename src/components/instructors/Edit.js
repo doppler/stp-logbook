@@ -15,6 +15,8 @@ const initialState = {
   phone: ""
 };
 
+store.instructor = null;
+
 const Edit = ({ match, history }) => {
   const { instructor } = store;
 
@@ -41,9 +43,9 @@ const Edit = ({ match, history }) => {
       flash({ error: "Please check form for errors." });
       return handleFormError(res.error);
     }
-    flash({ success: `Saved ${instructor.name}` });
     store.instructor = null;
-    history.push(`/instructors`);
+    flash({ success: `Saved ${instructor.name}` });
+    document.location.pathname = "/instructors";
   };
 
   const reallyDeleteInstructor = async () => {
@@ -101,10 +103,15 @@ const Edit = ({ match, history }) => {
   if (store.headerButtons.length === 0)
     store.headerButtons = [
       { id: "b", onClick: () => history.goBack(1), children: "Back" },
-      { id: "s", onClick: saveInstructor, children: "Save Instructor" },
-      { id: "d", onClick: deleteInstructor, children: "Delete Instructor" }
+      { id: "s", onClick: saveInstructor, children: "Save Instructor" }
     ];
-
+  if (match.params.id && !store.headerButtons.find(o => o.id === "d")) {
+    store.headerButtons.push({
+      id: "d",
+      onClick: deleteInstructor,
+      children: "Delete Instructor"
+    });
+  }
   return (
     <HotKeys keyName="ctrl+b,ctrl+s,ctrl+d" onKeyDown={onKeyDown}>
       <div className="Content">
