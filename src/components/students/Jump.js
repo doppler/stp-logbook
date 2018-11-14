@@ -5,6 +5,7 @@ import { store, collect } from "react-recollect";
 import format from "date-fns/format";
 
 import getInstructors from "../instructors/api/getInstructors";
+import getAircraft from "../aircraft/api/getAircraft";
 import getStudent from "./api/getStudent";
 import save from "./api/saveStudent";
 import flash from "../../utils/flash";
@@ -12,7 +13,7 @@ import handleFormError from "../../utils/handleFormError";
 import removeErrorClass from "../../utils/removeErrorClass";
 
 const Jump = ({ match, history }) => {
-  const { student, instructors } = store;
+  const { student, instructors, aircraft } = store;
   let jump = null;
 
   if (!student) {
@@ -31,7 +32,14 @@ const Jump = ({ match, history }) => {
       store.instructors = instructors;
     })();
 
-  if (!student || !jump || instructors.length === 0) return null;
+  if (aircraft.length === 0) {
+    (async () => {
+      const aircraft = await getAircraft();
+      store.aircraft = aircraft;
+    })();
+  }
+  if (!student || !jump || instructors.length === 0 || aircraft.length === 0)
+    return null;
 
   const setAttribute = event => {
     let { id, value } = event.target;
@@ -185,9 +193,10 @@ const Jump = ({ match, history }) => {
                       required
                     >
                       <option value="" />
-                      <option value="Caravan">Caravan</option>
-                      <option value="Otter">Otter</option>
-                      <option value="King Air">King Air</option>
+                      <AircraftOptions
+                        aircraft={aircraft}
+                        selectedAircraft={jump.aircraft}
+                      />
                     </select>
                   </div>
                   <div className="input-group">
@@ -289,6 +298,15 @@ const InstructorOptions = ({ instructors, instructor }) => {
   ));
 };
 
+const AircraftOptions = ({ aircraft, selectedAircraft }) => {
+  if (aircraft.map(a => a.name).indexOf(selectedAircraft) < 0)
+    aircraft.push({ name: selectedAircraft });
+  return aircraft.map((aircraft, i) => (
+    <option key={i} value={aircraft.name}>
+      {aircraft.name}
+    </option>
+  ));
+};
 const ExitAltitudeOptions = () => {
   const altitudes = [];
   for (let x = 5000; x <= 17000; x += 500) {
