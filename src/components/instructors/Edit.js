@@ -45,7 +45,6 @@ const Edit = ({ match, history }) => {
       flash({ error: "Please check form for errors." });
       return handleFormError(res.error);
     }
-    store.instructor = null;
     flash({ success: `Saved ${instructor.name}` });
     document.location.pathname = "/instructors";
   };
