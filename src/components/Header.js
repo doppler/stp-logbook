@@ -21,7 +21,11 @@ const Button = props => (
   <button
     id={props.id}
     onClick={props.onClick}
-    className={props.id === "d" && store.deleteConfirmation ? "pending" : null}
+    className={
+      props.id === "d" && store.deleteConfirmation
+        ? "header-button pending"
+        : "header-button"
+    }
   >
     {props.children}
   </button>

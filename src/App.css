@@ -8,6 +8,7 @@
   color: #ccc;
 }
 .Content {
+  padding: 10px;
   background-color: var(--content-bg-color);
   overflow: scroll;
 }
@@ -40,7 +41,6 @@ div.jump-details {
 div.jump-details > div {
   flex: 1;
 }
-h2,
 .input-group {
   margin: 10px 0px 0px 10px;
 }
@@ -62,12 +62,8 @@ button.pending {
   background-color: #900;
   color: white;
 }
-button.pending {
-  background-color: #900;
-  color: white;
-}
-button::first-letter {
-  color: white;
+button.header-button::first-letter {
+  color: #fc0;
 }
 button > a {
   color: var(--button-text-color);

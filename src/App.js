@@ -10,6 +10,7 @@ class App extends Component {
   render() {
     store.students = [];
     store.filteredStudents = [];
+    store.instructors = [];
     store.filter = "";
     store.flash = store.flash || {};
     store.headerButtons = [];
@@ -17,6 +18,7 @@ class App extends Component {
     return (
       <div className="App">
         <Route exact path="/" component={DashboardRouter} />
+        <Route path="/instructors" component={DashboardRouter} />
         <Route path="/students" component={StudentRouter} />
       </div>
     );
@@ -24,9 +26,3 @@ class App extends Component {
 }
 
 export default App;
-
-fetch("/api/instructors")
-  .then(res => res.json())
-  .then(json => {
-    store.instructors = { list: json };
-  });

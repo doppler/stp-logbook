@@ -4,6 +4,7 @@ import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
 import format from "date-fns/format";
 
+import getInstructors from "../../api/getInstructors";
 import getStudent from "../../api/getStudent";
 import save from "../../api/saveStudent";
 import flash from "../../utils/flash";
@@ -24,7 +25,13 @@ const Jump = ({ match, history }) => {
     );
   }
 
-  if (!student || !jump || !instructors) return null;
+  if (instructors.length === 0)
+    (async () => {
+      const instructors = await getInstructors();
+      store.instructors = instructors;
+    })();
+
+  if (!student || !jump || instructors.length === 0) return null;
 
   const setAttribute = event => {
     let { id, value } = event.target;
@@ -273,11 +280,11 @@ const Jump = ({ match, history }) => {
 export default collect(Jump);
 
 const InstructorOptions = ({ instructors, instructor }) => {
-  if (instructors.list.indexOf(instructor) < 0)
-    instructors.list.push(instructor);
-  return instructors.list.map((instructor, i) => (
-    <option key={i} value={instructor}>
-      {instructor}
+  if (instructors.map(i => i.name).indexOf(instructor) < 0)
+    instructors.push({ name: instructor });
+  return instructors.map((instructor, i) => (
+    <option key={i} value={instructor.name}>
+      {instructor.name}
     </option>
   ));
 };

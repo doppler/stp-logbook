@@ -2,19 +2,13 @@ import React from "react";
 import HotKeys from "react-hot-keys";
 
 import { store, collect } from "react-recollect";
+import getInstructors from "../../api/getInstructors";
 import getStudent from "../../api/getStudent";
+import formatPhoneNumber from "../../utils/formatPhoneNumber";
 import save from "../../api/saveStudent";
 import flash from "../../utils/flash";
 import handleFormError from "../../utils/handleFormError";
 import removeErrorClass from "../../utils/removeErrorClass";
-
-// import Header from "../Header";
-// import Footer from "../Footer";
-// import {
-//   StudentListButton,
-//   BackButton,
-//   SaveStudentButton
-// } from "../nav-buttons";
 
 const initialState = {
   id: Math.round(Math.random() * 2 ** 32).toString(16),
@@ -37,21 +31,11 @@ const Edit = ({ match, history }) => {
   )
     (async () => (store.student = await getStudent(match.params.studentId)))();
 
-  const formatPhoneNumber = value => {
-    let newValue;
-    switch (true) {
-      case /^\d{4}/.test(value):
-        newValue = value.replace(/^(\d{3})(\d{1})/, "$1-$2");
-        break;
-      case /^\d{3}-\d{4}/.test(value):
-        newValue = value.replace(/^(\d{3}-\d{3})(\d{1})/, "$1-$2");
-        break;
-      default:
-        newValue = value;
-        break;
-    }
-    return newValue;
-  };
+  if (instructors.length === 0)
+    (async () => {
+      const instructors = await getInstructors();
+      store.instructors = instructors;
+    })();
 
   const setAttribute = event => {
     const { id, value } = event.target;
@@ -80,7 +64,7 @@ const Edit = ({ match, history }) => {
     history.push(`/students/${student.id}`);
   };
 
-  if (!student || !instructors) return null;
+  if (!student || instructors.length === 0) return null;
 
   const onKeyDown = (keyName, e, handle) => {
     if (e.srcElement.type === "submit" && keyName === "enter") {
@@ -157,6 +141,7 @@ const Edit = ({ match, history }) => {
                 className="formField required"
                 required
               >
+                <option value="">Select Instructor</option>
                 <InstructorOptions instructors={instructors} />
               </select>
             </div>
@@ -184,9 +169,9 @@ const Edit = ({ match, history }) => {
 export default collect(Edit);
 
 const InstructorOptions = ({ instructors }) => {
-  return instructors.list.map((instructor, i) => (
-    <option key={i} value={instructor}>
-      {instructor}
+  return instructors.map((instructor, i) => (
+    <option key={i} value={instructor.name}>
+      {instructor.name}
     </option>
   ));
 };

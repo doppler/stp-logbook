@@ -85,13 +85,21 @@ const List = ({ match, history }) => {
   if (store.headerButtons.length === 0)
     store.headerButtons = [
       {
+        id: "h",
+        onClick: () => history.push("/"),
+        children: "Home"
+      },
+      {
         id: "a",
         onClick: () => history.push("/students/new"),
         children: "Add Student"
       }
     ];
   return (
-    <HotKeys keyName="down,j,up,k,enter,right,ctrl+a" onKeyDown={onKeyDown}>
+    <HotKeys
+      keyName="down,j,up,k,enter,right,ctrl+h,ctrl+a"
+      onKeyDown={onKeyDown}
+    >
       <div className="Content">
         <table id="students">
           <caption>Students</caption>
