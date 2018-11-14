@@ -3,6 +3,7 @@ import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
 import Header from "./Header";
 import Footer from "./Footer";
+import "./Home.css";
 
 import createTestData from "../utils/createTestData";
 
@@ -22,11 +23,16 @@ store.studentCount = localStorage.getItem("stp-logbook:students")
 
 const Home = ({ history }) => {
   const handleCreateTestData = async () => {
-    const testData = await createTestData();
-    console.log(testData);
-    store.aircraftCount = testData.aircraft.length;
-    store.instructorCount = testData.instructors.length;
-    store.studentCount = testData.students.length;
+    if (store.deleteConfirmation) {
+      const testData = await createTestData();
+      console.log(testData);
+      store.aircraftCount = testData.aircraft.length;
+      store.instructorCount = testData.instructors.length;
+      store.studentCount = testData.students.length;
+      store.deleteConfirmation = false;
+      return null;
+    }
+    store.deleteConfirmation = true;
   };
 
   const handleDeleteTestData = () => {
@@ -80,6 +86,13 @@ const Home = ({ history }) => {
           <section>
             <details open>
               <summary>Fake Data For Testing</summary>
+              <div className="warning">
+                <h3>Warning</h3>
+                <p>
+                  Using this feature will <strong>COMPLETELY</strong> overwrite
+                  any data you have created.
+                </p>
+              </div>
               <table>
                 <caption>Current Data</caption>
                 <thead>
@@ -104,12 +117,15 @@ const Home = ({ history }) => {
                 </tbody>
               </table>
               {store.studentCount === 0 ? (
-                <button onClick={handleCreateTestData}>Create Test Data</button>
+                <button
+                  className={store.deleteConfirmation ? "confirm" : null}
+                  onClick={handleCreateTestData}
+                >
+                  Create Test Data
+                </button>
               ) : (
                 <button
-                  style={{
-                    backgroundColor: store.deleteConfirmation ? "red" : null
-                  }}
+                  className={store.deleteConfirmation ? "confirm" : null}
                   onClick={handleDeleteTestData}
                 >
                   Delete Test Data
