@@ -29,8 +29,6 @@ const createFakeAircraft = async () => {
       tailNumber: "N123XZ"
     }
   ];
-  // localStorage.setItem("stp-logbook:aircraft", JSON.stringify(aircraft));
-  console.log(`Created fake ${aircraft.length} aircraft`);
   return aircraft;
 };
 
@@ -38,41 +36,35 @@ const createFakeInstructors = async () => {
   instructors = Array.from(Array(5)).map(i => {
     return {
       id: randomId(),
-      name: faker.name.findName(),
+      name: `${faker.name.firstName()} ${faker.name.lastName()}`,
       email: faker.internet.email(),
       phone: faker.phone.phoneNumberFormat()
     };
   });
-  // localStorage.setItem("stp-logbook:instructors", JSON.stringify(instructors));
-  console.log(`Created ${instructors.length} fake instructors`);
   return instructors;
 };
 
-/*
-
-function randomDate(start, end) {
-  return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-}
-*/
 const randomDate = (start, end) =>
   new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 
 const createFakeJumps = previousJumps => {
-  console.log(aircraft, instructors);
   const startDate = randomDate(new Date(2018, 0, 1), new Date());
   const endDate = randomDate(startDate, new Date());
   const availableDates = eachDay(startDate, endDate);
   const availableDatesLength = availableDates.length;
   const numberOfJumps = Math.round(Math.random() * 18);
-  let lastDateIndex = 0;
+  let lastDate = availableDates[0];
   const jumps = Array.from(Array(numberOfJumps)).map((_, i) => {
-    return {
+    const jumpDate = randomDate(lastDate, endDate);
+    lastDate = jumpDate;
+    const jump = {
       number: previousJumps + i,
       diveFlow: i + 1,
-      date: format(availableDates[i]),
+      date: format(jumpDate),
       instructor:
         instructors[Math.round(Math.random() * (instructors.length - 1))].name,
-      aircraft: aircraft[Math.round(Math.random() * (aircraft.length - 1))],
+      aircraft:
+        aircraft[Math.round(Math.random() * (aircraft.length - 1))].name,
       exitAltitude: 10000 + Math.round(Math.random() * 10) * 500,
       deploymentAltitude: [3500, 4000, 4500, 5000, 5500, 6000][
         Math.round(Math.random() * 6)
@@ -82,6 +74,10 @@ const createFakeJumps = previousJumps => {
       canopy: faker.lorem.sentences(),
       notes: faker.lorem.sentences()
     };
+    jump.freefallTime = Math.ceil(
+      ((jump.exitAltitude - jump.deploymentAltitude) / 1000) * 5.5
+    );
+    return jump;
   });
 
   return jumps;
@@ -90,7 +86,7 @@ const createFakeJumps = previousJumps => {
 const createFakeStudent = () => {
   const student = {
     id: randomId(),
-    name: faker.name.findName(),
+    name: `${faker.name.firstName()} ${faker.name.lastName()}`,
     email: faker.internet.email(),
     phone: faker.phone.phoneNumberFormat(),
     instructor:
@@ -103,7 +99,7 @@ const createFakeStudent = () => {
 };
 
 const createFakeStudents = async () => {
-  students = Array.from(Array(1)).map(i => {
+  students = Array.from(Array(50)).map(i => {
     return createFakeStudent();
   });
   return students;
@@ -119,33 +115,10 @@ const createTestData = async () => {
   console.table(instructors);
 
   students = await createFakeStudents();
-  console.log(students);
+  localStorage.setItem("stp-logbook:students", JSON.stringify(students));
+  console.table(students);
 
-  // createFakeAircraft()
-  //   .then(aircraft =>
-  //     localStorage.setItem("stp-logbook:aircraft", JSON.stringify(aircraft))
-  //   )
-  //   .then(aircraft =>
-  //     createFakeInstructors().then(instructors =>
-  //       localStorage.setItem(
-  //         "stp-logbook:instructors",
-  //         JSON.stringify(instructors)
-  //       )
-  //     )
-  //   );
-  // createFakeInstructors().then(instructors =>
-  //   localStorage.setItem("stp-logbook:instructors", JSON.stringify(instructors))
-  // );
-  // createFakeStudents().then(students => console.log(students));
+  return { aircraft, instructors, students };
 };
 
 export default createTestData;
-
-// const fakeStudent = () => {
-//   return {
-//     id: Math.round(Math.random() * 1000000000).toString(16),
-//     name: faker.name.findName(),
-//     email: faker.internet.email(),
-//     phone: faker.phone.phoneNumber()
-//   }
-// }
