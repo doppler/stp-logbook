@@ -51,7 +51,6 @@ const createFakeJumps = previousJumps => {
   const startDate = randomDate(new Date(2018, 0, 1), new Date());
   const endDate = randomDate(startDate, new Date());
   const availableDates = eachDay(startDate, endDate);
-  const availableDatesLength = availableDates.length;
   const numberOfJumps = Math.round(Math.random() * 18);
   let lastDate = availableDates[0];
   const jumps = Array.from(Array(numberOfJumps)).map((_, i) => {
