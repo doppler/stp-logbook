@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
-import getInstructors from "../../api/getInstructors";
+import getInstructors from "./api/getInstructors";
 
 const List = ({ history }) => {
   const { instructors } = store;
