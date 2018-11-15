@@ -41,6 +41,7 @@ const PhraseCloud = () => {
       target: { attributes: { "data-key": { value: keyName } } }
     });
   };
+
   return (
     <HotKeys
       onKeyDown={onKeyDown}

@@ -1,5 +1,5 @@
 #Jump textarea[id$="-hidden"] {
-  display: none;
+  /* display: none; */
 }
 
 #Jump label:focus {

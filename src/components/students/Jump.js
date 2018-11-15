@@ -17,6 +17,7 @@ import handleFormError from "../../utils/handleFormError";
 import removeErrorClass from "../../utils/removeErrorClass";
 
 store.phraseCloudKey = "exit";
+store.phraseCloudSelections = { exit: [], freefall: [], canopy: [] };
 
 const Jump = ({ match, history }) => {
   const { student, instructors, aircraft } = store;
@@ -49,6 +50,7 @@ const Jump = ({ match, history }) => {
 
   const setAttribute = event => {
     let { id, value } = event.target;
+    console.table({ id, value });
     const numericValues = [
       "diveFlow",
       "jumpNumber",
@@ -108,15 +110,20 @@ const Jump = ({ match, history }) => {
   const handlePhraseCloudOverlayClose = () => {
     const targetPhraseElementList = document.querySelector("ul#target");
     const phraseTextArray = [];
-    targetPhraseElementList.childNodes.forEach(el =>
-      phraseTextArray.push(el.innerHTML)
-    );
+    const phraseKeyArray = [];
+    targetPhraseElementList.childNodes.forEach(el => {
+      phraseTextArray.push(el.innerHTML);
+    });
+    store.phraseCloudSelections[store.phraseCloudKey] = phraseKeyArray;
     setAttribute({
       target: {
         id: store.phraseCloudKey,
         value: phraseTextArray.join(" ")
       }
     });
+    document
+      .querySelector(`textarea#${store.phraseCloudKey}`)
+      .dispatchEvent(new Event("change"));
     document.querySelector("#PhraseCloud").classList.add("hidden");
   };
 
@@ -285,7 +292,7 @@ const Jump = ({ match, history }) => {
                     onClick={handleLabelClick}
                     onKeyDown={handleLabelClick}
                     tabIndex={0}
-                    htmlFor="exit-hidden"
+                    htmlFor="exit"
                   >
                     Exit
                   </label>
@@ -296,14 +303,13 @@ const Jump = ({ match, history }) => {
                     className="formField required"
                     required
                   />
-                  <textarea id="exit-hidden" />
                 </div>
                 <div className="input-group">
                   <label
                     onClick={handleLabelClick}
                     onKeyDown={handleLabelClick}
                     tabIndex={0}
-                    htmlFor="freefall-hidden"
+                    htmlFor="freefall"
                   >
                     Freefall
                   </label>
@@ -314,14 +320,13 @@ const Jump = ({ match, history }) => {
                     className="formField required"
                     required
                   />
-                  <textarea id="freefall-hidden" />
                 </div>
                 <div className="input-group">
                   <label
                     onClick={handleLabelClick}
                     onKeyDown={handleLabelClick}
                     tabIndex={0}
-                    htmlFor="canopy-hidden"
+                    htmlFor="canopy"
                   >
                     Canopy
                   </label>
@@ -332,7 +337,6 @@ const Jump = ({ match, history }) => {
                     className="formField required"
                     required
                   />
-                  <textarea id="canopy-hidden" />
                 </div>
                 <div className="input-group">
                   <label htmlFor="notes">Notes</label>
