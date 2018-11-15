@@ -110,7 +110,8 @@ fieldset.inner > legend {
   border: 1px solid #666;
   border-radius: 5px 0 0 5px;
 }
-.input-group select {
+.input-group select,
+.input-group textarea {
   appearance: none;
 }
 .input-group *:last-child {

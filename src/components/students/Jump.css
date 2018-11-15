@@ -1,0 +1,3 @@
+#Jump textarea[id$="-hidden"] {
+  display: none;
+}
