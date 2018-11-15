@@ -16,11 +16,26 @@ const PhraseCloud = () => {
     if (document.querySelector("#PhraseCloud").classList.contains("hidden"))
       return null;
 
+    const source = document.querySelector("ul#source");
     const target = document.querySelector("ul#target");
 
     let li = document.querySelector(`li[data-key="${keyName}"]`);
     // li.classList.toggle("selected");
-    target.appendChild(li);
+    if (target.contains(li)) {
+      target.removeChild(li);
+      source.appendChild(li);
+      [...source.children]
+        .sort(
+          (a, b) =>
+            a.attributes["data-key"].value > b.attributes["data-key"].value
+              ? 1
+              : -1
+        )
+        .map(node => source.appendChild(node));
+    } else {
+      target.appendChild(li);
+    }
+    // console.log(target.children);
   };
   return (
     <HotKeys

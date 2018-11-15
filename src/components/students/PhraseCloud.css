@@ -47,6 +47,3 @@
   border-radius: 10px;
   margin: 0 10px 0 10px;
 }
-#PhraseCloud ul#target li::before {
-  display: none;
-}
