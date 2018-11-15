@@ -154,7 +154,7 @@ table#students th:first-child > input::placeholder {
 }
 tr:hover {
   cursor: pointer;
-  background-color: var(--content-hover-color);
+  background-color: #1a2244;
 }
 tr.active {
   background-color: var(--content-hover-color);
