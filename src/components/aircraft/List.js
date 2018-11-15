@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
 import getAircraft from "./api/getAircraft";
+
+store.activeAircraftRow = 0;
 
 const List = ({ history }) => {
   const { aircraft } = store;
@@ -20,7 +22,6 @@ const List = ({ history }) => {
     history.push("/aircraft/new");
   };
 
-  const [activeRow, setActiveRow] = useState(0);
   const onKeyDown = (keyName, e, handle) => {
     if (e.srcElement.type === "submit" && keyName === "enter") {
       return true;
@@ -28,13 +29,13 @@ const List = ({ history }) => {
     if (e.srcElement.type !== undefined) return false;
     switch (true) {
       case ["down", "j"].includes(keyName):
-        setActiveRow(activeRow + 1);
+        store.activeAircraftRow++;
         break;
       case ["up", "k"].includes(keyName):
-        setActiveRow(activeRow - 1);
+        store.activeAircraftRow--;
         break;
       case ["enter", "right"].includes(keyName):
-        history.push(`/aircraft/${aircraft[activeRow].id}`);
+        history.push(`/aircraft/${aircraft[store.activeAircraftRow].id}`);
         break;
       default:
         document.getElementById(keyName.match(/.$/)).click();
@@ -43,8 +44,10 @@ const List = ({ history }) => {
   };
 
   const rowCount = aircraft.length;
-  if (rowCount > 0 && activeRow === rowCount) setActiveRow(0);
-  if (rowCount > 0 && activeRow === -1) setActiveRow(rowCount - 1);
+  if (rowCount > 0 && store.activeAircraftRow === rowCount)
+    store.activeAircraftRow = 0;
+  if (rowCount > 0 && store.activeAircraftRow === -1)
+    store.activeAircraftRow = rowCount - 1;
 
   if (store.headerButtons.length === 0)
     store.headerButtons = [
@@ -74,7 +77,7 @@ const List = ({ history }) => {
             {aircraft.map((aircraft, i) => (
               <tr
                 key={i}
-                className={i === activeRow ? "active" : ""}
+                className={i === store.activeAircraftRow ? "active" : ""}
                 onClick={() => handleRowClick(aircraft)}
               >
                 <td>{aircraft.name}</td>

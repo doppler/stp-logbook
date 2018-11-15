@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import HotKeys from "react-hot-keys";
 
 import { store, collect } from "react-recollect";
@@ -30,6 +30,8 @@ const nextJump = student => {
   };
 };
 
+store.activeJumpRow = -1;
+
 const Show = ({ match, history }) => {
   const { student } = store;
 
@@ -39,12 +41,11 @@ const Show = ({ match, history }) => {
   if (!student) return null;
 
   const rowCount = student.jumps.length;
-  const [activeRow, setActiveRow] = useState(rowCount - 1);
 
   const addJump = async () => {
     const jump = nextJump(student);
     student.jumps.push(jump);
-    setActiveRow(activeRow + 1);
+    store.activeJumpRow++;
     (async () => {
       const res = await save(student);
       if (res.error) return flash(res);
@@ -60,23 +61,30 @@ const Show = ({ match, history }) => {
     if (e.srcElement.type !== undefined) return false;
     switch (true) {
       case ["down", "j"].includes(keyName):
-        setActiveRow(activeRow + 1);
+        store.activeJumpRow++;
         break;
       case ["up", "k"].includes(keyName):
-        setActiveRow(activeRow - 1);
+        store.activeJumpRow--;
+        console.log(store.activeJumpRow);
         break;
       case ["enter", "right"].includes(keyName):
         history.push(
-          `/students/${student.id}/jump/${student.jumps[activeRow].number}`
+          `/students/${student.id}/jump/${
+            student.jumps[store.activeJumpRow].number
+          }`
         );
+        break;
+      case keyName === "left":
+        history.goBack(1);
         break;
       default:
         document.getElementById(keyName.match(/.$/)).click();
         break;
     }
   };
-  if (rowCount > 0 && activeRow === rowCount) setActiveRow(0);
-  if (rowCount > 0 && activeRow === -1) setActiveRow(rowCount - 1);
+  if (rowCount > 0 && store.activeJumpRow === rowCount) store.activeJumpRow = 0;
+  if (rowCount > 0 && store.activeJumpRow === -1)
+    store.activeJumpRow = rowCount - 1;
 
   if (store.headerButtons.length === 0)
     store.headerButtons = [
@@ -95,7 +103,7 @@ const Show = ({ match, history }) => {
     ];
   return (
     <HotKeys
-      keyName="down,j,up,k,enter,right,ctrl+l,ctrl+b,ctrl+a,ctrl+e"
+      keyName="down,j,up,k,enter,right,left,ctrl+l,ctrl+b,ctrl+a,ctrl+e"
       onKeyDown={onKeyDown}
     >
       <div className="Content">
@@ -116,7 +124,7 @@ const Show = ({ match, history }) => {
                 onClick={() =>
                   history.push(`/students/${student.id}/jump/${jump.number}`)
                 }
-                className={i === activeRow ? "active" : ""}
+                className={i === store.activeJumpRow ? "active" : ""}
               >
                 <td>{jump.number}</td>
                 <td>{jump.diveFlow}</td>

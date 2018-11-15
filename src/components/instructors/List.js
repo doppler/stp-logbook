@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
 import getInstructors from "./api/getInstructors";
+
+store.filter = "";
+store.activeRow = 0;
 
 const List = ({ history }) => {
   const { instructors } = store;
@@ -20,7 +23,6 @@ const List = ({ history }) => {
     history.push("/instructors/new");
   };
 
-  const [activeRow, setActiveRow] = useState(0);
   const onKeyDown = (keyName, e, handle) => {
     if (e.srcElement.type === "submit" && keyName === "enter") {
       return true;
@@ -28,13 +30,13 @@ const List = ({ history }) => {
     if (e.srcElement.type !== undefined) return false;
     switch (true) {
       case ["down", "j"].includes(keyName):
-        setActiveRow(activeRow + 1);
+        store.activeRow++;
         break;
       case ["up", "k"].includes(keyName):
-        setActiveRow(activeRow - 1);
+        store.activeRow--;
         break;
       case ["enter", "right"].includes(keyName):
-        history.push(`/instructors/${instructors[activeRow].id}`);
+        history.push(`/instructors/${instructors[store.activeRow].id}`);
         break;
       default:
         document.getElementById(keyName.match(/.$/)).click();
@@ -43,8 +45,8 @@ const List = ({ history }) => {
   };
 
   const rowCount = instructors.length;
-  if (rowCount > 0 && activeRow === rowCount) setActiveRow(0);
-  if (rowCount > 0 && activeRow === -1) setActiveRow(rowCount - 1);
+  if (rowCount > 0 && store.activeRow === rowCount) store.activeRow = 0;
+  if (rowCount > 0 && store.activeRow === -1) store.activeRow = rowCount - 1;
 
   if (store.headerButtons.length === 0)
     store.headerButtons = [
@@ -75,7 +77,7 @@ const List = ({ history }) => {
             {instructors.map((instructor, i) => (
               <tr
                 key={i}
-                className={i === activeRow ? "active" : ""}
+                className={i === store.activeRow ? "active" : ""}
                 onClick={() => handleRowClick(instructor)}
               >
                 <td>{instructor.name}</td>

@@ -10,6 +10,12 @@ import Edit from "./Edit";
 import Jump from "./Jump";
 import Footer from "../Footer";
 
+store.students = [];
+store.filteredStudents = [];
+store.instructors = [];
+store.aircraft = [];
+store.activeStudentRow = 0;
+
 const StudentRouter = props => {
   const { headerButtons } = store;
   return (

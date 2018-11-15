@@ -10,11 +10,6 @@ import AircraftRouter from "./components/aircraft/AircraftRouter";
 
 class App extends Component {
   render() {
-    store.students = [];
-    store.filteredStudents = [];
-    store.instructors = [];
-    store.aircraft = [];
-    store.filter = "";
     store.flash = store.flash || {};
     store.headerButtons = [];
     store.deleteConfirmation = false;

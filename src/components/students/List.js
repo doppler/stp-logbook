@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import HotKeys from "react-hot-keys";
 
 import { store, collect } from "react-recollect";
@@ -11,6 +11,7 @@ import getStudents from "./api/getStudents";
 const List = ({ match, history }) => {
   const { students, filteredStudents, filter } = store;
   store.student = null;
+  store.activeJumpRow = -1;
 
   if (students.length === 0) {
     (async () => {
@@ -56,7 +57,6 @@ const List = ({ match, history }) => {
     return `rgb(${Math.floor((255 / 14) * daysSinceLastJump)}, 255, 0)`;
   };
 
-  const [activeRow, setActiveRow] = useState(0);
   const onKeyDown = (keyName, e, handle) => {
     if (e.srcElement.type === "submit" && keyName === "enter") {
       return true;
@@ -64,13 +64,15 @@ const List = ({ match, history }) => {
     if (e.srcElement.type !== undefined) return false;
     switch (true) {
       case ["down", "j"].includes(keyName):
-        setActiveRow(activeRow + 1);
+        store.activeStudentRow++;
         break;
       case ["up", "k"].includes(keyName):
-        setActiveRow(activeRow - 1);
+        store.activeStudentRow--;
         break;
       case ["enter", "right"].includes(keyName):
-        history.push(`/students/${filteredStudents[activeRow].id}`);
+        history.push(
+          `/students/${filteredStudents[store.activeStudentRow].id}`
+        );
         break;
       default:
         document.getElementById(keyName.match(/.$/)).click();
@@ -79,8 +81,10 @@ const List = ({ match, history }) => {
   };
 
   const rowCount = filteredStudents.length;
-  if (rowCount > 0 && activeRow === rowCount) setActiveRow(0);
-  if (rowCount > 0 && activeRow === -1) setActiveRow(rowCount - 1);
+  if (rowCount > 0 && store.activeStudentRow === rowCount)
+    store.activeStudentRow = 0;
+  if (rowCount > 0 && store.activeStudentRow === -1)
+    store.activeStudentRow = rowCount - 1;
 
   if (store.headerButtons.length === 0)
     store.headerButtons = [
@@ -142,7 +146,7 @@ const List = ({ match, history }) => {
                 <tr
                   key={i}
                   onClick={() => handleStudentRowClick(student)}
-                  className={i === activeRow ? "active" : ""}
+                  className={i === store.activeStudentRow ? "active" : ""}
                 >
                   <td>{student.name}</td>
                   <td>{student.email}</td>
