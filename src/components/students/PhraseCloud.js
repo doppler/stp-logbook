@@ -5,9 +5,13 @@ import "./PhraseCloud.css";
 
 import phraseCloud from "./phrase-cloud.json";
 
-store.phraseCLoud = {};
+const PhraseCloud = () => {
+  const { phraseCloudKey } = store;
 
-const PhraseCloud = ({ phrases = "exit" }) => {
+  const capitalize = string => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
   const onKeyDown = (keyName, e, handle) => {
     const phraseCloudIsHidden = document
       .querySelector("#PhraseCloud")
@@ -26,9 +30,9 @@ const PhraseCloud = ({ phrases = "exit" }) => {
         .join(",")}
     >
       <div id="PhraseCloud" className={`hidden`}>
-        <h2>Phrase Cloud</h2>
+        <h2>{capitalize(phraseCloudKey)} Phrases</h2>
         <ul>
-          {phraseCloud[phrases].map((phrase, i) => (
+          {phraseCloud[phraseCloudKey].map((phrase, i) => (
             <li key={i} data-key={`${String.fromCharCode(i + 97)}`}>
               {phrase}
             </li>

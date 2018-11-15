@@ -16,6 +16,8 @@ import flash from "../../utils/flash";
 import handleFormError from "../../utils/handleFormError";
 import removeErrorClass from "../../utils/removeErrorClass";
 
+store.phraseCloudKey = "freefall";
+
 const Jump = ({ match, history }) => {
   const { student, instructors, aircraft } = store;
   let jump = null;
@@ -64,8 +66,9 @@ const Jump = ({ match, history }) => {
   };
 
   const handleLabelClick = e => {
-    if (e.key.toLowerCase() !== "enter") return true;
-    // const labelFor = e.target.attributes.for.value;
+    if (e.key && e.key.toLowerCase() !== "enter") return true;
+    const labelFor = e.target.attributes.for.value.replace(/-hidden$/, "");
+    store.phraseCloudKey = labelFor;
     document.querySelector("#PhraseCloud").classList.toggle("hidden");
     return true;
   };
@@ -264,39 +267,57 @@ const Jump = ({ match, history }) => {
                 <legend>Freefall / Canopy</legend>
                 <div className="input-group">
                   <label
+                    onClick={handleLabelClick}
                     onKeyDown={handleLabelClick}
                     tabIndex={0}
                     htmlFor="exit-hidden"
-                    onClick={handleLabelClick}
                   >
                     Exit
                   </label>
                   <textarea
-                    style={{ display: "inline" }}
                     id="exit"
                     value={jump.exit}
                     onChange={setAttribute}
-                    className="formField"
+                    className="formField required"
+                    required
                   />
                   <textarea id="exit-hidden" />
                 </div>
                 <div className="input-group">
-                  <label htmlFor="freefall">Freefall</label>
+                  <label
+                    onClick={handleLabelClick}
+                    onKeyDown={handleLabelClick}
+                    tabIndex={0}
+                    htmlFor="freefall-hidden"
+                  >
+                    Freefall
+                  </label>
                   <textarea
                     id="freefall"
                     value={jump.freefall}
                     onChange={setAttribute}
-                    className="formField"
+                    className="formField required"
+                    required
                   />
+                  <textarea id="freefall-hidden" />
                 </div>
                 <div className="input-group">
-                  <label htmlFor="canopy">Canopy</label>
+                  <label
+                    onClick={handleLabelClick}
+                    onKeyDown={handleLabelClick}
+                    tabIndex={0}
+                    htmlFor="canopy-hidden"
+                  >
+                    Canopy
+                  </label>
                   <textarea
                     id="canopy"
                     value={jump.canopy}
                     onChange={setAttribute}
-                    className="formField"
+                    className="formField required"
+                    required
                   />
+                  <textarea id="canopy-hidden" />
                 </div>
                 <div className="input-group">
                   <label htmlFor="notes">Notes</label>
@@ -313,7 +334,7 @@ const Jump = ({ match, history }) => {
           </form>
         </div>
       </HotKeys>
-      <PhraseCloud />
+      <PhraseCloud key={store.phraseCloudKey} />
     </React.Fragment>
   );
 };
