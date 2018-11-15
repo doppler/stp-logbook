@@ -16,7 +16,7 @@ import flash from "../../utils/flash";
 import handleFormError from "../../utils/handleFormError";
 import removeErrorClass from "../../utils/removeErrorClass";
 
-store.phraseCloudKey = "freefall";
+store.phraseCloudKey = "exit";
 
 const Jump = ({ match, history }) => {
   const { student, instructors, aircraft } = store;
@@ -105,6 +105,21 @@ const Jump = ({ match, history }) => {
     store.deleteConfirmation = true;
   };
 
+  const handlePhraseCloudOverlayClose = () => {
+    const targetPhraseElementList = document.querySelector("ul#target");
+    const phraseTextArray = [];
+    targetPhraseElementList.childNodes.forEach(el =>
+      phraseTextArray.push(el.innerHTML)
+    );
+    setAttribute({
+      target: {
+        id: store.phraseCloudKey,
+        value: phraseTextArray.join(" ")
+      }
+    });
+    document.querySelector("#PhraseCloud").classList.add("hidden");
+  };
+
   const onKeyDown = (keyName, e, handle) => {
     if (e.srcElement.type === "submit" && keyName === "enter") {
       return e.srcElement.children[0].click();
@@ -116,7 +131,7 @@ const Jump = ({ match, history }) => {
         deleteJumpButton.click();
         break;
       case keyName === "esc":
-        document.querySelector("#PhraseCloud").classList.add("hidden");
+        handlePhraseCloudOverlayClose();
         break;
       default:
         document.getElementById(keyName.match(/.$/)).click();

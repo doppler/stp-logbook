@@ -48,7 +48,7 @@ const PhraseCloud = () => {
         .map((_, i) => String.fromCharCode(i + 97))
         .join(",")}
     >
-      <div id="PhraseCloud" className={``}>
+      <div id="PhraseCloud" className={`hidden`}>
         <h2>{capitalize(phraseCloudKey)} Phrases</h2>
         <ul id="target" />
         <ul id="source">
