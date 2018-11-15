@@ -12,15 +12,12 @@ const PhraseCloud = () => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
-  const onKeyDown = (keyName, e, handle) => {
-    if (document.querySelector("#PhraseCloud").classList.contains("hidden"))
-      return null;
-
+  const handlePhraseClick = e => {
+    const keyName = e.target.attributes["data-key"].value;
     const source = document.querySelector("ul#source");
     const target = document.querySelector("ul#target");
 
     let li = document.querySelector(`li[data-key="${keyName}"]`);
-    // li.classList.toggle("selected");
     if (target.contains(li)) {
       target.removeChild(li);
       source.appendChild(li);
@@ -35,7 +32,14 @@ const PhraseCloud = () => {
     } else {
       target.appendChild(li);
     }
-    // console.log(target.children);
+  };
+
+  const onKeyDown = (keyName, e, handle) => {
+    if (document.querySelector("#PhraseCloud").classList.contains("hidden"))
+      return null;
+    handlePhraseClick({
+      target: { attributes: { "data-key": { value: keyName } } }
+    });
   };
   return (
     <HotKeys
@@ -49,7 +53,11 @@ const PhraseCloud = () => {
         <ul id="target" />
         <ul id="source">
           {phraseCloud[phraseCloudKey].map((phrase, i) => (
-            <li key={i} data-key={`${String.fromCharCode(i + 97)}`}>
+            <li
+              key={i}
+              data-key={`${String.fromCharCode(i + 97)}`}
+              onClick={handlePhraseClick}
+            >
               {phrase}
             </li>
           ))}
