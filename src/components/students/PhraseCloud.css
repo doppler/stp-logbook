@@ -1,6 +1,9 @@
 #PhraseCloud.hidden {
   display: none;
 }
+#PhraseCloud h2 {
+  margin-left: 10px;
+}
 #PhraseCloud {
   position: absolute;
   top: 0;
@@ -12,6 +15,7 @@
   opacity: 0.85;
 }
 #PhraseCloud ul {
+  padding: 0 0 0 10px;
   list-style-type: none;
 }
 #PhraseCloud li {
@@ -22,7 +26,7 @@
   border: 1px solid white;
   border-radius: 5px;
   margin: 5px;
-  padding: 0.25rem 0.5rem 0.25rem 0rem;
+  padding: 0.25rem 0.5rem 0.25rem 0.5rem;
 }
 #PhraseCloud li::before {
   content: attr(data-key);
@@ -36,4 +40,13 @@
 }
 #PhraseCloud li.selected {
   border-color: #fe0;
+}
+#PhraseCloud ul#target {
+  height: 10em;
+  border: 1px solid var(--content-border-color);
+  border-radius: 10px;
+  margin: 0 10px 0 10px;
+}
+#PhraseCloud ul#target li::before {
+  display: none;
 }
