@@ -1,11 +1,11 @@
 .App {
   height: 100vh;
   display: grid;
-  grid-template-rows: 50px auto 50px;
+  grid-template-rows: 60px auto 30px;
   grid-template-areas: "header" "content" "footer";
   align-content: stretch;
   grid-gap: 1px;
-  color: #ccc;
+  color: var(--content-text-color);
 }
 .Content {
   grid-area: content;
@@ -47,17 +47,21 @@ button {
   border-style: var(--button-border-style);
   border-radius: var(--button-border-radius);
   height: var(--button-height);
-  margin: 10px 5px 0 10px;
+  margin: 5px 5px 0 10px;
+  padding: 0 15px 0 15px;
+  min-width: 10em;
 }
 button:active {
   background-color: var(--content-hover-color);
 }
 button.pending {
-  background-color: #900;
-  color: white;
+  background-color: hsl(360, 100%, 90%);
+  color: var(--content-text-color);
+  border-color: #f00;
 }
 button.header-button::first-letter {
-  color: #fc0;
+  color: hsl(231, 100%, 50%);
+  font-weight: bold;
 }
 button > a {
   color: var(--button-text-color);
@@ -65,9 +69,7 @@ button > a {
 }
 fieldset {
   margin-top: 10px;
-  border: 5px;
-  border-style: groove;
-  border-color: rgba(255, 239, 223, 0.05);
+  border: 1px solid var(--content-border-color);
 }
 fieldset > legend {
   font-weight: bold;
@@ -87,14 +89,14 @@ fieldset.inner > legend {
 .input-group > select,
 .input-group > textarea {
   background-color: var(--input-bg-color);
-  border: 1px solid var(--content-border-color);
+  border: 1px solid var(--input-border-color);
   font-size: 1.5em;
   width: 80%;
   padding-left: 5px;
 }
 .input-group > span.append {
   background-color: var(--label-bg-color);
-  color: var(--label-color);
+  color: var(--label-text-color);
   font-weight: bold;
   border: 1px solid #666;
   border-radius: 0 5px 5px 0;
@@ -105,9 +107,9 @@ fieldset.inner > legend {
   padding: 5px 0 0 5px;
   display: flex;
   font-weight: bold;
-  color: var(--label-color);
+  color: var(--label-text-color);
   background-color: var(--label-bg-color);
-  border: 1px solid #666;
+  border: 1px solid var(--input-border-color);
   border-radius: 5px 0 0 5px;
 }
 .input-group select,
@@ -125,6 +127,8 @@ fieldset.inner > legend {
 
 table {
   width: 100%;
+  border: 1px outset var(--content-border-color);
+  border-spacing: 1px;
 }
 caption {
   margin: 10px;
@@ -134,7 +138,6 @@ caption {
 }
 th {
   background-color: var(--content-border-color);
-  border-bottom: 1px solid #666;
 }
 table#students th:first-child > input {
   float: left;
@@ -153,14 +156,16 @@ table#students th:first-child > input::placeholder {
   font-weight: var(--button-font-weight);
   color: var(--button-text-color);
 }
+tr {
+  background-color: var(--button-bg-color);
+}
 tr:hover {
   cursor: pointer;
-  background-color: #1a2244;
+  filter: brightness(99%);
 }
 tr.active {
-  background-color: var(--content-hover-color);
+  filter: brightness(95%) saturate(100%);
 }
 td {
   padding: 5px 0 5px 10px;
-  border-bottom: 1px solid var(--content-border-color);
 }

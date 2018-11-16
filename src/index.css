@@ -1,27 +1,29 @@
 /* declare css variables */
 :root {
-  --content-bg-color: #123;
-  --content-border-color: #345;
+  --content-bg-color: hsl(240, 100%, 98%);
+  --content-text-color: hsl(240, 100%, 10%);
+  --content-border-color: hsl(240, 50%, 90%);
   --content-hover-color: #348;
 
-  --button-font-weight: bold;
-  --button-text-color: #ccc;
-  --button-bg-color: #222228;
-  --button-border-width: 1px;
-  --button-border-style: outset;
+  --button-font-weight: normal;
+  --button-text-color: hsl(240, 50%, 25%);
+  --button-bg-color: hsl(240, 100%, 93%);
   --button-border-color: #abf;
   --button-border-width: 1px;
   --button-border-radius: 5px;
-  --button-height: 2em;
+  --button-border-style: outset;
+  --button-height: 3em;
 
-  --label-bg-color: #345;
-  --input-bg-color: #e0e0ff;
-  --input-border-color: #abc;
+  --label-bg-color: hsl(240, 100%, 95%);
+  --label-text-color: hsl(240, 50%, 25%);
+
+  --input-bg-color: hsl(240, 50%, 99%);
+  --input-border-color: hsl(240, 50%, 75%);
   --input-size: 2em;
 }
 
 body {
-  background-color: #678;
+  background-color: hsl(231, 100%, 50%);
   margin: 0;
   padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
