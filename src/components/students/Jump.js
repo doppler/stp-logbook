@@ -50,6 +50,16 @@ const Jump = ({ match, history }) => {
 
   const setAttribute = event => {
     let { id, value } = event.target;
+    const numericValues = [
+      "diveFlow",
+      "jumpNumber",
+      "exitAltitude",
+      "deploymentAltitude",
+      "freefallTime"
+    ];
+    if (numericValues.includes(id)) {
+      value = Number(value);
+    }
     jump[id] = value;
     jump.freefallTime = Math.ceil(
       ((jump.exitAltitude - jump.deploymentAltitude) / 1000) * 5.5
