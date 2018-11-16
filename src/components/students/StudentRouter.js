@@ -12,6 +12,7 @@ import Footer from "../Footer";
 
 store.students = [];
 store.filteredStudents = [];
+store.student = null;
 store.instructors = [];
 store.aircraft = [];
 store.activeStudentRow = 0;

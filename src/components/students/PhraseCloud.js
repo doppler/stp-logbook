@@ -13,6 +13,7 @@ const PhraseCloud = ({ setAttribute }) => {
   };
 
   const handlePhraseClick = e => {
+    if (e && e.stopPropagation) e.stopPropagation();
     const keyName = e.target.attributes["data-key"].value;
     const source = document.querySelector("ul#source");
     const target = document.querySelector("ul#target");
@@ -46,32 +47,48 @@ const PhraseCloud = ({ setAttribute }) => {
   const onKeyUp = (keyName, e, handle) => {
     if (document.querySelector("#PhraseCloud").classList.contains("hidden"))
       return null;
-    handlePhraseClick({
-      target: { attributes: { "data-key": { value: keyName } } }
-    });
+    switch (true) {
+      case keyName === "ctrl+enter":
+        hidePhraseCloud();
+        break;
+      default:
+        handlePhraseClick({
+          target: { attributes: { "data-key": { value: keyName } } }
+        });
+        break;
+    }
+  };
+
+  const hidePhraseCloud = e => {
+    if (e) e.stopPropagation();
+    document.querySelector("#PhraseCloud").classList.toggle("hidden");
   };
 
   return (
     <HotKeys
       onKeyUp={onKeyUp}
-      keyName={Array.from(Array(26))
-        .map((_, i) => String.fromCharCode(i + 97))
-        .join(",")}
+      keyName={
+        Array.from(Array(26))
+          .map((_, i) => String.fromCharCode(i + 97))
+          .join(",") + ",ctrl+enter"
+      }
     >
-      <div id="PhraseCloud" className={`hidden`}>
-        <h2>{capitalize(phraseCloudKey)} Phrases</h2>
-        <ul id="target" />
-        <ul id="source">
-          {phraseCloud[phraseCloudKey].map((phrase, i) => (
-            <li
-              key={i}
-              data-key={`${String.fromCharCode(i + 97)}`}
-              onClick={handlePhraseClick}
-            >
-              {phrase}
-            </li>
-          ))}
-        </ul>
+      <div id="PhraseCloud" className={`hidden`} onClick={hidePhraseCloud}>
+        <div className="inner">
+          <h2>{capitalize(phraseCloudKey)} Phrases</h2>
+          <ul id="target" />
+          <ul id="source">
+            {phraseCloud[phraseCloudKey].map((phrase, i) => (
+              <li
+                key={i}
+                data-key={`${String.fromCharCode(i + 97)}`}
+                onClick={handlePhraseClick}
+              >
+                {phrase}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </HotKeys>
   );
