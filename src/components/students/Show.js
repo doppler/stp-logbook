@@ -75,7 +75,7 @@ const Show = ({ match, history }) => {
         );
         break;
       case keyName === "left":
-        history.goBack(1);
+        history.push("/students");
         break;
       default:
         document.getElementById(keyName.match(/.$/)).click();
