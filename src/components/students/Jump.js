@@ -56,13 +56,6 @@ const Jump = ({ match, history }) => {
     );
   };
 
-  const handlePhraseCloudOverlayClose = () => {
-    document.querySelector("#PhraseCloud").classList.add("hidden");
-    let ta = document.querySelector(`textarea#${store.phraseCloudKey}`);
-    const e = new Event("change", { bubbles: true });
-    ta.dispatchEvent(e);
-  };
-
   const handleLabelClick = e => {
     if (e.key && e.key.toLowerCase() !== "enter") return true;
     const labelFor = e.target.attributes.for.value.replace(/-hidden$/, "");
@@ -105,9 +98,9 @@ const Jump = ({ match, history }) => {
   };
 
   const onKeyDown = (keyName, e, handle) => {
-    if (e.srcElement.type === "submit" && keyName === "enter") {
-      return e.srcElement.children[0].click();
-    }
+    // if (e.srcElement.type === "submit" && keyName === "enter") {
+    //   return e.srcElement.children[0].click();
+    // }
     switch (true) {
       case keyName === "ctrl+d":
         const deleteJumpButton = document.getElementById("d");
@@ -115,7 +108,7 @@ const Jump = ({ match, history }) => {
         deleteJumpButton.click();
         break;
       case keyName === "esc":
-        handlePhraseCloudOverlayClose();
+        document.querySelector("#PhraseCloud").classList.add("hidden");
         break;
       default:
         document.getElementById(keyName.match(/.$/)).click();
