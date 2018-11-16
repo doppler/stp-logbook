@@ -65,11 +65,16 @@ const Jump = ({ match, history }) => {
   };
 
   const saveJump = async e => {
-    // if (e) {
-    //   document.querySelector("input[type='submit']").click();
-    //   e.preventDefault();
-    // }
+    if (e) {
+      document.querySelector("input[type='submit']").click();
+      e.preventDefault();
+    }
     removeErrorClass();
+    const otherJumps = student.jumps.filter(o => o.number !== jump.number);
+    const jumps = [jump, ...otherJumps].sort(
+      (a, b) => (a.number > b.number ? 1 : -1)
+    );
+    student.jumps = jumps;
     const res = await save(student, jump);
     if (res.error) {
       flash({ error: "Please check form for errors." });
@@ -77,7 +82,6 @@ const Jump = ({ match, history }) => {
     }
     store.student = res;
     flash({ success: `Saved ${student.name}` });
-    history.push(`/students/${student.id}`);
   };
 
   const reallyDeleteJump = async () => {
@@ -97,7 +101,8 @@ const Jump = ({ match, history }) => {
     store.deleteConfirmation = true;
   };
 
-  const onKeyDown = (keyName, e, handle) => {
+  const onKeyUp = (keyName, e, handle) => {
+    e.stopPropagation();
     // if (e.srcElement.type === "submit" && keyName === "enter") {
     //   return e.srcElement.children[0].click();
     // }
@@ -119,12 +124,16 @@ const Jump = ({ match, history }) => {
 
   if (store.headerButtons.length === 0)
     store.headerButtons = [
+      // {
+      //   id: "l",
+      //   onClick: () => history.push("/students"),
+      //   children: "List Students"
+      // },
       {
-        id: "l",
-        onClick: () => history.push("/students"),
-        children: "List Students"
+        id: "b",
+        onClick: () => history.push(`/students/${student.id}`),
+        children: "Back"
       },
-      { id: "b", onClick: () => history.goBack(1), children: "Back" },
       { id: "s", onClick: saveJump, children: "Save Jump" },
       {
         id: "d",
@@ -135,10 +144,7 @@ const Jump = ({ match, history }) => {
     ];
   return (
     <React.Fragment>
-      <HotKeys
-        keyName={"ctrl+l,ctrl+b,ctrl+s,ctrl+d,esc"}
-        onKeyDown={onKeyDown}
-      >
+      <HotKeys keyName={"ctrl+l,ctrl+b,ctrl+s,ctrl+d,esc"} onKeyUp={onKeyUp}>
         <div id="Jump" className="Content">
           <div>
             <strong>Note: </strong> This feature will be read-only except by

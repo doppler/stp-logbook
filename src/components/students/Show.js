@@ -54,7 +54,7 @@ const Show = ({ match, history }) => {
     })();
   };
 
-  const onKeyDown = (keyName, e, handle) => {
+  const onKeyUp = (keyName, e, handle) => {
     if (e.srcElement.type === "submit" && keyName === "enter") {
       return e.srcElement.click();
     }
@@ -88,12 +88,12 @@ const Show = ({ match, history }) => {
 
   if (store.headerButtons.length === 0)
     store.headerButtons = [
-      {
-        id: "l",
-        onClick: () => history.push("/students"),
-        children: "List Students"
-      },
-      { id: "b", onClick: () => history.goBack(1), children: "Back" },
+      // {
+      //   id: "l",
+      //   onClick: () => history.push("/students"),
+      //   children: "List Students"
+      // },
+      { id: "b", onClick: () => history.push("/students"), children: "Back" },
       { id: "a", onClick: addJump, children: "Add Jump" },
       {
         id: "e",
@@ -104,7 +104,7 @@ const Show = ({ match, history }) => {
   return (
     <HotKeys
       keyName="down,j,up,k,enter,right,left,ctrl+l,ctrl+b,ctrl+a,ctrl+e"
-      onKeyDown={onKeyDown}
+      onKeyUp={onKeyUp}
     >
       <div className="Content">
         <table tabIndex={0}>
