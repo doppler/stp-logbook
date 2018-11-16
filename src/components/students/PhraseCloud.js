@@ -43,7 +43,7 @@ const PhraseCloud = ({ setAttribute }) => {
     });
   };
 
-  const onKeyDown = (keyName, e, handle) => {
+  const onKeyUp = (keyName, e, handle) => {
     if (document.querySelector("#PhraseCloud").classList.contains("hidden"))
       return null;
     handlePhraseClick({
@@ -53,7 +53,7 @@ const PhraseCloud = ({ setAttribute }) => {
 
   return (
     <HotKeys
-      onKeyDown={onKeyDown}
+      onKeyUp={onKeyUp}
       keyName={Array.from(Array(26))
         .map((_, i) => String.fromCharCode(i + 97))
         .join(",")}
