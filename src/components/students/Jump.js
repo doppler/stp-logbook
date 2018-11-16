@@ -72,16 +72,17 @@ const Jump = ({ match, history }) => {
   };
 
   const saveJump = async e => {
-    if (e) {
-      document.querySelector("input[type='submit']").click();
-      e.preventDefault();
-    }
+    // if (e) {
+    //   document.querySelector("input[type='submit']").click();
+    //   e.preventDefault();
+    // }
     removeErrorClass();
     const res = await save(student, jump);
     if (res.error) {
       flash({ error: "Please check form for errors." });
       return handleFormError(res.error);
     }
+    store.student = res;
     flash({ success: `Saved ${student.name}` });
     history.push(`/students/${student.id}`);
   };
@@ -101,26 +102,6 @@ const Jump = ({ match, history }) => {
   const deleteJump = () => {
     if (store.deleteConfirmation) return reallyDeleteJump();
     store.deleteConfirmation = true;
-  };
-
-  const handlePhraseCloudOverlayClose = () => {
-    const targetPhraseElementList = document.querySelector("ul#target");
-    const phraseTextArray = [];
-    const phraseKeyArray = [];
-    targetPhraseElementList.childNodes.forEach(el => {
-      phraseTextArray.push(el.innerHTML);
-    });
-    store.phraseCloudSelections[store.phraseCloudKey] = phraseKeyArray;
-    setAttribute({
-      target: {
-        id: store.phraseCloudKey,
-        value: phraseTextArray.join(" ")
-      }
-    });
-    document
-      .querySelector(`textarea#${store.phraseCloudKey}`)
-      .dispatchEvent(new Event("change"));
-    document.querySelector("#PhraseCloud").classList.add("hidden");
   };
 
   const onKeyDown = (keyName, e, handle) => {
@@ -349,7 +330,7 @@ const Jump = ({ match, history }) => {
           </form>
         </div>
       </HotKeys>
-      <PhraseCloud key={store.phraseCloudKey} />
+      <PhraseCloud setAttribute={setAttribute} />
     </React.Fragment>
   );
 };

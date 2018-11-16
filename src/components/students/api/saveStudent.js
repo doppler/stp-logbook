@@ -14,7 +14,7 @@ const saveStudent = async (student, jump) => {
 
   localStorage.setItem("stp-logbook:students", JSON.stringify(students));
 
-  return {};
+  return student;
 };
 
 export default saveStudent;

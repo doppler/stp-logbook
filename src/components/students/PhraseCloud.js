@@ -5,7 +5,7 @@ import "./PhraseCloud.css";
 
 import phraseCloud from "./phrase-cloud.json";
 
-const PhraseCloud = () => {
+const PhraseCloud = ({ setAttribute }) => {
   const { phraseCloudKey } = store;
 
   const capitalize = string => {
@@ -32,6 +32,15 @@ const PhraseCloud = () => {
     } else {
       target.appendChild(li);
     }
+    const targetText = Array.from(target.childNodes)
+      .map(el => el.innerHTML)
+      .join(" ");
+    setAttribute({
+      target: {
+        id: store.phraseCloudKey,
+        value: targetText
+      }
+    });
   };
 
   const onKeyDown = (keyName, e, handle) => {
