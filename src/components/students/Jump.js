@@ -143,7 +143,7 @@ const Jump = ({ match, history }) => {
   return (
     <React.Fragment>
       <HotKeys
-        keyName={"ctrl+l,ctrl+b,ctrl+b,ctrl+d,esc"}
+        keyName={"ctrl+l,ctrl+b,ctrl+s,ctrl+d,esc"}
         onKeyDown={onKeyDown}
       >
         <div id="Jump" className="Content">
