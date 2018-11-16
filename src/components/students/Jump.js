@@ -50,21 +50,17 @@ const Jump = ({ match, history }) => {
 
   const setAttribute = event => {
     let { id, value } = event.target;
-    console.table({ id, value });
-    const numericValues = [
-      "diveFlow",
-      "jumpNumber",
-      "exitAltitude",
-      "deploymentAltitude",
-      "freefallTime"
-    ];
-    if (numericValues.includes(id)) {
-      value = Number(value);
-    }
     jump[id] = value;
     jump.freefallTime = Math.ceil(
       ((jump.exitAltitude - jump.deploymentAltitude) / 1000) * 5.5
     );
+  };
+
+  const handlePhraseCloudOverlayClose = () => {
+    document.querySelector("#PhraseCloud").classList.add("hidden");
+    let ta = document.querySelector(`textarea#${store.phraseCloudKey}`);
+    const e = new Event("change", { bubbles: true });
+    ta.dispatchEvent(e);
   };
 
   const handleLabelClick = e => {
