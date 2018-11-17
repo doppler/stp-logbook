@@ -122,43 +122,41 @@ const Home = ({ history }) => {
               is under active development since Tuesday, November 6th 2018, and
               it's still got a long way to go.
             </p>
-            <p>
-              Planned features include:
-              <ul>
-                <li>
-                  <strong>
-                    <em>Phrase Cloud</em>
-                  </strong>{" "}
-                  log entry text creation. Rather than typing, select common log
-                  entry phrases from a collection of common phrases.
-                </li>
-                <li>
-                  <strong>Backend Integration</strong> will be needed for
-                  storing and editing of videos as well as syncronization of
-                  data between clients. Duh.
-                </li>
-                <li>
-                  <strong>
-                    <em>Drag and Drop Video</em>
-                  </strong>{" "}
-                  management. Drag your student's video directly from your SD
-                  card to the student's log entry.
-                </li>
-                <li>
-                  <strong>
-                    <em>Video Trimming</em>
-                  </strong>{" "}
-                  capability. Trim the video to remove unwanted plane and
-                  instructor canopy content.
-                </li>
-                <li>
-                  <strong>
-                    <em>Printer Friendly Output</em>
-                  </strong>{" "}
-                  so the student has a record of their jumps.
-                </li>
-              </ul>
-            </p>
+            <p>Planned features include:</p>
+            <ul>
+              <li>
+                <strong>
+                  <em>Phrase Cloud</em>
+                </strong>{" "}
+                log entry text creation. Rather than typing, select common log
+                entry phrases from a collection of common phrases.
+              </li>
+              <li>
+                <strong>Backend Integration</strong> will be needed for storing
+                and editing of videos as well as syncronization of data between
+                clients. Duh.
+              </li>
+              <li>
+                <strong>
+                  <em>Drag and Drop Video</em>
+                </strong>{" "}
+                management. Drag your student's video directly from your SD card
+                to the student's log entry.
+              </li>
+              <li>
+                <strong>
+                  <em>Video Trimming</em>
+                </strong>{" "}
+                capability. Trim the video to remove unwanted plane and
+                instructor canopy content.
+              </li>
+              <li>
+                <strong>
+                  <em>Printer Friendly Output</em>
+                </strong>{" "}
+                so the student has a record of their jumps.
+              </li>
+            </ul>
           </section>
           <section>
             <details>
