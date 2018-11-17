@@ -28,7 +28,7 @@ span.currency-color {
   border-radius: 50%;
   border: 1px solid #036;
   margin-top: 4px;
-  filter: drop-shadow(3px 2px hsl(240, 25%, 80%));
+  filter: var(--currency-color-drop-shadow-color);
 }
 div.jump-details {
   display: flex;
@@ -51,10 +51,10 @@ button {
   height: var(--button-height);
   margin: 0px 5px 0 10px;
   min-width: 10em;
-  filter: drop-shadow(2px 2px hsl(240, 50%, 90%));
+  filter: var(--button-drop-shadow-color);
   background-image: linear-gradient(
     var(--button-bg-color),
-    hsl(240, 100%, 93%)
+    var(--button-bg-image-color)
   );
 }
 button:active {
@@ -75,7 +75,7 @@ button > a {
 fieldset {
   margin-top: 0.25em;
   border: 1px solid var(--content-border-color);
-  filter: drop-shadow(2px 2px hsl(230, 15%, 95%));
+  filter: drop-shadow(2px 2px var(--fieldset-drop-shadow-color));
 }
 fieldset > legend {
   background-color: var(--button-bg-color);
@@ -89,7 +89,7 @@ fieldset > legend {
 .input-group > input,
 .input-group > select,
 .input-group > textarea {
-  color: hsl(240, 20%, 50%);
+  color: var(--input-text-color);
   background-color: var(--input-bg-color);
   border: 1px solid var(--input-border-color);
   font-size: 1.25em;
@@ -123,7 +123,7 @@ table {
   width: 100%;
   border: 1px outset var(--content-border-color);
   border-spacing: 1px;
-  filter: drop-shadow(2px 2px hsl(230, 25%, 90%));
+  filter: drop-shadow(2px 2px var(--table-drop-shadow-color));
 }
 caption {
   margin-left: 10px;
