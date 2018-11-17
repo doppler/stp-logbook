@@ -44,6 +44,12 @@ const PhraseCloud = ({ setAttribute }) => {
     });
   };
 
+  const hidePhraseCloud = e => {
+    if (e.target.getAttribute("class") === "outer") {
+      document.querySelector("#PhraseCloud").classList.toggle("hidden");
+    }
+  };
+
   const onKeyUp = (keyName, e, handle) => {
     if (document.querySelector("#PhraseCloud").classList.contains("hidden"))
       return null;
@@ -59,11 +65,6 @@ const PhraseCloud = ({ setAttribute }) => {
     }
   };
 
-  const hidePhraseCloud = e => {
-    if (e) e.stopPropagation();
-    document.querySelector("#PhraseCloud").classList.toggle("hidden");
-  };
-
   return (
     <HotKeys
       onKeyUp={onKeyUp}
@@ -73,9 +74,19 @@ const PhraseCloud = ({ setAttribute }) => {
           .join(",") + ",ctrl+enter"
       }
     >
-      <div id="PhraseCloud" className={`hidden`} onClick={hidePhraseCloud}>
-        <div className="inner">
-          <h2>{capitalize(phraseCloudKey)} Phrases</h2>
+      <div
+        id="PhraseCloud"
+        className={`outer hidden`}
+        onClick={hidePhraseCloud}
+      >
+        <div className="inner" onClick={null}>
+          <h2>
+            {capitalize(phraseCloudKey)} Phrases{" "}
+            <small>
+              Click a phrase or press the label key to move to/from target area.
+              Click anywhere else or press [esc] to close.
+            </small>
+          </h2>
           <ul id="target" />
           <ul id="source">
             {phraseCloud[phraseCloudKey].map((phrase, i) => (
