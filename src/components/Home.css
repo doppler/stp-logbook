@@ -13,23 +13,12 @@
 .Home li {
   margin-bottom: 10px;
 }
-.warning {
-  width: 50vw;
-  color: white;
-  background-color: #800;
-  border: 1px solid #f00;
+details .warning {
+  margin-top: 0.5em;
+  border: 1px solid var(--warning-border-color);
   border-radius: 10px;
-  margin: 10px;
-  padding: 10px;
+  padding: 0px 10px 0px 10px;
 }
-.warning h3 {
-  margin: 0;
-  padding: 0;
-  border-bottom: 1px solid #f00;
-}
-button.confirm {
-  background-color: #a00;
-}
-button.confirm::before {
-  content: "Yes, I really want to ";
+details .warning h3 {
+  margin-top: 0.5em;
 }

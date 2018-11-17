@@ -105,11 +105,6 @@ const List = ({ match, history }) => {
       onKeyDown={onKeyDown}
     >
       <div className="Content">
-        <div>
-          <strong>Note: </strong> This feature will be read-only except by
-          authorized users in an upcoming release.
-        </div>
-
         <table id="students">
           <caption>Students</caption>
           <thead>

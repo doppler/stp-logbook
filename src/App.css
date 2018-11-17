@@ -28,6 +28,7 @@ span.currency-color {
   border-radius: 50%;
   border: 1px solid #036;
   margin-top: 4px;
+  filter: drop-shadow(3px 2px hsl(240, 25%, 80%));
 }
 div.jump-details {
   display: flex;
@@ -40,6 +41,7 @@ div.jump-details > div {
 }
 button {
   color: var(--button-text-color);
+  font-size: 1.25em;
   font-weight: var(--button-font-weight);
   background-color: var(--button-bg-color);
   border: var(--button-border-width);
@@ -47,66 +49,58 @@ button {
   border-style: var(--button-border-style);
   border-radius: var(--button-border-radius);
   height: var(--button-height);
-  margin: 5px 5px 0 10px;
-  padding: 0 15px 0 15px;
+  margin: 0px 5px 0 10px;
   min-width: 10em;
+  filter: drop-shadow(2px 2px hsl(240, 50%, 90%));
+  background-image: linear-gradient(
+    var(--button-bg-color),
+    hsl(240, 100%, 93%)
+  );
 }
 button:active {
-  background-color: var(--content-hover-color);
+  filter: brightness(90%);
 }
-button.pending {
-  background-color: hsl(360, 100%, 90%);
-  color: var(--content-text-color);
-  border-color: #f00;
+.warning {
+  background-color: var(--warning-bg-color);
+  border-color: var(--warning-border-color);
+  background-image: none;
 }
 button.header-button::first-letter {
-  color: hsl(231, 100%, 50%);
-  font-weight: bold;
+  text-decoration: underline;
 }
 button > a {
   color: var(--button-text-color);
   text-decoration: none;
 }
 fieldset {
-  margin-top: 10px;
+  margin-top: 0.25em;
   border: 1px solid var(--content-border-color);
+  filter: drop-shadow(2px 2px hsl(230, 15%, 95%));
 }
 fieldset > legend {
-  font-weight: bold;
-}
-fieldset.inner {
-  margin-top: 10px;
-}
-fieldset.inner > legend {
-  opacity: 0.75;
+  background-color: var(--button-bg-color);
+  border: 1px solid var(--content-border-color);
+  border-radius: 5px;
+  padding: 0.25em 2em 0.25em 2em;
 }
 .input-group {
-  /* width: 100vh; */
   display: flex;
-  margin-bottom: 10px;
 }
 .input-group > input,
 .input-group > select,
 .input-group > textarea {
+  color: hsl(240, 20%, 50%);
   background-color: var(--input-bg-color);
   border: 1px solid var(--input-border-color);
-  font-size: 1.5em;
+  font-size: 1.25em;
   width: 80%;
   padding-left: 5px;
 }
-.input-group > span.append {
-  background-color: var(--label-bg-color);
-  color: var(--label-text-color);
-  font-weight: bold;
-  border: 1px solid #666;
-  border-radius: 0 5px 5px 0;
-  padding: 5px 5px 5px 0;
-}
 .input-group *:first-child {
   width: 25vh;
-  padding: 5px 0 0 5px;
+  padding: 0.5em 0 0.5em 0.5em;
   display: flex;
-  font-weight: bold;
+  font-weight: normal;
   color: var(--label-text-color);
   background-color: var(--label-bg-color);
   border: 1px solid var(--input-border-color);
@@ -121,17 +115,18 @@ fieldset.inner > legend {
 }
 .input-group > input.error,
 .input-group > select.error {
-  border-color: #f00;
-  background-color: #feb;
+  border-color: var(--warning-border-color);
+  background-color: var(--warning-bg-color);
 }
 
 table {
   width: 100%;
   border: 1px outset var(--content-border-color);
   border-spacing: 1px;
+  filter: drop-shadow(2px 2px hsl(230, 25%, 90%));
 }
 caption {
-  margin: 10px;
+  margin-left: 10px;
   font-weight: bold;
   text-align: left;
   caption-side: top;

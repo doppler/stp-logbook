@@ -198,14 +198,14 @@ const Home = ({ history }) => {
               </table>
               {store.studentCount === 0 ? (
                 <button
-                  className={store.deleteConfirmation ? "confirm" : null}
+                  className={store.deleteConfirmation ? "warning" : null}
                   onClick={handleCreateTestData}
                 >
                   Create Test Data
                 </button>
               ) : (
                 <button
-                  className={store.deleteConfirmation ? "confirm" : null}
+                  className={store.deleteConfirmation ? "warning" : null}
                   onClick={handleDeleteTestData}
                 >
                   Delete Test Data
