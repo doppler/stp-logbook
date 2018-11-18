@@ -139,7 +139,7 @@ caption {
   caption-side: top;
 }
 th {
-  background-color: var(--content-bg-color);
+  background-color: var(--label-bg-color);
 }
 thead > th {
   border-bottom: 1px solid var(--content-text-color);
