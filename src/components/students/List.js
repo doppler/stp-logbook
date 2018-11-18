@@ -122,8 +122,6 @@ const List = ({ match, history }) => {
                   placeholder="Filter by name"
                 />
               </th>
-              <th>Email</th>
-              <th>Phone</th>
               <th>Last Jump</th>
               <th>Last DiveFlow</th>
             </tr>
@@ -149,8 +147,6 @@ const List = ({ match, history }) => {
                   className={i === store.activeStudentRow ? "active" : ""}
                 >
                   <td>{student.name}</td>
-                  <td>{student.email}</td>
-                  <td>{student.phone}</td>
                   <td>
                     {lastJumpStr}
                     <span
