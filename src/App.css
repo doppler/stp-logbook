@@ -133,7 +133,7 @@ table {
   filter: drop-shadow(2px 2px var(--table-drop-shadow-color));
 }
 caption {
-  margin-left: 10px;
+  margin: 0.5em 0 1em 0.5em;
   font-weight: bold;
   text-align: left;
   caption-side: top;
