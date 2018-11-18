@@ -1,4 +1,4 @@
-const validateInstructor = require("./validateInstructor");
+import validateInstructor from "./validateInstructor";
 
 const saveInstructor = async instructor => {
   const validation = validateInstructor(instructor);

@@ -1,5 +1,5 @@
-const validateStudent = require("./validateStudent");
-const validateJump = require("./validateJump");
+import validateStudent from "./validateStudent";
+import validateJump from "./validateJump";
 
 const saveStudent = async (student, jump) => {
   const validation = jump ? validateJump(jump) : validateStudent(student);

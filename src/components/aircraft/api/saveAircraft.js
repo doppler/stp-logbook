@@ -1,4 +1,4 @@
-const validateAircraft = require("./validateAircraft");
+import validateAircraft from "./validateAircraft";
 
 const saveAircraft = async singleAircraft => {
   const validation = validateAircraft(singleAircraft);
