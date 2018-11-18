@@ -1,6 +1,8 @@
 import React from "react";
 import HotKeys from "react-hot-keys";
 
+import "./Show.css";
+
 import { store, collect } from "react-recollect";
 import format from "date-fns/format";
 import distanceInWordsToNow from "date-fns/distance_in_words_to_now";
@@ -107,8 +109,12 @@ const Show = ({ match, history }) => {
       onKeyUp={onKeyUp}
     >
       <div className="Content">
+        <div className="show student">
+          <div>{student.name}</div>
+          <div>{student.email}</div>
+          <div>{student.phone}</div>
+        </div>
         <table tabIndex={0}>
-          <caption>{student.name}</caption>
           <thead>
             <tr>
               <th>Jump #</th>

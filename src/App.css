@@ -127,7 +127,7 @@ table {
   width: 100%;
 }
 caption {
-  margin: 10px;
+  margin: 0.5em 0 1em 0.5em;
   font-weight: bold;
   text-align: left;
   caption-side: top;
