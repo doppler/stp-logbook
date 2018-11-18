@@ -6,8 +6,7 @@
   left: 0;
   transition-property: top;
   transition-duration: 0.25s;
-  /* background-color: var(--content-bg-color); */
-  opacity: 0.95;
+  opacity: 0.99;
 }
 #PhraseCloud.hidden {
   top: 100vh;
@@ -17,7 +16,7 @@
   overflow: scroll;
   background-color: var(--label-bg-color);
   opacity: 0.95;
-  border: 5px outset var(--button-border-color);
+  border: 4px double var(--input-border-color);
   border-radius: 10px;
   filter: drop-shadow(5px 5px hsl(var(base-hue), 25%, 65%));
 }
@@ -25,8 +24,8 @@
   margin: 0.25em 0 0 0.5em;
 }
 #PhraseCloud h2 > small {
-  color: var(--button-border-color);
-  font-size: 1rem;
+  color: var(--content-text-color);
+  font-size: 0.8rem;
 }
 #PhraseCloud ul {
   border: 1px solid var(--button-border-color);
@@ -42,8 +41,7 @@
 #PhraseCloud li {
   display: inline-block;
   color: var(--button-text-color);
-  /* font-weight: bold; */
-  background-color: var(--button-bg-color);
+  background-color: var(--button-bg-image-color);
   border: 1px solid var(--button-border-color);
   border-radius: 1em;
   margin: 0.1em;
@@ -51,15 +49,12 @@
 }
 #PhraseCloud li::before {
   content: attr(data-key);
-  color: var(--button-border-color);
-  background-color: var(--label-bg-color);
+  color: var(--content-text-color);
+  background-color: var(--button-bg-color);
   border: 1px solid var(--button-border-color);
   padding: 0 0.5em 0 0.5em;
   width: 3em;
   height: 3em;
   border-radius: 1em;
   margin-right: 0.5em;
-}
-#PhraseCloud li.selected {
-  border-color: #fe0;
 }
