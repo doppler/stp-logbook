@@ -3,7 +3,7 @@
 }
 .Header {
   display: flex;
-  filter: saturate(70%);
+  background-color: var(--label-bg-color);
 }
 .Header > div {
   flex: 1;

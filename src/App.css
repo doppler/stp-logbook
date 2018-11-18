@@ -74,14 +74,18 @@ button > a {
 }
 fieldset {
   margin-top: 0.25em;
-  border: 1px solid var(--content-border-color);
+  border: 1px solid var(--button-border-color);
+  border-radius: 5px;
   filter: drop-shadow(2px 2px var(--fieldset-drop-shadow-color));
 }
 fieldset > legend {
   background-color: var(--button-bg-color);
-  border: 1px solid var(--content-border-color);
+  border: 1px solid var(--button-border-color);
   border-radius: 5px;
   padding: 0.25em 2em 0.25em 2em;
+}
+fieldset.inner > legend {
+  text-align: right;
 }
 .input-group {
   display: flex;
@@ -122,7 +126,8 @@ fieldset > legend {
 table {
   width: 100%;
   border: 1px outset var(--content-border-color);
-  border-spacing: 1px;
+  border-spacing: 0;
+  border-collapse: collapse;
   filter: drop-shadow(2px 2px var(--table-drop-shadow-color));
 }
 caption {
@@ -132,7 +137,8 @@ caption {
   caption-side: top;
 }
 th {
-  background-color: var(--content-border-color);
+  background-color: var(--button-bg-image-color);
+  /* filter: brightness(90%); */
 }
 table#students th:first-child > input {
   float: left;
@@ -151,15 +157,20 @@ table#students th:first-child > input::placeholder {
   font-weight: var(--button-font-weight);
   color: var(--button-text-color);
 }
+td: {
+  border: 0;
+}
 tr {
   background-color: var(--button-bg-color);
 }
 tr:hover {
   cursor: pointer;
-  filter: brightness(99%);
+  background-color: var(--button-bg-color);
+  filter: saturate(75%);
 }
-tr.active {
-  filter: brightness(95%) saturate(100%);
+tr.active td {
+  background-color: var(--button-bg-image-color);
+  filter: brightness(98%);
 }
 td {
   padding: 5px 0 5px 10px;
