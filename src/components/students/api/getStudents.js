@@ -1,9 +1,8 @@
-const exampleStudent = require("./example-student");
+import exampleStudent from "./example-student";
 
 const getStudents = async () => {
   const students =
-    JSON.parse(localStorage.getItem("stp-logbook:students")) ||
-    exampleStudent.default;
+    JSON.parse(localStorage.getItem("stp-logbook:students")) || exampleStudent;
   return students;
 };
 
