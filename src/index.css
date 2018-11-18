@@ -1,16 +1,17 @@
 /* declare css variables */
 :root {
-  --base-hue: 240;
-  --content-bg-color: hsl(var(--base-hue), 25%, 20%);
-  --content-text-color: hsl(var(--base-hue), 25%, 80%);
-  --content-border-color: hsl(var(--base-hue), 25%, 50%);
+  --base-hue: 210;
+  --content-bg-color: hsl(var(--base-hue), 50%, 15%);
+  --content-text-color: hsl(var(--base-hue), 10%, 80%);
+  --content-border-color: hsl(var(--base-hue), 25%, 25%);
 
   --table-drop-shadow-color: hsl(var(--base-hue), 75%, 25%);
-  --button-font-weight: normal;
-  --button-text-color: hsl(var(--base-hue), 25%, 100%);
-  --button-bg-color: hsl(var(--base-hue), 50%, 25%);
-  --button-bg-image-color: hsl(var(--base-hue), 50%, 15%);
-  --button-border-color: hsl(var(--base-hue), 50%, 50%);
+
+  --button-font-weight: bold;
+  --button-text-color: hsl(var(--base-hue), 15%, 75%);
+  --button-bg-color: hsl(var(--base-hue), 5%, 10%);
+  --button-bg-image-color: hsl(var(--base-hue), 100%, 15%);
+  --button-border-color: hsl(var(--base-hue), 40%, 33%);
   --button-border-width: 1px;
   --button-border-radius: 5px;
   --button-border-style: outset;
@@ -20,12 +21,12 @@
   );
 
   --fieldset-drop-shadow-color: hsl(var(--base-hue), 100%, 5%);
-  --label-bg-color: hsl(var(--base-hue), 35%, 25%);
-  --label-text-color: hsl(var(--base-hue), 35%, 80%);
+  --label-bg-color: hsl(var(--base-hue), 20%, 20%);
+  --label-text-color: hsl(var(--base-hue), 20%, 80%);
 
-  --input-bg-color: hsl(var(--base-hue), 50%, 99%);
-  --input-text-color: hsl(var(--base-hue), 20%, 50%);
-  --input-border-color: hsl(var(--base-hue), 50%, 75%);
+  --input-bg-color: hsl(var(--base-hue), 0%, 10%);
+  --input-text-color: hsl(var(--base-hue), 20%, 75%);
+  --input-border-color: hsl(var(--base-hue), 20%, 50%);
   --input-size: 2em;
 
   --success-bg-color: hsl(120, 100%, 20%);

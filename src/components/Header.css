@@ -3,7 +3,7 @@
 }
 .Header {
   display: flex;
-  background-color: var(--label-bg-color);
+  background-color: var(--content-bg-color);
 }
 .Header > div {
   flex: 1;

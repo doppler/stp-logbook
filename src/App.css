@@ -1,7 +1,7 @@
 .App {
   height: 100vh;
   display: grid;
-  grid-template-rows: 60px auto 30px;
+  grid-template-rows: 60px auto 25px;
   grid-template-areas: "header" "content" "footer";
   align-content: stretch;
   grid-gap: 1px;
@@ -41,15 +41,16 @@ div.jump-details > div {
 }
 button {
   color: var(--button-text-color);
-  font-size: 1.25em;
+  font-size: 0.75em;
   font-weight: var(--button-font-weight);
   background-color: var(--button-bg-color);
   border: var(--button-border-width);
   border-color: var(--button-border-color);
   border-style: var(--button-border-style);
   border-radius: var(--button-border-radius);
-  height: var(--button-height);
+  height: 3em;
   margin: 0px 5px 0 10px;
+  padding: 0.5em 0 1em 0.5em;
   min-width: 10em;
   filter: var(--button-drop-shadow-color);
   background-image: linear-gradient(
@@ -66,7 +67,8 @@ button:active {
   background-image: none;
 }
 button.header-button::first-letter {
-  text-decoration: underline;
+  /* text-decoration: underline; */
+  color: hsl(45, 100%, 50%);
 }
 button > a {
   color: var(--button-text-color);
@@ -79,7 +81,7 @@ fieldset {
   filter: drop-shadow(2px 2px var(--fieldset-drop-shadow-color));
 }
 fieldset > legend {
-  background-color: var(--button-bg-color);
+  background-color: var(--label-bg-color);
   border: 1px solid var(--button-border-color);
   border-radius: 5px;
   padding: 0.25em 2em 0.25em 2em;
@@ -127,7 +129,7 @@ table {
   width: 100%;
   border: 1px outset var(--content-border-color);
   border-spacing: 0;
-  /* border-collapse: collapse; */
+  background-color: var(--content-bg-color);
   filter: drop-shadow(2px 2px var(--table-drop-shadow-color));
 }
 caption {
@@ -147,7 +149,7 @@ table#students th:first-child > input {
   padding-left: 5px;
   color: var(--input-text-color);
   font-weight: var(--button-font-weight);
-  background-color: var(--button-bg-image-color);
+  background-color: var(--input-bg-color);
   border: var(--button-border-width);
   border-style: inset;
   border-color: var(--button-border-color);
@@ -159,20 +161,19 @@ table#students th:first-child > input::placeholder {
   font-weight: var(--button-font-weight);
   color: var(--input-text-color);
 }
-td: {
-  border: 0;
+td {
+  border-bottom: 1px solid var(--content-border-color);
 }
 tr {
-  background-color: var(--label-bg-color);
+  background-color: var(--content-bg-color);
 }
 tr:hover {
   cursor: pointer;
-  background-color: var(--button-bg-color);
-  filter: saturate(75%);
+  background-color: var(--label-bg-color);
+  filter: brightness(90%);
 }
 tr.active td {
-  background-color: var(--button-bg-image-color);
-  filter: brightness(98%);
+  background-color: hsl(var(--base-hue), 100%, 25%);
 }
 td {
   padding: 5px 0 5px 10px;
