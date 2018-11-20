@@ -5,14 +5,19 @@
   --content-hover-color: #348;
 
   --button-font-weight: bold;
-  --button-text-color: #ccc;
-  --button-bg-color: #222228;
+  --button-text-color: hsl(var(--base-hue), 15%, 75%);
+  --button-bg-color: var(--content-bg-color);
+  --button-bg-image-color: hsl(var(--base-hue), 100%, 15%);
+  --button-border-color: hsl(var(--base-hue), 40%, 33%);
   --button-border-width: 1px;
   --button-border-style: outset;
   --button-border-color: #abf;
   --button-border-width: 1px;
   --button-border-radius: 5px;
   --button-height: 2em;
+  --button-drop-shadow-color: drop-shadow(
+    1px 1px hsl(var(--base-hue), 25%, 20%)
+  );
 
   --label-bg-color: #345;
   --input-bg-color: #e0e0ff;
