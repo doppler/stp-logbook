@@ -35,6 +35,11 @@ const Jump = ({ match, history }) => {
     return null;
   }
 
+  if (jump.phraseCloudSelections) {
+    delete store.phraseCloudSelections;
+    store.phraseCloudSelections = jump.phraseCloudSelections;
+  }
+
   if (instructors.length === 0) {
     (async () => {
       store.instructors = await getInstructors();
@@ -336,7 +341,7 @@ const Jump = ({ match, history }) => {
           </form>
         </div>
       </HotKeys>
-      <PhraseCloud setAttribute={setAttribute} store={store} />
+      <PhraseCloud setAttribute={setAttribute} store={store} jump={jump} />
     </React.Fragment>
   );
 };

@@ -8,7 +8,7 @@ const capitalize = string => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-const PhraseCloud = ({ setAttribute, store }) => {
+const PhraseCloud = ({ setAttribute, store, jump }) => {
   if (!store.phraseCloudKey) return null;
 
   const handlePhraseClick = e => {
@@ -24,6 +24,7 @@ const PhraseCloud = ({ setAttribute, store }) => {
       .map(key => phraseCloud[store.phraseCloudKey][key])
       .join(" ");
     setAttribute({ target: { id: store.phraseCloudKey, value: targetText } });
+    jump.phraseCloudSelections = store.phraseCloudSelections;
   };
 
   const hidePhraseCloud = e => {

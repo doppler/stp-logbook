@@ -27,7 +27,8 @@ const schema = Joi.object().keys({
   exit: Joi.string(),
   freefall: Joi.string(),
   canopy: Joi.string(),
-  notes: Joi.string()
+  notes: Joi.string(),
+  phraseCloudSelections: Joi.object()
 });
 
 const validateJump = jump => {
