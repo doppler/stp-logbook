@@ -46,11 +46,5 @@
   margin-right: 0.5em;
 }
 #PhraseCloud li.selected {
-  border-color: #fe0;
-}
-#PhraseCloud ul#target {
-  height: 10em;
-  border: 1px solid var(--content-border-color);
-  border-radius: 10px;
-  margin: 0 10px 0 10px;
+  filter: brightness(75%);
 }

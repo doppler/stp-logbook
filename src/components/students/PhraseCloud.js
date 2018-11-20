@@ -1,47 +1,29 @@
 import React from "react";
 import HotKeys from "react-hot-keys";
-import { store, collect } from "react-recollect";
 import "./PhraseCloud.css";
 
 import phraseCloud from "./phrase-cloud.json";
 
-const PhraseCloud = ({ setAttribute }) => {
-  const { phraseCloudKey } = store;
+const capitalize = string => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
 
-  const capitalize = string => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  };
+const PhraseCloud = ({ setAttribute, store }) => {
+  if (!store.phraseCloudKey) return null;
 
   const handlePhraseClick = e => {
     if (e && e.stopPropagation) e.stopPropagation();
+    const selections = store.phraseCloudSelections[store.phraseCloudKey];
     const keyName = e.target.attributes["data-key"].value;
-    const source = document.querySelector("ul#source");
-    const target = document.querySelector("ul#target");
-
-    let li = document.querySelector(`li[data-key="${keyName}"]`);
-    if (target.contains(li)) {
-      target.removeChild(li);
-      source.appendChild(li);
-      [...source.children]
-        .sort(
-          (a, b) =>
-            a.attributes["data-key"].value > b.attributes["data-key"].value
-              ? 1
-              : -1
-        )
-        .map(node => source.appendChild(node));
+    if (selections.includes(keyName)) {
+      selections.splice(selections.indexOf(keyName), 1);
     } else {
-      target.appendChild(li);
+      selections.push(keyName);
     }
-    const targetText = Array.from(target.childNodes)
-      .map(el => el.innerHTML)
+    const targetText = selections
+      .map(key => phraseCloud[store.phraseCloudKey][key])
       .join(" ");
-    setAttribute({
-      target: {
-        id: store.phraseCloudKey,
-        value: targetText
-      }
-    });
+    setAttribute({ target: { id: store.phraseCloudKey, value: targetText } });
   };
 
   const onKeyUp = (keyName, e, handle) => {
@@ -73,20 +55,30 @@ const PhraseCloud = ({ setAttribute }) => {
           .join(",") + ",ctrl+enter"
       }
     >
-      <div id="PhraseCloud" className={`hidden`} onClick={hidePhraseCloud}>
-        <div className="inner">
-          <h2>{capitalize(phraseCloudKey)} Phrases</h2>
-          <ul id="target" />
+      <div
+        id="PhraseCloud"
+        className={`outer hidden`}
+        onClick={hidePhraseCloud}
+      >
+        <div className="inner" onClick={null}>
+          <h2>
+            {capitalize(store.phraseCloudKey)} Phrases{" "}
+            <small>
+              Click a phrase or press the label key to move to/from target area.
+              Click anywhere else or press [esc] to close.
+            </small>
+          </h2>
+          <ul id="target">
+            <SelectedPhrases
+              handlePhraseClick={handlePhraseClick}
+              store={store}
+            />
+          </ul>
           <ul id="source">
-            {phraseCloud[phraseCloudKey].map((phrase, i) => (
-              <li
-                key={i}
-                data-key={`${String.fromCharCode(i + 97)}`}
-                onClick={handlePhraseClick}
-              >
-                {phrase}
-              </li>
-            ))}
+            <AvailablePhrases
+              handlePhraseClick={handlePhraseClick}
+              store={store}
+            />
           </ul>
         </div>
       </div>
@@ -94,4 +86,29 @@ const PhraseCloud = ({ setAttribute }) => {
   );
 };
 
-export default collect(PhraseCloud);
+export default PhraseCloud;
+
+const SelectedPhrases = ({ handlePhraseClick, store }) => {
+  return store.phraseCloudSelections[store.phraseCloudKey].map(key => (
+    <li key={key} data-key={key} onClick={handlePhraseClick}>
+      {phraseCloud[store.phraseCloudKey][key]}
+    </li>
+  ));
+};
+
+const AvailablePhrases = ({ handlePhraseClick, store }) => {
+  return Object.keys(phraseCloud[store.phraseCloudKey]).map(key => (
+    <li
+      key={key}
+      data-key={key}
+      onClick={handlePhraseClick}
+      className={
+        store.phraseCloudSelections[store.phraseCloudKey].includes(key)
+          ? "selected"
+          : null
+      }
+    >
+      {phraseCloud[store.phraseCloudKey][key]}
+    </li>
+  ));
+};

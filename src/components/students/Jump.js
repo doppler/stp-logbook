@@ -21,32 +21,33 @@ store.phraseCloudSelections = { exit: [], freefall: [], canopy: [] };
 
 const Jump = ({ match, history }) => {
   const { student, instructors, aircraft } = store;
-  let jump = null;
+  let jump;
 
   if (!student) {
     (async () => {
       store.student = await getStudent(match.params.studentId);
     })();
+    return null;
   } else {
     jump = student.jumps.find(
       obj => obj.number === Number(match.params.jumpNumber)
     );
   }
+  if (!jump) return null;
 
-  if (instructors.length === 0)
+  if (instructors.length === 0) {
     (async () => {
-      const instructors = await getInstructors();
-      store.instructors = instructors;
+      store.instructors = await getInstructors();
     })();
+    return null;
+  }
 
   if (aircraft.length === 0) {
     (async () => {
-      const aircraft = await getAircraft();
-      store.aircraft = aircraft;
+      store.aircraft = await getAircraft();
     })();
-  }
-  if (!student || !jump || instructors.length === 0 || aircraft.length === 0)
     return null;
+  }
 
   const setAttribute = event => {
     let { id, value } = event.target;
@@ -134,11 +135,6 @@ const Jump = ({ match, history }) => {
 
   if (store.headerButtons.length === 0)
     store.headerButtons = [
-      // {
-      //   id: "l",
-      //   onClick: () => history.push("/students"),
-      //   children: "List Students"
-      // },
       {
         id: "b",
         onClick: () => history.push(`/students/${student.id}`),
@@ -339,7 +335,7 @@ const Jump = ({ match, history }) => {
           </form>
         </div>
       </HotKeys>
-      <PhraseCloud setAttribute={setAttribute} />
+      <PhraseCloud setAttribute={setAttribute} store={store} />
     </React.Fragment>
   );
 };
