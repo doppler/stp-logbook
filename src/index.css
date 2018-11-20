@@ -9,7 +9,7 @@
 
   --button-font-weight: bold;
   --button-text-color: hsl(var(--base-hue), 15%, 75%);
-  --button-bg-color: hsl(var(--base-hue), 5%, 10%);
+  --button-bg-color: var(--content-bg-color);
   --button-bg-image-color: hsl(var(--base-hue), 100%, 15%);
   --button-border-color: hsl(var(--base-hue), 40%, 33%);
   --button-border-width: 1px;
@@ -17,7 +17,7 @@
   --button-border-style: outset;
   --button-height: 2em;
   --button-drop-shadow-color: drop-shadow(
-    2px 2px hsl(var(--base-hue), 100%, 10%)
+    1px 1px hsl(var(--base-hue), 25%, 20%)
   );
 
   --fieldset-drop-shadow-color: hsl(var(--base-hue), 100%, 5%);
