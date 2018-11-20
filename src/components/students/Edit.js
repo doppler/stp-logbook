@@ -90,10 +90,6 @@ const Edit = ({ match, history }) => {
   return (
     <HotKeys keyName="ctrl+l,ctrl+b,ctrl+s" onKeyDown={onKeyDown}>
       <div className="Content">
-        <div>
-          <strong>Note: </strong> This feature will be read-only except by
-          authorized users in an upcoming release.
-        </div>
         <form onSubmit={saveStudent}>
           <fieldset>
             <legend>

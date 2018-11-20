@@ -3,6 +3,7 @@
 }
 .Header {
   display: flex;
+  background-color: var(--content-bg-color);
 }
 .Header > div {
   flex: 1;
@@ -21,12 +22,12 @@
   background-color: #008;
 }
 .flash.success {
-  border: 1px solid #0f0;
-  background-color: #080;
+  border: 1px solid var(--success-border-color);
+  background-color: var(--success-bg-color);
 }
 .flash.error {
-  border: 1px solid #f00;
-  background-color: #800;
+  border: 1px solid var(--warning-border-color);
+  background-color: var(--warning-bg-color);
 }
 .Header div:nth-child(1) {
   justify-content: flex-start;

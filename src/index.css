@@ -1,8 +1,11 @@
 /* declare css variables */
 :root {
-  --content-bg-color: #123;
-  --content-border-color: #345;
-  --content-hover-color: #348;
+  --base-hue: 210;
+  --content-bg-color: hsl(var(--base-hue), 50%, 15%);
+  --content-text-color: hsl(var(--base-hue), 10%, 80%);
+  --content-border-color: hsl(var(--base-hue), 25%, 25%);
+
+  --table-drop-shadow-color: hsl(var(--base-hue), 75%, 25%);
 
   --button-font-weight: bold;
   --button-text-color: hsl(var(--base-hue), 15%, 75%);
@@ -10,23 +13,34 @@
   --button-bg-image-color: hsl(var(--base-hue), 100%, 15%);
   --button-border-color: hsl(var(--base-hue), 40%, 33%);
   --button-border-width: 1px;
-  --button-border-style: outset;
-  --button-border-color: #abf;
-  --button-border-width: 1px;
   --button-border-radius: 5px;
+  --button-border-style: outset;
   --button-height: 2em;
   --button-drop-shadow-color: drop-shadow(
     1px 1px hsl(var(--base-hue), 25%, 20%)
   );
 
-  --label-bg-color: #345;
-  --input-bg-color: #e0e0ff;
-  --input-border-color: #abc;
+  --fieldset-drop-shadow-color: hsl(var(--base-hue), 100%, 5%);
+  --label-bg-color: hsl(var(--base-hue), 20%, 20%);
+  --label-text-color: hsl(var(--base-hue), 20%, 80%);
+
+  --input-bg-color: hsl(var(--base-hue), 0%, 10%);
+  --input-text-color: hsl(var(--base-hue), 20%, 75%);
+  --input-border-color: hsl(var(--base-hue), 20%, 50%);
   --input-size: 2em;
+
+  --success-bg-color: hsl(120, 100%, 20%);
+  --success-border-color: hsl(120, 100%, 50%);
+  --warning-bg-color: hsl(360, 100%, 20%);
+  --warning-border-color: hsl(360, 100%, 50%);
+
+  --currency-color-drop-shadow-color: drop-shadow(
+    3px 2px hsl(var(--base-hue), 25%, 25%)
+  );
 }
 
 body {
-  background-color: #678;
+  background-color: hsl(var(--base-hue), 25%, 75%);
   margin: 0;
   padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",

@@ -1,11 +1,11 @@
 .App {
   height: 100vh;
   display: grid;
-  grid-template-rows: 50px auto 50px;
+  grid-template-rows: 60px auto 25px;
   grid-template-areas: "header" "content" "footer";
   align-content: stretch;
   grid-gap: 1px;
-  color: #ccc;
+  color: var(--content-text-color);
 }
 .Content {
   grid-area: content;
@@ -28,6 +28,7 @@ span.currency-color {
   border-radius: 50%;
   border: 1px solid #036;
   margin-top: 4px;
+  filter: var(--currency-color-drop-shadow-color);
 }
 div.jump-details {
   display: flex;
@@ -40,74 +41,75 @@ div.jump-details > div {
 }
 button {
   color: var(--button-text-color);
+  font-size: 0.75em;
   font-weight: var(--button-font-weight);
   background-color: var(--button-bg-color);
   border: var(--button-border-width);
   border-color: var(--button-border-color);
   border-style: var(--button-border-style);
   border-radius: var(--button-border-radius);
-  height: var(--button-height);
-  margin: 10px 5px 0 10px;
+  height: 3em;
+  margin: 0px 5px 0 10px;
+  padding: 0.5em 0 1em 0.5em;
+  min-width: 10em;
+  filter: var(--button-drop-shadow-color);
+  /* background-image: linear-gradient(
+    var(--button-bg-color),
+    var(--button-bg-image-color)
+  ); */
 }
 button:active {
-  background-color: var(--content-hover-color);
+  filter: brightness(90%);
 }
-button.pending {
-  background-color: #900;
-  color: white;
+.warning {
+  background-color: var(--warning-bg-color);
+  border-color: var(--warning-border-color);
+  background-image: none;
 }
 button.header-button::first-letter {
-  color: #fc0;
+  /* text-decoration: underline; */
+  color: hsl(45, 100%, 50%);
 }
 button > a {
   color: var(--button-text-color);
   text-decoration: none;
 }
 fieldset {
-  margin-top: 10px;
-  border: 5px;
-  border-style: groove;
-  border-color: rgba(255, 239, 223, 0.05);
+  margin-top: 0.25em;
+  border: 1px solid var(--button-border-color);
+  border-radius: 5px;
+  filter: drop-shadow(2px 2px var(--fieldset-drop-shadow-color));
 }
 fieldset > legend {
-  font-weight: bold;
-}
-fieldset.inner {
-  margin-top: 10px;
+  background-color: var(--label-bg-color);
+  border: 1px solid var(--button-border-color);
+  border-radius: 5px;
+  padding: 0.25em 2em 0.25em 2em;
 }
 fieldset.inner > legend {
-  opacity: 0.75;
+  text-align: right;
 }
 .input-group {
-  /* width: 100vh; */
   display: flex;
-  margin-bottom: 10px;
 }
 .input-group > input,
 .input-group > select,
 .input-group > textarea {
+  color: var(--input-text-color);
   background-color: var(--input-bg-color);
-  border: 1px solid var(--content-border-color);
-  font-size: 1.5em;
+  border: 1px solid var(--input-border-color);
+  font-size: 1.25em;
   width: 80%;
   padding-left: 5px;
 }
-.input-group > span.append {
-  background-color: var(--label-bg-color);
-  color: var(--label-color);
-  font-weight: bold;
-  border: 1px solid #666;
-  border-radius: 0 5px 5px 0;
-  padding: 5px 5px 5px 0;
-}
 .input-group *:first-child {
   width: 25vh;
-  padding: 5px 0 0 5px;
+  padding: 0.5em 0 0.5em 0.5em;
   display: flex;
-  font-weight: bold;
-  color: var(--label-color);
+  font-weight: normal;
+  color: var(--label-text-color);
   background-color: var(--label-bg-color);
-  border: 1px solid #666;
+  border: 1px solid var(--input-border-color);
   border-radius: 5px 0 0 5px;
 }
 .input-group select,
@@ -119,12 +121,16 @@ fieldset.inner > legend {
 }
 .input-group > input.error,
 .input-group > select.error {
-  border-color: #f00;
-  background-color: #feb;
+  border-color: var(--warning-border-color);
+  background-color: var(--warning-bg-color);
 }
 
 table {
   width: 100%;
+  border: 1px outset var(--content-border-color);
+  border-spacing: 0;
+  background-color: var(--content-bg-color);
+  filter: drop-shadow(2px 2px var(--table-drop-shadow-color));
 }
 caption {
   margin: 0.5em 0 1em 0.5em;
@@ -133,15 +139,17 @@ caption {
   caption-side: top;
 }
 th {
-  background-color: var(--content-border-color);
-  border-bottom: 1px solid #666;
+  background-color: var(--label-bg-color);
+}
+thead > th {
+  border-bottom: 1px solid var(--content-text-color);
 }
 table#students th:first-child > input {
   float: left;
   padding-left: 5px;
-  color: var(--button-text-color);
+  color: var(--input-text-color);
   font-weight: var(--button-font-weight);
-  background-color: var(--button-bg-color);
+  background-color: var(--input-bg-color);
   border: var(--button-border-width);
   border-style: inset;
   border-color: var(--button-border-color);
@@ -151,16 +159,22 @@ table#students th:first-child > input {
 }
 table#students th:first-child > input::placeholder {
   font-weight: var(--button-font-weight);
-  color: var(--button-text-color);
+  color: var(--input-text-color);
+}
+td {
+  border-bottom: 1px solid var(--content-border-color);
+}
+tr {
+  background-color: var(--content-bg-color);
 }
 tr:hover {
   cursor: pointer;
-  background-color: #1a2244;
+  background-color: var(--label-bg-color);
+  filter: brightness(90%);
 }
-tr.active {
-  background-color: var(--content-hover-color);
+tr.active td {
+  background-color: hsl(var(--base-hue), 100%, 25%);
 }
 td {
   padding: 5px 0 5px 10px;
-  border-bottom: 1px solid var(--content-border-color);
 }

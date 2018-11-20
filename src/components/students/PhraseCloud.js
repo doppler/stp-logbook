@@ -26,6 +26,12 @@ const PhraseCloud = ({ setAttribute, store }) => {
     setAttribute({ target: { id: store.phraseCloudKey, value: targetText } });
   };
 
+  const hidePhraseCloud = e => {
+    if (e.target.getAttribute("class") === "outer") {
+      document.querySelector("#PhraseCloud").classList.toggle("hidden");
+    }
+  };
+
   const onKeyUp = (keyName, e, handle) => {
     if (document.querySelector("#PhraseCloud").classList.contains("hidden"))
       return null;
@@ -39,11 +45,6 @@ const PhraseCloud = ({ setAttribute, store }) => {
         });
         break;
     }
-  };
-
-  const hidePhraseCloud = e => {
-    if (e) e.stopPropagation();
-    document.querySelector("#PhraseCloud").classList.toggle("hidden");
   };
 
   return (
