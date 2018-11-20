@@ -58,3 +58,6 @@
   border-radius: 1em;
   margin-right: 0.5em;
 }
+#PhraseCloud li.selected {
+  filter: brightness(75%);
+}
