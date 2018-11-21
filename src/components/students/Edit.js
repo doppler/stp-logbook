@@ -27,7 +27,7 @@ const Edit = ({ match, history }) => {
 
   if (
     match.path === "/students/:studentId/edit" &&
-    (!student || student.id !== match.params.studentId)
+    (!student || student._id !== match.params.studentId)
   )
     (async () => (store.student = await getStudent(match.params.studentId)))();
 
@@ -61,7 +61,7 @@ const Edit = ({ match, history }) => {
       return handleFormError(res.error);
     }
     flash({ success: `Saved ${student.name}` });
-    history.push(`/students/${student.id}`);
+    history.push(`/students/${student._id}`);
   };
 
   if (!student || instructors.length === 0) return null;
@@ -94,7 +94,7 @@ const Edit = ({ match, history }) => {
           <fieldset>
             <legend>
               Editing{" "}
-              {student.name ? student.name : `New Student (id:${student.id})`}
+              {student.name ? student.name : `New Student (id:${student._id})`}
             </legend>
             <div className="input-group">
               <label htmlFor="name">Name</label>
