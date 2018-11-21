@@ -83,6 +83,7 @@ const Jump = ({ match, history }) => {
       return handleFormError(res.error);
     }
     flash({ success: `Saved ${jump._id}` });
+    delete store.jumps;
     return res;
   };
 
@@ -100,6 +101,7 @@ const Jump = ({ match, history }) => {
     delete store.jumps;
     jump._deleted = true;
     const deleteRes = await _save();
+    delete store.jumps;
     console.debug("reallyDeleteJump", deleteRes);
   };
   const deleteJump = () => {

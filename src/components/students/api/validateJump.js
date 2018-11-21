@@ -4,7 +4,7 @@ const schema = Joi.object().keys({
   _id: Joi.string()
     .alphanum()
     .required(),
-  _rev: Joi.string().required(),
+  _rev: Joi.string(),
   _deleted: Joi.boolean(),
   type: Joi.string().required(),
   studentId: Joi.string()

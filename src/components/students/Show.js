@@ -9,34 +9,14 @@ import distanceInWordsToNow from "date-fns/distance_in_words_to_now";
 
 import getStudent from "./api/getStudent";
 import getJumps from "./api/getJumps";
-import save from "./api/saveStudent";
+import saveStudent from "./api/saveStudent";
+import saveJump from "./api/saveJump";
 import flash from "../../utils/flash";
-
-const nextJump = student => {
-  const lastJump = student.jumps[student.jumps.length - 1];
-  const { number, diveFlow, instructor } = lastJump
-    ? { ...lastJump }
-    : {
-        number: Number(student.previousJumps),
-        diveFlow: 0,
-        instructor: student.instructor
-      };
-  return {
-    _id: Math.round(Math.random() * 1000000000).toString(16),
-    number: number + 1,
-    diveFlow: diveFlow + 1,
-    date: format(new Date()),
-    instructor,
-    aircraft: "",
-    exitAltitude: 14000,
-    deploymentAltitude: 5000,
-    freefallTime: 0
-  };
-};
 
 store.activeJumpRow = -1;
 
 const Show = ({ match, history }) => {
+  delete store.jump;
   const { student, jumps } = store;
 
   if (!student || student._id !== match.params.studentId)
@@ -51,16 +31,43 @@ const Show = ({ match, history }) => {
 
   const rowCount = student.jumps.length;
 
+  const nextJump = () => {
+    const lastJump = jumps[jumps.length - 1];
+    const { number, diveFlow, instructor, aircraft } = lastJump
+      ? { ...lastJump }
+      : {
+          number: Number(student.previousJumps),
+          diveFlow: 0,
+          instructor: student.instructor
+        };
+    return {
+      _id: Math.round(Math.random() * 1000000000).toString(16),
+      type: "jump",
+      studentId: student._id,
+      number: number + 1,
+      diveFlow: diveFlow + 1,
+      date: format(new Date()),
+      instructor,
+      aircraft,
+      exitAltitude: 14000,
+      deploymentAltitude: 5000,
+      freefallTime: 0
+    };
+  };
+
   const addJump = async () => {
-    const jump = nextJump(student);
-    student.jumps.push(jump);
+    console.group("addJump");
+    const jump = nextJump();
+    const jumpRes = await saveJump(jump);
+    if (jumpRes.error) return flash(jumpRes);
+    student.jumps.push(jump._id);
+    const studentRes = await saveStudent(student);
+    if (studentRes.error) return flash(studentRes);
+    flash({ success: `Saved jump ${jump._id}` });
     store.activeJumpRow++;
-    (async () => {
-      const res = await save(student);
-      if (res.error) return flash(res);
-      flash({ success: `Saved ${student.name}` });
-      history.push(`/students/${student._id}/jump/${jump._id}`);
-    })();
+    delete store.jumps;
+    console.groupEnd("addJump");
+    history.push(`/students/${student._id}/jump/${jump._id}`);
   };
 
   const onKeyUp = (keyName, e, handle) => {
@@ -77,9 +84,7 @@ const Show = ({ match, history }) => {
         break;
       case ["enter", "right"].includes(keyName):
         history.push(
-          `/students/${student._id}/jump/${
-            student.jumps[store.activeJumpRow]._id
-          }`
+          `/students/${student._id}/jump/${jumps[store.activeJumpRow]._id}`
         );
         break;
       case keyName === "left":
@@ -123,6 +128,7 @@ const Show = ({ match, history }) => {
         <table tabIndex={0}>
           <thead>
             <tr>
+              <th>ID</th>
               <th>Jump #</th>
               <th>Dive Flow</th>
               <th>Date</th>
@@ -138,6 +144,7 @@ const Show = ({ match, history }) => {
                 }
                 className={i === store.activeJumpRow ? "active" : ""}
               >
+                <td>{jump._id}</td>
                 <td>{jump.number}</td>
                 <td>{jump.diveFlow}</td>
                 <td>
