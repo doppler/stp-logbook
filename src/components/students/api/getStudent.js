@@ -1,8 +1,9 @@
-import getStudents from "./getStudents";
+import DB from "../../../DB";
 
-export default async id => {
-  return getStudents().then(json => {
-    const student = json.find(obj => obj.id === id);
-    return student;
-  });
+const getStudent = async _id => {
+  const student = await DB.get(_id);
+  console.debug("getStudent", student);
+  return student;
 };
+
+export default getStudent;

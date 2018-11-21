@@ -1,19 +1,31 @@
+import DB from "../../../DB";
 import validateAircraft from "./validateAircraft";
 
-const saveAircraft = async singleAircraft => {
-  const validation = validateAircraft(singleAircraft);
+const saveAircraft = async ac => {
+  console.group("saveAircraft");
+  console.log(ac);
+  const validation = validateAircraft(ac);
   if (validation.error) {
     return { error: validation.error.details };
   }
 
-  const res = JSON.parse(localStorage.getItem("stp-logbook:aircraft"));
-  const aircraft = res
-    ? [singleAircraft, ...res.filter(o => o.id !== singleAircraft.id)]
-    : [singleAircraft];
-
-  localStorage.setItem("stp-logbook:aircraft", JSON.stringify(aircraft));
-
-  return {};
+  if (ac._rev) {
+    return DB.get(ac._id).then(res => {
+      console.debug("get", res);
+      ac._rev = res._rev;
+      return DB.put(ac).then(res => {
+        console.debug("put", res);
+        console.groupEnd("saveAircraft");
+        return res;
+      });
+    });
+  } else {
+    return DB.put(ac).then(res => {
+      console.debug("saveAircraft new put", res);
+      console.groupEnd("saveAircraft");
+      return res;
+    });
+  }
 };
 
 export default saveAircraft;

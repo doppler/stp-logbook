@@ -1,8 +1,7 @@
-import getAircraft from "./getAircraft";
-const getSingleAircraft = async id => {
-  const aircraft = await getAircraft();
-  const singleAircraft = aircraft.find(o => o.id === id);
-  return singleAircraft;
+import DB from "../../../DB";
+
+const getSingleAircraft = async _id => {
+  return await DB.get(_id);
 };
 
 export default getSingleAircraft;

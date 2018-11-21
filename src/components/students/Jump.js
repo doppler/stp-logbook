@@ -11,7 +11,9 @@ import format from "date-fns/format";
 import getInstructors from "../instructors/api/getInstructors";
 import getAircraft from "../aircraft/api/getAircraft";
 import getStudent from "./api/getStudent";
-import save from "./api/saveStudent";
+import getJumps from "./api/getJumps";
+import saveStudent from "./api/saveStudent";
+import saveJump from "./api/saveJump";
 import flash from "../../utils/flash";
 import handleFormError from "../../utils/handleFormError";
 import removeErrorClass from "../../utils/removeErrorClass";
@@ -20,20 +22,18 @@ store.phraseCloudKey = "exit";
 store.phraseCloudSelections = { exit: [], freefall: [], canopy: [] };
 
 const Jump = ({ match, history }) => {
-  const { student, instructors, aircraft } = store;
-  let jump;
+  const { student, jump, instructors, aircraft } = store;
 
-  if (!student) {
+  if (!student || !jump) {
     (async () => {
-      store.student = await getStudent(match.params.studentId);
+      if (!student) store.student = await getStudent(match.params.studentId);
+      if (student && !jump) {
+        const jumps = await getJumps(store.student);
+        store.jump = jumps.find(jump => jump._id === match.params.jumpId);
+      }
     })();
     return null;
-  } else {
-    jump = student.jumps.find(
-      obj => obj.number === Number(match.params.jumpNumber)
-    );
   }
-  if (!jump) return null;
 
   if (instructors.length === 0) {
     (async () => {
@@ -75,37 +75,34 @@ const Jump = ({ match, history }) => {
     return true;
   };
 
-  const saveJump = async e => {
-    if (e) {
-      document.querySelector("input[type='submit']").click();
-      e.preventDefault();
-    }
+  const _save = async e => {
     removeErrorClass();
-    const otherJumps = student.jumps.filter(o => o.number !== jump.number);
-    const jumps = [jump, ...otherJumps].sort(
-      (a, b) => (a.number > b.number ? 1 : -1)
-    );
-    student.jumps = jumps;
-    const res = await save(student, jump);
+    const res = await saveJump(jump);
     if (res.error) {
       flash({ error: "Please check form for errors." });
       return handleFormError(res.error);
     }
-    store.student = res;
-    flash({ success: `Saved ${student.name}` });
+    flash({ success: `Saved ${jump._id}` });
+    delete store.jumps;
+    return res;
   };
 
   const reallyDeleteJump = async () => {
-    student.jumps = student.jumps.filter(obj => obj.number !== jump.number);
+    student.jumps.splice(student.jumps.indexOf(jump._id), 1);
     (async () => {
-      const res = await save(student);
+      const res = await saveStudent(student);
       if (res.error) {
         flash({ error: "Please check form for errors." });
         return handleFormError(res.error);
       }
-      flash({ success: `Saved ${student.name}` });
-      history.push(`/students/${student.id}`);
+      flash({ success: `Deleted jump ${jump._id}` });
+      history.push(`/students/${student._id}`);
     })();
+    delete store.jumps;
+    jump._deleted = true;
+    const deleteRes = await _save();
+    delete store.jumps;
+    console.debug("reallyDeleteJump", deleteRes);
   };
   const deleteJump = () => {
     if (store.deleteConfirmation) return reallyDeleteJump();
@@ -114,9 +111,9 @@ const Jump = ({ match, history }) => {
 
   const onKeyUp = (keyName, e, handle) => {
     e.stopPropagation();
-    // if (e.srcElement.type === "submit" && keyName === "enter") {
-    //   return e.srcElement.children[0].click();
-    // }
+    if (e.srcElement.type === "submit" && keyName === "enter") {
+      return e.srcElement.children[0].click();
+    }
     switch (true) {
       case keyName === "ctrl+d":
         const deleteJumpButton = document.getElementById("d");
@@ -137,10 +134,10 @@ const Jump = ({ match, history }) => {
     store.headerButtons = [
       {
         id: "b",
-        onClick: () => history.push(`/students/${student.id}`),
+        onClick: () => history.push(`/students/${student._id}`),
         children: "Back"
       },
-      { id: "s", onClick: saveJump, children: "Save Jump" },
+      { id: "s", onClick: _save, children: "Save Jump" },
       {
         id: "d",
         onClick: deleteJump,
@@ -152,7 +149,7 @@ const Jump = ({ match, history }) => {
     <React.Fragment>
       <HotKeys keyName={"ctrl+l,ctrl+b,ctrl+s,ctrl+d,esc"} onKeyUp={onKeyUp}>
         <div id="Jump" className="Content">
-          <form onSubmit={saveJump}>
+          <form onSubmit={_save}>
             <fieldset>
               <legend>{`${student.name} Dive Flow ${jump.diveFlow}`}</legend>
               <fieldset className="inner">

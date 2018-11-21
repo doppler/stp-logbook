@@ -2,16 +2,16 @@ import React from "react";
 import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
 
-import getInstructors from "./api/getInstructors";
 import getInstructor from "./api/getInstructor";
-import save from "./api/saveInstructor";
+import saveInstructor from "./api/saveInstructor";
 import formatPhoneNumber from "../../utils/formatPhoneNumber";
 import flash from "../../utils/flash";
 import handleFormError from "../../utils/handleFormError";
 import removeErrorClass from "../../utils/removeErrorClass";
 
 const initialState = {
-  id: Math.round(Math.random() * 2 ** 32).toString(16),
+  _id: Math.round(Math.random() * 2 ** 32).toString(16),
+  type: "instructor",
   name: "",
   email: "",
   phone: ""
@@ -27,35 +27,34 @@ const Edit = ({ match, history }) => {
 
   if (
     match.path === "/instructors/:id" &&
-    (!instructor || instructor.id !== match.params.id)
+    (!instructor || instructor._id !== match.params.id)
   ) {
     (async () => (store.instructor = await getInstructor(match.params.id)))();
   }
 
   if (!instructor) return false;
 
-  const saveInstructor = async e => {
+  const save = async e => {
     if (e) {
       document.querySelector("input[type='submit']").click();
       e.preventDefault();
     }
     removeErrorClass();
-    const res = await save(instructor);
+    const res = await saveInstructor(instructor);
     if (res.error) {
       flash({ error: "Please check form for errors." });
       return handleFormError(res.error);
     }
     flash({ success: `Saved ${instructor.name}` });
-    document.location.pathname = "/instructors";
+    delete store.instructors;
+    history.push("/instructors");
   };
 
   const reallyDeleteInstructor = async () => {
-    const instructors = await getInstructors();
-    const newInstructors = instructors.filter(o => o.id !== instructor.id);
-    localStorage.setItem(
-      "stp-logbook:instructors",
-      JSON.stringify(newInstructors)
-    );
+    instructor._deleted = true;
+    const res = await saveInstructor(instructor);
+    if (res.error) return flash(res);
+    delete store.instructors;
     flash({ success: `Deleted ${instructor.name}` });
     history.push("/instructors");
   };
@@ -92,7 +91,7 @@ const Edit = ({ match, history }) => {
   if (store.headerButtons.length === 0)
     store.headerButtons = [
       { id: "b", onClick: () => history.goBack(1), children: "Back" },
-      { id: "s", onClick: saveInstructor, children: "Save Instructor" }
+      { id: "s", onClick: save, children: "Save Instructor" }
     ];
   if (match.params.id && !store.headerButtons.find(o => o.id === "d")) {
     store.headerButtons.push({
@@ -104,13 +103,13 @@ const Edit = ({ match, history }) => {
   return (
     <HotKeys keyName="ctrl+b,ctrl+s,ctrl+d" onKeyDown={onKeyDown}>
       <div className="Content">
-        <form onSubmit={saveInstructor}>
+        <form onSubmit={save}>
           <fieldset>
             <legend>
               Editing{" "}
               {instructor.name
                 ? instructor.name
-                : `New Instructor (id:${instructor.id})`}
+                : `New Instructor (id:${instructor._id})`}
             </legend>
             <div className="input-group">
               <label htmlFor="name">Name</label>

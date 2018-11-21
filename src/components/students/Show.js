@@ -8,52 +8,66 @@ import format from "date-fns/format";
 import distanceInWordsToNow from "date-fns/distance_in_words_to_now";
 
 import getStudent from "./api/getStudent";
-import save from "./api/saveStudent";
+import getJumps from "./api/getJumps";
+import saveStudent from "./api/saveStudent";
+import saveJump from "./api/saveJump";
 import flash from "../../utils/flash";
-
-const nextJump = student => {
-  const lastJump = student.jumps[student.jumps.length - 1];
-  const { number, diveFlow, instructor } = lastJump
-    ? { ...lastJump }
-    : {
-        number: Number(student.previousJumps),
-        diveFlow: 0,
-        instructor: student.instructor
-      };
-  return {
-    number: number + 1,
-    diveFlow: diveFlow + 1,
-    date: format(new Date()),
-    instructor,
-    aircraft: "",
-    exitAltitude: 14000,
-    deploymentAltitude: 5000,
-    freefallTime: 0
-  };
-};
 
 store.activeJumpRow = -1;
 
 const Show = ({ match, history }) => {
-  const { student } = store;
+  delete store.jump;
+  const { student, jumps } = store;
 
-  if (!student || student.id !== match.params.studentId)
+  if (!student || student._id !== match.params.studentId)
     (async () => (store.student = await getStudent(match.params.studentId)))();
 
   if (!student) return null;
 
+  if (!jumps) {
+    (async () => (store.jumps = await getJumps(student)))();
+    return null;
+  }
+
   const rowCount = student.jumps.length;
 
+  const nextJump = () => {
+    const lastJump = jumps[jumps.length - 1];
+    const { number, diveFlow, instructor, aircraft } = lastJump
+      ? { ...lastJump }
+      : {
+          number: Number(student.previousJumps),
+          diveFlow: 0,
+          instructor: student.instructor
+        };
+    return {
+      _id: Math.round(Math.random() * 1000000000).toString(16),
+      type: "jump",
+      studentId: student._id,
+      number: number + 1,
+      diveFlow: diveFlow + 1,
+      date: format(new Date()),
+      instructor,
+      aircraft,
+      exitAltitude: 14000,
+      deploymentAltitude: 5000,
+      freefallTime: 0
+    };
+  };
+
   const addJump = async () => {
-    const jump = nextJump(student);
-    student.jumps.push(jump);
+    console.group("addJump");
+    const jump = nextJump();
+    const jumpRes = await saveJump(jump);
+    if (jumpRes.error) return flash(jumpRes);
+    student.jumps.push(jump._id);
+    const studentRes = await saveStudent(student);
+    if (studentRes.error) return flash(studentRes);
+    flash({ success: `Saved jump ${jump._id}` });
     store.activeJumpRow++;
-    (async () => {
-      const res = await save(student);
-      if (res.error) return flash(res);
-      flash({ success: `Saved ${student.name}` });
-      history.push(`/students/${student.id}/jump/${jump.number}`);
-    })();
+    delete store.jumps;
+    console.groupEnd("addJump");
+    history.push(`/students/${student._id}/jump/${jump._id}`);
   };
 
   const onKeyUp = (keyName, e, handle) => {
@@ -67,13 +81,10 @@ const Show = ({ match, history }) => {
         break;
       case ["up", "k"].includes(keyName):
         store.activeJumpRow--;
-        console.log(store.activeJumpRow);
         break;
       case ["enter", "right"].includes(keyName):
         history.push(
-          `/students/${student.id}/jump/${
-            student.jumps[store.activeJumpRow].number
-          }`
+          `/students/${student._id}/jump/${jumps[store.activeJumpRow]._id}`
         );
         break;
       case keyName === "left":
@@ -99,7 +110,7 @@ const Show = ({ match, history }) => {
       { id: "a", onClick: addJump, children: "Add Jump" },
       {
         id: "e",
-        onClick: () => history.push(`/students/${student.id}/edit`),
+        onClick: () => history.push(`/students/${student._id}/edit`),
         children: "Edit Student"
       }
     ];
@@ -117,6 +128,7 @@ const Show = ({ match, history }) => {
         <table tabIndex={0}>
           <thead>
             <tr>
+              <th>ID</th>
               <th>Jump #</th>
               <th>Dive Flow</th>
               <th>Date</th>
@@ -124,14 +136,15 @@ const Show = ({ match, history }) => {
             </tr>
           </thead>
           <tbody>
-            {student.jumps.map((jump, i) => (
+            {jumps.map((jump, i) => (
               <tr
                 key={i}
                 onClick={() =>
-                  history.push(`/students/${student.id}/jump/${jump.number}`)
+                  history.push(`/students/${student._id}/jump/${jump._id}`)
                 }
                 className={i === store.activeJumpRow ? "active" : ""}
               >
+                <td>{jump._id}</td>
                 <td>{jump.number}</td>
                 <td>{jump.diveFlow}</td>
                 <td>

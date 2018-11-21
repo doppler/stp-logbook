@@ -2,15 +2,15 @@ import React from "react";
 import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
 
-import getAircraft from "./api/getAircraft";
 import getSingleAircraft from "./api/getSingleAircraft";
-import save from "./api/saveAircraft";
+import saveAircraft from "./api/saveAircraft";
 import flash from "../../utils/flash";
 import handleFormError from "../../utils/handleFormError";
 import removeErrorClass from "../../utils/removeErrorClass";
 
 const initialState = {
-  id: Math.round(Math.random() * 2 ** 32).toString(16),
+  _id: Math.round(Math.random() * 2 ** 32).toString(16),
+  type: "aircraft",
   name: "",
   tailNumber: ""
 };
@@ -25,7 +25,7 @@ const Edit = ({ match, history }) => {
 
   if (
     match.path === "/aircraft/:id" &&
-    (!currentAircraft || currentAircraft.id !== match.params.id)
+    (!currentAircraft || currentAircraft._id !== match.params.id)
   ) {
     (async () =>
       (store.currentAircraft = await getSingleAircraft(match.params.id)))();
@@ -33,25 +33,27 @@ const Edit = ({ match, history }) => {
 
   if (!currentAircraft) return false;
 
-  const saveAircraft = async e => {
+  const save = async e => {
     if (e) {
       document.querySelector("input[type='submit']").click();
       e.preventDefault();
     }
     removeErrorClass();
-    const res = await save(currentAircraft);
+    const res = await saveAircraft(currentAircraft);
     if (res.error) {
       flash({ error: "Please check form for errors." });
       return handleFormError(res.error);
     }
     flash({ success: `Saved ${currentAircraft.name}` });
-    document.location.pathname = "/aircraft";
+    delete store.aircraft;
+    history.push("/aircraft");
   };
 
   const reallyDeleteAircraft = async () => {
-    const aircraft = await getAircraft();
-    const newAircraft = aircraft.filter(o => o.id !== currentAircraft.id);
-    localStorage.setItem("stp-logbook:aircraft", JSON.stringify(newAircraft));
+    currentAircraft._deleted = true;
+    const res = await saveAircraft(currentAircraft);
+    if (res.error) return flash(res);
+    delete store.aircraft;
     flash({ success: `Deleted ${currentAircraft.name}` });
     history.push("/aircraft");
   };
@@ -85,7 +87,7 @@ const Edit = ({ match, history }) => {
   if (store.headerButtons.length === 0)
     store.headerButtons = [
       { id: "b", onClick: () => history.goBack(1), children: "Back" },
-      { id: "s", onClick: saveAircraft, children: "Save Aircraft" }
+      { id: "s", onClick: save, children: "Save Aircraft" }
     ];
   if (match.params.id && !store.headerButtons.find(o => o.id === "d")) {
     store.headerButtons.push({
@@ -97,13 +99,13 @@ const Edit = ({ match, history }) => {
   return (
     <HotKeys keyName="ctrl+b,ctrl+s,ctrl+d" onKeyDown={onKeyDown}>
       <div className="Content">
-        <form onSubmit={saveAircraft}>
+        <form onSubmit={save}>
           <fieldset>
             <legend>
               Editing{" "}
               {currentAircraft.name
                 ? currentAircraft.name
-                : `New Aircraft (id:${currentAircraft.id})`}
+                : `New Aircraft (id:${currentAircraft._id})`}
             </legend>
             <div className="input-group">
               <label htmlFor="name">Name</label>

@@ -1,8 +1,7 @@
-import getInstructors from "./getInstructors";
-const getInstructor = async id => {
-  const instructors = await getInstructors();
-  const instructor = instructors.find(o => o.id === id);
-  return instructor;
+import DB from "../../../DB";
+
+const getInstructor = async _id => {
+  return await DB.get(_id);
 };
 
 export default getInstructor;

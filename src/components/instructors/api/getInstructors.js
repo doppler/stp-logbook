@@ -1,10 +1,8 @@
-import exampleInstructor from "./example-instructor";
+import DB from "../../../DB";
 
 const getInstructors = async () => {
-  const instructors =
-    JSON.parse(localStorage.getItem("stp-logbook:instructors")) ||
-    exampleInstructor;
-  return instructors;
+  const res = await DB.find({ selector: { type: "instructor" } });
+  return res.docs;
 };
 
 export default getInstructors;

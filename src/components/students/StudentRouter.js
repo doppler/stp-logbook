@@ -24,7 +24,7 @@ const StudentRouter = props => {
       <Header buttons={headerButtons} />
       <Switch>
         <Route exact path="/students" component={List} />
-        <Route path="/students/:studentId/jump/:jumpNumber" component={Jump} />
+        <Route path="/students/:studentId/jump/:jumpId" component={Jump} />
         <Route path="/students/:studentId/edit" component={Edit} />
         <Route path="/students/new" component={Edit} />
         <Route path="/students/:studentId" component={Show} />

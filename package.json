@@ -9,6 +9,8 @@
     "faker": "^4.1.0",
     "gh-pages": "^2.0.1",
     "joi": "^14.0.6",
+    "pouchdb": "^7.0.0",
+    "pouchdb-find": "^7.0.0",
     "react": "^16.7.0-alpha.0",
     "react-dom": "^16.7.0-alpha.0",
     "react-hot-keys": "^1.2.2",
