@@ -87,7 +87,7 @@ const createFakeJumps = ({ previousJumps, studentId }) => {
     );
     return jump;
   });
-  DB.bulkDocs(jumps).then(result => console.log(result));
+  DB.bulkDocs(jumps).then(result => console.debug(result));
   return jumps;
 };
 
@@ -118,20 +118,17 @@ const createFakeStudents = async () => {
 };
 
 const createTestData = async () => {
+  console.group("createTestData");
   aircraft = await createFakeAircraft();
-  // localStorage.setItem("stp-logbook:aircraft", JSON.stringify(aircraft));
-  // console.table(aircraft);
-  DB.bulkDocs(aircraft).then(result => console.log(result));
+  DB.bulkDocs(aircraft).then(result => console.debug(result));
 
   instructors = await createFakeInstructors();
-  // localStorage.setItem("stp-logbook:instructors", JSON.stringify(instructors));
-  // console.table(instructors);
-  DB.bulkDocs(instructors).then(result => console.log(result));
+  DB.bulkDocs(instructors).then(result => console.debug(result));
 
   students = await createFakeStudents();
-  // localStorage.setItem("stp-logbook:students", JSON.stringify(students));
-  // console.table(students);
-  DB.bulkDocs(students).then(result => console.log(result));
+  DB.bulkDocs(students).then(result => console.debug(result));
+
+  console.groupEnd("createTestData");
 
   return { aircraft, instructors, students };
 };

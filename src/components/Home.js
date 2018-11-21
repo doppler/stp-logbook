@@ -23,18 +23,6 @@ DB.find({ selector: { type: "student" } })
   .then(res => res.docs)
   .then(docs => (store.studentCount = docs.length));
 
-// store.aircraftCount = localStorage.getItem("stp-logbook:aircraft")
-//   ? JSON.parse(localStorage.getItem("stp-logbook:aircraft")).length
-//   : 0;
-//
-// store.instructorCount = localStorage.getItem("stp-logbook:instructors")
-//   ? JSON.parse(localStorage.getItem("stp-logbook:instructors")).length
-//   : 0;
-//
-// store.studentCount = localStorage.getItem("stp-logbook:students")
-//   ? JSON.parse(localStorage.getItem("stp-logbook:students")).length
-//   : 0;
-
 const Home = ({ history }) => {
   const handleCreateTestData = async () => {
     if (store.deleteConfirmation) {
@@ -51,7 +39,6 @@ const Home = ({ history }) => {
 
   const handleDeleteTestData = () => {
     if (store.deleteConfirmation) {
-      // localStorage.clear();
       DB.destroy().then(result => console.log("Deleted 'stp-logbook'", result));
       store.aircraftCount = 0;
       store.instructorCount = 0;
@@ -172,7 +159,7 @@ const Home = ({ history }) => {
             </ul>
           </section>
           <section>
-            <details open>
+            <details>
               <summary>Fake Data For Testing</summary>
               <div className="warning">
                 <h3>Warning</h3>
