@@ -1,13 +1,14 @@
 const Joi = require("joi");
 
 const schema = Joi.object().keys({
-  id: Joi.string()
+  _id: Joi.string()
     .alphanum()
     .required(),
+  _rev: Joi.string(),
+  _deleted: Joi.boolean(),
+  type: Joi.string().required(),
   name: Joi.string().required(),
-  tailNumber: Joi.string()
-    .alphanum()
-    .required()
+  tailNumber: Joi.string().required()
 });
 
 const validateAircraft = aircraft => {

@@ -7,15 +7,18 @@ store.activeAircraftRow = 0;
 
 const List = ({ history }) => {
   const { aircraft } = store;
+  delete store.currentAircraft;
 
-  if (aircraft.length === 0)
+  if (!aircraft || aircraft.length === 0) {
     (async () => {
       const aircraft = await getAircraft();
       store.aircraft = aircraft;
     })();
+    return null;
+  }
 
   const handleRowClick = aircraft => {
-    history.push(`/aircraft/${aircraft.id}`);
+    history.push(`/aircraft/${aircraft._id}`);
   };
 
   const addAircraft = () => {

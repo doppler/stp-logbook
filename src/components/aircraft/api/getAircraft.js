@@ -1,11 +1,8 @@
-const exampleAircraft = [
-  { id: "N1234Z", name: "Otter 34Z", tailNumber: "N1234Z" }
-];
+import DB from "../../../DB";
 
 const getAircraft = async () => {
-  const aircraft =
-    JSON.parse(localStorage.getItem("stp-logbook:aircraft")) || exampleAircraft;
-  return aircraft;
+  const res = await DB.find({ selector: { type: "aircraft" } });
+  return res.docs;
 };
 
 export default getAircraft;
