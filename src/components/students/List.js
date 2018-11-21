@@ -11,6 +11,7 @@ import getStudents from "./api/getStudents";
 const List = ({ match, history }) => {
   const { students, filteredStudents, filter } = store;
   store.student = null;
+  store.jumps = null;
   store.activeJumpRow = -1;
 
   if (students.length === 0) {
@@ -71,7 +72,7 @@ const List = ({ match, history }) => {
         break;
       case ["enter", "right"].includes(keyName):
         history.push(
-          `/students/${filteredStudents[store.activeStudentRow].id}`
+          `/students/${filteredStudents[store.activeStudentRow]._id}`
         );
         break;
       default:

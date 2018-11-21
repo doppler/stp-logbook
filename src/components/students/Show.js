@@ -19,10 +19,10 @@ const Show = ({ match, history }) => {
   delete store.jump;
   const { student, jumps } = store;
 
-  if (!student || student._id !== match.params.studentId)
+  if (!student || student._id !== match.params.studentId) {
     (async () => (store.student = await getStudent(match.params.studentId)))();
-
-  if (!student) return null;
+    return null;
+  }
 
   if (!jumps) {
     (async () => (store.jumps = await getJumps(student)))();
