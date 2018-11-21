@@ -2,7 +2,6 @@ import React from "react";
 import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
 
-import getInstructors from "./api/getInstructors";
 import getInstructor from "./api/getInstructor";
 import save from "./api/saveInstructor";
 import formatPhoneNumber from "../../utils/formatPhoneNumber";
@@ -11,7 +10,8 @@ import handleFormError from "../../utils/handleFormError";
 import removeErrorClass from "../../utils/removeErrorClass";
 
 const initialState = {
-  id: Math.round(Math.random() * 2 ** 32).toString(16),
+  _id: Math.round(Math.random() * 2 ** 32).toString(16),
+  type: "instructor",
   name: "",
   email: "",
   phone: ""
@@ -27,7 +27,7 @@ const Edit = ({ match, history }) => {
 
   if (
     match.path === "/instructors/:id" &&
-    (!instructor || instructor.id !== match.params.id)
+    (!instructor || instructor._id !== match.params.id)
   ) {
     (async () => (store.instructor = await getInstructor(match.params.id)))();
   }
@@ -46,16 +46,11 @@ const Edit = ({ match, history }) => {
       return handleFormError(res.error);
     }
     flash({ success: `Saved ${instructor.name}` });
-    document.location.pathname = "/instructors";
+    delete store.instructors;
+    history.push("/instructors");
   };
 
   const reallyDeleteInstructor = async () => {
-    const instructors = await getInstructors();
-    const newInstructors = instructors.filter(o => o.id !== instructor.id);
-    localStorage.setItem(
-      "stp-logbook:instructors",
-      JSON.stringify(newInstructors)
-    );
     flash({ success: `Deleted ${instructor.name}` });
     history.push("/instructors");
   };
@@ -110,7 +105,7 @@ const Edit = ({ match, history }) => {
               Editing{" "}
               {instructor.name
                 ? instructor.name
-                : `New Instructor (id:${instructor.id})`}
+                : `New Instructor (id:${instructor._id})`}
             </legend>
             <div className="input-group">
               <label htmlFor="name">Name</label>

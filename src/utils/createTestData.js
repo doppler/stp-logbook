@@ -111,7 +111,7 @@ const createFakeStudent = () => {
 };
 
 const createFakeStudents = async () => {
-  students = Array.from(Array(1)).map(i => {
+  students = Array.from(Array(50)).map(i => {
     return createFakeStudent();
   });
   return students;

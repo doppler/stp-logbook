@@ -9,14 +9,16 @@ store.activeRow = 0;
 const List = ({ history }) => {
   const { instructors } = store;
 
-  if (instructors.length === 0)
+  if (!instructors || instructors.length === 0) {
     (async () => {
       const instructors = await getInstructors();
       store.instructors = instructors;
     })();
+    return null;
+  }
 
   const handleRowClick = instructor => {
-    history.push(`/instructors/${instructor.id}`);
+    history.push(`/instructors/${instructor._id}`);
   };
 
   const addInstructor = () => {
@@ -36,7 +38,7 @@ const List = ({ history }) => {
         store.activeRow--;
         break;
       case ["enter", "right"].includes(keyName):
-        history.push(`/instructors/${instructors[store.activeRow].id}`);
+        history.push(`/instructors/${instructors[store.activeRow]._id}`);
         break;
       default:
         document.getElementById(keyName.match(/.$/)).click();

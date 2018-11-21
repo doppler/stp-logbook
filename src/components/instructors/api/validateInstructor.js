@@ -1,9 +1,11 @@
 const Joi = require("joi");
 
 const schema = Joi.object().keys({
-  id: Joi.string()
+  _id: Joi.string()
     .alphanum()
     .required(),
+  _rev: Joi.string(),
+  type: Joi.string().required(),
   name: Joi.string().required(),
   email: Joi.string()
     .email()
