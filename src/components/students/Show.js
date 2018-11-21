@@ -128,9 +128,7 @@ const Show = ({ match, history }) => {
         <table tabIndex={0}>
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Jump #</th>
-              <th>Dive Flow</th>
+              <th>Jump - Dive Flow</th>
               <th>Date</th>
               <th>Instructor</th>
             </tr>
@@ -144,11 +142,11 @@ const Show = ({ match, history }) => {
                 }
                 className={i === store.activeJumpRow ? "active" : ""}
               >
-                <td>{jump._id}</td>
-                <td>{jump.number}</td>
-                <td>{jump.diveFlow}</td>
                 <td>
-                  {format(jump.date, "MM/DD/YY")} (
+                  Jump {jump.number} - DF {jump.diveFlow}
+                </td>
+                <td>
+                  {format(jump.date, "dddd MMMM Mo")} (
                   {distanceInWordsToNow(jump.date)})
                 </td>
                 <td>{jump.instructor}</td>
