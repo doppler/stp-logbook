@@ -8,6 +8,7 @@ store.activeRow = 0;
 
 const List = ({ history }) => {
   const { instructors } = store;
+  delete store.instructor;
 
   if (!instructors || instructors.length === 0) {
     (async () => {

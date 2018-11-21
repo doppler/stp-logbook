@@ -3,7 +3,7 @@ import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
 
 import getInstructor from "./api/getInstructor";
-import save from "./api/saveInstructor";
+import saveInstructor from "./api/saveInstructor";
 import formatPhoneNumber from "../../utils/formatPhoneNumber";
 import flash from "../../utils/flash";
 import handleFormError from "../../utils/handleFormError";
@@ -34,13 +34,13 @@ const Edit = ({ match, history }) => {
 
   if (!instructor) return false;
 
-  const saveInstructor = async e => {
+  const save = async e => {
     if (e) {
       document.querySelector("input[type='submit']").click();
       e.preventDefault();
     }
     removeErrorClass();
-    const res = await save(instructor);
+    const res = await saveInstructor(instructor);
     if (res.error) {
       flash({ error: "Please check form for errors." });
       return handleFormError(res.error);
@@ -51,6 +51,10 @@ const Edit = ({ match, history }) => {
   };
 
   const reallyDeleteInstructor = async () => {
+    instructor._deleted = true;
+    const res = await saveInstructor(instructor);
+    if (res.error) return flash(res);
+    delete store.instructors;
     flash({ success: `Deleted ${instructor.name}` });
     history.push("/instructors");
   };
@@ -87,7 +91,7 @@ const Edit = ({ match, history }) => {
   if (store.headerButtons.length === 0)
     store.headerButtons = [
       { id: "b", onClick: () => history.goBack(1), children: "Back" },
-      { id: "s", onClick: saveInstructor, children: "Save Instructor" }
+      { id: "s", onClick: save, children: "Save Instructor" }
     ];
   if (match.params.id && !store.headerButtons.find(o => o.id === "d")) {
     store.headerButtons.push({
@@ -99,7 +103,7 @@ const Edit = ({ match, history }) => {
   return (
     <HotKeys keyName="ctrl+b,ctrl+s,ctrl+d" onKeyDown={onKeyDown}>
       <div className="Content">
-        <form onSubmit={saveInstructor}>
+        <form onSubmit={save}>
           <fieldset>
             <legend>
               Editing{" "}

@@ -1,4 +1,3 @@
-import exampleInstructor from "./example-instructor";
 import DB from "../../../DB";
 
 const getInstructors = async () => {
