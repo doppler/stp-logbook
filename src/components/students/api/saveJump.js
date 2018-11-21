@@ -6,7 +6,10 @@ const saveJump = async jump => {
   if (validation.error) {
     return { error: validation.error.details };
   }
-  return DB.put(jump);
+  return DB.get(jump._id).then(res => {
+    jump._rev = res._rev;
+    return DB.put(jump);
+  });
 };
 
 export default saveJump;
