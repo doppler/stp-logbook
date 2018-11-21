@@ -8,6 +8,7 @@ import format from "date-fns/format";
 import distanceInWordsToNow from "date-fns/distance_in_words_to_now";
 
 import getStudent from "./api/getStudent";
+import getJumps from "./api/getJumps";
 import save from "./api/saveStudent";
 import flash from "../../utils/flash";
 
@@ -36,12 +37,17 @@ const nextJump = student => {
 store.activeJumpRow = -1;
 
 const Show = ({ match, history }) => {
-  const { student } = store;
+  const { student, jumps } = store;
 
   if (!student || student._id !== match.params.studentId)
     (async () => (store.student = await getStudent(match.params.studentId)))();
 
   if (!student) return null;
+
+  if (!jumps) {
+    (async () => (store.jumps = await getJumps(student)))();
+    return null;
+  }
 
   const rowCount = student.jumps.length;
 
@@ -124,7 +130,7 @@ const Show = ({ match, history }) => {
             </tr>
           </thead>
           <tbody>
-            {student.jumps.map((jump, i) => (
+            {jumps.map((jump, i) => (
               <tr
                 key={i}
                 onClick={() =>

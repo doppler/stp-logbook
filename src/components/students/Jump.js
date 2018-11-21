@@ -11,6 +11,7 @@ import format from "date-fns/format";
 import getInstructors from "../instructors/api/getInstructors";
 import getAircraft from "../aircraft/api/getAircraft";
 import getStudent from "./api/getStudent";
+import getJumps from "./api/getJumps";
 import saveStudent from "./api/saveStudent";
 import saveJump from "./api/saveJump";
 import flash from "../../utils/flash";
@@ -21,18 +22,18 @@ store.phraseCloudKey = "exit";
 store.phraseCloudSelections = { exit: [], freefall: [], canopy: [] };
 
 const Jump = ({ match, history }) => {
-  const { student, instructors, aircraft } = store;
-  let jump;
+  const { student, jump, instructors, aircraft } = store;
 
-  if (!student) {
+  if (!student || !jump) {
     (async () => {
-      store.student = await getStudent(match.params.studentId);
+      if (!student) store.student = await getStudent(match.params.studentId);
+      if (student && !jump) {
+        const jumps = await getJumps(store.student);
+        store.jump = jumps.find(jump => jump._id === match.params.jumpId);
+      }
     })();
     return null;
-  } else {
-    jump = student.jumps.find(jump => jump._id === match.params.jumpId);
   }
-  if (!jump) return null;
 
   if (instructors.length === 0) {
     (async () => {
@@ -76,26 +77,30 @@ const Jump = ({ match, history }) => {
 
   const _save = async e => {
     removeErrorClass();
-    const jumpRes = await saveJump(jump);
-    if (jumpRes.error) {
+    const res = await saveJump(jump);
+    if (res.error) {
       flash({ error: "Please check form for errors." });
-      return handleFormError(jumpRes.error);
+      return handleFormError(res.error);
     }
-    console.log(jumpRes);
     flash({ success: `Saved ${jump._id}` });
+    return res;
   };
 
   const reallyDeleteJump = async () => {
-    student.jumps = student.jumps.filter(obj => obj.number !== jump.number);
+    student.jumps.splice(student.jumps.indexOf(jump._id), 1);
     (async () => {
       const res = await saveStudent(student);
       if (res.error) {
         flash({ error: "Please check form for errors." });
         return handleFormError(res.error);
       }
-      flash({ success: `Saved ${student.name}` });
+      flash({ success: `Deleted jump ${jump._id}` });
       history.push(`/students/${student._id}`);
     })();
+    delete store.jumps;
+    jump._deleted = true;
+    const deleteRes = await _save();
+    console.debug("reallyDeleteJump", deleteRes);
   };
   const deleteJump = () => {
     if (store.deleteConfirmation) return reallyDeleteJump();

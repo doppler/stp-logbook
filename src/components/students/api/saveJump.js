@@ -8,7 +8,10 @@ const saveJump = async jump => {
   }
   return DB.get(jump._id).then(res => {
     jump._rev = res._rev;
-    return DB.put(jump);
+    return DB.put(jump).then(res => {
+      console.debug("saveJump", res);
+      return res;
+    });
   });
 };
 
