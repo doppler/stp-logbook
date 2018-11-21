@@ -21,6 +21,7 @@ const nextJump = student => {
         instructor: student.instructor
       };
   return {
+    _id: Math.round(Math.random() * 1000000000).toString(16),
     number: number + 1,
     diveFlow: diveFlow + 1,
     date: format(new Date()),
@@ -37,7 +38,7 @@ store.activeJumpRow = -1;
 const Show = ({ match, history }) => {
   const { student } = store;
 
-  if (!student || student.id !== match.params.studentId)
+  if (!student || student._id !== match.params.studentId)
     (async () => (store.student = await getStudent(match.params.studentId)))();
 
   if (!student) return null;
@@ -52,7 +53,7 @@ const Show = ({ match, history }) => {
       const res = await save(student);
       if (res.error) return flash(res);
       flash({ success: `Saved ${student.name}` });
-      history.push(`/students/${student.id}/jump/${jump.number}`);
+      history.push(`/students/${student._id}/jump/${jump._id}`);
     })();
   };
 
@@ -67,12 +68,11 @@ const Show = ({ match, history }) => {
         break;
       case ["up", "k"].includes(keyName):
         store.activeJumpRow--;
-        console.log(store.activeJumpRow);
         break;
       case ["enter", "right"].includes(keyName):
         history.push(
-          `/students/${student.id}/jump/${
-            student.jumps[store.activeJumpRow].number
+          `/students/${student._id}/jump/${
+            student.jumps[store.activeJumpRow]._id
           }`
         );
         break;
@@ -99,7 +99,7 @@ const Show = ({ match, history }) => {
       { id: "a", onClick: addJump, children: "Add Jump" },
       {
         id: "e",
-        onClick: () => history.push(`/students/${student.id}/edit`),
+        onClick: () => history.push(`/students/${student._id}/edit`),
         children: "Edit Student"
       }
     ];
@@ -128,7 +128,7 @@ const Show = ({ match, history }) => {
               <tr
                 key={i}
                 onClick={() =>
-                  history.push(`/students/${student.id}/jump/${jump.number}`)
+                  history.push(`/students/${student._id}/jump/${jump._id}`)
                 }
                 className={i === store.activeJumpRow ? "active" : ""}
               >

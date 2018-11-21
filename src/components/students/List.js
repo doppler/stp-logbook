@@ -31,7 +31,7 @@ const List = ({ match, history }) => {
   }
 
   const handleStudentRowClick = student => {
-    history.push(`/students/${student.id}`);
+    history.push(`/students/${student._id}`);
   };
 
   const handleFilterChange = e => {

@@ -1,6 +1,14 @@
 const Joi = require("joi");
 
 const schema = Joi.object().keys({
+  _id: Joi.string()
+    .alphanum()
+    .required(),
+  _rev: Joi.string().required(),
+  type: Joi.string().required(),
+  studentId: Joi.string()
+    .alphanum()
+    .required(),
   number: Joi.number()
     .min(1)
     .required(),
@@ -22,8 +30,12 @@ const schema = Joi.object().keys({
 });
 
 const validateJump = jump => {
-  const result = Joi.validate(jump, schema, { abortEarly: false });
-  return result;
+  try {
+    const result = Joi.validate(jump, schema, { abortEarly: false });
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 module.exports = validateJump;

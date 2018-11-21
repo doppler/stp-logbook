@@ -1,19 +1,15 @@
+import DB from "../../../DB";
 import validateStudent from "./validateStudent";
-import validateJump from "./validateJump";
 
-const saveStudent = async (student, jump) => {
-  const validation = jump ? validateJump(jump) : validateStudent(student);
+const saveStudent = async student => {
+  console.log("saveStudent", student);
+  const validation = validateStudent(student);
   if (validation.error) {
     return { error: validation.error.details };
   }
 
-  const res = JSON.parse(localStorage.getItem("stp-logbook:students"));
-  const students = res
-    ? [student, ...res.filter(o => o.id !== student.id)]
-    : [student];
-
-  localStorage.setItem("stp-logbook:students", JSON.stringify(students));
-
+  const result = await DB.put(student);
+  console.log(result);
   return student;
 };
 

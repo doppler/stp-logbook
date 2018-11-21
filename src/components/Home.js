@@ -7,19 +7,33 @@ import "./Home.css";
 
 import createTestData from "../utils/createTestData";
 
+import DB from "../DB";
+
 store.deleteConfirmation = false;
 
-store.aircraftCount = localStorage.getItem("stp-logbook:aircraft")
-  ? JSON.parse(localStorage.getItem("stp-logbook:aircraft")).length
-  : 0;
+DB.find({ selector: { type: "aircraft" } })
+  .then(res => res.docs)
+  .then(docs => (store.aircraftCount = docs.length));
 
-store.instructorCount = localStorage.getItem("stp-logbook:instructors")
-  ? JSON.parse(localStorage.getItem("stp-logbook:instructors")).length
-  : 0;
+DB.find({ selector: { type: "instructor" } })
+  .then(res => res.docs)
+  .then(docs => (store.instructorCount = docs.length));
 
-store.studentCount = localStorage.getItem("stp-logbook:students")
-  ? JSON.parse(localStorage.getItem("stp-logbook:students")).length
-  : 0;
+DB.find({ selector: { type: "student" } })
+  .then(res => res.docs)
+  .then(docs => (store.studentCount = docs.length));
+
+// store.aircraftCount = localStorage.getItem("stp-logbook:aircraft")
+//   ? JSON.parse(localStorage.getItem("stp-logbook:aircraft")).length
+//   : 0;
+//
+// store.instructorCount = localStorage.getItem("stp-logbook:instructors")
+//   ? JSON.parse(localStorage.getItem("stp-logbook:instructors")).length
+//   : 0;
+//
+// store.studentCount = localStorage.getItem("stp-logbook:students")
+//   ? JSON.parse(localStorage.getItem("stp-logbook:students")).length
+//   : 0;
 
 const Home = ({ history }) => {
   const handleCreateTestData = async () => {
@@ -36,16 +50,15 @@ const Home = ({ history }) => {
   };
 
   const handleDeleteTestData = () => {
-    console.log("handleCreateTestData()");
     if (store.deleteConfirmation) {
-      localStorage.clear();
+      // localStorage.clear();
+      DB.destroy().then(result => console.log("Deleted 'stp-logbook'", result));
       store.aircraftCount = 0;
       store.instructorCount = 0;
       store.studentCount = 0;
       store.deleteConfirmation = false;
       return null;
     }
-    console.log("handleCreateTestData()");
 
     store.deleteConfirmation = true;
     return null;
@@ -159,7 +172,7 @@ const Home = ({ history }) => {
             </ul>
           </section>
           <section>
-            <details>
+            <details open>
               <summary>Fake Data For Testing</summary>
               <div className="warning">
                 <h3>Warning</h3>

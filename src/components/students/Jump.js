@@ -11,7 +11,8 @@ import format from "date-fns/format";
 import getInstructors from "../instructors/api/getInstructors";
 import getAircraft from "../aircraft/api/getAircraft";
 import getStudent from "./api/getStudent";
-import save from "./api/saveStudent";
+import saveStudent from "./api/saveStudent";
+import saveJump from "./api/saveJump";
 import flash from "../../utils/flash";
 import handleFormError from "../../utils/handleFormError";
 import removeErrorClass from "../../utils/removeErrorClass";
@@ -29,9 +30,7 @@ const Jump = ({ match, history }) => {
     })();
     return null;
   } else {
-    jump = student.jumps.find(
-      obj => obj.number === Number(match.params.jumpNumber)
-    );
+    jump = student.jumps.find(jump => jump._id === match.params.jumpId);
   }
   if (!jump) return null;
 
@@ -75,36 +74,27 @@ const Jump = ({ match, history }) => {
     return true;
   };
 
-  const saveJump = async e => {
-    if (e) {
-      document.querySelector("input[type='submit']").click();
-      e.preventDefault();
-    }
+  const _save = async e => {
     removeErrorClass();
-    const otherJumps = student.jumps.filter(o => o.number !== jump.number);
-    const jumps = [jump, ...otherJumps].sort(
-      (a, b) => (a.number > b.number ? 1 : -1)
-    );
-    student.jumps = jumps;
-    const res = await save(student, jump);
-    if (res.error) {
+    const jumpRes = await saveJump(jump);
+    if (jumpRes.error) {
       flash({ error: "Please check form for errors." });
-      return handleFormError(res.error);
+      return handleFormError(jumpRes.error);
     }
-    store.student = res;
-    flash({ success: `Saved ${student.name}` });
+    console.log(jumpRes);
+    flash({ success: `Saved ${jump._id}` });
   };
 
   const reallyDeleteJump = async () => {
     student.jumps = student.jumps.filter(obj => obj.number !== jump.number);
     (async () => {
-      const res = await save(student);
+      const res = await saveStudent(student);
       if (res.error) {
         flash({ error: "Please check form for errors." });
         return handleFormError(res.error);
       }
       flash({ success: `Saved ${student.name}` });
-      history.push(`/students/${student.id}`);
+      history.push(`/students/${student._id}`);
     })();
   };
   const deleteJump = () => {
@@ -114,9 +104,9 @@ const Jump = ({ match, history }) => {
 
   const onKeyUp = (keyName, e, handle) => {
     e.stopPropagation();
-    // if (e.srcElement.type === "submit" && keyName === "enter") {
-    //   return e.srcElement.children[0].click();
-    // }
+    if (e.srcElement.type === "submit" && keyName === "enter") {
+      return e.srcElement.children[0].click();
+    }
     switch (true) {
       case keyName === "ctrl+d":
         const deleteJumpButton = document.getElementById("d");
@@ -137,10 +127,10 @@ const Jump = ({ match, history }) => {
     store.headerButtons = [
       {
         id: "b",
-        onClick: () => history.push(`/students/${student.id}`),
+        onClick: () => history.push(`/students/${student._id}`),
         children: "Back"
       },
-      { id: "s", onClick: saveJump, children: "Save Jump" },
+      { id: "s", onClick: _save, children: "Save Jump" },
       {
         id: "d",
         onClick: deleteJump,
@@ -152,7 +142,7 @@ const Jump = ({ match, history }) => {
     <React.Fragment>
       <HotKeys keyName={"ctrl+l,ctrl+b,ctrl+s,ctrl+d,esc"} onKeyUp={onKeyUp}>
         <div id="Jump" className="Content">
-          <form onSubmit={saveJump}>
+          <form onSubmit={_save}>
             <fieldset>
               <legend>{`${student.name} Dive Flow ${jump.diveFlow}`}</legend>
               <fieldset className="inner">

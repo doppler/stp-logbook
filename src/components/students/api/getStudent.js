@@ -1,8 +1,11 @@
-import getStudents from "./getStudents";
+import DB from "../../../DB";
+import getJumps from "./getJumps";
 
-export default async id => {
-  return getStudents().then(json => {
-    const student = json.find(obj => obj.id === id);
-    return student;
-  });
+const getStudent = async _id => {
+  const student = await DB.get(_id);
+  const jumps = await getJumps(student);
+  student.jumps = jumps;
+  return student;
 };
+
+export default getStudent;
