@@ -8,7 +8,6 @@ import List from "./List";
 import Show from "./Show";
 import Edit from "./Edit";
 import Jump from "./Jump";
-import Footer from "../Footer";
 
 store.student = null;
 store.filteredStudents = [];
@@ -29,7 +28,6 @@ const StudentRouter = props => {
         <Route path="/students/new" component={Edit} />
         <Route path="/students/:studentId" component={Show} />
       </Switch>
-      <Footer />
     </React.Fragment>
   );
 };

@@ -6,7 +6,6 @@ import { store, collect } from "react-recollect";
 import Header from "../Header";
 import List from "./List";
 import Edit from "./Edit";
-import Footer from "../Footer";
 
 const AircraftRouter = props => {
   const { headerButtons } = store;
@@ -18,7 +17,6 @@ const AircraftRouter = props => {
         <Route path="/aircraft/new" component={Edit} />
         <Route path="/aircraft/:id" component={Edit} />
       </Switch>
-      <Footer />
     </React.Fragment>
   );
 };

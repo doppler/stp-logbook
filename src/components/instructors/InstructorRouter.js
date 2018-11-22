@@ -6,7 +6,6 @@ import { store, collect } from "react-recollect";
 import Header from "../Header";
 import List from "./List";
 import Edit from "./Edit";
-import Footer from "../Footer";
 
 const InstructorRouter = props => {
   const { headerButtons } = store;
@@ -18,7 +17,6 @@ const InstructorRouter = props => {
         <Route path="/instructors/new" component={Edit} />
         <Route path="/instructors/:id" component={Edit} />
       </Switch>
-      <Footer />
     </React.Fragment>
   );
 };

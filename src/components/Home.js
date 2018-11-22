@@ -2,7 +2,6 @@ import React from "react";
 import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
 import Header from "./Header";
-import Footer from "./Footer";
 import "./Home.css";
 
 import createTestData from "../utils/createTestData";
@@ -213,7 +212,6 @@ const Home = ({ history }) => {
           </section>
         </div>
       </HotKeys>
-      <Footer />
     </React.Fragment>
   );
 };

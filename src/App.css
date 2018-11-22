@@ -1,8 +1,8 @@
 .App {
   height: 100vh;
   display: grid;
-  grid-template-rows: 60px auto 25px;
-  grid-template-areas: "header" "content" "footer";
+  grid-template-rows: 60px auto;
+  grid-template-areas: "header" "content";
   align-content: stretch;
   grid-gap: 1px;
   color: var(--content-text-color);
@@ -13,11 +13,7 @@
   background-color: var(--content-bg-color);
   overflow: scroll;
 }
-.Footer {
-  grid-area: footer;
-}
-.Header,
-.Footer {
+.Header {
   background-color: var(--content-bg-color);
 }
 span.currency-color {
