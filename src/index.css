@@ -1,7 +1,7 @@
 /* declare css variables */
 :root {
-  --base-hue: 210;
-  --content-bg-color: hsl(var(--base-hue), 50%, 15%);
+  --base-hue: 240;
+  --content-bg-color: hsl(var(--base-hue), 50%, 5%);
   --content-text-color: hsl(var(--base-hue), 10%, 80%);
   --content-border-color: hsl(var(--base-hue), 25%, 25%);
 
