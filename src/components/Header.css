@@ -1,21 +1,21 @@
 .Header {
   grid-area: header;
-}
-.Header {
-  display: flex;
   background-color: var(--content-bg-color);
 }
-.Header > div {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.Messages {
+  grid-area: messages;
+  background-color: var(--content-bg-color);
+  color: var(--content-text-color);
+}
+.Messages ul {
+  margin: 0;
+  padding: 0;
+}
+.Messages li {
+  display: inline-block;
+  padding-left: 1em;
 }
 .flash {
-  overflow: scroll;
-  font-weight: bold;
-  padding: 10px;
-  margin-right: 10px;
 }
 .flash.info {
   border: 1px solid #00f;
@@ -28,10 +28,4 @@
 .flash.error {
   border: 1px solid var(--warning-border-color);
   background-color: var(--warning-bg-color);
-}
-.Header div:nth-child(1) {
-  justify-content: flex-start;
-}
-.Header div:nth-child(3) {
-  justify-content: flex-end;
 }

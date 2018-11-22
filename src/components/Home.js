@@ -76,7 +76,6 @@ const Home = ({ history }) => {
         children: "Aircraft"
       }
     ];
-
   return (
     <React.Fragment>
       <Header buttons={store.headerButtons} />

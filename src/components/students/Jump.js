@@ -79,7 +79,7 @@ const Jump = ({ match, history }) => {
     removeErrorClass();
     const res = await saveJump(jump);
     if (res.error) {
-      flash({ error: "Please check form for errors." });
+      flash({ error: res.error });
       return handleFormError(res.error);
     }
     flash({ success: `Saved ${jump._id}` });

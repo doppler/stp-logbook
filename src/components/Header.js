@@ -32,11 +32,9 @@ const Button = props => (
 );
 
 const Header = ({ buttons }) => {
-  const { type, message } = store.flash;
-
   return (
-    <div className="Header">
-      <div className="Nav">
+    <React.Fragment>
+      <nav className="Header">
         {buttons.map((button, i) => {
           const { children } = button;
           return (
@@ -45,12 +43,19 @@ const Header = ({ buttons }) => {
             </Button>
           );
         })}
-      </div>
-      <div className="Actions" style={{ overflow: "scroll" }}>
-        <Flash type={type} message={message} />
-      </div>
-    </div>
+      </nav>
+      <Messages />
+    </React.Fragment>
   );
 };
 
 export default Header;
+
+const Messages = () => {
+  const { type, message } = store.flash;
+  return (
+    <div className="Messages">
+      <Flash type={type} message={message} />
+    </div>
+  );
+};

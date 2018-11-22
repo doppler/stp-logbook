@@ -100,6 +100,7 @@ const List = ({ match, history }) => {
         children: "Add Student"
       }
     ];
+
   return (
     <HotKeys
       keyName="down,j,up,k,enter,right,ctrl+h,ctrl+a"
