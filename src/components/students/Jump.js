@@ -157,17 +157,6 @@ const Jump = ({ match, history }) => {
                 <div className="jump-details">
                   <div>
                     <div className="input-group">
-                      <label htmlFor="diveFlow">Dive Flow</label>
-                      <input
-                        type="number"
-                        id="diveFlow"
-                        value={jump.diveFlow}
-                        onChange={setAttribute}
-                        className="formField required"
-                        required
-                      />
-                    </div>
-                    <div className="input-group">
                       <label htmlFor="number">Jump Number</label>
                       <input
                         type="number"
@@ -176,6 +165,17 @@ const Jump = ({ match, history }) => {
                         className="formField required"
                         required
                         disabled
+                      />
+                    </div>
+                    <div className="input-group">
+                      <label htmlFor="diveFlow">Dive Flow</label>
+                      <input
+                        type="number"
+                        id="diveFlow"
+                        value={jump.diveFlow}
+                        onChange={setAttribute}
+                        className="formField required"
+                        required
                       />
                     </div>
                     <div className="input-group">
