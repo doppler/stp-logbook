@@ -11,7 +11,8 @@ import handleFormError from "../../utils/handleFormError";
 import removeErrorClass from "../../utils/removeErrorClass";
 
 const initialState = {
-  id: Math.round(Math.random() * 2 ** 32).toString(16),
+  _id: Math.round(Math.random() * 2 ** 32).toString(16),
+  type: "student",
   name: "",
   email: "",
   phone: "",

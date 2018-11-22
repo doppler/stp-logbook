@@ -38,7 +38,8 @@ const Show = ({ match, history }) => {
       : {
           number: Number(student.previousJumps),
           diveFlow: 0,
-          instructor: student.instructor
+          instructor: student.instructor,
+          aircraft: "-"
         };
     return {
       _id: Math.round(Math.random() * 1000000000).toString(16),
