@@ -152,177 +152,175 @@ const Jump = ({ match, history }) => {
           <form onSubmit={_save}>
             <fieldset>
               <legend>{`${student.name} Dive Flow ${jump.diveFlow}`}</legend>
-              <fieldset className="inner">
-                <legend>Jump Details</legend>
-                <div className="jump-details">
-                  <div>
-                    <div className="input-group">
-                      <label htmlFor="number">Jump Number</label>
-                      <input
-                        type="number"
-                        id="number"
-                        value={jump.number}
-                        className="formField required"
-                        required
-                        disabled
-                      />
-                    </div>
-                    <div className="input-group">
-                      <label htmlFor="diveFlow">Dive Flow</label>
-                      <input
-                        type="number"
-                        id="diveFlow"
-                        value={jump.diveFlow}
-                        onChange={setAttribute}
-                        className="formField required"
-                        required
-                      />
-                    </div>
-                    <div className="input-group">
-                      <label htmlFor="date">Date</label>
-                      <input
-                        type="date"
-                        id="date"
-                        value={format(jump.date, "YYYY-MM-DD")}
-                        onChange={setAttribute}
-                        className="formField required"
-                        required
-                      />
-                    </div>
-                    <div className="input-group">
-                      <label htmlFor="instructor">Instructor</label>
-                      <select
-                        id="instructor"
-                        value={jump.instructor}
-                        onChange={setAttribute}
-                        className="formField required"
-                        required
-                      >
-                        <InstructorOptions
-                          instructors={instructors}
-                          instructor={jump.instructor}
-                        />
-                      </select>
-                    </div>
+              <div className="jump-details">
+                <div>
+                  <div className="input-group">
+                    <label htmlFor="date">Date</label>
+                    <input
+                      type="date"
+                      id="date"
+                      value={format(jump.date, "YYYY-MM-DD")}
+                      onChange={setAttribute}
+                      className="formField required"
+                      required
+                    />
                   </div>
-                  <div>
-                    <div className="input-group">
-                      <label htmlFor="aircraft">Aircraft</label>
-                      <select
-                        value={jump.aircraft}
-                        id="aircraft"
-                        onChange={setAttribute}
-                        className="formField required"
-                        required
-                      >
-                        <option value="" />
-                        <AircraftOptions
-                          aircraft={aircraft}
-                          selectedAircraft={jump.aircraft}
-                        />
-                      </select>
-                    </div>
-                    <div className="input-group">
-                      <label htmlFor="exitAltitude">Exit Altitude</label>
-                      <select
-                        value={jump.exitAltitude}
-                        id="exitAltitude"
-                        onChange={setAttribute}
-                        className="formField required"
-                        required
-                      >
-                        <ExitAltitudeOptions />
-                      </select>
-                    </div>
-                    <div className="input-group">
-                      <label htmlFor="deploymentAltitude">Pull Altitude</label>
-                      <select
-                        value={jump.deploymentAltitude}
-                        id="deploymentAltitude"
-                        onChange={setAttribute}
-                        className="formField required"
-                        required
-                      >
-                        <DeploymentAltitudeOptions />
-                      </select>
-                    </div>
-                    <div className="input-group">
-                      <label htmlFor="freefallTime">Freefall Time</label>
-                      <input
-                        id="freefallTime"
-                        value={`${jump.freefallTime} seconds`}
-                        onChange={setAttribute}
-                        className="formField required"
-                        required
-                        disabled
+                  <div className="input-group">
+                    <label htmlFor="instructor">Instructor</label>
+                    <select
+                      id="instructor"
+                      value={jump.instructor}
+                      onChange={setAttribute}
+                      className="formField required"
+                      required
+                    >
+                      <InstructorOptions
+                        instructors={instructors}
+                        instructor={jump.instructor}
                       />
-                    </div>
+                    </select>
                   </div>
                 </div>
-              </fieldset>
-              <fieldset className="inner">
-                <legend>Freefall / Canopy</legend>
-                <div className="input-group">
-                  <label
-                    onClick={handleLabelClick}
-                    onKeyDown={handleLabelClick}
-                    tabIndex={0}
-                    htmlFor="exit"
-                  >
-                    Exit
-                  </label>
-                  <textarea
-                    id="exit"
-                    value={jump.exit}
-                    onChange={setAttribute}
-                    className="formField required"
-                    required
-                  />
+                <div>
+                  <div className="input-group">
+                    <label htmlFor="number">Jump #</label>
+                    <input
+                      type="number"
+                      id="number"
+                      value={jump.number}
+                      onChange={setAttribute}
+                      className="formField required"
+                      required
+                    />
+                  </div>
+                  <div className="input-group">
+                    <label htmlFor="diveFlow">Dive Flow</label>
+                    <input
+                      type="number"
+                      id="diveFlow"
+                      value={jump.diveFlow}
+                      onChange={setAttribute}
+                      className="formField required"
+                      required
+                    />
+                  </div>
                 </div>
-                <div className="input-group">
-                  <label
-                    onClick={handleLabelClick}
-                    onKeyDown={handleLabelClick}
-                    tabIndex={0}
-                    htmlFor="freefall"
-                  >
-                    Freefall
-                  </label>
-                  <textarea
-                    id="freefall"
-                    value={jump.freefall}
-                    onChange={setAttribute}
-                    className="formField required"
-                    required
-                  />
+                <div>
+                  <div className="input-group">
+                    <label htmlFor="exitAltitude">Exit</label>
+                    <select
+                      value={jump.exitAltitude}
+                      id="exitAltitude"
+                      onChange={setAttribute}
+                      className="formField required"
+                      required
+                    >
+                      <ExitAltitudeOptions />
+                    </select>
+                  </div>
+                  <div className="input-group">
+                    <label htmlFor="deploymentAltitude">Pull</label>
+                    <select
+                      value={jump.deploymentAltitude}
+                      id="deploymentAltitude"
+                      onChange={setAttribute}
+                      className="formField required"
+                      required
+                    >
+                      <DeploymentAltitudeOptions />
+                    </select>
+                  </div>
                 </div>
-                <div className="input-group">
-                  <label
-                    onClick={handleLabelClick}
-                    onKeyDown={handleLabelClick}
-                    tabIndex={0}
-                    htmlFor="canopy"
-                  >
-                    Canopy
-                  </label>
-                  <textarea
-                    id="canopy"
-                    value={jump.canopy}
-                    onChange={setAttribute}
-                    className="formField required"
-                    required
-                  />
+                <div>
+                  <div className="input-group">
+                    <label htmlFor="aircraft">Aircraft</label>
+                    <select
+                      value={jump.aircraft}
+                      id="aircraft"
+                      onChange={setAttribute}
+                      className="formField required"
+                      required
+                    >
+                      <option value="" />
+                      <AircraftOptions
+                        aircraft={aircraft}
+                        selectedAircraft={jump.aircraft}
+                      />
+                    </select>
+                  </div>
+                  <div className="input-group">
+                    <label htmlFor="freefallTime">FF Time</label>
+                    <input
+                      id="freefallTime"
+                      value={`${jump.freefallTime} seconds`}
+                      onChange={setAttribute}
+                      className="formField required"
+                      required
+                      disabled
+                    />
+                  </div>
                 </div>
-                <div className="input-group">
-                  <label htmlFor="notes">Notes</label>
-                  <textarea
-                    id="notes"
-                    value={jump.notes}
-                    onChange={setAttribute}
-                    className="formField"
-                  />
-                </div>
-              </fieldset>
+              </div>
+              <div className="input-group">
+                <label
+                  onClick={handleLabelClick}
+                  onKeyDown={handleLabelClick}
+                  tabIndex={0}
+                  htmlFor="exit"
+                >
+                  Exit
+                </label>
+                <textarea
+                  id="exit"
+                  value={jump.exit}
+                  onChange={setAttribute}
+                  className="formField required"
+                  required
+                />
+              </div>
+              <div className="input-group">
+                <label
+                  onClick={handleLabelClick}
+                  onKeyDown={handleLabelClick}
+                  tabIndex={0}
+                  htmlFor="freefall"
+                >
+                  Freefall
+                </label>
+                <textarea
+                  id="freefall"
+                  value={jump.freefall}
+                  onChange={setAttribute}
+                  className="formField required"
+                  required
+                />
+              </div>
+              <div className="input-group">
+                <label
+                  onClick={handleLabelClick}
+                  onKeyDown={handleLabelClick}
+                  tabIndex={0}
+                  htmlFor="canopy"
+                >
+                  Canopy
+                </label>
+                <textarea
+                  id="canopy"
+                  value={jump.canopy}
+                  onChange={setAttribute}
+                  className="formField required"
+                  required
+                />
+              </div>
+              <div className="input-group">
+                <label htmlFor="notes">Notes</label>
+                <textarea
+                  id="notes"
+                  value={jump.notes}
+                  onChange={setAttribute}
+                  className="formField"
+                />
+              </div>
               <input type="submit" style={{ display: "none" }} tabIndex={-1} />
             </fieldset>
           </form>

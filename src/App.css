@@ -77,10 +77,8 @@ fieldset > legend {
   border-radius: 5px;
   padding: 0.25em 2em 0.25em 2em;
 }
-fieldset.inner > legend {
-  text-align: right;
-}
 .input-group {
+  /* width: 100%; */
   display: flex;
 }
 .input-group > input,
@@ -90,14 +88,8 @@ fieldset.inner > legend {
   background-color: var(--input-bg-color);
   border: 1px solid var(--input-border-color);
   font-size: 1.25em;
-  width: 33vw;
+  width: 100%;
   padding-left: 5px;
-}
-.input-group > input {
-  width: calc(33vw - 7px);
-}
-.input-group > textarea {
-  width: 79vw;
 }
 .input-group *:first-child {
   width: 10vw;
