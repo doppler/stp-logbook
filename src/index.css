@@ -1,41 +1,35 @@
 /* declare css variables */
 :root {
   --base-hue: 240;
-  --content-bg-color: hsl(var(--base-hue), 50%, 5%);
-  --content-text-color: hsl(var(--base-hue), 10%, 80%);
+  --content-bg-color: hsl(var(--base-hue), 50%, 94%);
+  --content-text-color: hsl(var(--base-hue), 100%, 10%);
   --content-border-color: hsl(var(--base-hue), 25%, 25%);
 
-  --table-drop-shadow-color: hsl(var(--base-hue), 75%, 25%);
-
   --button-font-weight: bold;
-  --button-text-color: hsl(var(--base-hue), 15%, 75%);
-  --button-bg-color: var(--content-bg-color);
-  --button-bg-image-color: hsl(var(--base-hue), 100%, 15%);
-  --button-border-color: hsl(var(--base-hue), 40%, 33%);
+  --button-text-color: hsl(var(--base-hue), 100%, 10%);
+  --button-bg-color: hsl(var(--base-hue), 50%, 92%);
+  --button-bg-image-color: hsl(var(--base-hue), 50%, 90%);
+  --button-border-color: hsl(var(--base-hue), 50%, 92%);
   --button-border-width: 1px;
-  --button-border-radius: 5px;
+  --button-border-radius: 1.05em;
   --button-border-style: outset;
   --button-height: 2em;
-  --button-drop-shadow-color: drop-shadow(
-    1px 1px hsl(var(--base-hue), 25%, 20%)
-  );
 
-  --fieldset-drop-shadow-color: hsl(var(--base-hue), 100%, 5%);
-  --label-bg-color: hsl(var(--base-hue), 20%, 20%);
-  --label-text-color: hsl(var(--base-hue), 20%, 80%);
+  --label-bg-color: hsl(var(--base-hue), 50%, 92%);
+  --label-text-color: hsl(var(--base-hue), 100%, 10%);
 
-  --input-bg-color: hsl(var(--base-hue), 0%, 10%);
-  --input-text-color: hsl(var(--base-hue), 20%, 75%);
-  --input-border-color: hsl(var(--base-hue), 20%, 50%);
+  --input-bg-color: hsl(var(--base-hue), 50%, 95%);
+  --input-text-color: hsl(var(--base-hue), 100%, 10%);
+  --input-border-color: hsl(var(--base-hue), 50%, 87%);
   --input-size: 2em;
 
-  --success-bg-color: hsl(120, 100%, 20%);
+  --success-bg-color: hsl(120, 100%, 90%);
   --success-border-color: hsl(120, 100%, 50%);
-  --warning-bg-color: hsl(360, 100%, 20%);
+  --warning-bg-color: hsl(360, 100%, 90%);
   --warning-border-color: hsl(360, 100%, 50%);
 
   --currency-color-drop-shadow-color: drop-shadow(
-    3px 2px hsl(var(--base-hue), 25%, 25%)
+    1px 1px hsl(var(--base-hue), 20%, 50%)
   );
 }
 

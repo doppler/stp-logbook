@@ -45,11 +45,10 @@ button {
   margin: 1em;
   padding: 0.5em 0 1em 0.5em;
   min-width: 10em;
-  filter: var(--button-drop-shadow-color);
-  /* background-image: linear-gradient(
+  background-image: linear-gradient(
     var(--button-bg-color),
     var(--button-bg-image-color)
-  ); */
+  );
 }
 button:active {
   filter: brightness(90%);
@@ -60,8 +59,8 @@ button:active {
   background-image: none;
 }
 button.header-button::first-letter {
-  /* text-decoration: underline; */
-  color: hsl(45, 100%, 50%);
+  text-decoration: underline;
+  color: hsl(var(--base-hue), 100%, 40%);
 }
 button > a {
   color: var(--button-text-color);
@@ -71,7 +70,6 @@ fieldset {
   margin-top: 0.25em;
   border: 1px solid var(--button-border-color);
   border-radius: 5px;
-  filter: drop-shadow(2px 2px var(--fieldset-drop-shadow-color));
 }
 fieldset > legend {
   background-color: var(--label-bg-color);
@@ -126,7 +124,6 @@ table {
   border: 1px outset var(--content-border-color);
   border-spacing: 0;
   background-color: var(--content-bg-color);
-  filter: drop-shadow(2px 2px var(--table-drop-shadow-color));
 }
 caption {
   margin: 0.5em 0 1em 0.5em;
@@ -166,10 +163,11 @@ tr {
 tr:hover {
   cursor: pointer;
   background-color: var(--label-bg-color);
-  filter: brightness(90%);
+  filter: brightness(99%);
 }
 tr.active td {
-  background-color: hsl(var(--base-hue), 100%, 25%);
+  background-color: var(--label-bg-color);
+  filter: brightness(90%);
 }
 td {
   padding: 5px 0 5px 10px;
