@@ -30,7 +30,7 @@ div.jump-details > div {
   flex: 1;
 }
 .input-group {
-  margin: 10px 0px 0px 10px;
+  margin: 0.2em 0px 0px 0.2em;
 }
 button {
   color: var(--button-text-color);
@@ -138,13 +138,13 @@ table#students th:first-child > input {
   border: var(--button-border-width);
   border-style: inset;
   border-color: var(--button-border-color);
-  border-radius: var(--button-border-radius);
+  /* border-radius: var(--button-border-radius); */
   margin-left: 5px;
   height: var(--input-size);
 }
 table#students th:first-child > input::placeholder {
   font-weight: var(--button-font-weight);
-  color: var(--input-text-color);
+  /* color: var(--input-text-color); */
 }
 td {
   border-bottom: 1px solid var(--content-border-color);

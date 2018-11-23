@@ -108,7 +108,6 @@ const List = ({ match, history }) => {
     >
       <div className="Content">
         <table id="students">
-          <caption>Students</caption>
           <thead>
             <tr>
               <th>
@@ -119,8 +118,8 @@ const List = ({ match, history }) => {
                   placeholder="Filter by name"
                 />
               </th>
-              <th>Last Jump</th>
-              <th>Last DiveFlow</th>
+              <th />
+              <th />
             </tr>
           </thead>
           <tbody tabIndex={0}>
