@@ -8,6 +8,13 @@ import differenceInDays from "date-fns/difference_in_days";
 
 import getStudents from "./api/getStudents";
 
+const currencyColor = daysSinceLastJump => {
+  if (daysSinceLastJump > 30) {
+    return `hsl(0, 100%, 50%)`;
+  }
+  return `hsl(${120 - daysSinceLastJump * 3}, 100%, 50%)`;
+};
+
 const List = ({ match, history }) => {
   const { students, filteredStudents, filter } = store;
   store.student = null;
@@ -41,21 +48,6 @@ const List = ({ match, history }) => {
       obj.name.toLowerCase().match(filter)
     );
     store.filter = e.target.value;
-  };
-
-  const currencyColor = daysSinceLastJump => {
-    if (daysSinceLastJump > 30) {
-      return `rgb(255, 0, 0)`;
-    }
-    if (daysSinceLastJump > 21) {
-      return `rgb(255, ${192 -
-        Math.floor((64 / 7) * (daysSinceLastJump - 21))}, 0)`;
-    }
-    if (daysSinceLastJump > 14) {
-      return `rgb(255, ${255 -
-        Math.floor((64 / 7) * (daysSinceLastJump - 14))}, 0)`;
-    }
-    return `rgb(${Math.floor((255 / 14) * daysSinceLastJump)}, 255, 0)`;
   };
 
   const onKeyDown = (keyName, e, handle) => {
