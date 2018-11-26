@@ -82,7 +82,9 @@ const Jump = ({ match, history }) => {
       flash({ error: res.error });
       return handleFormError(res.error);
     }
-    flash({ success: `Saved ${jump._id}` });
+    flash({
+      success: `Saved ${student.name} - Jump ${jump.number} DF ${jump.diveFlow}`
+    });
     delete store.jumps;
     return res;
   };
@@ -151,7 +153,9 @@ const Jump = ({ match, history }) => {
         <div id="Jump" className="Content">
           <form onSubmit={_save}>
             <fieldset>
-              <legend>{`${student.name} Dive Flow ${jump.diveFlow}`}</legend>
+              <legend>{`${student.name} - Jump ${jump.number} Dive Flow ${
+                jump.diveFlow
+              }`}</legend>
               <div className="jump-details">
                 <div>
                   <div className="input-group">
