@@ -1,31 +1,31 @@
 /* declare css variables */
 :root {
   --base-hue: 235;
-  --content-bg-color: hsl(var(--base-hue), 50%, 94%);
+  --content-bg-color: hsl(var(--base-hue), 10%, 99%);
   --content-text-color: hsl(var(--base-hue), 100%, 10%);
   --content-border-color: hsl(var(--base-hue), 25%, 25%);
 
   --button-font-weight: bold;
   --button-text-color: hsl(var(--base-hue), 100%, 10%);
-  --button-bg-color: hsl(var(--base-hue), 50%, 92%);
-  --button-bg-image-color: hsl(var(--base-hue), 50%, 90%);
+  --button-bg-color: hsl(var(--base-hue), 10%, 98%);
+  --button-bg-image-color: hsl(var(--base-hue), 10%, 95%);
   --button-border-color: hsl(var(--base-hue), 10%, 75%);
   --button-border-width: 1px;
   --button-border-radius: 1.05em;
   --button-border-style: solid;
   --button-height: 2em;
 
-  --label-bg-color: hsl(var(--base-hue), 50%, 92%);
+  --label-bg-color: hsl(var(--base-hue), 75%, 98%);
   --label-text-color: hsl(var(--base-hue), 100%, 10%);
 
-  --input-bg-color: hsl(var(--base-hue), 50%, 95%);
+  --input-bg-color: hsl(var(--base-hue), 50%, 100%);
   --input-text-color: hsl(var(--base-hue), 100%, 10%);
   --input-border-color: hsl(var(--base-hue), 50%, 87%);
   --input-size: 2em;
 
   --success-bg-color: hsl(120, 100%, 90%);
   --success-border-color: hsl(120, 100%, 50%);
-  --warning-bg-color: hsl(360, 100%, 90%);
+  --warning-bg-color: hsl(0, 96%, 90%);
   --warning-border-color: hsl(360, 100%, 50%);
 
   --currency-color-drop-shadow-color: drop-shadow(
