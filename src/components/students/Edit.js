@@ -85,8 +85,8 @@ const Edit = ({ match, history }) => {
         onClick: () => history.push("/students"),
         children: "List Students"
       },
-      { id: "b", onClick: () => history.goBack(1), children: "Back" },
-      { id: "s", onClick: saveStudent, children: "Save Student" }
+      { id: "b", onClick: () => history.goBack(1), children: "Back" }
+      // { id: "s", onClick: saveStudent, children: "Save Student" }
     ];
   return (
     <HotKeys keyName="ctrl+l,ctrl+b,ctrl+s" onKeyDown={onKeyDown}>
@@ -159,6 +159,9 @@ const Edit = ({ match, history }) => {
                 />
               </div>
             ) : null}
+            <button id="s" onClick={saveStudent} className="hotkey-button">
+              Save Student
+            </button>
           </fieldset>
           <input type="submit" style={{ display: "none" }} />
         </form>

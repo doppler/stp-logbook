@@ -42,8 +42,7 @@ button {
   border-style: var(--button-border-style);
   border-radius: var(--button-border-radius);
   height: 3em;
-  margin: 1em;
-  padding: 0.5em 0 1em 0.5em;
+  margin-top: 1em;
   min-width: 10em;
   background-image: linear-gradient(
     var(--button-bg-color),
@@ -90,6 +89,9 @@ fieldset > legend {
   border: 1px solid var(--button-border-color);
   border-radius: 5px;
   padding: 0.25em 2em 0.25em 2em;
+}
+form button {
+  margin-right: 2em;
 }
 .input-group {
   /* width: 100%; */

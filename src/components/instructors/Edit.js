@@ -35,10 +35,7 @@ const Edit = ({ match, history }) => {
   if (!instructor) return false;
 
   const save = async e => {
-    if (e) {
-      document.querySelector("input[type='submit']").click();
-      e.preventDefault();
-    }
+    e.preventDefault();
     removeErrorClass();
     const res = await saveInstructor(instructor);
     if (res.error) {
@@ -59,7 +56,8 @@ const Edit = ({ match, history }) => {
     history.push("/instructors");
   };
 
-  const deleteInstructor = () => {
+  const deleteInstructor = e => {
+    e.preventDefault();
     if (store.deleteConfirmation) return reallyDeleteInstructor();
     document.getElementById("d").focus();
     store.deleteConfirmation = true;
@@ -90,16 +88,8 @@ const Edit = ({ match, history }) => {
 
   if (store.headerButtons.length === 0)
     store.headerButtons = [
-      { id: "b", onClick: () => history.goBack(1), children: "Back" },
-      { id: "s", onClick: save, children: "Save Instructor" }
+      { id: "b", onClick: () => history.goBack(1), children: "Back" }
     ];
-  if (match.params.id && !store.headerButtons.find(o => o.id === "d")) {
-    store.headerButtons.push({
-      id: "d",
-      onClick: deleteInstructor,
-      children: "Delete Instructor"
-    });
-  }
   return (
     <HotKeys keyName="ctrl+b,ctrl+s,ctrl+d" onKeyDown={onKeyDown}>
       <div className="Content">
@@ -147,8 +137,21 @@ const Edit = ({ match, history }) => {
                 required
               />
             </div>
+            <button id="s" onClick={save} className="hotkey-button">
+              Save Instructor
+            </button>
+            {match.params.id ? (
+              <button
+                id="d"
+                onClick={deleteInstructor}
+                className={`hotkey-button ${
+                  store.deleteConfirmation ? "warning" : null
+                }`}
+              >
+                Delete Instructor
+              </button>
+            ) : null}
           </fieldset>
-          <input type="submit" style={{ display: "none" }} />
         </form>
       </div>
     </HotKeys>

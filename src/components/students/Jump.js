@@ -140,14 +140,14 @@ const Jump = ({ match, history }) => {
         id: "b",
         onClick: () => history.push(`/students/${student._id}`),
         children: "Back"
-      },
-      { id: "s", onClick: _save, children: "Save Jump" },
-      {
-        id: "d",
-        onClick: deleteJump,
-        deleteConfirmation: store.deleteConfirmation,
-        children: "Delete Jump"
       }
+      // { id: "s", onClick: _save, children: "Save Jump" },
+      // {
+      //   id: "d",
+      //   onClick: deleteJump,
+      //   deleteConfirmation: store.deleteConfirmation,
+      //   children: "Delete Jump"
+      // }
     ];
   return (
     <React.Fragment>
@@ -328,6 +328,18 @@ const Jump = ({ match, history }) => {
                 />
               </div>
               <input type="submit" style={{ display: "none" }} tabIndex={-1} />
+              <button id="s" className="hotkey-button" onClick={_save}>
+                Save Jump
+              </button>
+              <button
+                id="d"
+                className={`hotkey-button ${
+                  store.deleteConfirmation ? "warning" : null
+                }`}
+                onClick={deleteJump}
+              >
+                Delete Jump
+              </button>
             </fieldset>
           </form>
         </div>

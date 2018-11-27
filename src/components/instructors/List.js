@@ -53,13 +53,12 @@ const List = ({ history }) => {
 
   if (store.headerButtons.length === 0)
     store.headerButtons = [
-      { id: "h", onClick: () => history.push("/"), children: "Home" },
-      { id: "n", onClick: addInstructor, children: "New Instructor" }
+      { id: "h", onClick: () => history.push("/"), children: "Home" }
     ];
 
   return (
     <HotKeys
-      keyName="down,j,up,k,enter,right,ctrl+h,ctrl+n"
+      keyName="down,j,up,k,enter,right,ctrl+h,ctrl+a"
       onKeyDown={onKeyDown}
     >
       <div className="Content">
@@ -84,6 +83,17 @@ const List = ({ history }) => {
                 <td>{instructor.phone}</td>
               </tr>
             ))}
+            <tr>
+              <td colSpan="3">
+                <button
+                  id="a"
+                  onClick={addInstructor}
+                  className="hotkey-button small"
+                >
+                  Add Instructor
+                </button>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
