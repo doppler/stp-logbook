@@ -85,12 +85,12 @@ const List = ({ match, history }) => {
         id: "h",
         onClick: () => history.push("/"),
         children: "Home"
-      },
-      {
-        id: "a",
-        onClick: () => history.push("/students/new"),
-        children: "Add Student"
       }
+      // {
+      //   id: "a",
+      //   onClick: () => history.push("/students/new"),
+      //   children: "Add Student"
+      // }
     ];
 
   return (
@@ -98,20 +98,25 @@ const List = ({ match, history }) => {
       keyName="down,j,up,k,enter,right,ctrl+h,ctrl+a"
       onKeyDown={onKeyDown}
     >
-      <div className="Content">
+      <div className="List">
         <table id="students">
           <thead>
             <tr>
-              <th>
+              <th colSpan="3">
                 {" "}
                 <input
                   onChange={handleFilterChange}
                   value={filter}
                   placeholder="Filter by name"
                 />
+                <button
+                  className="hotkey-button small"
+                  id="a"
+                  onClick={() => history.push("/students/new")}
+                >
+                  Add Student
+                </button>
               </th>
-              <th />
-              <th />
             </tr>
           </thead>
           <tbody tabIndex={0}>
@@ -132,7 +137,9 @@ const List = ({ match, history }) => {
                 <tr
                   key={i}
                   onClick={() => handleStudentRowClick(student)}
-                  className={i === store.activeStudentRow ? "active" : ""}
+                  className={`hoverable ${
+                    i === store.activeStudentRow ? "active" : ""
+                  }`}
                 >
                   <td>{student.name}</td>
                   <td>

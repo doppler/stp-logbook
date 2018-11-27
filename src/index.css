@@ -9,10 +9,10 @@
   --button-text-color: hsl(var(--base-hue), 100%, 10%);
   --button-bg-color: hsl(var(--base-hue), 50%, 92%);
   --button-bg-image-color: hsl(var(--base-hue), 50%, 90%);
-  --button-border-color: hsl(var(--base-hue), 50%, 92%);
+  --button-border-color: hsl(var(--base-hue), 10%, 75%);
   --button-border-width: 1px;
   --button-border-radius: 1.05em;
-  --button-border-style: outset;
+  --button-border-style: solid;
   --button-height: 2em;
 
   --label-bg-color: hsl(var(--base-hue), 50%, 92%);

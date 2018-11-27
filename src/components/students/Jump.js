@@ -152,7 +152,7 @@ const Jump = ({ match, history }) => {
   return (
     <React.Fragment>
       <HotKeys keyName={"ctrl+l,ctrl+b,ctrl+s,ctrl+d,esc"} onKeyUp={onKeyUp}>
-        <div id="Jump" className="Content">
+        <div className="Jump">
           <form onSubmit={_save}>
             <fieldset>
               <legend>{`${student.name} - Jump ${jump.number} Dive Flow ${

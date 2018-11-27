@@ -90,7 +90,7 @@ const Edit = ({ match, history }) => {
     ];
   return (
     <HotKeys keyName="ctrl+l,ctrl+b,ctrl+s" onKeyDown={onKeyDown}>
-      <div className="Content">
+      <div className="Edit">
         <form onSubmit={saveStudent}>
           <fieldset>
             <legend>

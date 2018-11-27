@@ -122,7 +122,7 @@ const Show = ({ match, history }) => {
       keyName="down,j,up,k,enter,right,left,ctrl+l,ctrl+b,ctrl+a,ctrl+e"
       onKeyUp={onKeyUp}
     >
-      <div className="Content Student Show">
+      <div className="Student">
         <div className="left">
           <h1>{student.name}</h1>
           <p>{student.email}</p>
@@ -130,7 +130,7 @@ const Show = ({ match, history }) => {
           <p>
             <button
               id="e"
-              className="hotkey-button"
+              className="hotkey-button small"
               onClick={() => history.push(`/students/${student._id}/edit`)}
             >
               Edit
@@ -153,7 +153,9 @@ const Show = ({ match, history }) => {
                   onClick={() =>
                     history.push(`/students/${student._id}/jump/${jump._id}`)
                   }
-                  className={i === store.activeJumpRow ? "active" : ""}
+                  className={`hoverable ${
+                    i === store.activeJumpRow ? "active" : ""
+                  }`}
                 >
                   <td>
                     Jump {jump.number} - DF {jump.diveFlow}
@@ -165,13 +167,19 @@ const Show = ({ match, history }) => {
                   <td>{jump.instructor}</td>
                 </tr>
               ))}
+              <tr>
+                <td colSpan="3">
+                  <button
+                    id="a"
+                    className="hotkey-button small"
+                    onClick={addJump}
+                  >
+                    Add Jump
+                  </button>
+                </td>
+              </tr>
             </tbody>
           </table>
-          <p>
-            <button id="a" className="hotkey-button" onClick={addJump}>
-              Add Jump
-            </button>
-          </p>
         </div>
       </div>
     </HotKeys>

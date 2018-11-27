@@ -21,13 +21,15 @@ const StudentRouter = props => {
   return (
     <React.Fragment>
       <Header buttons={headerButtons} />
-      <Switch>
-        <Route exact path="/students" component={List} />
-        <Route path="/students/:studentId/jump/:jumpId" component={Jump} />
-        <Route path="/students/:studentId/edit" component={Edit} />
-        <Route path="/students/new" component={Edit} />
-        <Route path="/students/:studentId" component={Show} />
-      </Switch>
+      <div className="Content">
+        <Switch>
+          <Route exact path="/students" component={List} />
+          <Route path="/students/:studentId/jump/:jumpId" component={Jump} />
+          <Route path="/students/:studentId/edit" component={Edit} />
+          <Route path="/students/new" component={Edit} />
+          <Route path="/students/:studentId" component={Show} />
+        </Switch>
+      </div>
     </React.Fragment>
   );
 };
