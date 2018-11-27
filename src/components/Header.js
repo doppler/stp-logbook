@@ -23,8 +23,8 @@ const Button = props => (
     onClick={props.onClick}
     className={
       props.id === "d" && store.deleteConfirmation
-        ? "header-button warning"
-        : "header-button"
+        ? "hotkey-button warning"
+        : "hotkey-button"
     }
   >
     {props.children}

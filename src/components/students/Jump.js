@@ -83,7 +83,9 @@ const Jump = ({ match, history }) => {
       return handleFormError(res.error);
     }
     flash({
-      success: `Saved ${student.name} - Jump ${jump.number} DF ${jump.diveFlow}`
+      success: `${jump._deleted ? "Deleted" : "Saved"} ${student.name} - Jump ${
+        jump.number
+      } DF ${jump.diveFlow}`
     });
     delete store.jumps;
     return res;

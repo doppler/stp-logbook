@@ -9,7 +9,7 @@
 }
 .Content {
   grid-area: content;
-  padding: 10px;
+  padding: 0.5vw 0.5vw 0 0.5vw;
   background-color: var(--content-bg-color);
   overflow: scroll;
 }
@@ -58,7 +58,7 @@ button:active {
   border-color: var(--warning-border-color);
   background-image: none;
 }
-button.header-button::first-letter {
+button.hotkey-button::first-letter {
   text-decoration: underline;
   color: hsl(var(--base-hue), 100%, 40%);
 }

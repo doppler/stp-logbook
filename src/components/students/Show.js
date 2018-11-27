@@ -64,7 +64,9 @@ const Show = ({ match, history }) => {
     student.jumps.push(jump._id);
     const studentRes = await saveStudent(student);
     if (studentRes.error) return flash(studentRes);
-    flash({ success: `Saved jump ${jump._id}` });
+    flash({
+      success: `Saved ${student.name} - Jump ${jump.number} DF ${jump.diveFlow}`
+    });
     store.activeJumpRow++;
     delete store.jumps;
     console.groupEnd("addJump");
@@ -107,54 +109,70 @@ const Show = ({ match, history }) => {
       //   onClick: () => history.push("/students"),
       //   children: "List Students"
       // },
-      { id: "b", onClick: () => history.push("/students"), children: "Back" },
-      { id: "a", onClick: addJump, children: "Add Jump" },
-      {
-        id: "e",
-        onClick: () => history.push(`/students/${student._id}/edit`),
-        children: "Edit Student"
-      }
+      { id: "b", onClick: () => history.push("/students"), children: "Back" }
+      // { id: "a", onClick: addJump, children: "Add Jump" },
+      // {
+      //   id: "e",
+      //   onClick: () => history.push(`/students/${student._id}/edit`),
+      //   children: "Edit Student"
+      // }
     ];
   return (
     <HotKeys
       keyName="down,j,up,k,enter,right,left,ctrl+l,ctrl+b,ctrl+a,ctrl+e"
       onKeyUp={onKeyUp}
     >
-      <div className="Content">
-        <div className="show student">
-          <div>{student.name}</div>
-          <div>{student.email}</div>
-          <div>{student.phone}</div>
+      <div className="Content Student Show">
+        <div className="left">
+          <h1>{student.name}</h1>
+          <p>{student.email}</p>
+          <p>{student.phone}</p>
+          <p>
+            <button
+              id="e"
+              className="hotkey-button"
+              onClick={() => history.push(`/students/${student._id}/edit`)}
+            >
+              Edit
+            </button>
+          </p>
         </div>
-        <table tabIndex={0}>
-          <thead>
-            <tr>
-              <th>Jump - Dive Flow</th>
-              <th>Date</th>
-              <th>Instructor</th>
-            </tr>
-          </thead>
-          <tbody>
-            {jumps.map((jump, i) => (
-              <tr
-                key={i}
-                onClick={() =>
-                  history.push(`/students/${student._id}/jump/${jump._id}`)
-                }
-                className={i === store.activeJumpRow ? "active" : ""}
-              >
-                <td>
-                  Jump {jump.number} - DF {jump.diveFlow}
-                </td>
-                <td>
-                  {format(jump.date, "dddd MMMM Mo")} (
-                  {distanceInWordsToNow(jump.date)})
-                </td>
-                <td>{jump.instructor}</td>
+        <div className="right">
+          <table tabIndex={0}>
+            <thead>
+              <tr>
+                <th>Jump - Dive Flow</th>
+                <th>Date</th>
+                <th>Instructor</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {jumps.map((jump, i) => (
+                <tr
+                  key={i}
+                  onClick={() =>
+                    history.push(`/students/${student._id}/jump/${jump._id}`)
+                  }
+                  className={i === store.activeJumpRow ? "active" : ""}
+                >
+                  <td>
+                    Jump {jump.number} - DF {jump.diveFlow}
+                  </td>
+                  <td>
+                    {format(jump.date, "dddd MMMM Mo")} (
+                    {distanceInWordsToNow(jump.date)})
+                  </td>
+                  <td>{jump.instructor}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p>
+            <button id="a" className="hotkey-button" onClick={addJump}>
+              Add Jump
+            </button>
+          </p>
+        </div>
       </div>
     </HotKeys>
   );
