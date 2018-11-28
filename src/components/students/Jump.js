@@ -139,6 +139,8 @@ const Jump = ({ match, history }) => {
     return false;
   };
 
+  document.title = `STP: ${student.name} DF-${jump.diveFlow}`;
+
   return (
     <React.Fragment>
       <HotKeys keyName={"ctrl+s,ctrl+d,esc"} onKeyUp={onKeyUp}>

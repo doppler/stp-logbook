@@ -50,6 +50,8 @@ const List = ({ history }) => {
   if (rowCount > 0 && store.activeRow === rowCount) store.activeRow = 0;
   if (rowCount > 0 && store.activeRow === -1) store.activeRow = rowCount - 1;
 
+  document.title = "STP: Instructors";
+
   return (
     <HotKeys keyName="down,j,up,k,enter,right,ctrl+a" onKeyDown={onKeyDown}>
       <div className="Content">

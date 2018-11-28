@@ -78,6 +78,8 @@ const Edit = ({ match, history }) => {
     }
   };
 
+  document.title = `STP: EDIT ${student.name}`;
+
   return (
     <HotKeys keyName="ctrl+s" onKeyDown={onKeyDown}>
       <div className="Edit">

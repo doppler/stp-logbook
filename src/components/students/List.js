@@ -82,6 +82,8 @@ const List = ({ match, history }) => {
   if (rowCount > 0 && store.activeStudentRow === -1)
     store.activeStudentRow = rowCount - 1;
 
+  document.title = "STP: Students";
+
   return (
     <HotKeys
       keyName="down,j,up,k,enter,right,left,ctrl+a"

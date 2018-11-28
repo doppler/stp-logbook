@@ -58,6 +58,8 @@ const Home = ({ history }) => {
     }
   };
 
+  document.title = "STP: Dashboard";
+
   return (
     <React.Fragment>
       <Header />

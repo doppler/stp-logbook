@@ -38,7 +38,7 @@ const List = ({ history }) => {
         store.activeAircraftRow--;
         break;
       case ["enter", "right"].includes(keyName):
-        history.push(`/aircraft/${aircraft[store.activeAircraftRow].id}`);
+        history.push(`/aircraft/${aircraft[store.activeAircraftRow]._id}`);
         break;
       default:
         document.getElementById(keyName.match(/.$/)).click();
@@ -51,6 +51,8 @@ const List = ({ history }) => {
     store.activeAircraftRow = 0;
   if (rowCount > 0 && store.activeAircraftRow === -1)
     store.activeAircraftRow = rowCount - 1;
+
+  document.title = "STP: Aircraft";
 
   return (
     <HotKeys keyName="down,j,up,k,enter,right,ctrl+a" onKeyDown={onKeyDown}>

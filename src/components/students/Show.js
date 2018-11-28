@@ -102,6 +102,8 @@ const Show = ({ match, history }) => {
   if (rowCount > 0 && store.activeJumpRow === -1)
     store.activeJumpRow = rowCount - 1;
 
+  document.title = `STP: ${student.name}`;
+
   return (
     <HotKeys
       keyName="down,j,up,k,enter,right,left,ctrl+l,ctrl+a,ctrl+e"
