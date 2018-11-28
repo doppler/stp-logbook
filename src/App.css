@@ -7,6 +7,10 @@
   grid-gap: 1px;
   color: var(--content-text-color);
 }
+.Header {
+  z-index: 1;
+  box-shadow: 0px 1px 4px var(--content-border-color);
+}
 .Content {
   grid-area: content;
   padding: 0.5vw 0.5vw 0 0.5vw;
