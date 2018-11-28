@@ -55,7 +55,7 @@ button.small {
   border-style: var(--button-border-style);
   border-radius: 0.25em;
   height: 1.5em;
-  margin: 0;
+  margin: 0.5em 0 0 0;
   /* background: none; */
   padding: 0;
   /* min-width: 0; */
@@ -169,10 +169,6 @@ td {
 }
 tr {
   background-color: var(--content-bg-color);
-}
-tr:last-child td {
-  border: 0;
-  padding-left: 0;
 }
 tr.hoverable:hover {
   cursor: pointer;

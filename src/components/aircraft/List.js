@@ -83,19 +83,11 @@ const List = ({ history }) => {
                 <td>{aircraft.tailNumber}</td>
               </tr>
             ))}
-            <tr>
-              <td colSpan="3">
-                <button
-                  id="a"
-                  onClick={addAircraft}
-                  className="hotkey-button small"
-                >
-                  Add Aircraft
-                </button>
-              </td>
-            </tr>
           </tbody>
         </table>
+        <button id="a" onClick={addAircraft} className="hotkey-button small">
+          Add Aircraft
+        </button>
       </div>
     </HotKeys>
   );

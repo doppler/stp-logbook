@@ -82,19 +82,11 @@ const List = ({ history }) => {
                 <td>{instructor.phone}</td>
               </tr>
             ))}
-            <tr>
-              <td colSpan="3">
-                <button
-                  id="a"
-                  onClick={addInstructor}
-                  className="hotkey-button small"
-                >
-                  Add Instructor
-                </button>
-              </td>
-            </tr>
           </tbody>
         </table>
+        <button id="a" onClick={addInstructor} className="hotkey-button small">
+          Add Instructor
+        </button>
       </div>
     </HotKeys>
   );

@@ -167,19 +167,11 @@ const Show = ({ match, history }) => {
                   <td>{jump.instructor}</td>
                 </tr>
               ))}
-              <tr>
-                <td colSpan="3">
-                  <button
-                    id="a"
-                    className="hotkey-button small"
-                    onClick={addJump}
-                  >
-                    Add Jump
-                  </button>
-                </td>
-              </tr>
             </tbody>
           </table>
+          <button id="a" className="hotkey-button small" onClick={addJump}>
+            Add Jump
+          </button>
         </div>
       </div>
     </HotKeys>
