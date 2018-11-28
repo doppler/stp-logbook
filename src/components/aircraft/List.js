@@ -54,13 +54,13 @@ const List = ({ history }) => {
 
   if (store.headerButtons.length === 0)
     store.headerButtons = [
-      { id: "h", onClick: () => history.push("/"), children: "Home" },
-      { id: "n", onClick: addAircraft, children: "New aircraft" }
+      { id: "h", onClick: () => history.push("/"), children: "Home" }
+      // { id: "n", onClick: addAircraft, children: "New aircraft" }
     ];
 
   return (
     <HotKeys
-      keyName="down,j,up,k,enter,right,ctrl+h,ctrl+n"
+      keyName="down,j,up,k,enter,right,ctrl+h,ctrl+a"
       onKeyDown={onKeyDown}
     >
       <div className="Content">
@@ -83,6 +83,17 @@ const List = ({ history }) => {
                 <td>{aircraft.tailNumber}</td>
               </tr>
             ))}
+            <tr>
+              <td colSpan="3">
+                <button
+                  id="a"
+                  onClick={addAircraft}
+                  className="hotkey-button small"
+                >
+                  Add Aircraft
+                </button>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>

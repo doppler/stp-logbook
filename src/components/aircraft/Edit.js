@@ -34,18 +34,19 @@ const Edit = ({ match, history }) => {
   if (!currentAircraft) return false;
 
   const save = async e => {
-    if (e) {
-      document.querySelector("input[type='submit']").click();
-      e.preventDefault();
-    }
+    // if (e) {
+    //   document.querySelector("input[type='submit']").click();
+    //   e.preventDefault();
+    // }
+    e.preventDefault();
     removeErrorClass();
     const res = await saveAircraft(currentAircraft);
     if (res.error) {
       flash({ error: "Please check form for errors." });
       return handleFormError(res.error);
     }
-    flash({ success: `Saved ${currentAircraft.name}` });
     delete store.aircraft;
+    flash({ success: `Saved ${currentAircraft.name}` });
     history.push("/aircraft");
   };
 
@@ -58,7 +59,8 @@ const Edit = ({ match, history }) => {
     history.push("/aircraft");
   };
 
-  const deleteAircraft = () => {
+  const deleteAircraft = e => {
+    e.preventDefault();
     if (store.deleteConfirmation) return reallyDeleteAircraft();
     document.getElementById("d").focus();
     store.deleteConfirmation = true;
@@ -86,16 +88,16 @@ const Edit = ({ match, history }) => {
 
   if (store.headerButtons.length === 0)
     store.headerButtons = [
-      { id: "b", onClick: () => history.goBack(1), children: "Back" },
-      { id: "s", onClick: save, children: "Save Aircraft" }
+      { id: "b", onClick: () => history.goBack(1), children: "Back" }
+      // { id: "s", onClick: save, children: "Save Aircraft" }
     ];
-  if (match.params.id && !store.headerButtons.find(o => o.id === "d")) {
-    store.headerButtons.push({
-      id: "d",
-      onClick: deleteAircraft,
-      children: "Delete Aircraft"
-    });
-  }
+  // if (match.params.id && !store.headerButtons.find(o => o.id === "d")) {
+  //   store.headerButtons.push({
+  //     id: "d",
+  //     onClick: deleteAircraft,
+  //     children: "Delete Aircraft"
+  //   });
+  // }
   return (
     <HotKeys keyName="ctrl+b,ctrl+s,ctrl+d" onKeyDown={onKeyDown}>
       <div className="Content">
@@ -129,8 +131,19 @@ const Edit = ({ match, history }) => {
                 required
               />
             </div>
+            <button id="s" onClick={save} className="hotkey-button">
+              Save Aircraft
+            </button>
+            <button
+              id="d"
+              onClick={deleteAircraft}
+              className={`hotkey-button ${
+                store.deleteConfirmation ? "warning" : null
+              }`}
+            >
+              Delete Aircraft
+            </button>
           </fieldset>
-          <input type="submit" style={{ display: "none" }} />
         </form>
       </div>
     </HotKeys>

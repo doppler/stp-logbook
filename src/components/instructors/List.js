@@ -3,7 +3,6 @@ import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
 import getInstructors from "./api/getInstructors";
 
-store.filter = "";
 store.activeRow = 0;
 
 const List = ({ history }) => {
