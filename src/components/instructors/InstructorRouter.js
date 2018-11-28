@@ -8,10 +8,9 @@ import List from "./List";
 import Edit from "./Edit";
 
 const InstructorRouter = props => {
-  const { headerButtons } = store;
   return (
     <React.Fragment>
-      <Header buttons={headerButtons} />
+      <Header />
       <Switch>
         <Route exact path="/instructors" component={List} />
         <Route path="/instructors/new" component={Edit} />

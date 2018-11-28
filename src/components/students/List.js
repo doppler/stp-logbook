@@ -67,6 +67,9 @@ const List = ({ match, history }) => {
           `/students/${filteredStudents[store.activeStudentRow]._id}`
         );
         break;
+      case keyName === "left":
+        history.push("/");
+        break;
       default:
         document.getElementById(keyName.match(/.$/)).click();
         break;
@@ -79,23 +82,9 @@ const List = ({ match, history }) => {
   if (rowCount > 0 && store.activeStudentRow === -1)
     store.activeStudentRow = rowCount - 1;
 
-  if (store.headerButtons.length === 0)
-    store.headerButtons = [
-      {
-        id: "h",
-        onClick: () => history.push("/"),
-        children: "Home"
-      }
-      // {
-      //   id: "a",
-      //   onClick: () => history.push("/students/new"),
-      //   children: "Add Student"
-      // }
-    ];
-
   return (
     <HotKeys
-      keyName="down,j,up,k,enter,right,ctrl+h,ctrl+a"
+      keyName="down,j,up,k,enter,right,left,ctrl+a"
       onKeyDown={onKeyDown}
     >
       <div className="List">

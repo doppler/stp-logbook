@@ -62,7 +62,7 @@ const Edit = ({ match, history }) => {
       return handleFormError(res.error);
     }
     flash({ success: `Saved ${student.name}` });
-    history.push(`/students/${student._id}`);
+    history.goBack(1);
   };
 
   if (!student || instructors.length === 0) return null;
@@ -78,18 +78,8 @@ const Edit = ({ match, history }) => {
     }
   };
 
-  if (store.headerButtons.length === 0)
-    store.headerButtons = [
-      {
-        id: "l",
-        onClick: () => history.push("/students"),
-        children: "List Students"
-      },
-      { id: "b", onClick: () => history.goBack(1), children: "Back" }
-      // { id: "s", onClick: saveStudent, children: "Save Student" }
-    ];
   return (
-    <HotKeys keyName="ctrl+l,ctrl+b,ctrl+s" onKeyDown={onKeyDown}>
+    <HotKeys keyName="ctrl+s" onKeyDown={onKeyDown}>
       <div className="Edit">
         <form onSubmit={saveStudent}>
           <fieldset>

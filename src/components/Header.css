@@ -2,16 +2,11 @@
   grid-area: header;
   background-color: var(--content-bg-color);
 }
-.Messages {
-  grid-area: messages;
-  background-color: var(--content-bg-color);
-  color: var(--content-text-color);
-}
-.Messages ul {
+.Header ul {
   margin: 0;
   padding: 0;
 }
-.Messages li {
+.Header li {
   display: inline-block;
   padding-left: 1em;
 }

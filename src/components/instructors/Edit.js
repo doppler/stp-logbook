@@ -86,12 +86,8 @@ const Edit = ({ match, history }) => {
     }
   };
 
-  if (store.headerButtons.length === 0)
-    store.headerButtons = [
-      { id: "b", onClick: () => history.goBack(1), children: "Back" }
-    ];
   return (
-    <HotKeys keyName="ctrl+b,ctrl+s,ctrl+d" onKeyDown={onKeyDown}>
+    <HotKeys keyName="ctrl+s,ctrl+d" onKeyDown={onKeyDown}>
       <div className="Content">
         <form onSubmit={save}>
           <fieldset>

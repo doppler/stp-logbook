@@ -16,11 +16,10 @@ store.aircraft = [];
 store.activeStudentRow = 0;
 
 const StudentRouter = props => {
-  const { headerButtons } = store;
   store.students = [];
   return (
     <React.Fragment>
-      <Header buttons={headerButtons} />
+      <Header />
       <div className="Content">
         <Switch>
           <Route exact path="/students" component={List} />

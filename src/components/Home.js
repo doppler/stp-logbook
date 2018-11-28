@@ -58,29 +58,34 @@ const Home = ({ history }) => {
     }
   };
 
-  if (store.headerButtons.length === 0)
-    store.headerButtons = [
-      {
-        id: "s",
-        onClick: () => history.push("/students"),
-        children: "Students"
-      },
-      {
-        id: "i",
-        onClick: () => history.push("/instructors"),
-        children: "Instructors"
-      },
-      {
-        id: "a",
-        onClick: () => history.push("/aircraft"),
-        children: "Aircraft"
-      }
-    ];
   return (
     <React.Fragment>
-      <Header buttons={store.headerButtons} />
+      <Header />
       <HotKeys keyName="ctrl+s,ctrl+i,ctrl+a" onKeyDown={onKeyDown}>
         <div className="Home Content">
+          <nav>
+            <button
+              className="hotkey-button"
+              id="s"
+              onClick={() => history.push("/students")}
+            >
+              Students
+            </button>
+            <button
+              className="hotkey-button"
+              id="i"
+              onClick={() => history.push("/instructors")}
+            >
+              Instructors
+            </button>
+            <button
+              className="hotkey-button"
+              id="a"
+              onClick={() => history.push("/aircraft")}
+            >
+              Aircraft
+            </button>
+          </nav>
           <section>
             <h1>
               <strong>

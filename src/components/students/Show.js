@@ -102,24 +102,9 @@ const Show = ({ match, history }) => {
   if (rowCount > 0 && store.activeJumpRow === -1)
     store.activeJumpRow = rowCount - 1;
 
-  if (store.headerButtons.length === 0)
-    store.headerButtons = [
-      // {
-      //   id: "l",
-      //   onClick: () => history.push("/students"),
-      //   children: "List Students"
-      // },
-      { id: "b", onClick: () => history.push("/students"), children: "Back" }
-      // { id: "a", onClick: addJump, children: "Add Jump" },
-      // {
-      //   id: "e",
-      //   onClick: () => history.push(`/students/${student._id}/edit`),
-      //   children: "Edit Student"
-      // }
-    ];
   return (
     <HotKeys
-      keyName="down,j,up,k,enter,right,left,ctrl+l,ctrl+b,ctrl+a,ctrl+e"
+      keyName="down,j,up,k,enter,right,left,ctrl+l,ctrl+a,ctrl+e"
       onKeyUp={onKeyUp}
     >
       <div className="Student">

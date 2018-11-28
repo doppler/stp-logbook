@@ -17,45 +17,13 @@ const Flash = ({ type, message }) => {
   return <div className={`flash ${type}`}>{messageList || message}</div>;
 };
 
-const Button = props => (
-  <button
-    id={props.id}
-    onClick={props.onClick}
-    className={
-      props.id === "d" && store.deleteConfirmation
-        ? "hotkey-button warning"
-        : "hotkey-button"
-    }
-  >
-    {props.children}
-  </button>
-);
-
-const Header = ({ buttons }) => {
-  return (
-    <React.Fragment>
-      <nav className="Header">
-        {buttons.map((button, i) => {
-          const { children } = button;
-          return (
-            <Button key={i} {...button}>
-              {children}
-            </Button>
-          );
-        })}
-      </nav>
-      <Messages />
-    </React.Fragment>
-  );
-};
-
-export default Header;
-
-const Messages = () => {
+const Header = () => {
   const { type, message } = store.flash;
   return (
-    <div className="Messages">
+    <div className="Header">
       <Flash type={type} message={message} />
     </div>
   );
 };
+
+export default Header;

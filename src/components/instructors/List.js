@@ -50,16 +50,8 @@ const List = ({ history }) => {
   if (rowCount > 0 && store.activeRow === rowCount) store.activeRow = 0;
   if (rowCount > 0 && store.activeRow === -1) store.activeRow = rowCount - 1;
 
-  if (store.headerButtons.length === 0)
-    store.headerButtons = [
-      { id: "h", onClick: () => history.push("/"), children: "Home" }
-    ];
-
   return (
-    <HotKeys
-      keyName="down,j,up,k,enter,right,ctrl+h,ctrl+a"
-      onKeyDown={onKeyDown}
-    >
+    <HotKeys keyName="down,j,up,k,enter,right,ctrl+a" onKeyDown={onKeyDown}>
       <div className="Content">
         <table id="instructors">
           <caption>Instructors</caption>

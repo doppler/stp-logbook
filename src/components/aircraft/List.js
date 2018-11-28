@@ -52,17 +52,8 @@ const List = ({ history }) => {
   if (rowCount > 0 && store.activeAircraftRow === -1)
     store.activeAircraftRow = rowCount - 1;
 
-  if (store.headerButtons.length === 0)
-    store.headerButtons = [
-      { id: "h", onClick: () => history.push("/"), children: "Home" }
-      // { id: "n", onClick: addAircraft, children: "New aircraft" }
-    ];
-
   return (
-    <HotKeys
-      keyName="down,j,up,k,enter,right,ctrl+h,ctrl+a"
-      onKeyDown={onKeyDown}
-    >
+    <HotKeys keyName="down,j,up,k,enter,right,ctrl+a" onKeyDown={onKeyDown}>
       <div className="Content">
         <table id="aircraft">
           <caption>Aircraft</caption>

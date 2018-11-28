@@ -76,6 +76,10 @@ const Jump = ({ match, history }) => {
   };
 
   const _save = async e => {
+    if (e) {
+      document.querySelector("input[type='submit']").click();
+      e.preventDefault();
+    }
     removeErrorClass();
     const res = await saveJump(jump);
     if (res.error) {
@@ -100,7 +104,7 @@ const Jump = ({ match, history }) => {
         return handleFormError(res.error);
       }
       flash({ success: `Deleted jump ${jump._id}` });
-      history.push(`/students/${student._id}`);
+      history.goBack(1);
     })();
     delete store.jumps;
     jump._deleted = true;
@@ -108,7 +112,8 @@ const Jump = ({ match, history }) => {
     delete store.jumps;
     console.debug("reallyDeleteJump", deleteRes);
   };
-  const deleteJump = () => {
+  const deleteJump = e => {
+    e.preventDefault();
     if (store.deleteConfirmation) return reallyDeleteJump();
     store.deleteConfirmation = true;
   };
@@ -134,24 +139,9 @@ const Jump = ({ match, history }) => {
     return false;
   };
 
-  if (store.headerButtons.length === 0)
-    store.headerButtons = [
-      {
-        id: "b",
-        onClick: () => history.push(`/students/${student._id}`),
-        children: "Back"
-      }
-      // { id: "s", onClick: _save, children: "Save Jump" },
-      // {
-      //   id: "d",
-      //   onClick: deleteJump,
-      //   deleteConfirmation: store.deleteConfirmation,
-      //   children: "Delete Jump"
-      // }
-    ];
   return (
     <React.Fragment>
-      <HotKeys keyName={"ctrl+l,ctrl+b,ctrl+s,ctrl+d,esc"} onKeyUp={onKeyUp}>
+      <HotKeys keyName={"ctrl+s,ctrl+d,esc"} onKeyUp={onKeyUp}>
         <div className="Jump">
           <form onSubmit={_save}>
             <fieldset>

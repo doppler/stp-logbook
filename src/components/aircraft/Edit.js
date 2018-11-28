@@ -86,20 +86,8 @@ const Edit = ({ match, history }) => {
     }
   };
 
-  if (store.headerButtons.length === 0)
-    store.headerButtons = [
-      { id: "b", onClick: () => history.goBack(1), children: "Back" }
-      // { id: "s", onClick: save, children: "Save Aircraft" }
-    ];
-  // if (match.params.id && !store.headerButtons.find(o => o.id === "d")) {
-  //   store.headerButtons.push({
-  //     id: "d",
-  //     onClick: deleteAircraft,
-  //     children: "Delete Aircraft"
-  //   });
-  // }
   return (
-    <HotKeys keyName="ctrl+b,ctrl+s,ctrl+d" onKeyDown={onKeyDown}>
+    <HotKeys keyName="ctrl+s,ctrl+d" onKeyDown={onKeyDown}>
       <div className="Content">
         <form onSubmit={save}>
           <fieldset>

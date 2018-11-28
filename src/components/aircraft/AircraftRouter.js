@@ -8,10 +8,9 @@ import List from "./List";
 import Edit from "./Edit";
 
 const AircraftRouter = props => {
-  const { headerButtons } = store;
   return (
     <React.Fragment>
-      <Header buttons={headerButtons} />
+      <Header />
       <Switch>
         <Route exact path="/aircraft" component={List} />
         <Route path="/aircraft/new" component={Edit} />

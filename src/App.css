@@ -1,8 +1,8 @@
 .App {
   height: 100vh;
   display: grid;
-  grid-template-rows: 60px 20px auto;
-  grid-template-areas: "header" "messages" "content";
+  grid-template-rows: 20px auto;
+  grid-template-areas: "header" "content";
   align-content: stretch;
   grid-gap: 1px;
   color: var(--content-text-color);
