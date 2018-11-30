@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import flash from "../../utils/flash";
 
 const SyncSettingsForm = () => {
   const [couchDbUrlValue, changeCouchDbUrlValue] = useState("");
@@ -6,7 +7,6 @@ const SyncSettingsForm = () => {
 
   useEffect(() => {
     if (!changingCouchDbUrlValue) {
-      console.log("fetching couchDbUrl from localStorage");
       const dbUrl = localStorage.getItem("stp-logbook:couchDbUrl");
       if (dbUrl) {
         changeCouchDbUrlValue(dbUrl);
@@ -25,11 +25,23 @@ const SyncSettingsForm = () => {
     changeCouchDbUrlValue(e.target.value);
   };
 
-  const handleSaveCouchDbUrl = e => {
-    console.debug("handleSaveCouchDbUrl");
+  const validCouchDb = async couchDbUrlValue => {
+    const res = await fetch(couchDbUrlValue);
+    const json = await res.json();
+    if (json.db_name) return json.db_name;
+    return false;
+  };
+
+  const handleSaveCouchDbUrl = async e => {
     e.preventDefault();
-    localStorage.setItem("stp-logbook:couchDbUrl", couchDbUrlValue);
-    setChangingCouchDbUrlValue(false);
+    const validDb = await validCouchDb(couchDbUrlValue);
+    if (validDb) {
+      localStorage.setItem("stp-logbook:couchDbUrl", couchDbUrlValue);
+      setChangingCouchDbUrlValue(false);
+      flash({ success: `Saved sync to "${validDb}" at ${couchDbUrlValue}` });
+    } else {
+      flash({ error: `Did not find a CouchDB at ${couchDbUrlValue}` });
+    }
   };
 
   return (
