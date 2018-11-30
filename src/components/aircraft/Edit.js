@@ -34,10 +34,6 @@ const Edit = ({ match, history }) => {
   if (!currentAircraft) return false;
 
   const save = async e => {
-    // if (e) {
-    //   document.querySelector("input[type='submit']").click();
-    //   e.preventDefault();
-    // }
     e.preventDefault();
     removeErrorClass();
     const res = await saveAircraft(currentAircraft);
@@ -47,7 +43,7 @@ const Edit = ({ match, history }) => {
     }
     delete store.aircraft;
     flash({ success: `Saved ${currentAircraft.name}` });
-    history.push("/aircraft");
+    history.goBack(1);
   };
 
   const reallyDeleteAircraft = async () => {
@@ -56,7 +52,7 @@ const Edit = ({ match, history }) => {
     if (res.error) return flash(res);
     delete store.aircraft;
     flash({ success: `Deleted ${currentAircraft.name}` });
-    history.push("/aircraft");
+    history.goBack(1);
   };
 
   const deleteAircraft = e => {

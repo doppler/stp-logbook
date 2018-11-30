@@ -44,7 +44,7 @@ const Edit = ({ match, history }) => {
     }
     flash({ success: `Saved ${instructor.name}` });
     delete store.instructors;
-    history.push("/instructors");
+    history.goBack(1);
   };
 
   const reallyDeleteInstructor = async () => {
@@ -53,7 +53,7 @@ const Edit = ({ match, history }) => {
     if (res.error) return flash(res);
     delete store.instructors;
     flash({ success: `Deleted ${instructor.name}` });
-    history.push("/instructors");
+    history.goBack(1);
   };
 
   const deleteInstructor = e => {
