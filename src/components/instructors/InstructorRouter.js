@@ -1,8 +1,6 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 
-import { store, collect } from "react-recollect";
-
 import Header from "../Header";
 import List from "./List";
 import Edit from "./Edit";
@@ -20,4 +18,4 @@ const InstructorRouter = props => {
   );
 };
 
-export default collect(InstructorRouter);
+export default InstructorRouter;
