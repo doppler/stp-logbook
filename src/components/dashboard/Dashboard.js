@@ -4,6 +4,7 @@ import { store, collect } from "react-recollect";
 import Header from "../Header";
 import ManageSection from "./ManageSection";
 import DatabaseSettingsSection from "./DatabaseSettingsSection";
+import VideoStorageSettings from "./VideoStorageSettings";
 import AboutSection from "./AboutSection";
 import FakeDataSection from "./FakeDataSection";
 import "./Dashboard.css";
@@ -36,6 +37,7 @@ const Dashboard = ({ history }) => {
             </button>
           </nav>
           <DatabaseSettingsSection />
+          <VideoStorageSettings />
           <ManageSection history={history} />
           <AboutSection />
           <FakeDataSection history={history} />

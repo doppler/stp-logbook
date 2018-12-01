@@ -48,7 +48,7 @@ const DatabaseSettingsForm = () => {
     <section>
       <details open>
         <summary>Database Settings</summary>
-        <div className="SyncSettingsForm">
+        <div className="Form">
           <form
             onSubmit={e => {
               e.preventDefault();
