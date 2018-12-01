@@ -1,13 +1,13 @@
 import React from "react";
 import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
-import Header from "./Header";
-import SyncSettingsForm from "./settings/SyncSettingsForm";
-import "./Home.css";
+import Header from "../Header";
+import SyncSettingsForm from "./SyncSettingsForm";
+import "./Dashboard.css";
 
-import createTestData from "../utils/createTestData";
+import createTestData from "../../utils/createTestData";
 
-import DB from "../DB";
+import DB from "../../DB";
 
 store.deleteConfirmation = false;
 
@@ -23,7 +23,7 @@ DB.find({ selector: { type: "student" } })
   .then(res => res.docs)
   .then(docs => (store.studentCount = docs.length));
 
-const Home = ({ history }) => {
+const Dashboard = ({ history }) => {
   const handleCreateTestData = async () => {
     if (store.deleteConfirmation) {
       const testData = await createTestData();
@@ -65,7 +65,7 @@ const Home = ({ history }) => {
     <React.Fragment>
       <Header />
       <HotKeys keyName="ctrl+s" onKeyDown={onKeyDown}>
-        <div className="Home Content">
+        <div className="Dashboard Content">
           <nav>
             <button
               className="hotkey-button"
@@ -224,4 +224,4 @@ const Home = ({ history }) => {
   );
 };
 
-export default collect(Home);
+export default collect(Dashboard);

@@ -5,7 +5,7 @@ import { store } from "react-recollect";
 import initializeDatabase from "./utils/initializeDatabase";
 
 import "./App.css";
-import Home from "./components/Home";
+import Dashboard from "./components/dashboard/Dashboard";
 import StudentRouter from "./components/students/StudentRouter";
 import InstructorRouter from "./components/instructors/InstructorRouter";
 import AircraftRouter from "./components/aircraft/AircraftRouter";
@@ -19,7 +19,7 @@ class App extends Component {
     store.deleteConfirmation = false;
     return (
       <div className="App">
-        <Route exact path="/" component={Home} />
+        <Route exact path="/" component={Dashboard} />
         <Route path="/students" component={StudentRouter} />
         <Route path="/instructors" component={InstructorRouter} />
         <Route path="/aircraft" component={AircraftRouter} />
