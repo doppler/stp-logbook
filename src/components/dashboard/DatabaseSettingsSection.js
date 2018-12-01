@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import flash from "../../utils/flash";
 
-const SyncSettingsForm = () => {
+const DatabaseSettingsForm = () => {
   const [couchDbUrlValue, changeCouchDbUrlValue] = useState("");
   const [changingCouchDbUrlValue, setChangingCouchDbUrlValue] = useState(false);
 
@@ -45,32 +45,37 @@ const SyncSettingsForm = () => {
   };
 
   return (
-    <div className="SyncSettingsForm">
-      <form
-        onSubmit={e => {
-          e.preventDefault();
-        }}
-      >
-        <fieldset>
-          <legend>Sync to remote CouchDB</legend>
-          <input
-            id="couchDbUrlValue"
-            size={30}
-            type="text"
-            value={couchDbUrlValue}
-            onChange={handleChangeCouchDbUrlValue}
-            placeholder="https://example.com:5984/stp-logbook"
-            disabled={!changingCouchDbUrlValue}
-          />
-          {changingCouchDbUrlValue ? (
-            <button onClick={handleSaveCouchDbUrl}>Save</button>
-          ) : (
-            <button onClick={enableChangeCouchDbUrlValue}>Change</button>
-          )}
-        </fieldset>
-      </form>
-    </div>
+    <section>
+      <details open>
+        <summary>Database Settings</summary>
+        <div className="SyncSettingsForm">
+          <form
+            onSubmit={e => {
+              e.preventDefault();
+            }}
+          >
+            <fieldset>
+              <legend>Sync to remote CouchDB</legend>
+              <input
+                id="couchDbUrlValue"
+                size={30}
+                type="text"
+                value={couchDbUrlValue}
+                onChange={handleChangeCouchDbUrlValue}
+                placeholder="https://example.com:5984/stp-logbook"
+                disabled={!changingCouchDbUrlValue}
+              />
+              {changingCouchDbUrlValue ? (
+                <button onClick={handleSaveCouchDbUrl}>Save</button>
+              ) : (
+                <button onClick={enableChangeCouchDbUrlValue}>Change</button>
+              )}
+            </fieldset>
+          </form>
+        </div>
+      </details>
+    </section>
   );
 };
 
-export default SyncSettingsForm;
+export default DatabaseSettingsForm;
