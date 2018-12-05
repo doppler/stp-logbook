@@ -26,7 +26,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "start-api": "nodemon api/server.js",
+    "start-api": "nodemon --watch api api/server.js",
     "dev": "concurrently \"yarn start\" \"yarn start-api\""
   },
   "nodemonConfig": {
