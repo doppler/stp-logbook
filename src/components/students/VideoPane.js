@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import format from "date-fns/format";
 import Dropzone from "react-dropzone";
 
@@ -20,6 +20,8 @@ const VideoPane = ({ student, jump }) => {
 export default VideoPane;
 
 const Uploader = ({ student, jump }) => {
+  const [progress, setProgress] = useState(null);
+
   const handleDrop = async acceptedFiles => {
     const videoFilename = `Jump ${jump.number} DF ${jump.diveFlow} ${format(
       jump.date,
@@ -32,20 +34,22 @@ const Uploader = ({ student, jump }) => {
 
     const xhr = new XMLHttpRequest();
     xhr.open("POST", `/api/videos/${student._id}`);
-    xhr.onload = () => console.log(xhr.status, xhr.responseText);
+    xhr.onload = () => console.log(xhr.status, JSON.parse(xhr.responseText));
     xhr.onerror = err => console.error(err);
     xhr.upload.onprogress = event => {
       if (event.lengthComputable) {
         const percent = Math.round((event.loaded / event.total) * 100);
+        setProgress(percent);
         console.log(percent);
       }
     };
     xhr.send(data);
   };
 
+  if (progress) return <ProgressBar progress={progress} />;
   return (
     <Dropzone onDrop={handleDrop} accept="video/*">
-      Drag Video Here
+      Drag Video File Here
     </Dropzone>
   );
 };
@@ -57,3 +61,10 @@ const Displayer = ({ videoUrl }) => {
     </div>
   );
 };
+
+const ProgressBar = ({ progress }) => (
+  <div className="ProgressBar">
+    <div className="ProgressText">Uploading: {progress}%</div>
+    <div className="Progress" style={{ width: `${progress}%` }} />
+  </div>
+);
