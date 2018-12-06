@@ -5,3 +5,7 @@
 .Jump label:focus {
   background-color: var(--content-hover-color);
 }
+
+.Displayer video {
+  width: 500px;
+}

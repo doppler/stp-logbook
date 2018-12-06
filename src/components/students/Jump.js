@@ -4,6 +4,7 @@ import HotKeys from "react-hot-keys";
 import "./Jump.css";
 
 import PhraseCloud from "./PhraseCloud";
+import VideoPane from "./VideoPane";
 
 import { store, collect } from "react-recollect";
 import format from "date-fns/format";
@@ -341,6 +342,7 @@ const Jump = ({ match, history }) => {
           </form>
         </div>
       </HotKeys>
+      <VideoPane student={student} jump={jump} />
       <PhraseCloud setAttribute={setAttribute} store={store} jump={jump} />
     </React.Fragment>
   );
