@@ -11,7 +11,7 @@ const VideoPane = ({ student, jump }) => {
   return (
     <div className="VideoPane">
       {videoUrl ? (
-        <Displayer videoUrl={videoUrl} />
+        <Displayer videoUrl={videoUrl} jump={jump} />
       ) : (
         <Uploader student={student} jump={jump} />
       )}
@@ -42,9 +42,12 @@ const Uploader = ({ student, jump }) => {
       const xres = JSON.parse(xhr.responseText);
       jump.videoFilename = videoFilename;
       console.log(xhr.status, xres);
-      // const res = await saveJump(jump);
-      // if (res.error) flash({ error: res.error });
-      // flash({ success: `Saved ${jump.videoFilename}` });
+      const res = await saveJump(jump);
+      console.log(res);
+      if (res.error) flash({ error: res.error });
+      else {
+        flash({ success: `Saved ${jump.videoFilename}` });
+      }
     };
     xhr.onerror = err => console.error(err);
     xhr.upload.onprogress = event => {
@@ -64,10 +67,28 @@ const Uploader = ({ student, jump }) => {
   );
 };
 
-const Displayer = ({ videoUrl }) => {
+const Displayer = ({ videoUrl, jump }) => {
+  const handleDeleteClick = async () => {
+    const vres = await fetch(videoUrl, { method: "DELETE" });
+    const json = await vres.json();
+    if (json.error) {
+      console.error(json.error);
+      flash({ error: json.error });
+      return false;
+    }
+    delete jump.videoFilename;
+    const res = await saveJump(jump);
+    if (res.error) flash({ error: res.error });
+    else {
+      flash({ success: `Removed ${videoUrl}` });
+    }
+  };
   return (
     <div className="Displayer">
       <video src={encodeURI(videoUrl)} controls />
+      <div className="delete">
+        <button onClick={handleDeleteClick}>Delete Video</button>
+      </div>
     </div>
   );
 };

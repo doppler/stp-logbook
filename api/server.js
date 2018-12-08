@@ -39,20 +39,21 @@ app.get("/api/videos/:student_name", (req, res) => {
   );
 });
 
-app.get("/api/videos/:student_name/:video_filename", (req, res) => {
-  const { student_name, video_filename } = req.params;
+app.get("/api/videos/:student_id/:video_filename", (req, res) => {
+  const { student_id, video_filename } = req.params;
   res.sendFile(
-    path.join(process.env.STP_VIDEO_STORAGE_PATH, student_name, video_filename)
+    path.join(process.env.STP_VIDEO_STORAGE_PATH, student_id, video_filename)
   );
 });
+
+const getStudentVideoDir = student_id =>
+  path.join(process.env.STP_VIDEO_STORAGE_PATH, student_id);
 
 app.post("/api/videos/:student_id", (req, res) => {
   const { student_id } = req.params;
   const { video_filename } = req.body;
-  const studentVideoDir = path.join(
-    process.env.STP_VIDEO_STORAGE_PATH,
-    student_id
-  );
+  const studentVideoDir = getStudentVideoDir(student_id);
+
   if (!fs.existsSync(studentVideoDir)) {
     fs.mkdirSync(studentVideoDir);
   }
@@ -61,6 +62,21 @@ app.post("/api/videos/:student_id", (req, res) => {
   res.send({
     ok: true,
     url: `/api/videos/${student_id}/${video_filename}`
+  });
+});
+
+app.delete("/api/videos/:student_id/:video_filename", (req, res) => {
+  const { student_id, video_filename } = req.params;
+  const videoPath = path.join(getStudentVideoDir(student_id), video_filename);
+  console.debug(`removing ${videoPath}`);
+  fs.unlink(videoPath, err => {
+    if (err) {
+      console.error(err);
+      res.json({ error: `Couuld not delete ${err.path}. (${err.code})` });
+      return false;
+    }
+    res.json({ success: `Deleted ${videoPath}` });
+    return true;
   });
 });
 

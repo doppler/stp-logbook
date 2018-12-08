@@ -28,13 +28,15 @@ const schema = Joi.object().keys({
   freefall: Joi.string(),
   canopy: Joi.string(),
   notes: Joi.string(),
-  videoFilename: Joi.string(),
   phraseCloudSelections: Joi.object()
 });
 
 const validateJump = jump => {
   try {
-    const result = Joi.validate(jump, schema, { abortEarly: false });
+    const result = Joi.validate(jump, schema, {
+      abortEarly: false,
+      allowUnknown: true
+    });
     return result;
   } catch (error) {
     console.error(error);
