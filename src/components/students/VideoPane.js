@@ -25,10 +25,17 @@ const Uploader = ({ student, jump }) => {
   const [progress, setProgress] = useState(null);
 
   const handleDrop = async acceptedFiles => {
-    const videoFilename = `Jump ${jump.number} DF ${jump.diveFlow} ${format(
-      jump.date,
-      "YYYY-MM-DD"
-    )}.mp4`;
+    console.log(acceptedFiles);
+
+    const videoFilename =
+      [
+        "Jump",
+        jump.number,
+        "DF",
+        jump.diveFlow,
+        format(jump.date, "YYYY-MM-DD"),
+        Number(acceptedFiles[0].size).toString(16) // cache buster
+      ].join(" ") + ".mp4";
 
     const data = new FormData();
     data.append("file", acceptedFiles[0]);
@@ -41,9 +48,7 @@ const Uploader = ({ student, jump }) => {
     xhr.onload = async () => {
       const xres = JSON.parse(xhr.responseText);
       jump.videoFilename = videoFilename;
-      console.log(xhr.status, xres);
       const res = await saveJump(jump);
-      console.log(res);
       if (res.error) flash({ error: res.error });
       else {
         flash({ success: `Saved ${jump.videoFilename}` });
@@ -75,17 +80,20 @@ const Displayer = ({ videoUrl, jump }) => {
       console.error(json.error);
       flash({ error: json.error });
       return false;
-    }
-    delete jump.videoFilename;
-    const res = await saveJump(jump);
-    if (res.error) flash({ error: res.error });
-    else {
-      flash({ success: `Removed ${videoUrl}` });
+    } else {
+      delete jump.videoFilename;
+      const res = await saveJump(jump);
+      if (res.error) flash({ error: res.error });
+      else {
+        flash({ success: `Removed ${videoUrl}` });
+      }
     }
   };
   return (
     <div className="Displayer">
-      <video src={encodeURI(videoUrl)} controls />
+      <video controls>
+        <source src={encodeURI(videoUrl)} type="video/mp4" />
+      </video>
       <div className="delete">
         <button onClick={handleDeleteClick}>Delete Video</button>
       </div>
