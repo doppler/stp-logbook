@@ -73,7 +73,13 @@ const Uploader = ({ student, jump }) => {
 };
 
 const Displayer = ({ videoUrl, jump }) => {
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+
   const handleDeleteClick = async () => {
+    if (!deleteConfirmation) {
+      setDeleteConfirmation(true);
+      return null;
+    }
     const vres = await fetch(videoUrl, { method: "DELETE" });
     const json = await vres.json();
     if (json.error) {
@@ -95,7 +101,12 @@ const Displayer = ({ videoUrl, jump }) => {
         <source src={encodeURI(videoUrl)} type="video/mp4" />
       </video>
       <div className="delete">
-        <button onClick={handleDeleteClick}>Delete Video</button>
+        <button
+          onClick={handleDeleteClick}
+          className={deleteConfirmation ? "warning" : "null"}
+        >
+          Delete Video
+        </button>
       </div>
     </div>
   );
