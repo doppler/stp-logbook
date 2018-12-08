@@ -131,6 +131,7 @@ const Show = ({ match, history }) => {
                 <th>Jump - Dive Flow</th>
                 <th>Date</th>
                 <th>Instructor</th>
+                <th>Video</th>
               </tr>
             </thead>
             <tbody>
@@ -152,6 +153,7 @@ const Show = ({ match, history }) => {
                     {distanceInWordsToNow(jump.date)})
                   </td>
                   <td>{jump.instructor}</td>
+                  <td>{jump.videoFilename ? "yes" : "no"}</td>
                 </tr>
               ))}
             </tbody>
