@@ -97,7 +97,7 @@ const Displayer = ({ videoUrl, jump }) => {
   };
   return (
     <div className="Displayer">
-      <video controls>
+      <video controls muted>
         <source src={encodeURI(videoUrl)} type="video/mp4" />
       </video>
       <div className="delete">
