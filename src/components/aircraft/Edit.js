@@ -2,8 +2,8 @@ import React from "react";
 import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
 
-import getSingleAircraft from "./api/getSingleAircraft";
-import saveAircraft from "./api/saveAircraft";
+import getSingleAircraft from "../../db/getSingleAircraft";
+import saveAircraft from "../../db//saveAircraft";
 import flash from "../../utils/flash";
 import handleFormError from "../../utils/handleFormError";
 import removeErrorClass from "../../utils/removeErrorClass";

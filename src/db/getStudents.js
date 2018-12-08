@@ -1,4 +1,4 @@
-import DB from "../../../DB";
+import DB from "../DB";
 import getLastJump from "./getLastJump";
 
 const getStudents = async () => {

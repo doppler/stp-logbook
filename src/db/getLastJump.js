@@ -1,4 +1,4 @@
-import DB from "../../../DB";
+import DB from "../DB";
 
 const getLastJump = async student => {
   const _id = [...student.jumps].pop();

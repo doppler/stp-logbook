@@ -9,12 +9,12 @@ import VideoPane from "./VideoPane";
 import { store, collect } from "react-recollect";
 import format from "date-fns/format";
 
-import getInstructors from "../instructors/api/getInstructors";
-import getAircraft from "../aircraft/api/getAircraft";
-import getStudent from "./api/getStudent";
-import getJumps from "./api/getJumps";
-import saveStudent from "./api/saveStudent";
-import saveJump from "./api/saveJump";
+import getInstructors from "../../db/getInstructors";
+import getAircraft from "../../db/getAircraft";
+import getStudent from "../../db/getStudent";
+import getJumps from "../../db/getJumps";
+import saveStudent from "../../db/saveStudent";
+import saveJump from "../../db/saveJump";
 import flash from "../../utils/flash";
 import handleFormError from "../../utils/handleFormError";
 import removeErrorClass from "../../utils/removeErrorClass";

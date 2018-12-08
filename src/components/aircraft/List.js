@@ -1,7 +1,7 @@
 import React from "react";
 import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
-import getAircraft from "./api/getAircraft";
+import getAircraft from "../../db/getAircraft";
 
 store.activeAircraftRow = 0;
 

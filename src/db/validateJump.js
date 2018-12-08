@@ -28,6 +28,7 @@ const schema = Joi.object().keys({
   freefall: Joi.string(),
   canopy: Joi.string(),
   notes: Joi.string(),
+  videoFilename: Joi.string(),
   phraseCloudSelections: Joi.object()
 });
 

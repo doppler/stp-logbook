@@ -1,8 +1,9 @@
-import DB from "../../../DB";
+import DB from "../DB";
 import validateJump from "./validateJump";
 
 const saveJump = async jump => {
   console.group("saveJump");
+  console.log(jump);
   const validation = validateJump(jump);
   if (validation.error) {
     return { error: validation.error.details };

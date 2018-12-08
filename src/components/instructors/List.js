@@ -1,7 +1,7 @@
 import React from "react";
 import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
-import getInstructors from "./api/getInstructors";
+import getInstructors from "../../db//getInstructors";
 
 store.activeRow = 0;
 

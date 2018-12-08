@@ -1,4 +1,4 @@
-import DB from "../../../DB";
+import DB from "../DB";
 
 const getInstructors = async () => {
   const res = await DB.find({ selector: { type: "instructor" } });

@@ -7,10 +7,10 @@ import { store, collect } from "react-recollect";
 import format from "date-fns/format";
 import distanceInWordsToNow from "date-fns/distance_in_words_to_now";
 
-import getStudent from "./api/getStudent";
-import getJumps from "./api/getJumps";
-import saveStudent from "./api/saveStudent";
-import saveJump from "./api/saveJump";
+import getStudent from "../../db/getStudent";
+import getJumps from "../../db/getJumps";
+import saveStudent from "../../db/saveStudent";
+import saveJump from "../../db/saveJump";
 import flash from "../../utils/flash";
 
 store.activeJumpRow = -1;

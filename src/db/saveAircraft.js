@@ -1,4 +1,4 @@
-import DB from "../../../DB";
+import DB from "../DB";
 import validateAircraft from "./validateAircraft";
 
 const saveAircraft = async ac => {

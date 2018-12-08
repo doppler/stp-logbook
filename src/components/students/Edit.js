@@ -2,10 +2,10 @@ import React from "react";
 import HotKeys from "react-hot-keys";
 
 import { store, collect } from "react-recollect";
-import getInstructors from "../instructors/api/getInstructors";
-import getStudent from "./api/getStudent";
+import getStudent from "../../db/getStudent";
+import save from "../../db/saveStudent";
+import getInstructors from "../../db/getInstructors";
 import formatPhoneNumber from "../../utils/formatPhoneNumber";
-import save from "./api/saveStudent";
 import flash from "../../utils/flash";
 import handleFormError from "../../utils/handleFormError";
 import removeErrorClass from "../../utils/removeErrorClass";

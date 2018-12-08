@@ -1,4 +1,4 @@
-import DB from "../../../DB";
+import DB from "../DB";
 
 const getJumps = async student => {
   const res = await DB.allDocs({ keys: student.jumps, include_docs: true });

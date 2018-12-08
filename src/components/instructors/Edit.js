@@ -2,8 +2,8 @@ import React from "react";
 import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
 
-import getInstructor from "./api/getInstructor";
-import saveInstructor from "./api/saveInstructor";
+import getInstructor from "../../db/getInstructor";
+import saveInstructor from "../../db//saveInstructor";
 import formatPhoneNumber from "../../utils/formatPhoneNumber";
 import flash from "../../utils/flash";
 import handleFormError from "../../utils/handleFormError";

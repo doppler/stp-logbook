@@ -1,7 +1,3 @@
-.Jump textarea[id$="-hidden"] {
-  /* display: none; */
-}
-
 .Jump label:focus {
   background-color: var(--content-hover-color);
 }

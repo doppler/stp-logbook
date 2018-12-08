@@ -1,4 +1,4 @@
-import DB from "../../../DB";
+import DB from "../DB";
 
 const getStudent = async _id => {
   const student = await DB.get(_id);

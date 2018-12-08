@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import format from "date-fns/format";
 import Dropzone from "react-dropzone";
+import saveJump from "../../db/saveJump";
+import flash from "../../utils/flash";
 
 const VideoPane = ({ student, jump }) => {
   const videoUrl = jump.videoFilename
@@ -9,7 +11,7 @@ const VideoPane = ({ student, jump }) => {
   return (
     <div className="VideoPane">
       {videoUrl ? (
-        <Displayer videoUrl />
+        <Displayer videoUrl={videoUrl} />
       ) : (
         <Uploader student={student} jump={jump} />
       )}
@@ -32,15 +34,23 @@ const Uploader = ({ student, jump }) => {
     data.append("file", acceptedFiles[0]);
     data.append("video_filename", videoFilename);
 
+    console.log(acceptedFiles);
+
     const xhr = new XMLHttpRequest();
     xhr.open("POST", `/api/videos/${student._id}`);
-    xhr.onload = () => console.log(xhr.status, JSON.parse(xhr.responseText));
+    xhr.onload = async () => {
+      const xres = JSON.parse(xhr.responseText);
+      jump.videoFilename = videoFilename;
+      console.log(xhr.status, xres);
+      // const res = await saveJump(jump);
+      // if (res.error) flash({ error: res.error });
+      // flash({ success: `Saved ${jump.videoFilename}` });
+    };
     xhr.onerror = err => console.error(err);
     xhr.upload.onprogress = event => {
       if (event.lengthComputable) {
         const percent = Math.round((event.loaded / event.total) * 100);
         setProgress(percent);
-        console.log(percent);
       }
     };
     xhr.send(data);
@@ -57,7 +67,7 @@ const Uploader = ({ student, jump }) => {
 const Displayer = ({ videoUrl }) => {
   return (
     <div className="Displayer">
-      <video src={videoUrl} controls />
+      <video src={encodeURI(videoUrl)} controls />
     </div>
   );
 };

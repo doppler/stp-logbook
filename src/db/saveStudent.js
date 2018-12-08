@@ -1,4 +1,4 @@
-import DB from "../../../DB";
+import DB from "../DB";
 import validateStudent from "./validateStudent";
 
 const saveStudent = async student => {

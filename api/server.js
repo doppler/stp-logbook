@@ -57,12 +57,10 @@ app.post("/api/videos/:student_id", (req, res) => {
     fs.mkdirSync(studentVideoDir);
   }
   const studentVideoPath = path.join(studentVideoDir, video_filename);
-  console.log(studentVideoPath);
-  console.log(req.files.file);
   req.files.file.mv(studentVideoPath);
   res.send({
-    ok: `/api/videos/${student_id}/${video_filename}`,
-    path: studentVideoPath
+    ok: true,
+    url: `/api/videos/${student_id}/${video_filename}`
   });
 });
 

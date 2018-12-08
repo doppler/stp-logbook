@@ -6,7 +6,7 @@ import parse from "date-fns/parse";
 import format from "date-fns/format";
 import differenceInDays from "date-fns/difference_in_days";
 
-import getStudents from "./api/getStudents";
+import getStudents from "../../db/getStudents";
 
 const currencyColor = daysSinceLastJump => {
   if (daysSinceLastJump > 30) {
