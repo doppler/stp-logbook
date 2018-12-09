@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import HotKeys from "react-hot-keys";
 
 import "./Jump.css";
@@ -101,27 +101,24 @@ const Jump = ({ match, history }) => {
     return res;
   };
 
-  const reallyDeleteJump = async () => {
-    student.jumps.splice(student.jumps.indexOf(jump._id), 1);
-    (async () => {
-      const res = await saveStudent(student);
-      if (res.error) {
-        flash({ error: "Please check form for errors." });
-        return handleFormError(res.error);
-      }
-      flash({ success: `Deleted jump ${jump._id}` });
-      history.goBack(1);
-    })();
-    delete store.jumps;
-    jump._deleted = true;
-    const deleteRes = await _save();
-    delete store.jumps;
-    console.debug("reallyDeleteJump", deleteRes);
-  };
-  const deleteJump = e => {
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+
+  const deleteJump = async e => {
     e.preventDefault();
-    if (store.deleteConfirmation) return reallyDeleteJump();
-    store.deleteConfirmation = true;
+    if (!deleteConfirmation) {
+      setDeleteConfirmation(true);
+      return false;
+    }
+    student.jumps.splice(student.jumps.indexOf(jump._id), 1);
+    const res = await saveStudent(student);
+    if (res.error) {
+      flash({ error: "Please check form for errors." });
+      return handleFormError(res.error);
+    }
+    flash({ success: `Deleted jump ${jump._id}` });
+    history.goBack(1);
+    jump._deleted = true;
+    _save();
   };
 
   const onKeyUp = (keyName, e, handle) => {
@@ -332,7 +329,7 @@ const Jump = ({ match, history }) => {
               <button
                 id="d"
                 className={`hotkey-button ${
-                  store.deleteConfirmation ? "warning" : null
+                  deleteConfirmation ? "warning" : null
                 }`}
                 onClick={deleteJump}
               >
