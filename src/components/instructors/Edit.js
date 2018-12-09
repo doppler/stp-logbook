@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
 
@@ -47,20 +47,20 @@ const Edit = ({ match, history }) => {
     history.goBack(1);
   };
 
-  const reallyDeleteInstructor = async () => {
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+
+  const deleteInstructor = async e => {
+    e.preventDefault();
+    if (!deleteConfirmation) {
+      setDeleteConfirmation(true);
+      return false;
+    }
     instructor._deleted = true;
     const res = await saveInstructor(instructor);
     if (res.error) return flash(res);
     delete store.instructors;
     flash({ success: `Deleted ${instructor.name}` });
     history.goBack(1);
-  };
-
-  const deleteInstructor = e => {
-    e.preventDefault();
-    if (store.deleteConfirmation) return reallyDeleteInstructor();
-    document.getElementById("d").focus();
-    store.deleteConfirmation = true;
   };
 
   const setAttribute = event => {
@@ -143,7 +143,7 @@ const Edit = ({ match, history }) => {
                 id="d"
                 onClick={deleteInstructor}
                 className={`hotkey-button ${
-                  store.deleteConfirmation ? "warning" : null
+                  deleteConfirmation ? "warning" : null
                 }`}
               >
                 Delete Instructor
