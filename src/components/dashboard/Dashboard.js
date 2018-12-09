@@ -8,8 +8,6 @@ import AboutSection from "./AboutSection";
 import FakeDataSection from "./FakeDataSection";
 import "./Dashboard.css";
 
-store.deleteConfirmation = false;
-
 const Dashboard = ({ history }) => {
   const onKeyDown = (keyName, e, handle) => {
     switch (true) {

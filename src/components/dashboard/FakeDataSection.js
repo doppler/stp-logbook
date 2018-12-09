@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { store } from "react-recollect";
 import DB from "../../DB";
 import createTestData from "../../utils/createTestData";
@@ -16,30 +16,31 @@ DB.find({ selector: { type: "student" } })
   .then(docs => (store.studentCount = docs.length));
 
 export default ({ history }) => {
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+
   const handleCreateTestData = async () => {
-    if (store.deleteConfirmation) {
-      const testData = await createTestData();
-      console.log(testData);
-      store.aircraftCount = testData.aircraft.length;
-      store.instructorCount = testData.instructors.length;
-      store.studentCount = testData.students.length;
-      store.deleteConfirmation = false;
-      return null;
+    if (!deleteConfirmation) {
+      setDeleteConfirmation(true);
+      return false;
     }
-    store.deleteConfirmation = true;
+    const testData = await createTestData();
+    store.aircraftCount = testData.aircraft.length;
+    store.instructorCount = testData.instructors.length;
+    store.studentCount = testData.students.length;
+    setDeleteConfirmation(false);
+    return null;
   };
 
   const handleDeleteTestData = () => {
-    if (store.deleteConfirmation) {
-      DB.destroy().then(result => console.log("Deleted 'stp-logbook'", result));
-      store.aircraftCount = 0;
-      store.instructorCount = 0;
-      store.studentCount = 0;
-      store.deleteConfirmation = false;
-      return null;
+    if (!deleteConfirmation) {
+      setDeleteConfirmation(true);
+      return false;
     }
-
-    store.deleteConfirmation = true;
+    DB.destroy().then(result => console.log("Deleted 'stp-logbook'", result));
+    store.aircraftCount = 0;
+    store.instructorCount = 0;
+    store.studentCount = 0;
+    setDeleteConfirmation(false);
     return null;
   };
 
@@ -81,14 +82,14 @@ export default ({ history }) => {
         </table>
         {store.studentCount === 0 ? (
           <button
-            className={store.deleteConfirmation ? "warning" : null}
+            className={deleteConfirmation ? "warning" : null}
             onClick={handleCreateTestData}
           >
             Create Test Data
           </button>
         ) : (
           <button
-            className={store.deleteConfirmation ? "warning" : null}
+            className={deleteConfirmation ? "warning" : null}
             onClick={handleDeleteTestData}
           >
             Delete Test Data

@@ -16,7 +16,6 @@ class App extends Component {
   }
   render() {
     store.flash = store.flash || {};
-    store.deleteConfirmation = false;
     return (
       <div className="App">
         <Route exact path="/" component={Dashboard} />
