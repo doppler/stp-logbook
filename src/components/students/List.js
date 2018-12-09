@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import HotKeys from "react-hot-keys";
 
 import { store, collect } from "react-recollect";
@@ -16,7 +16,7 @@ const currencyColor = daysSinceLastJump => {
 };
 
 const List = ({ match, history }) => {
-  const { students, filteredStudents, filter } = store;
+  const { students, filteredStudents } = store;
   store.student = null;
   store.jumps = null;
   store.activeJumpRow = -1;
@@ -42,12 +42,13 @@ const List = ({ match, history }) => {
     history.push(`/students/${student._id}`);
   };
 
+  const [filter, setFilter] = useState("");
   const handleFilterChange = e => {
-    const filter = e.target.value.toLowerCase();
+    const value = e.target.value.toLowerCase();
+    setFilter(value);
     store.filteredStudents = store.students.filter(obj =>
-      obj.name.toLowerCase().match(filter)
+      obj.name.toLowerCase().match(value)
     );
-    store.filter = e.target.value;
   };
 
   const onKeyDown = (keyName, e, handle) => {
