@@ -34,7 +34,13 @@ const DatabaseSettingsForm = () => {
 
   const handleSaveCouchDbUrl = async e => {
     e.preventDefault();
+    if (couchDbUrlValue === "") {
+      localStorage.removeItem("stp-logbook:couchDbUrl");
+      flash({ success: "Not syncing to a remote CouchDB" });
+      return true;
+    }
     const validDb = await validCouchDb(couchDbUrlValue);
+    console.log(validDb);
     if (validDb) {
       localStorage.setItem("stp-logbook:couchDbUrl", couchDbUrlValue);
       setChangingCouchDbUrlValue(false);
