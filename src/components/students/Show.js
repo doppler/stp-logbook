@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import HotKeys from "react-hot-keys";
 
 import "./Show.css";
 
-import { store, collect } from "react-recollect";
 import format from "date-fns/format";
 import distanceInWordsToNow from "date-fns/distance_in_words_to_now";
 
@@ -13,19 +12,22 @@ import saveStudent from "../../db/saveStudent";
 import saveJump from "../../db/saveJump";
 import flash from "../../utils/flash";
 
-store.activeJumpRow = -1;
-
 const Show = ({ match, history }) => {
-  delete store.jump;
-  const { student, jumps } = store;
+  const [student, setStudent] = useState(null);
+  const [jumps, setJumps] = useState(null);
 
-  if (!student || student._id !== match.params.studentId) {
-    (async () => (store.student = await getStudent(match.params.studentId)))();
-    return null;
-  }
+  const fetchData = async () => {
+    const student = await getStudent(match.params.studentId);
+    setStudent(student);
+    const jumps = await getJumps(student);
+    setJumps(jumps);
+  };
 
-  if (!jumps) {
-    (async () => (store.jumps = await getJumps(student)))();
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  if (!student || !jumps || student._id !== match.params.studentId) {
     return null;
   }
 
@@ -56,6 +58,8 @@ const Show = ({ match, history }) => {
     };
   };
 
+  const [activeJumpRow, setActiveJumpRow] = useState(-1);
+
   const addJump = async () => {
     console.group("addJump");
     const jump = nextJump();
@@ -67,8 +71,7 @@ const Show = ({ match, history }) => {
     flash({
       success: `Saved ${student.name} - Jump ${jump.number} DF ${jump.diveFlow}`
     });
-    store.activeJumpRow++;
-    delete store.jumps;
+    setActiveJumpRow(activeJumpRow + 1);
     console.groupEnd("addJump");
     history.push(`/students/${student._id}/jump/${jump._id}`);
   };
@@ -80,14 +83,14 @@ const Show = ({ match, history }) => {
     if (e.srcElement.type !== undefined) return false;
     switch (true) {
       case ["down", "j"].includes(keyName):
-        store.activeJumpRow++;
+        setActiveJumpRow(activeJumpRow + 1);
         break;
       case ["up", "k"].includes(keyName):
-        store.activeJumpRow--;
+        setActiveJumpRow(activeJumpRow - 1);
         break;
       case ["enter", "right"].includes(keyName):
         history.push(
-          `/students/${student._id}/jump/${jumps[store.activeJumpRow]._id}`
+          `/students/${student._id}/jump/${jumps[activeJumpRow]._id}`
         );
         break;
       case keyName === "left":
@@ -98,9 +101,8 @@ const Show = ({ match, history }) => {
         break;
     }
   };
-  if (rowCount > 0 && store.activeJumpRow === rowCount) store.activeJumpRow = 0;
-  if (rowCount > 0 && store.activeJumpRow === -1)
-    store.activeJumpRow = rowCount - 1;
+  if (rowCount > 0 && activeJumpRow === rowCount) setActiveJumpRow(0);
+  if (rowCount > 0 && activeJumpRow === -1) setActiveJumpRow(rowCount - 1);
 
   document.title = `STP: ${student.name}`;
 
@@ -141,9 +143,7 @@ const Show = ({ match, history }) => {
                   onClick={() =>
                     history.push(`/students/${student._id}/jump/${jump._id}`)
                   }
-                  className={`hoverable ${
-                    i === store.activeJumpRow ? "active" : ""
-                  }`}
+                  className={`hoverable ${i === activeJumpRow ? "active" : ""}`}
                 >
                   <td>
                     Jump {jump.number} - DF {jump.diveFlow}
@@ -167,4 +167,4 @@ const Show = ({ match, history }) => {
   );
 };
 
-export default collect(Show);
+export default Show;
