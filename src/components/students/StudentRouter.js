@@ -1,22 +1,13 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 
-import { store, collect } from "react-recollect";
-
 import Header from "../Header";
 import List from "./List";
 import Show from "./Show";
 import Edit from "./Edit";
 import Jump from "./Jump";
 
-store.student = null;
-store.filteredStudents = [];
-store.instructors = [];
-store.aircraft = [];
-store.activeStudentRow = 0;
-
 const StudentRouter = props => {
-  store.students = [];
   return (
     <React.Fragment>
       <Header />
@@ -33,4 +24,4 @@ const StudentRouter = props => {
   );
 };
 
-export default collect(StudentRouter);
+export default StudentRouter;

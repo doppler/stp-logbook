@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import HotKeys from "react-hot-keys";
 
-import { store, collect } from "react-recollect";
 import parse from "date-fns/parse";
 import format from "date-fns/format";
 import differenceInDays from "date-fns/difference_in_days";
@@ -15,28 +14,26 @@ const currencyColor = daysSinceLastJump => {
   return `hsl(${120 - daysSinceLastJump * 3}, 100%, 50%)`;
 };
 
-const List = ({ match, history }) => {
-  const { students, filteredStudents } = store;
-  store.student = null;
-  store.jumps = null;
-  store.activeJumpRow = -1;
+const List = ({ history }) => {
+  const [store, setStore] = useState({ students: [], filteredStudents: [] });
+  const { filteredStudents } = store;
 
-  if (students.length === 0) {
-    (async () => {
-      const json = await getStudents();
-      json.sort((a, b) => {
-        let lastJumpA = [...a.jumps].pop() || {
-          date: new Date(1971, 9, 25)
-        };
-        let lastJumpB = [...b.jumps].pop() || {
-          date: new Date(1971, 9, 25)
-        };
-        return parse(lastJumpB.date) - parse(lastJumpA.date);
-      });
-      store.students = json;
-      store.filteredStudents = json;
-    })();
-  }
+  const sortStudentsByLastJump = students => {
+    students.sort((a, b) => {
+      let lastJumpA = [...a.jumps].pop() || { date: new Date(1971, 9, 25) };
+      let lastJumpB = [...b.jumps].pop() || { date: new Date(1971, 9, 25) };
+      return parse(lastJumpB.date) - parse(lastJumpA.date);
+    });
+    return students;
+  };
+
+  const fetchStudents = async () => {
+    const students = await getStudents();
+    sortStudentsByLastJump(students);
+    setStore({ students: students, filteredStudents: students });
+  };
+
+  useEffect(() => fetchStudents(), []);
 
   const handleStudentRowClick = student => {
     history.push(`/students/${student._id}`);
@@ -51,6 +48,8 @@ const List = ({ match, history }) => {
     );
   };
 
+  const [activeStudentRow, setActiveStudentRow] = useState(0);
+
   const onKeyDown = (keyName, e, handle) => {
     if (e.srcElement.type === "submit" && keyName === "enter") {
       return true;
@@ -58,15 +57,13 @@ const List = ({ match, history }) => {
     if (e.srcElement.type !== undefined) return false;
     switch (true) {
       case ["down", "j"].includes(keyName):
-        store.activeStudentRow++;
+        setActiveStudentRow(activeStudentRow + 1);
         break;
       case ["up", "k"].includes(keyName):
-        store.activeStudentRow--;
+        setActiveStudentRow(activeStudentRow - 1);
         break;
       case ["enter", "right"].includes(keyName):
-        history.push(
-          `/students/${filteredStudents[store.activeStudentRow]._id}`
-        );
+        history.push(`/students/${filteredStudents[activeStudentRow]._id}`);
         break;
       case keyName === "left":
         history.push("/");
@@ -78,10 +75,9 @@ const List = ({ match, history }) => {
   };
 
   const rowCount = filteredStudents.length;
-  if (rowCount > 0 && store.activeStudentRow === rowCount)
-    store.activeStudentRow = 0;
-  if (rowCount > 0 && store.activeStudentRow === -1)
-    store.activeStudentRow = rowCount - 1;
+  if (rowCount > 0 && activeStudentRow === rowCount) setActiveStudentRow(0);
+  if (rowCount > 0 && activeStudentRow === -1)
+    setActiveStudentRow(rowCount - 1);
 
   document.title = "STP: Students";
 
@@ -130,7 +126,7 @@ const List = ({ match, history }) => {
                   key={i}
                   onClick={() => handleStudentRowClick(student)}
                   className={`hoverable ${
-                    i === store.activeStudentRow ? "active" : ""
+                    i === activeStudentRow ? "active" : ""
                   }`}
                 >
                   <td>{student.name}</td>
@@ -154,4 +150,4 @@ const List = ({ match, history }) => {
   );
 };
 
-export default collect(List);
+export default List;
