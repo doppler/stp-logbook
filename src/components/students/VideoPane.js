@@ -46,7 +46,7 @@ const Uploader = ({ student, jump }) => {
     const xhr = new XMLHttpRequest();
     xhr.open("POST", `/api/videos/${student._id}`);
     xhr.onload = async () => {
-      const xres = JSON.parse(xhr.responseText);
+      // const xres = JSON.parse(xhr.responseText);
       jump.videoFilename = videoFilename;
       const res = await saveJump(jump);
       if (res.error) flash({ error: res.error });
