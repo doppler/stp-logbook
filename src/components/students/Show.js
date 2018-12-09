@@ -149,7 +149,7 @@ const Show = ({ match, history }) => {
                     Jump {jump.number} - DF {jump.diveFlow}
                   </td>
                   <td>
-                    {format(jump.date, "dddd MMMM Mo")} (
+                    {format(jump.date, "dddd MMMM Do")} (
                     {distanceInWordsToNow(jump.date)})
                   </td>
                   <td>{jump.instructor}</td>
