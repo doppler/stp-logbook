@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import HotKeys from "react-hot-keys";
 import { store, collect } from "react-recollect";
 
@@ -46,20 +46,20 @@ const Edit = ({ match, history }) => {
     history.goBack(1);
   };
 
-  const reallyDeleteAircraft = async () => {
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+
+  const deleteAircraft = async e => {
+    e.preventDefault();
+    if (!deleteConfirmation) {
+      setDeleteConfirmation(true);
+      return false;
+    }
     currentAircraft._deleted = true;
     const res = await saveAircraft(currentAircraft);
     if (res.error) return flash(res);
     delete store.aircraft;
     flash({ success: `Deleted ${currentAircraft.name}` });
     history.goBack(1);
-  };
-
-  const deleteAircraft = e => {
-    e.preventDefault();
-    if (store.deleteConfirmation) return reallyDeleteAircraft();
-    document.getElementById("d").focus();
-    store.deleteConfirmation = true;
   };
 
   const setAttribute = event => {
@@ -124,7 +124,7 @@ const Edit = ({ match, history }) => {
               id="d"
               onClick={deleteAircraft}
               className={`hotkey-button ${
-                store.deleteConfirmation ? "warning" : null
+                deleteConfirmation ? "warning" : null
               }`}
             >
               Delete Aircraft
