@@ -1,6 +1,5 @@
 import React from "react";
 import HotKeys from "react-hot-keys";
-import { store, collect } from "react-recollect";
 import Header from "../Header";
 import ManageSection from "./ManageSection";
 import DatabaseSettingsSection from "./DatabaseSettingsSection";
@@ -43,4 +42,4 @@ const Dashboard = ({ history }) => {
   );
 };
 
-export default collect(Dashboard);
+export default Dashboard;
