@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import HotKeys from "react-hot-keys";
 
 import "./Jump.css";
@@ -23,36 +23,33 @@ store.phraseCloudKey = "exit";
 store.phraseCloudSelections = { exit: [], freefall: [], canopy: [] };
 
 const Jump = ({ match, history }) => {
-  const { student, jump, instructors, aircraft } = store;
+  const [student, setStudent] = useState(null);
+  const [jump, setJump] = useState(null);
+  const [instructors, setInstructors] = useState([]);
+  const [aircraft, setAircraft] = useState([]);
+
+  const fetchData = async () => {
+    const student = await getStudent(match.params.studentId);
+    const jumps = await getJumps(student);
+    setJump(jumps.find(jump => jump._id === match.params.jumpId));
+    setStudent(student);
+    const instructors = await getInstructors();
+    setInstructors(instructors);
+    const aircraft = await getAircraft();
+    setAircraft(aircraft);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   if (!student || !jump) {
-    (async () => {
-      if (!student) store.student = await getStudent(match.params.studentId);
-      if (student && !jump) {
-        const jumps = await getJumps(store.student);
-        store.jump = jumps.find(jump => jump._id === match.params.jumpId);
-      }
-    })();
     return null;
   }
 
   if (jump.phraseCloudSelections) {
     delete store.phraseCloudSelections;
     store.phraseCloudSelections = jump.phraseCloudSelections;
-  }
-
-  if (instructors.length === 0) {
-    (async () => {
-      store.instructors = await getInstructors();
-    })();
-    return null;
-  }
-
-  if (aircraft.length === 0) {
-    (async () => {
-      store.aircraft = await getAircraft();
-    })();
-    return null;
   }
 
   const setAttribute = event => {
