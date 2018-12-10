@@ -3,6 +3,7 @@ import format from "date-fns/format";
 import Dropzone from "react-dropzone";
 import saveJump from "../../db/saveJump";
 import flash from "../../utils/flash";
+import useDeleteConfirmation from "../../utils/useDeleteConfirmation";
 
 const VideoPane = ({ studentId, _jump }) => {
   const [jump, setJump] = useState(_jump);
@@ -52,12 +53,11 @@ const VideoPane = ({ studentId, _jump }) => {
     ? `/api/videos/${studentId}/${jump.videoFilename}`
     : null;
 
-  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const [deleteConfirmation, setDeleteConfirmation] = useDeleteConfirmation();
 
   const handleDeleteClick = async () => {
     if (!deleteConfirmation) {
       setDeleteConfirmation(true);
-      setTimeout(() => setDeleteConfirmation(false), 1000);
       return null;
     }
     const vres = await fetch(videoUrl, { method: "DELETE" });

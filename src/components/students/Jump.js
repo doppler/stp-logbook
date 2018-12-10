@@ -17,6 +17,7 @@ import saveJump from "../../db/saveJump";
 import flash from "../../utils/flash";
 import handleFormError from "../../utils/handleFormError";
 import removeErrorClass from "../../utils/removeErrorClass";
+import useDeleteConfirmation from "../../utils/useDeleteConfirmation";
 
 const Jump = ({ match, history }) => {
   const [student, setStudent] = useState(null);
@@ -92,13 +93,12 @@ const Jump = ({ match, history }) => {
     return res;
   };
 
-  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const [deleteConfirmation, setDeleteConfirmation] = useDeleteConfirmation();
 
   const deleteJump = async e => {
     e.preventDefault();
     if (!deleteConfirmation) {
       setDeleteConfirmation(true);
-      setTimeout(() => setDeleteConfirmation(false), 1000);
       return false;
     }
     student.jumps.splice(student.jumps.indexOf(jump._id), 1);

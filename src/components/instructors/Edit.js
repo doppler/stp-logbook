@@ -7,6 +7,7 @@ import formatPhoneNumber from "../../utils/formatPhoneNumber";
 import flash from "../../utils/flash";
 import handleFormError from "../../utils/handleFormError";
 import removeErrorClass from "../../utils/removeErrorClass";
+import useDeleteConfirmation from "../../utils/useDeleteConfirmation";
 
 const initialState = {
   _id: Math.round(Math.random() * 2 ** 32).toString(16),
@@ -43,13 +44,12 @@ const Edit = ({ match, history }) => {
     history.goBack(1);
   };
 
-  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const [deleteConfirmation, setDeleteConfirmation] = useDeleteConfirmation();
 
   const deleteInstructor = async e => {
     e.preventDefault();
     if (!deleteConfirmation) {
       setDeleteConfirmation(true);
-      setTimeout(() => setDeleteConfirmation(false), 1000);
       return false;
     }
     instructor._deleted = true;
