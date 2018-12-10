@@ -1,22 +1,26 @@
-import React, { useState } from "react";
-import { store } from "react-recollect";
+import React, { useState, useEffect } from "react";
 import DB from "../../DB";
 import createTestData from "../../utils/createTestData";
 
-DB.find({ selector: { type: "aircraft" } })
-  .then(res => res.docs)
-  .then(docs => (store.aircraftCount = docs.length));
-
-DB.find({ selector: { type: "instructor" } })
-  .then(res => res.docs)
-  .then(docs => (store.instructorCount = docs.length));
-
-DB.find({ selector: { type: "student" } })
-  .then(res => res.docs)
-  .then(docs => (store.studentCount = docs.length));
-
 export default ({ history }) => {
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const [aircraftCount, setAircraftCount] = useState(0);
+  const [instructorCount, setInstructorCount] = useState(0);
+  const [studentCount, setStudentCount] = useState(0);
+
+  const fetchData = async () => {
+    let ares = await DB.find({ selector: { type: "aircraft" } });
+    let adocs = await ares.docs;
+    setAircraftCount(adocs.length);
+    let ires = await DB.find({ selector: { type: "instructor" } });
+    let idocs = await ires.docs;
+    setInstructorCount(idocs.length);
+    let sres = await DB.find({ selector: { type: "student" } });
+    let sdocs = await sres.docs;
+    setStudentCount(sdocs.length);
+  };
+
+  useEffect(() => fetchData(), []);
 
   const handleCreateTestData = async () => {
     if (!deleteConfirmation) {
@@ -24,9 +28,9 @@ export default ({ history }) => {
       return false;
     }
     const testData = await createTestData();
-    store.aircraftCount = testData.aircraft.length;
-    store.instructorCount = testData.instructors.length;
-    store.studentCount = testData.students.length;
+    setAircraftCount(testData.aircraft.length);
+    setInstructorCount(testData.instructors.length);
+    setStudentCount(testData.students.length);
     setDeleteConfirmation(false);
     return null;
   };
@@ -37,9 +41,9 @@ export default ({ history }) => {
       return false;
     }
     DB.destroy().then(result => console.log("Deleted 'stp-logbook'", result));
-    store.aircraftCount = 0;
-    store.instructorCount = 0;
-    store.studentCount = 0;
+    setAircraftCount(0);
+    setInstructorCount(0);
+    setStudentCount(0);
     setDeleteConfirmation(false);
     return null;
   };
@@ -68,19 +72,19 @@ export default ({ history }) => {
           <tbody>
             <tr onClick={() => history.push("/aircraft")}>
               <td>Aircraft</td>
-              <td>{store.aircraftCount}</td>
+              <td>{aircraftCount}</td>
             </tr>
             <tr onClick={() => history.push("/instructors")}>
               <td>Instructors</td>
-              <td>{store.instructorCount}</td>
+              <td>{instructorCount}</td>
             </tr>
             <tr onClick={() => history.push("/students")}>
               <td>Students</td>
-              <td>{store.studentCount}</td>
+              <td>{studentCount}</td>
             </tr>
           </tbody>
         </table>
-        {store.studentCount === 0 ? (
+        {studentCount === 0 ? (
           <button
             className={deleteConfirmation ? "warning" : null}
             onClick={handleCreateTestData}
