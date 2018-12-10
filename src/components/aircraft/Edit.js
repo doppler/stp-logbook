@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import HotKeys from "react-hot-keys";
-import { store, collect } from "react-recollect";
 
 import getSingleAircraft from "../../db/getSingleAircraft";
 import saveAircraft from "../../db//saveAircraft";
@@ -15,21 +14,18 @@ const initialState = {
   tailNumber: ""
 };
 
-store.currentAircraft = null;
-
 const Edit = ({ match, history }) => {
-  const { currentAircraft } = store;
+  const [currentAircraft, setCurrentAircraft] = useState(null);
 
-  if (!currentAircraft && match.path === "/aircraft/new")
-    store.currentAircraft = initialState;
+  const fetchData = async () => {
+    if (match.path === "/aircraft/new") setCurrentAircraft(initialState);
+    else {
+      const aircraft = await getSingleAircraft(match.params.id);
+      setCurrentAircraft(aircraft);
+    }
+  };
 
-  if (
-    match.path === "/aircraft/:id" &&
-    (!currentAircraft || currentAircraft._id !== match.params.id)
-  ) {
-    (async () =>
-      (store.currentAircraft = await getSingleAircraft(match.params.id)))();
-  }
+  useEffect(() => fetchData(), []);
 
   if (!currentAircraft) return false;
 
@@ -41,7 +37,6 @@ const Edit = ({ match, history }) => {
       flash({ error: "Please check form for errors." });
       return handleFormError(res.error);
     }
-    delete store.aircraft;
     flash({ success: `Saved ${currentAircraft.name}` });
     history.goBack(1);
   };
@@ -57,18 +52,19 @@ const Edit = ({ match, history }) => {
     currentAircraft._deleted = true;
     const res = await saveAircraft(currentAircraft);
     if (res.error) return flash(res);
-    delete store.aircraft;
     flash({ success: `Deleted ${currentAircraft.name}` });
     history.goBack(1);
   };
 
   const setAttribute = event => {
     const { id, value } = event.target;
+    const updatedAC = { ...currentAircraft };
     switch (id) {
       default:
-        currentAircraft[id] = value;
+        updatedAC[id] = value;
         break;
     }
+    setCurrentAircraft(updatedAC);
   };
 
   const onKeyDown = (keyName, e, handle) => {
@@ -136,4 +132,4 @@ const Edit = ({ match, history }) => {
   );
 };
 
-export default collect(Edit);
+export default Edit;

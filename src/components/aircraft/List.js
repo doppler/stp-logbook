@@ -1,21 +1,17 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import HotKeys from "react-hot-keys";
-import { store, collect } from "react-recollect";
 import getAircraft from "../../db/getAircraft";
 
-store.activeAircraftRow = 0;
-
 const List = ({ history }) => {
-  const { aircraft } = store;
-  delete store.currentAircraft;
+  const [aircraft, setAircraft] = useState([]);
+  const [activeRow, setActiveRow] = useState(0);
 
-  if (!aircraft || aircraft.length === 0) {
-    (async () => {
-      const aircraft = await getAircraft();
-      store.aircraft = aircraft;
-    })();
-    return null;
-  }
+  const fetchData = async () => {
+    const aircraft = await getAircraft();
+    setAircraft(aircraft);
+  };
+
+  useEffect(() => fetchData(), []);
 
   const handleRowClick = aircraft => {
     history.push(`/aircraft/${aircraft._id}`);
@@ -32,13 +28,13 @@ const List = ({ history }) => {
     if (e.srcElement.type !== undefined) return false;
     switch (true) {
       case ["down", "j"].includes(keyName):
-        store.activeAircraftRow++;
+        setActiveRow(activeRow + 1);
         break;
       case ["up", "k"].includes(keyName):
-        store.activeAircraftRow--;
+        setActiveRow(activeRow - 1);
         break;
       case ["enter", "right"].includes(keyName):
-        history.push(`/aircraft/${aircraft[store.activeAircraftRow]._id}`);
+        history.push(`/aircraft/${aircraft[activeRow]._id}`);
         break;
       default:
         document.getElementById(keyName.match(/.$/)).click();
@@ -47,10 +43,8 @@ const List = ({ history }) => {
   };
 
   const rowCount = aircraft.length;
-  if (rowCount > 0 && store.activeAircraftRow === rowCount)
-    store.activeAircraftRow = 0;
-  if (rowCount > 0 && store.activeAircraftRow === -1)
-    store.activeAircraftRow = rowCount - 1;
+  if (rowCount > 0 && activeRow === rowCount) setActiveRow(0);
+  if (rowCount > 0 && activeRow === -1) setActiveRow(rowCount - 1);
 
   document.title = "STP: Aircraft";
 
@@ -69,7 +63,7 @@ const List = ({ history }) => {
             {aircraft.map((aircraft, i) => (
               <tr
                 key={i}
-                className={i === store.activeAircraftRow ? "active" : ""}
+                className={i === activeRow ? "active" : ""}
                 onClick={() => handleRowClick(aircraft)}
               >
                 <td>{aircraft.name}</td>
@@ -86,4 +80,4 @@ const List = ({ history }) => {
   );
 };
 
-export default collect(List);
+export default List;
