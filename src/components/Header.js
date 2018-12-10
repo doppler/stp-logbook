@@ -1,5 +1,5 @@
 import React from "react";
-import { store } from "react-recollect";
+import { store, collect } from "react-recollect";
 
 import "./Header.css";
 
@@ -26,4 +26,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default collect(Header);
