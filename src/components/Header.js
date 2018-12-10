@@ -3,6 +3,8 @@ import { store, collect } from "react-recollect";
 
 import "./Header.css";
 
+store.flash = store.flash || {};
+
 const Flash = ({ type, message }) => {
   let messageList;
   if (typeof message === "object") {

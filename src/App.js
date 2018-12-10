@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Route } from "react-router-dom";
-import { store } from "react-recollect";
 
 import initializeDatabase from "./utils/initializeDatabase";
 
@@ -15,7 +14,6 @@ class App extends Component {
     initializeDatabase();
   }
   render() {
-    store.flash = store.flash || {};
     return (
       <div className="App">
         <Route exact path="/" component={Dashboard} />
