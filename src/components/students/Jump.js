@@ -330,7 +330,7 @@ const Jump = ({ match, history }) => {
           </form>
         </div>
       </HotKeys>
-      <VideoPane student={student} jump={jump} />
+      <VideoPane studentId={student._id} _jump={{ ...jump }} />
       <PhraseCloud
         setAttribute={setAttribute}
         phraseCloudKey={phraseCloudKey}
