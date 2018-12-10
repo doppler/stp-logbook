@@ -6,5 +6,5 @@ export default flash => {
   store.flash = { type, message };
   setTimeout(() => {
     store.flash = { type: "", message: "" };
-  }, 10000);
+  }, 4000);
 };
