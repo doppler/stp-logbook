@@ -80,7 +80,8 @@ const createFakeJumps = ({ previousJumps, studentId }) => {
       exit: faker.lorem.sentences(),
       freefall: faker.lorem.sentences(),
       canopy: faker.lorem.sentences(),
-      notes: faker.lorem.sentences()
+      notes: faker.lorem.sentences(),
+      phraseCloudSelections: { exit: [], freefall: [], canopy: [] }
     };
     jump.freefallTime = Math.ceil(
       ((jump.exitAltitude - jump.deploymentAltitude) / 1000) * 5.5
