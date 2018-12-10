@@ -54,7 +54,12 @@ const Show = ({ match, history }) => {
       aircraft,
       exitAltitude: 14000,
       deploymentAltitude: 5000,
-      freefallTime: 0
+      freefallTime: 0,
+      phraseCloudSelections: {
+        exit: [],
+        freefall: [],
+        canopy: []
+      }
     };
   };
 

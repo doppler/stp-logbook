@@ -6,7 +6,6 @@ import "./Jump.css";
 import PhraseCloud from "./PhraseCloud";
 import VideoPane from "./VideoPane";
 
-import { store, collect } from "react-recollect";
 import format from "date-fns/format";
 
 import getInstructors from "../../db/getInstructors";
@@ -19,20 +18,18 @@ import flash from "../../utils/flash";
 import handleFormError from "../../utils/handleFormError";
 import removeErrorClass from "../../utils/removeErrorClass";
 
-store.phraseCloudKey = "exit";
-store.phraseCloudSelections = { exit: [], freefall: [], canopy: [] };
-
 const Jump = ({ match, history }) => {
   const [student, setStudent] = useState(null);
   const [jump, setJump] = useState(null);
   const [instructors, setInstructors] = useState([]);
   const [aircraft, setAircraft] = useState([]);
+  const [phraseCloudKey, setPhraseCloudKey] = useState("exit");
 
   const fetchData = async () => {
     const student = await getStudent(match.params.studentId);
+    setStudent(student);
     const jumps = await getJumps(student);
     setJump(jumps.find(jump => jump._id === match.params.jumpId));
-    setStudent(student);
     const instructors = await getInstructors();
     setInstructors(instructors);
     const aircraft = await getAircraft();
@@ -47,11 +44,6 @@ const Jump = ({ match, history }) => {
     return null;
   }
 
-  if (jump.phraseCloudSelections) {
-    delete store.phraseCloudSelections;
-    store.phraseCloudSelections = jump.phraseCloudSelections;
-  }
-
   const setAttribute = event => {
     let { id, value } = event.target;
     const numericValues = [
@@ -64,23 +56,26 @@ const Jump = ({ match, history }) => {
     if (numericValues.includes(id)) {
       value = Number(value);
     }
-    jump[id] = value;
-    jump.freefallTime = Math.ceil(
-      ((jump.exitAltitude - jump.deploymentAltitude) / 1000) * 5.5
+    const modifiedJump = { ...jump };
+    modifiedJump[id] = value;
+    modifiedJump.freefallTime = Math.ceil(
+      ((modifiedJump.exitAltitude - modifiedJump.deploymentAltitude) / 1000) *
+        5.5
     );
+    setJump(modifiedJump);
   };
 
   const handleLabelClick = e => {
     if (e.key && e.key.toLowerCase() !== "enter") return true;
     const labelFor = e.target.attributes.for.value.replace(/-hidden$/, "");
-    store.phraseCloudKey = labelFor;
+    setPhraseCloudKey(labelFor);
     document.querySelector("#PhraseCloud").classList.toggle("hidden");
     return true;
   };
 
   const _save = async e => {
     if (e) {
-      document.querySelector("input[type='submit']").click();
+      // document.querySelector("input[type='submit']").click();
       e.preventDefault();
     }
     removeErrorClass();
@@ -94,7 +89,6 @@ const Jump = ({ match, history }) => {
         jump.number
       } DF ${jump.diveFlow}`
     });
-    delete store.jumps;
     return res;
   };
 
@@ -337,12 +331,16 @@ const Jump = ({ match, history }) => {
         </div>
       </HotKeys>
       <VideoPane student={student} jump={jump} />
-      <PhraseCloud setAttribute={setAttribute} store={store} jump={jump} />
+      <PhraseCloud
+        setAttribute={setAttribute}
+        phraseCloudKey={phraseCloudKey}
+        jump={jump}
+      />
     </React.Fragment>
   );
 };
 
-export default collect(Jump);
+export default Jump;
 
 const InstructorOptions = ({ instructors, instructor }) => {
   if (instructors.map(i => i.name).indexOf(instructor) < 0)

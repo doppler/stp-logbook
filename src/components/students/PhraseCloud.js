@@ -8,12 +8,12 @@ const capitalize = string => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-const PhraseCloud = ({ setAttribute, store, jump }) => {
-  if (!store.phraseCloudKey) return null;
+const PhraseCloud = ({ setAttribute, phraseCloudKey, jump }) => {
+  if (!phraseCloudKey) return null;
 
   const handlePhraseClick = e => {
     if (e && e.stopPropagation) e.stopPropagation();
-    const selections = store.phraseCloudSelections[store.phraseCloudKey];
+    const selections = jump.phraseCloudSelections[phraseCloudKey];
     const keyName = e.target.attributes["data-key"].value;
     if (selections.includes(keyName)) {
       selections.splice(selections.indexOf(keyName), 1);
@@ -21,10 +21,9 @@ const PhraseCloud = ({ setAttribute, store, jump }) => {
       selections.push(keyName);
     }
     const targetText = selections
-      .map(key => phraseCloud[store.phraseCloudKey][key])
+      .map(key => phraseCloud[phraseCloudKey][key])
       .join(" ");
-    setAttribute({ target: { id: store.phraseCloudKey, value: targetText } });
-    jump.phraseCloudSelections = store.phraseCloudSelections;
+    setAttribute({ target: { id: phraseCloudKey, value: targetText } });
   };
 
   const hidePhraseCloud = e => {
@@ -64,7 +63,7 @@ const PhraseCloud = ({ setAttribute, store, jump }) => {
       >
         <div className="inner" onClick={null}>
           <h2>
-            {capitalize(store.phraseCloudKey)} Phrases{" "}
+            {capitalize(phraseCloudKey)} Phrases{" "}
             <small>
               Click a phrase or press the label key to move to/from target area.
               Click anywhere else or press [esc] to close.
@@ -73,13 +72,15 @@ const PhraseCloud = ({ setAttribute, store, jump }) => {
           <ul id="target">
             <SelectedPhrases
               handlePhraseClick={handlePhraseClick}
-              store={store}
+              phraseCloudKey={phraseCloudKey}
+              phraseCloudSelections={jump.phraseCloudSelections}
             />
           </ul>
           <ul id="source">
             <AvailablePhrases
               handlePhraseClick={handlePhraseClick}
-              store={store}
+              phraseCloudKey={phraseCloudKey}
+              phraseCloudSelections={jump.phraseCloudSelections}
             />
           </ul>
         </div>
@@ -90,27 +91,33 @@ const PhraseCloud = ({ setAttribute, store, jump }) => {
 
 export default PhraseCloud;
 
-const SelectedPhrases = ({ handlePhraseClick, store }) => {
-  return store.phraseCloudSelections[store.phraseCloudKey].map(key => (
+const SelectedPhrases = ({
+  handlePhraseClick,
+  phraseCloudKey,
+  phraseCloudSelections
+}) => {
+  return phraseCloudSelections[phraseCloudKey].map(key => (
     <li key={key} data-key={key} onClick={handlePhraseClick}>
-      {phraseCloud[store.phraseCloudKey][key]}
+      {phraseCloud[phraseCloudKey][key]}
     </li>
   ));
 };
 
-const AvailablePhrases = ({ handlePhraseClick, store }) => {
-  return Object.keys(phraseCloud[store.phraseCloudKey]).map(key => (
+const AvailablePhrases = ({
+  handlePhraseClick,
+  phraseCloudKey,
+  phraseCloudSelections
+}) => {
+  return Object.keys(phraseCloud[phraseCloudKey]).map(key => (
     <li
       key={key}
       data-key={key}
       onClick={handlePhraseClick}
       className={
-        store.phraseCloudSelections[store.phraseCloudKey].includes(key)
-          ? "selected"
-          : null
+        phraseCloudSelections[phraseCloudKey].includes(key) ? "selected" : null
       }
     >
-      {phraseCloud[store.phraseCloudKey][key]}
+      {phraseCloud[phraseCloudKey][key]}
     </li>
   ));
 };
