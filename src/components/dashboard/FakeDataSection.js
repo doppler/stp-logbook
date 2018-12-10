@@ -25,6 +25,7 @@ export default ({ history }) => {
   const handleCreateTestData = async () => {
     if (!deleteConfirmation) {
       setDeleteConfirmation(true);
+      setTimeout(() => setDeleteConfirmation(false), 1000);
       return false;
     }
     const testData = await createTestData();
@@ -38,6 +39,7 @@ export default ({ history }) => {
   const handleDeleteTestData = () => {
     if (!deleteConfirmation) {
       setDeleteConfirmation(true);
+      setTimeout(() => setDeleteConfirmation(false), 1000);
       return false;
     }
     DB.destroy().then(result => console.log("Deleted 'stp-logbook'", result));

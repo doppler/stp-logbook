@@ -49,6 +49,7 @@ const Edit = ({ match, history }) => {
     e.preventDefault();
     if (!deleteConfirmation) {
       setDeleteConfirmation(true);
+      setTimeout(() => setDeleteConfirmation(false), 1000);
       return false;
     }
     instructor._deleted = true;

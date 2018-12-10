@@ -98,6 +98,7 @@ const Jump = ({ match, history }) => {
     e.preventDefault();
     if (!deleteConfirmation) {
       setDeleteConfirmation(true);
+      setTimeout(() => setDeleteConfirmation(false), 1000);
       return false;
     }
     student.jumps.splice(student.jumps.indexOf(jump._id), 1);

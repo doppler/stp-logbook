@@ -57,6 +57,7 @@ const VideoPane = ({ studentId, _jump }) => {
   const handleDeleteClick = async () => {
     if (!deleteConfirmation) {
       setDeleteConfirmation(true);
+      setTimeout(() => setDeleteConfirmation(false), 1000);
       return null;
     }
     const vres = await fetch(videoUrl, { method: "DELETE" });
