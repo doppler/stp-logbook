@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import HotKeys from "react-hot-keys";
-import { store, collect } from "react-recollect";
 
 import getInstructor from "../../db/getInstructor";
 import saveInstructor from "../../db//saveInstructor";
@@ -17,20 +16,18 @@ const initialState = {
   phone: ""
 };
 
-store.instructor = null;
-
 const Edit = ({ match, history }) => {
-  const { instructor } = store;
+  const [instructor, setInstructor] = useState(null);
 
-  if (!instructor && match.path === "/instructors/new")
-    store.instructor = initialState;
+  const fetchData = async () => {
+    if (match.path === "/instructors/new") setInstructor(initialState);
+    else {
+      const instructor = await getInstructor(match.params.id);
+      setInstructor(instructor);
+    }
+  };
 
-  if (
-    match.path === "/instructors/:id" &&
-    (!instructor || instructor._id !== match.params.id)
-  ) {
-    (async () => (store.instructor = await getInstructor(match.params.id)))();
-  }
+  useEffect(() => fetchData(), []);
 
   if (!instructor) return false;
 
@@ -43,7 +40,6 @@ const Edit = ({ match, history }) => {
       return handleFormError(res.error);
     }
     flash({ success: `Saved ${instructor.name}` });
-    delete store.instructors;
     history.goBack(1);
   };
 
@@ -58,21 +54,22 @@ const Edit = ({ match, history }) => {
     instructor._deleted = true;
     const res = await saveInstructor(instructor);
     if (res.error) return flash(res);
-    delete store.instructors;
     flash({ success: `Deleted ${instructor.name}` });
     history.goBack(1);
   };
 
   const setAttribute = event => {
     const { id, value } = event.target;
+    const updatedInstructor = { ...instructor };
     switch (id) {
       case "phone":
-        instructor[id] = formatPhoneNumber(value);
+        updatedInstructor[id] = formatPhoneNumber(value);
         break;
       default:
-        instructor[id] = value;
+        updatedInstructor[id] = value;
         break;
     }
+    setInstructor(updatedInstructor);
   };
 
   const onKeyDown = (keyName, e, handle) => {
@@ -156,4 +153,4 @@ const Edit = ({ match, history }) => {
   );
 };
 
-export default collect(Edit);
+export default Edit;
