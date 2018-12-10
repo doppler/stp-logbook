@@ -2,8 +2,17 @@
   background-color: var(--content-hover-color);
 }
 
+.VideoPane {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  background-color: black;
+  margin-top: 0.75em;
+  padding: 1em;
+  border-radius: 10px;
+}
 .Displayer video {
-  width: 100%;
+  width: 50vw;
 }
 
 .ProgressBar {
