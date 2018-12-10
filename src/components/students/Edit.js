@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import HotKeys from "react-hot-keys";
 
-import { store, collect } from "react-recollect";
 import getStudent from "../../db/getStudent";
 import save from "../../db/saveStudent";
 import getInstructors from "../../db/getInstructors";
@@ -22,37 +21,40 @@ const initialState = {
 };
 
 const Edit = ({ match, history }) => {
-  const { student, instructors } = store;
+  const [student, setStudent] = useState(null);
+  const [instructors, setInstructors] = useState([]);
 
-  if (!student && match.path === "/students/new") store.student = initialState;
+  const fetchData = async () => {
+    if (match.path === "/students/new") setStudent(initialState);
+    else {
+      const student = await getStudent(match.params.studentId);
+      setStudent(student);
+    }
+    const instructors = await getInstructors();
+    setInstructors(instructors);
+  };
 
-  if (
-    match.path === "/students/:studentId/edit" &&
-    (!student || student._id !== match.params.studentId)
-  )
-    (async () => (store.student = await getStudent(match.params.studentId)))();
+  useEffect(() => fetchData(), []);
 
-  if (instructors.length === 0)
-    (async () => {
-      const instructors = await getInstructors();
-      store.instructors = instructors;
-    })();
+  if (!student && match.path === "/students/new") setStudent(initialState);
 
   const setAttribute = event => {
     const { id, value } = event.target;
+    const updatedStudent = { ...student };
     switch (id) {
       case "phone":
-        student[id] = formatPhoneNumber(value);
+        updatedStudent[id] = formatPhoneNumber(value);
         break;
       default:
-        student[id] = value;
+        updatedStudent[id] = value;
         break;
     }
+    setStudent(updatedStudent);
   };
 
   const saveStudent = async e => {
     if (e) {
-      document.querySelector("input[type='submit']").click();
+      // document.querySelector("input[type='submit']").click();
       e.preventDefault();
     }
     removeErrorClass();
@@ -162,7 +164,7 @@ const Edit = ({ match, history }) => {
   );
 };
 
-export default collect(Edit);
+export default Edit;
 
 const InstructorOptions = ({ instructors }) => {
   return instructors.map((instructor, i) => (
