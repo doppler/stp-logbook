@@ -117,37 +117,8 @@ const Uploader = ({ handleDrop, progress }) => {
 
 const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
   const videoEl = useRef(false);
-  return (
-    <React.Fragment>
-      <VideoController videoEl={videoEl} />
-      <div className="Displayer">
-        <video id="jumpvid" ref={videoEl} controls muted>
-          <source src={encodeURI(videoUrl)} type="video/mp4" />
-        </video>
-        <div className="delete">
-          <button
-            onClick={handleDeleteClick}
-            className={deleteConfirmation ? "warning" : "null"}
-          >
-            Delete Video
-          </button>
-        </div>
-      </div>
-      <div />
-    </React.Fragment>
-  );
-};
-
-const ProgressBar = ({ progress }) => (
-  <div className="ProgressBar">
-    <div className="ProgressText">Uploading: {progress}%</div>
-    <div className="Progress" style={{ width: `${progress}%` }} />
-  </div>
-);
-
-const VideoController = ({ videoEl }) => {
-  if (!videoEl.current) return false;
-  const vid = videoEl.current;
+  // if (!videoEl.current) return false;
+  const vid = videoEl.current || document.createElement("video");
   window.vid = vid;
   const currentTime = vid.currentTime;
 
@@ -234,64 +205,87 @@ const VideoController = ({ videoEl }) => {
 
   return (
     <HotKeys keyMap={keyMap} handlers={handlers}>
-      <div className="VideoController">
-        <div className="playback controls section">
-          <FontAwesomeIcon
-            icon={faFastBackward}
-            onClick={fastBackward}
-            title="Seek Backward 1 sec [shift+left]"
-          />
-          <FontAwesomeIcon
-            icon={faStepBackward}
-            onClick={seekBackward}
-            title="Seek Backward 1/30 sec [left]"
-          />
-          {playback === "paused" ? (
+      <div className="Displayer">
+        <div className="VideoController">
+          <div className="playback controls section">
             <FontAwesomeIcon
-              icon={faPlay}
-              onClick={playVideo}
-              title="Play/Pause [space]"
+              icon={faFastBackward}
+              onClick={fastBackward}
+              title="Seek Backward 1 sec [shift+left]"
             />
-          ) : (
             <FontAwesomeIcon
-              icon={faPause}
-              onClick={pauseVideo}
-              title="Play/Pause [space]"
+              icon={faStepBackward}
+              onClick={seekBackward}
+              title="Seek Backward 1/30 sec [left]"
             />
-          )}
+            {playback === "paused" ? (
+              <FontAwesomeIcon
+                icon={faPlay}
+                onClick={playVideo}
+                title="Play/Pause [space]"
+              />
+            ) : (
+              <FontAwesomeIcon
+                icon={faPause}
+                onClick={pauseVideo}
+                title="Play/Pause [space]"
+              />
+            )}
 
-          <FontAwesomeIcon
-            icon={faStepForward}
-            onClick={seekForward}
-            title="Seek Forward 1/30 sec [right]"
-          />
-          <FontAwesomeIcon
-            icon={faFastForward}
-            onClick={fastForward}
-            title="Seek Forward 1 sec [shift+right]"
-          />
-        </div>
-        <div className="playbackRate section">
-          <label>Playback Rate {`${Math.round(playbackRate * 100)}%`}</label>
-          <div className="control">
-            <input
-              type="range"
-              onChange={changePlaybackRate}
-              min={0.1}
-              max={2.0}
-              step={0.1}
-              value={playbackRate}
-              list="tickmarks"
+            <FontAwesomeIcon
+              icon={faStepForward}
+              onClick={seekForward}
+              title="Seek Forward 1/30 sec [right]"
             />
-            <datalist id="tickmarks">
-              {Array.from(Array(20)).map((_, i) => (
-                <option key={i} value={(i + 1) / 10} />
-              ))}
-            </datalist>
+            <FontAwesomeIcon
+              icon={faFastForward}
+              onClick={fastForward}
+              title="Seek Forward 1 sec [shift+right]"
+            />
+          </div>
+          <div className="playbackRate section">
+            <label>Playback Rate {`${Math.round(playbackRate * 100)}%`}</label>
+            <div className="control">
+              <input
+                type="range"
+                onChange={changePlaybackRate}
+                min={0.1}
+                max={2.0}
+                step={0.1}
+                value={playbackRate}
+                list="tickmarks"
+              />
+              <datalist id="tickmarks">
+                {Array.from(Array(20)).map((_, i) => (
+                  <option key={i} value={(i + 1) / 10} />
+                ))}
+              </datalist>
+            </div>
+          </div>
+          <div className="section">Playback Position: {currentSeekTime}</div>
+        </div>
+        <div className="">
+          <video id="jumpvid" ref={videoEl} controls muted>
+            <source src={encodeURI(videoUrl)} type="video/mp4" />
+          </video>
+          <div className="delete">
+            <button
+              onClick={handleDeleteClick}
+              className={deleteConfirmation ? "warning" : "null"}
+            >
+              Delete Video
+            </button>
           </div>
         </div>
-        <div className="section">Playback Position: {currentSeekTime}</div>
+        <div />
       </div>
     </HotKeys>
   );
 };
+
+const ProgressBar = ({ progress }) => (
+  <div className="ProgressBar">
+    <div className="ProgressText">Uploading: {progress}%</div>
+    <div className="Progress" style={{ width: `${progress}%` }} />
+  </div>
+);

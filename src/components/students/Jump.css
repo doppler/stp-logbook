@@ -3,19 +3,18 @@
 }
 
 .VideoPane {
-  display: flex;
-  flex: 1;
-  justify-content: center;
   background-color: black;
   margin-top: 0.75em;
   padding: 1em;
   border-radius: 10px;
 }
-.VideoPane > div {
-  flex: 1;
-  /* border: 1px solid greenyellow; */
+.VideoPane .Displayer {
+  display: flex;
 }
-.Displayer video {
+.VideoPane .Displayer > div {
+  flex: 1;
+}
+.VideoPane video {
   width: 50vw;
 }
 .VideoController {
@@ -25,7 +24,7 @@
 .VideoController .section {
   border: 1px solid var(--content-border-color);
   border-radius: 0.25em;
-  margin: 0.5em;
+  margin: 0 0.5em 0.5em 0;
   padding: 0.5em;
   font-size: 0.75em;
 }
