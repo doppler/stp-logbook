@@ -165,11 +165,22 @@ const VideoController = ({ videoEl }) => {
   const pauseVideo = () => vid.pause();
 
   const [playbackRate, setPlaybackRate] = useState(1.0);
-
-  vid.playbackRate = playbackRate;
+  vid.playbackRate = Number(playbackRate).toFixed(1);
 
   const changePlaybackRate = event => {
     setPlaybackRate(event.target.value);
+  };
+
+  const decreasePlaybackRate = () => {
+    const newPlaybackRate = (vid.playbackRate - 0.1).toFixed(1);
+    if (newPlaybackRate < 0.1) return false;
+    setPlaybackRate(newPlaybackRate);
+  };
+
+  const increasePlaybackRate = () => {
+    const newPlaybackRate = (vid.playbackRate + 0.1).toFixed(1);
+    if (newPlaybackRate > 2.0) return false;
+    setPlaybackRate(newPlaybackRate);
   };
 
   const fastBackward = () => {
@@ -197,7 +208,9 @@ const VideoController = ({ videoEl }) => {
     seekBackward: "left",
     togglePlayback: "space",
     seekForward: "right",
-    fastForward: "shift+right"
+    fastForward: "shift+right",
+    decreasePlaybackRate: "down",
+    increasePlaybackRate: "up"
   };
 
   const handlers = {
@@ -208,7 +221,15 @@ const VideoController = ({ videoEl }) => {
       togglePlayback();
     },
     seekForward: event => seekForward(),
-    fastForward: event => fastForward()
+    fastForward: event => fastForward(),
+    decreasePlaybackRate: event => {
+      event.preventDefault();
+      decreasePlaybackRate();
+    },
+    increasePlaybackRate: event => {
+      event.preventDefault();
+      increasePlaybackRate();
+    }
   };
 
   return (
