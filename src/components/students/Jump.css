@@ -11,10 +11,29 @@
   padding: 1em;
   border-radius: 10px;
 }
+.VideoPane > div {
+  flex: 1;
+  /* border: 1px solid greenyellow; */
+}
 .Displayer video {
   width: 50vw;
 }
-
+.VideoController {
+  font-weight: bold;
+  color: white;
+}
+.VideoController .section {
+  border: 1px solid #aaa;
+  border-radius: 0.25em;
+  margin: 0.25em;
+  padding: 0.25em;
+}
+.VideoController .section label {
+  display: block;
+}
+.VideoController .playbackRate .control input {
+  width: 100%;
+}
 .ProgressBar {
   width: 100%;
   height: 2px;

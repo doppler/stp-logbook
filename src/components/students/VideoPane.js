@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import format from "date-fns/format";
 import Dropzone from "react-dropzone";
 import saveJump from "../../db/saveJump";
@@ -105,21 +105,28 @@ const Uploader = ({ handleDrop, progress }) => {
   );
 };
 
-const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => (
-  <div className="Displayer">
-    <video controls muted>
-      <source src={encodeURI(videoUrl)} type="video/mp4" />
-    </video>
-    <div className="delete">
-      <button
-        onClick={handleDeleteClick}
-        className={deleteConfirmation ? "warning" : "null"}
-      >
-        Delete Video
-      </button>
-    </div>
-  </div>
-);
+const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
+  const videoEl = useRef(false);
+  return (
+    <React.Fragment>
+      <VideoController videoEl={videoEl} />
+      <div className="Displayer">
+        <video ref={videoEl} controls muted>
+          <source src={encodeURI(videoUrl)} type="video/mp4" />
+        </video>
+        <div className="delete">
+          <button
+            onClick={handleDeleteClick}
+            className={deleteConfirmation ? "warning" : "null"}
+          >
+            Delete Video
+          </button>
+        </div>
+      </div>
+      <div />
+    </React.Fragment>
+  );
+};
 
 const ProgressBar = ({ progress }) => (
   <div className="ProgressBar">
@@ -127,3 +134,47 @@ const ProgressBar = ({ progress }) => (
     <div className="Progress" style={{ width: `${progress}%` }} />
   </div>
 );
+
+const VideoController = ({ videoEl }) => {
+  if (!videoEl.current) return false;
+  const vid = videoEl.current;
+  const currentTime = vid.currentTime;
+
+  const [currentSeekTime, setCurrentSeekTime] = useState(currentTime);
+
+  vid.onseeking = () => setCurrentSeekTime(currentTime);
+  vid.ontimeupdate = () => setCurrentSeekTime(currentTime);
+
+  const [playbackRate, setPlaybackRate] = useState(1.0);
+
+  vid.playbackRate = playbackRate;
+
+  const changePlaybackRate = event => {
+    setPlaybackRate(event.target.value);
+  };
+
+  return (
+    <div className="VideoController">
+      <div className="section">Playback Position: {currentSeekTime}</div>
+      <div className="playbackRate section">
+        <label>Playback Rate {`${Math.round(playbackRate * 100)}%`}</label>
+        <div className="control">
+          <input
+            type="range"
+            onChange={changePlaybackRate}
+            min={0.1}
+            max={2.0}
+            step={0.1}
+            value={playbackRate}
+            list="tickmarks"
+          />
+          <datalist id="tickmarks">
+            {Array.from(Array(20)).map((_, i) => (
+              <option value={(i + 1) / 10} />
+            ))}
+          </datalist>
+        </div>
+      </div>
+    </div>
+  );
+};
