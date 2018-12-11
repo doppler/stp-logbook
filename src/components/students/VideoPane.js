@@ -1,4 +1,13 @@
 import React, { useState, useRef } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPlay,
+  faPause,
+  faStepForward,
+  faFastForward,
+  faStepBackward,
+  faFastBackward
+} from "@fortawesome/free-solid-svg-icons";
 import format from "date-fns/format";
 import Dropzone from "react-dropzone";
 import saveJump from "../../db/saveJump";
@@ -111,7 +120,7 @@ const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
     <React.Fragment>
       <VideoController videoEl={videoEl} />
       <div className="Displayer">
-        <video ref={videoEl} controls muted>
+        <video id="jumpvid" ref={videoEl} controls muted>
           <source src={encodeURI(videoUrl)} type="video/mp4" />
         </video>
         <div className="delete">
@@ -138,12 +147,21 @@ const ProgressBar = ({ progress }) => (
 const VideoController = ({ videoEl }) => {
   if (!videoEl.current) return false;
   const vid = videoEl.current;
+  window.vid = vid;
   const currentTime = vid.currentTime;
 
   const [currentSeekTime, setCurrentSeekTime] = useState(currentTime);
 
   vid.onseeking = () => setCurrentSeekTime(currentTime);
   vid.ontimeupdate = () => setCurrentSeekTime(currentTime);
+
+  const [playback, setPlayback] = useState("paused");
+
+  vid.onplay = () => setPlayback("playing");
+  vid.onpause = () => setPlayback("paused");
+
+  const playVideo = () => vid.play();
+  const pauseVideo = () => vid.pause();
 
   const [playbackRate, setPlaybackRate] = useState(1.0);
 
@@ -156,6 +174,18 @@ const VideoController = ({ videoEl }) => {
   return (
     <div className="VideoController">
       <div className="section">Playback Position: {currentSeekTime}</div>
+      <div className="playback controls section">
+        <FontAwesomeIcon icon={faFastBackward} />
+        <FontAwesomeIcon icon={faStepBackward} />
+        {playback === "paused" ? (
+          <FontAwesomeIcon icon={faPlay} onClick={playVideo} />
+        ) : (
+          <FontAwesomeIcon icon={faPause} onClick={pauseVideo} />
+        )}
+
+        <FontAwesomeIcon icon={faStepForward} />
+        <FontAwesomeIcon icon={faFastForward} />
+      </div>
       <div className="playbackRate section">
         <label>Playback Rate {`${Math.round(playbackRate * 100)}%`}</label>
         <div className="control">
@@ -170,7 +200,7 @@ const VideoController = ({ videoEl }) => {
           />
           <datalist id="tickmarks">
             {Array.from(Array(20)).map((_, i) => (
-              <option value={(i + 1) / 10} />
+              <option key={i} value={(i + 1) / 10} />
             ))}
           </datalist>
         </div>

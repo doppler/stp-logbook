@@ -32,6 +32,12 @@
 .VideoController .section label {
   display: block;
 }
+.VideoController .playback.controls.section {
+  display: flex;
+}
+.VideoController .playback.controls.section > * {
+  flex: 1;
+}
 .VideoController .playbackRate .control input {
   width: 100%;
 }
