@@ -37,6 +37,7 @@
 }
 .VideoController .playback.controls.section > * {
   flex: 1;
+  cursor: pointer;
 }
 .VideoController .playbackRate .control input {
   width: 100%;

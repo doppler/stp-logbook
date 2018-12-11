@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { HotKeys } from "react-hotkeys";
 import {
   faPlay,
   faPause,
@@ -171,40 +172,65 @@ const VideoController = ({ videoEl }) => {
     setPlaybackRate(event.target.value);
   };
 
-  return (
-    <div className="VideoController">
-      <div className="section">Playback Position: {currentSeekTime}</div>
-      <div className="playback controls section">
-        <FontAwesomeIcon icon={faFastBackward} />
-        <FontAwesomeIcon icon={faStepBackward} />
-        {playback === "paused" ? (
-          <FontAwesomeIcon icon={faPlay} onClick={playVideo} />
-        ) : (
-          <FontAwesomeIcon icon={faPause} onClick={pauseVideo} />
-        )}
+  const togglePlayback = () => {
+    return playback === "paused" ? playVideo() : pauseVideo();
+  };
 
-        <FontAwesomeIcon icon={faStepForward} />
-        <FontAwesomeIcon icon={faFastForward} />
-      </div>
-      <div className="playbackRate section">
-        <label>Playback Rate {`${Math.round(playbackRate * 100)}%`}</label>
-        <div className="control">
-          <input
-            type="range"
-            onChange={changePlaybackRate}
-            min={0.1}
-            max={2.0}
-            step={0.1}
-            value={playbackRate}
-            list="tickmarks"
-          />
-          <datalist id="tickmarks">
-            {Array.from(Array(20)).map((_, i) => (
-              <option key={i} value={(i + 1) / 10} />
-            ))}
-          </datalist>
+  const keyMap = {
+    togglePlayback: "space"
+  };
+
+  const handlers = {
+    togglePlayback: event => {
+      event.preventDefault();
+      togglePlayback();
+    }
+  };
+
+  return (
+    <HotKeys keyMap={keyMap} handlers={handlers}>
+      <div className="VideoController">
+        <div className="section">Playback Position: {currentSeekTime}</div>
+        <div className="playback controls section">
+          <FontAwesomeIcon icon={faFastBackward} />
+          <FontAwesomeIcon icon={faStepBackward} />
+          {playback === "paused" ? (
+            <FontAwesomeIcon
+              icon={faPlay}
+              onClick={playVideo}
+              title="Play/Pause [space]"
+            />
+          ) : (
+            <FontAwesomeIcon
+              icon={faPause}
+              onClick={pauseVideo}
+              title="Play/Pause [space]"
+            />
+          )}
+
+          <FontAwesomeIcon icon={faStepForward} />
+          <FontAwesomeIcon icon={faFastForward} />
+        </div>
+        <div className="playbackRate section">
+          <label>Playback Rate {`${Math.round(playbackRate * 100)}%`}</label>
+          <div className="control">
+            <input
+              type="range"
+              onChange={changePlaybackRate}
+              min={0.1}
+              max={2.0}
+              step={0.1}
+              value={playbackRate}
+              list="tickmarks"
+            />
+            <datalist id="tickmarks">
+              {Array.from(Array(20)).map((_, i) => (
+                <option key={i} value={(i + 1) / 10} />
+              ))}
+            </datalist>
+          </div>
         </div>
       </div>
-    </div>
+    </HotKeys>
   );
 };
