@@ -263,19 +263,19 @@ const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
             </div>
           </div>
           <div className="section">Playback Position: {currentSeekTime}</div>
+          <div className="delete">
+            <button
+              onClick={handleDeleteClick}
+              className={`small ${deleteConfirmation ? "warning" : ""}`}
+            >
+              Delete Video
+            </button>
+          </div>
         </div>
         <div className="">
           <video id="jumpvid" ref={videoEl} controls muted>
             <source src={encodeURI(videoUrl)} type="video/mp4" />
           </video>
-          <div className="delete">
-            <button
-              onClick={handleDeleteClick}
-              className={deleteConfirmation ? "warning" : "null"}
-            >
-              Delete Video
-            </button>
-          </div>
         </div>
         <div />
       </div>
