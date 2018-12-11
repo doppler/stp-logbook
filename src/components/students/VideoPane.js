@@ -176,15 +176,34 @@ const VideoController = ({ videoEl }) => {
     return playback === "paused" ? playVideo() : pauseVideo();
   };
 
+  const seekForward = (duration = 1 / 30) => {
+    vid.currentTime = vid.currentTime + duration;
+  };
+
+  const seekBackward = (duration = 1 / 30) => {
+    vid.currentTime = vid.currentTime - duration;
+  };
+
+  const fastForward = () => seekForward(1);
+  const fastBackward = () => seekBackward(1);
+
   const keyMap = {
-    togglePlayback: "space"
+    togglePlayback: "space",
+    seekForward: "right",
+    seekBackward: "left",
+    fastForward: "shift+right",
+    fastBackward: "shift+left"
   };
 
   const handlers = {
     togglePlayback: event => {
       event.preventDefault();
       togglePlayback();
-    }
+    },
+    seekForward: () => seekForward(),
+    seekBackward: () => seekBackward(),
+    fastForward: () => fastForward(),
+    fastBackward: () => fastBackward()
   };
 
   return (
@@ -192,8 +211,16 @@ const VideoController = ({ videoEl }) => {
       <div className="VideoController">
         <div className="section">Playback Position: {currentSeekTime}</div>
         <div className="playback controls section">
-          <FontAwesomeIcon icon={faFastBackward} />
-          <FontAwesomeIcon icon={faStepBackward} />
+          <FontAwesomeIcon
+            icon={faFastBackward}
+            onClick={fastBackward}
+            title="Seek Backward 1 sec [shift+left]"
+          />
+          <FontAwesomeIcon
+            icon={faStepBackward}
+            onClick={seekBackward}
+            title="Seek Backward 1/30 sec [left]"
+          />
           {playback === "paused" ? (
             <FontAwesomeIcon
               icon={faPlay}
@@ -208,8 +235,16 @@ const VideoController = ({ videoEl }) => {
             />
           )}
 
-          <FontAwesomeIcon icon={faStepForward} />
-          <FontAwesomeIcon icon={faFastForward} />
+          <FontAwesomeIcon
+            icon={faStepForward}
+            onClick={seekForward}
+            title="Seek Forward 1/30 sec [right]"
+          />
+          <FontAwesomeIcon
+            icon={faFastForward}
+            onClick={fastForward}
+            title="Seek Forward 1 sec [shift+right]"
+          />
         </div>
         <div className="playbackRate section">
           <label>Playback Rate {`${Math.round(playbackRate * 100)}%`}</label>
