@@ -20,13 +20,14 @@
 }
 .VideoController {
   font-weight: bold;
-  color: white;
+  color: var(--button-border-color);
 }
 .VideoController .section {
-  border: 1px solid #aaa;
+  border: 1px solid var(--content-border-color);
   border-radius: 0.25em;
-  margin: 0.25em;
-  padding: 0.25em;
+  margin: 0.5em;
+  padding: 0.5em;
+  font-size: 0.75em;
 }
 .VideoController .section label {
   display: block;
