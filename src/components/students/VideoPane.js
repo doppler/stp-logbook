@@ -172,44 +172,48 @@ const VideoController = ({ videoEl }) => {
     setPlaybackRate(event.target.value);
   };
 
+  const fastBackward = () => {
+    vid.currentTime = vid.currentTime - 1;
+  };
+
+  const seekBackward = () => {
+    vid.currentTime = vid.currentTime - 1 / 30;
+  };
+
   const togglePlayback = () => {
     return playback === "paused" ? playVideo() : pauseVideo();
   };
 
-  const seekForward = (duration = 1 / 30) => {
-    vid.currentTime = vid.currentTime + duration;
+  const seekForward = () => {
+    vid.currentTime = vid.currentTime + 1 / 30;
   };
 
-  const seekBackward = (duration = 1 / 30) => {
-    vid.currentTime = vid.currentTime - duration;
+  const fastForward = () => {
+    vid.currentTime = vid.currentTime + 1;
   };
-
-  const fastForward = () => seekForward(1);
-  const fastBackward = () => seekBackward(1);
 
   const keyMap = {
+    fastBackward: "shift+left",
+    seekBackward: "left",
     togglePlayback: "space",
     seekForward: "right",
-    seekBackward: "left",
-    fastForward: "shift+right",
-    fastBackward: "shift+left"
+    fastForward: "shift+right"
   };
 
   const handlers = {
+    fastBackward: event => fastBackward(),
+    seekBackward: event => seekBackward(),
     togglePlayback: event => {
       event.preventDefault();
       togglePlayback();
     },
-    seekForward: () => seekForward(),
-    seekBackward: () => seekBackward(),
-    fastForward: () => fastForward(),
-    fastBackward: () => fastBackward()
+    seekForward: event => seekForward(),
+    fastForward: event => fastForward()
   };
 
   return (
     <HotKeys keyMap={keyMap} handlers={handlers}>
       <div className="VideoController">
-        <div className="section">Playback Position: {currentSeekTime}</div>
         <div className="playback controls section">
           <FontAwesomeIcon
             icon={faFastBackward}
@@ -265,6 +269,7 @@ const VideoController = ({ videoEl }) => {
             </datalist>
           </div>
         </div>
+        <div className="section">Playback Position: {currentSeekTime}</div>
       </div>
     </HotKeys>
   );
