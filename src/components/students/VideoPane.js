@@ -9,7 +9,9 @@ import {
   faStepBackward,
   faFastBackward,
   faExpand,
-  faCompress
+  faCompress,
+  faVolumeMute,
+  faVolumeUp
 } from "@fortawesome/free-solid-svg-icons";
 import format from "date-fns/format";
 import Dropzone from "react-dropzone";
@@ -178,6 +180,19 @@ const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
     vid.currentTime = vid.currentTime + 1;
   };
 
+  const [audioMuted, setAudioMuted] = useState(true);
+  const toggleAudioMuted = () => {
+    vid.muted = !audioMuted;
+    // vid.volume = vid.muted ? 0 : volume;
+    setAudioMuted(vid.muted);
+  };
+  const [volume, setVolume] = useState(0);
+  const changeVolume = event => {
+    vid.volume = event.target.value;
+    setVolume(vid.volume);
+  };
+  vid.onvolumechange = () => setVolume(vid.volume);
+
   const [isFullscreen, toggleIsFullscreen] = useState(false);
   const toggleFullscreen = () => {
     displayerEl.current.classList.contains("fullscreen")
@@ -263,6 +278,26 @@ const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
               onClick={toggleFullscreen}
               title="Toggle Fullscreen [ctrl+f]"
             />
+          </div>
+          <div className="volume section">
+            <label>
+              Volume {audioMuted ? "Muted" : `${Math.round(volume * 100)}%`}
+            </label>
+            <FontAwesomeIcon
+              icon={audioMuted ? faVolumeMute : faVolumeUp}
+              onClick={toggleAudioMuted}
+              title="Toggle Audio Mute [ctrl-m]"
+            />
+            {audioMuted ? null : (
+              <input
+                type="range"
+                onChange={changeVolume}
+                min={0}
+                max={1}
+                step={0.1}
+                value={volume}
+              />
+            )}
           </div>
           <div className="playbackRate section">
             <label>Playback Rate {`${Math.round(playbackRate * 100)}%`}</label>
