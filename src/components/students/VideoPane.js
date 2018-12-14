@@ -7,7 +7,9 @@ import {
   faStepForward,
   faFastForward,
   faStepBackward,
-  faFastBackward
+  faFastBackward,
+  faExpand,
+  faCompress
 } from "@fortawesome/free-solid-svg-icons";
 import format from "date-fns/format";
 import Dropzone from "react-dropzone";
@@ -118,7 +120,7 @@ const Uploader = ({ handleDrop, progress }) => {
 
 const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
   const videoEl = useRef(document.createElement("video"));
-  const displayerEl = useRef(null);
+  const displayerEl = useRef(document.createElement("div"));
   window.displayerEl = displayerEl; //TODO remove
   const vid = videoEl.current;
   window.vid = vid; //TODO remove
@@ -176,14 +178,16 @@ const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
     vid.currentTime = vid.currentTime + 1;
   };
 
+  const [isFullscreen, toggleIsFullscreen] = useState(false);
   const toggleFullscreen = () => {
-    const d = displayerEl.current;
-    d.classList.contains("fullscreen")
+    displayerEl.current.classList.contains("fullscreen")
       ? document.exitFullscreen()
-      : d.requestFullscreen();
-    d.classList.toggle("fullscreen");
+      : displayerEl.current.requestFullscreen();
   };
-
+  displayerEl.current.onfullscreenchange = event => {
+    displayerEl.current.classList.toggle("fullscreen");
+    toggleIsFullscreen(!isFullscreen);
+  };
   const keyMap = {
     fastBackward: "shift+left",
     seekBackward: "left",
@@ -253,6 +257,11 @@ const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
               icon={faFastForward}
               onClick={fastForward}
               title="Seek Forward 1 sec [shift+right]"
+            />
+            <FontAwesomeIcon
+              icon={isFullscreen ? faCompress : faExpand}
+              onClick={toggleFullscreen}
+              title="Toggle Fullscreen [ctrl+f]"
             />
           </div>
           <div className="playbackRate section">
