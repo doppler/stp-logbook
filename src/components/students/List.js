@@ -118,7 +118,7 @@ const List = ({ history }) => {
                 : null;
               const lastDfStr = lastJump
                 ? `DF ${lastJump.diveFlow} - ${[
-                    ...lastJump.instructor.match(/(\w+) ([A-Z])/)[0]
+                    ...lastJump.instructor.match(/(\w+)( ([A-Z]))?/)[0]
                   ].join("")}.`
                 : null;
               return (
