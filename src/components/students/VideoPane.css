@@ -1,7 +1,3 @@
-.Jump label:focus {
-  background-color: var(--content-hover-color);
-}
-
 .VideoPane {
   background-color: black;
   margin-top: 0.75em;
@@ -68,4 +64,29 @@
 .ProgressBar > .Progress {
   height: 100%;
   background-color: blue;
+}
+.Displayer:fullscreen {
+  flex-direction: column-reverse;
+}
+.Displayer:fullscreen video {
+  width: 100%;
+}
+.Displayer:fullscreen .delete {
+  display: none;
+}
+.Displayer:fullscreen ::-webkit-media-controls {
+  display: none !important;
+}
+.Displayer:fullscreen .VideoController {
+  z-index: 1;
+  position: absolute;
+  bottom: 0;
+  width: 50%;
+  align-self: center;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 5px;
+  border-radius: 5px;
+}
+.Displayer:fullscreen .VideoController .section {
+  margin: 0;
 }

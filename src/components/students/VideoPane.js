@@ -14,6 +14,7 @@ import Dropzone from "react-dropzone";
 import saveJump from "../../db/saveJump";
 import flash from "../../utils/flash";
 import useDeleteConfirmation from "../../utils/useDeleteConfirmation";
+import "./VideoPane.css";
 
 const VideoPane = ({ studentId, _jump }) => {
   const [jump, setJump] = useState(_jump);
@@ -116,10 +117,11 @@ const Uploader = ({ handleDrop, progress }) => {
 };
 
 const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
-  const videoEl = useRef(false);
-  // if (!videoEl.current) return false;
-  const vid = videoEl.current || document.createElement("video");
-  window.vid = vid;
+  const videoEl = useRef(document.createElement("video"));
+  const displayerEl = useRef(null);
+  window.displayerEl = displayerEl; //TODO remove
+  const vid = videoEl.current;
+  window.vid = vid; //TODO remove
   const currentTime = vid.currentTime;
 
   const [currentSeekTime, setCurrentSeekTime] = useState(currentTime);
@@ -174,6 +176,14 @@ const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
     vid.currentTime = vid.currentTime + 1;
   };
 
+  const toggleFullscreen = () => {
+    const d = displayerEl.current;
+    d.classList.contains("fullscreen")
+      ? document.exitFullscreen()
+      : d.requestFullscreen();
+    d.classList.toggle("fullscreen");
+  };
+
   const keyMap = {
     fastBackward: "shift+left",
     seekBackward: "left",
@@ -181,7 +191,8 @@ const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
     seekForward: "right",
     fastForward: "shift+right",
     decreasePlaybackRate: "down",
-    increasePlaybackRate: "up"
+    increasePlaybackRate: "up",
+    toggleFullscreen: "ctrl+f"
   };
 
   const handlers = {
@@ -200,12 +211,13 @@ const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
     increasePlaybackRate: event => {
       event.preventDefault();
       increasePlaybackRate();
-    }
+    },
+    toggleFullscreen: event => toggleFullscreen()
   };
 
   return (
     <HotKeys keyMap={keyMap} handlers={handlers}>
-      <div className="Displayer">
+      <div className="Displayer" ref={displayerEl} tabIndex={0}>
         <div className="VideoController">
           <div className="playback controls section">
             <FontAwesomeIcon
