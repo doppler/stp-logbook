@@ -239,100 +239,102 @@ const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
   return (
     <HotKeys keyMap={keyMap} handlers={handlers}>
       <div className="Displayer" ref={displayerEl} tabIndex={0}>
-        <div className="VideoController">
-          <div className="controls section">
-            <div className="playback">
-              <FontAwesomeIcon
-                icon={faFastBackward}
-                onClick={fastBackward}
-                title="Seek Backward 1 sec [shift+left]"
-              />
-              <FontAwesomeIcon
-                icon={faStepBackward}
-                onClick={seekBackward}
-                title="Seek Backward 1/30 sec [left]"
-              />
-              {playback === "paused" ? (
-                <FontAwesomeIcon
-                  icon={faPlay}
-                  onClick={playVideo}
-                  title="Play/Pause [space]"
-                />
-              ) : (
-                <FontAwesomeIcon
-                  icon={faPause}
-                  onClick={pauseVideo}
-                  title="Play/Pause [space]"
-                />
-              )}
-
-              <FontAwesomeIcon
-                icon={faStepForward}
-                onClick={seekForward}
-                title="Seek Forward 1/30 sec [right]"
-              />
-              <FontAwesomeIcon
-                icon={faFastForward}
-                onClick={fastForward}
-                title="Seek Forward 1 sec [shift+right]"
-              />
-            </div>
-            <div className="volume">
-              <input
-                type="range"
-                onChange={changeVolume}
-                min={0}
-                max={1}
-                step={0.01}
-                value={audioMuted ? 0 : volume}
-              />
-              <FontAwesomeIcon
-                icon={audioMuted ? faVolumeMute : faVolumeUp}
-                onClick={toggleAudioMuted}
-                title="Toggle Audio Mute [ctrl-m]"
-              />
-            </div>
-            <div className="fullscreen">
-              <FontAwesomeIcon
-                icon={isFullscreen ? faCompress : faExpand}
-                onClick={toggleFullscreen}
-                title="Toggle Fullscreen [ctrl+f]"
-              />
-            </div>
-          </div>
-          <div className="playbackRate section">
-            <label>Playback Rate {`${Math.round(playbackRate * 100)}%`}</label>
-            <div className="control">
-              <input
-                type="range"
-                onChange={changePlaybackRate}
-                min={0.1}
-                max={2.0}
-                step={0.1}
-                value={playbackRate}
-                list="tickmarks"
-              />
-              <datalist id="tickmarks">
-                {Array.from(Array(20)).map((_, i) => (
-                  <option key={i} value={(i + 1) / 10} />
-                ))}
-              </datalist>
-            </div>
-          </div>
-          <div className="section">Playback Position: {currentSeekTime}</div>
-          <div className="delete">
-            <button
-              onClick={handleDeleteClick}
-              className={`small ${deleteConfirmation ? "warning" : ""}`}
-            >
-              Delete Video
-            </button>
-          </div>
-        </div>
-        <div className="">
-          <video id="jumpvid" ref={videoEl} controls muted>
+        <div className="Video">
+          <video id="jumpvid" ref={videoEl} muted>
             <source src={encodeURI(videoUrl)} type="video/mp4" />
           </video>
+          <div className="VideoController">
+            <div className="controls section">
+              <div className="playback">
+                <FontAwesomeIcon
+                  icon={faFastBackward}
+                  onClick={fastBackward}
+                  title="Seek Backward 1 sec [shift+left]"
+                />
+                <FontAwesomeIcon
+                  icon={faStepBackward}
+                  onClick={seekBackward}
+                  title="Seek Backward 1/30 sec [left]"
+                />
+                {playback === "paused" ? (
+                  <FontAwesomeIcon
+                    icon={faPlay}
+                    onClick={playVideo}
+                    title="Play/Pause [space]"
+                  />
+                ) : (
+                  <FontAwesomeIcon
+                    icon={faPause}
+                    onClick={pauseVideo}
+                    title="Play/Pause [space]"
+                  />
+                )}
+
+                <FontAwesomeIcon
+                  icon={faStepForward}
+                  onClick={seekForward}
+                  title="Seek Forward 1/30 sec [right]"
+                />
+                <FontAwesomeIcon
+                  icon={faFastForward}
+                  onClick={fastForward}
+                  title="Seek Forward 1 sec [shift+right]"
+                />
+              </div>
+              <div className="volume">
+                <input
+                  type="range"
+                  onChange={changeVolume}
+                  min={0}
+                  max={1}
+                  step={0.01}
+                  value={audioMuted ? 0 : volume}
+                />
+                <FontAwesomeIcon
+                  icon={audioMuted ? faVolumeMute : faVolumeUp}
+                  onClick={toggleAudioMuted}
+                  title="Toggle Audio Mute [ctrl-m]"
+                />
+              </div>
+              <div className="fullscreen">
+                <FontAwesomeIcon
+                  icon={isFullscreen ? faCompress : faExpand}
+                  onClick={toggleFullscreen}
+                  title="Toggle Fullscreen [ctrl+f]"
+                />
+              </div>
+            </div>
+            <div className="playbackRate section">
+              <label>
+                Playback Rate {`${Math.round(playbackRate * 100)}%`}
+              </label>
+              <div className="control">
+                <input
+                  type="range"
+                  onChange={changePlaybackRate}
+                  min={0.1}
+                  max={2.0}
+                  step={0.1}
+                  value={playbackRate}
+                  list="tickmarks"
+                />
+                <datalist id="tickmarks">
+                  {Array.from(Array(20)).map((_, i) => (
+                    <option key={i} value={(i + 1) / 10} />
+                  ))}
+                </datalist>
+              </div>
+            </div>
+            <div className="section">Playback Position: {currentSeekTime}</div>
+            <div className="delete">
+              <button
+                onClick={handleDeleteClick}
+                className={`small ${deleteConfirmation ? "warning" : ""}`}
+              >
+                Delete Video
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </HotKeys>
