@@ -238,57 +238,44 @@ const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
     <HotKeys keyMap={keyMap} handlers={handlers}>
       <div className="Displayer" ref={displayerEl} tabIndex={0}>
         <div className="VideoController">
-          <div className="playback controls section">
-            <FontAwesomeIcon
-              icon={faFastBackward}
-              onClick={fastBackward}
-              title="Seek Backward 1 sec [shift+left]"
-            />
-            <FontAwesomeIcon
-              icon={faStepBackward}
-              onClick={seekBackward}
-              title="Seek Backward 1/30 sec [left]"
-            />
-            {playback === "paused" ? (
+          <div className="controls section">
+            <div className="playback">
               <FontAwesomeIcon
-                icon={faPlay}
-                onClick={playVideo}
-                title="Play/Pause [space]"
+                icon={faFastBackward}
+                onClick={fastBackward}
+                title="Seek Backward 1 sec [shift+left]"
               />
-            ) : (
               <FontAwesomeIcon
-                icon={faPause}
-                onClick={pauseVideo}
-                title="Play/Pause [space]"
+                icon={faStepBackward}
+                onClick={seekBackward}
+                title="Seek Backward 1/30 sec [left]"
               />
-            )}
+              {playback === "paused" ? (
+                <FontAwesomeIcon
+                  icon={faPlay}
+                  onClick={playVideo}
+                  title="Play/Pause [space]"
+                />
+              ) : (
+                <FontAwesomeIcon
+                  icon={faPause}
+                  onClick={pauseVideo}
+                  title="Play/Pause [space]"
+                />
+              )}
 
-            <FontAwesomeIcon
-              icon={faStepForward}
-              onClick={seekForward}
-              title="Seek Forward 1/30 sec [right]"
-            />
-            <FontAwesomeIcon
-              icon={faFastForward}
-              onClick={fastForward}
-              title="Seek Forward 1 sec [shift+right]"
-            />
-            <FontAwesomeIcon
-              icon={isFullscreen ? faCompress : faExpand}
-              onClick={toggleFullscreen}
-              title="Toggle Fullscreen [ctrl+f]"
-            />
-          </div>
-          <div className="volume section">
-            <label>
-              Volume {audioMuted ? "Muted" : `${Math.round(volume * 100)}%`}
-            </label>
-            <FontAwesomeIcon
-              icon={audioMuted ? faVolumeMute : faVolumeUp}
-              onClick={toggleAudioMuted}
-              title="Toggle Audio Mute [ctrl-m]"
-            />
-            {audioMuted ? null : (
+              <FontAwesomeIcon
+                icon={faStepForward}
+                onClick={seekForward}
+                title="Seek Forward 1/30 sec [right]"
+              />
+              <FontAwesomeIcon
+                icon={faFastForward}
+                onClick={fastForward}
+                title="Seek Forward 1 sec [shift+right]"
+              />
+            </div>
+            <div className="volume">
               <input
                 type="range"
                 onChange={changeVolume}
@@ -297,7 +284,19 @@ const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
                 step={0.1}
                 value={volume}
               />
-            )}
+              <FontAwesomeIcon
+                icon={audioMuted ? faVolumeMute : faVolumeUp}
+                onClick={toggleAudioMuted}
+                title="Toggle Audio Mute [ctrl-m]"
+              />
+            </div>
+            <div className="fullscreen">
+              <FontAwesomeIcon
+                icon={isFullscreen ? faCompress : faExpand}
+                onClick={toggleFullscreen}
+                title="Toggle Fullscreen [ctrl+f]"
+              />
+            </div>
           </div>
           <div className="playbackRate section">
             <label>Playback Rate {`${Math.round(playbackRate * 100)}%`}</label>

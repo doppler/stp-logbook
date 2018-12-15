@@ -28,12 +28,40 @@
 .VideoController .section label {
   display: block;
 }
-.VideoController .playback.controls.section {
+.VideoController .controls.section {
+  display: flex;
+  flex-direction: column;
+}
+.Displayer:fullscreen .controls.section {
+  flex-direction: row;
+  text-align: right;
+}
+.VideoController .controls.section > * {
+  flex: 1;
+}
+.VideoController .controls.section .playback {
   display: flex;
 }
-.VideoController .playback.controls.section > * {
+.VideoController .controls.section .playback > * {
   flex: 1;
   cursor: pointer;
+  width: 25px;
+  font-size: 1.5em;
+}
+.VideoController .controls.section .volume {
+  margin: 0.5em 0 0.5em 0;
+}
+.Displayer:fullscreen .controls.section .volume {
+  margin: 0;
+}
+.VideoController .controls.section .volume svg {
+  font-size: 1.5em;
+}
+.VideoController .controls.section .volume input {
+  width: inherit;
+}
+.VideoController .controls.section .fullscreen {
+  font-size: 1.5em;
 }
 .VideoController .playbackRate .control input {
   width: 100%;
@@ -81,7 +109,7 @@
   z-index: 1;
   position: absolute;
   bottom: 0;
-  width: 50%;
+  width: 75%;
   align-self: center;
   background-color: rgba(0, 0, 0, 0.4);
   padding: 5px;
