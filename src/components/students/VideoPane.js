@@ -183,9 +183,9 @@ const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
   const [audioMuted, setAudioMuted] = useState(true);
   const toggleAudioMuted = () => {
     vid.muted = !audioMuted;
-    // vid.volume = vid.muted ? 0 : volume;
     setAudioMuted(vid.muted);
   };
+
   const [volume, setVolume] = useState(0);
   const changeVolume = event => {
     vid.volume = event.target.value;
@@ -211,7 +211,8 @@ const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
     fastForward: "shift+right",
     decreasePlaybackRate: "down",
     increasePlaybackRate: "up",
-    toggleFullscreen: "ctrl+f"
+    toggleFullscreen: "ctrl+f",
+    toggleAudioMuted: "ctrl+m"
   };
 
   const handlers = {
@@ -231,7 +232,8 @@ const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
       event.preventDefault();
       increasePlaybackRate();
     },
-    toggleFullscreen: event => toggleFullscreen()
+    toggleFullscreen: event => toggleFullscreen(),
+    toggleAudioMuted: event => toggleAudioMuted()
   };
 
   return (
@@ -281,8 +283,8 @@ const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
                 onChange={changeVolume}
                 min={0}
                 max={1}
-                step={0.1}
-                value={volume}
+                step={0.01}
+                value={audioMuted ? 0 : volume}
               />
               <FontAwesomeIcon
                 icon={audioMuted ? faVolumeMute : faVolumeUp}
@@ -332,7 +334,6 @@ const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
             <source src={encodeURI(videoUrl)} type="video/mp4" />
           </video>
         </div>
-        <div />
       </div>
     </HotKeys>
   );
