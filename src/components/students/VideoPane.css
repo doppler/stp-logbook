@@ -26,16 +26,6 @@
 .VideoController {
   color: var(--button-border-color);
 }
-.Displayer svg {
-  /* font-size: 1.5em; */
-}
-.VideoController .section {
-  /* border: 1px solid var(--content-border-color); */
-  /* border-radius: 0.25em; */
-  /* margin: 0 0.5em 0.5em 0; */
-  /* padding: 0.5em; */
-  /* font-size: 0.75em; */
-}
 .Displayer .section label {
   display: block;
 }
@@ -54,12 +44,6 @@
   flex: 1;
   cursor: pointer;
   width: 25px;
-}
-.Displayer .controls.section .rate,
-.Displayer .controls.section .volume {
-  /* border: 1px solid var(--content-border-color); */
-  /* border-radius: 5px; */
-  /* position: relative; */
 }
 [tooltip] {
   position: relative;
@@ -91,10 +75,11 @@
   border-radius: 5px;
   pointer-events: none;
 }
+.Displayer .scrubber input {
+  width: 70vw;
+}
 .Displayer .delete {
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  transform: translateY(40px);
 }
 .Displayer .delete button.small {
   color: hsl(0, 100%, 20%);

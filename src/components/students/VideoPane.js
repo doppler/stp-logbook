@@ -121,6 +121,13 @@ const Uploader = ({ handleDrop, progress }) => {
   );
 };
 
+const currentTimeToMinutesAndSeconds = currentTime => {
+  let minutes = parseInt((currentTime / 60) % 60);
+  let seconds = parseInt(currentTime % 60);
+  seconds = seconds < 10 ? `0${seconds}` : seconds;
+  return `${minutes}:${seconds}`;
+};
+
 const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
   const videoEl = useRef(document.createElement("video"));
   const displayerEl = useRef(document.createElement("div"));
@@ -179,6 +186,11 @@ const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
 
   const fastForward = () => {
     vid.currentTime = vid.currentTime + 1;
+  };
+
+  const handleScrubberChange = event => {
+    vid.currentTime = event.target.value;
+    setCurrentSeekTime(event.target.value);
   };
 
   const [audioMuted, setAudioMuted] = useState(true);
@@ -325,7 +337,17 @@ const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
                 />
               </div>
             </div>
-            <div className="section">Playback Position: {currentSeekTime}</div>
+            <div className="section scrubber">
+              {`${currentTimeToMinutesAndSeconds(currentSeekTime)}`}
+              <input
+                type="range"
+                min={0}
+                max={vid.duration}
+                step={0.001}
+                value={currentSeekTime}
+                onChange={handleScrubberChange}
+              />
+            </div>
             <div className="delete">
               <button
                 onClick={handleDeleteClick}
