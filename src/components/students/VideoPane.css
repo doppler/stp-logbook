@@ -18,6 +18,9 @@
   font-weight: bold;
   color: var(--button-border-color);
 }
+.Displayer svg {
+  font-size: 1.5em;
+}
 .VideoController .section {
   border: 1px solid var(--content-border-color);
   border-radius: 0.25em;
@@ -25,61 +28,51 @@
   padding: 0.5em;
   font-size: 0.75em;
 }
-.VideoController .section label {
+.Displayer .section label {
   display: block;
 }
-.VideoController .controls.section {
+.Displayer .controls.section {
   display: flex;
-  flex-direction: column;
-}
-.Displayer:fullscreen .controls.section {
   flex-direction: row;
   text-align: right;
 }
-.VideoController .controls.section > * {
+.Displayer .controls.section > * {
   flex: 1;
 }
-.VideoController .controls.section .playback {
+.Displayer .controls.section .playback {
   display: flex;
 }
-.VideoController .controls.section .playback > * {
+.Displayer .controls.section .playback > * {
   flex: 1;
   cursor: pointer;
   width: 25px;
-  font-size: 1.5em;
 }
-.VideoController .controls.section .volume {
+.Displayer .controls.section .volume {
   margin: 0.5em 0 0.5em 0;
 }
 .Displayer:fullscreen .controls.section .volume {
   margin: 0;
 }
-.VideoController .controls.section .volume svg {
-  font-size: 1.5em;
-}
-.VideoController .controls.section .volume input {
+.Displayer .controls.section .volume input {
   width: inherit;
 }
-.VideoController .controls.section .fullscreen {
-  font-size: 1.5em;
-}
-.VideoController .playbackRate .control input {
+.Displayer .playbackRate .control input {
   width: 100%;
 }
-.VideoController .delete {
+.Displayer .delete {
   position: absolute;
   bottom: 0;
   left: 0;
 }
-.VideoController .delete button.small {
+.Displayer .delete button.small {
   color: hsl(0, 100%, 20%);
   background-image: none;
   background-color: black;
 }
-.VideoController .delete button.small:hover {
+.Displayer .delete button.small:hover {
   color: hsl(0, 100%, 50%);
 }
-.VideoController .delete button.small.warning {
+.Displayer .delete button.small.warning {
   color: white;
   background-image: none;
   background-color: red;
