@@ -11,7 +11,8 @@ import {
   faExpand,
   faCompress,
   faVolumeMute,
-  faVolumeUp
+  faVolumeUp,
+  faClock
 } from "@fortawesome/free-solid-svg-icons";
 import format from "date-fns/format";
 import Dropzone from "react-dropzone";
@@ -282,6 +283,11 @@ const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
                 />
               </div>
               <div className="volume">
+                <FontAwesomeIcon
+                  icon={audioMuted ? faVolumeMute : faVolumeUp}
+                  onClick={toggleAudioMuted}
+                  title="Toggle Audio Mute [ctrl-m]"
+                />
                 <input
                   type="range"
                   onChange={changeVolume}
@@ -289,11 +295,26 @@ const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
                   max={1}
                   step={0.01}
                   value={audioMuted ? 0 : volume}
+                  tooltip={
+                    audioMuted
+                      ? "Audio Muted"
+                      : `Volume: ${Math.round(volume * 100)}%`
+                  }
                 />
+              </div>
+              <div className="rate">
                 <FontAwesomeIcon
-                  icon={audioMuted ? faVolumeMute : faVolumeUp}
-                  onClick={toggleAudioMuted}
-                  title="Toggle Audio Mute [ctrl-m]"
+                  icon={faClock}
+                  title="Playback Speed [up/down]"
+                />
+                <input
+                  type="range"
+                  onChange={changePlaybackRate}
+                  min={0.1}
+                  max={2.0}
+                  step={0.1}
+                  value={playbackRate}
+                  tooltip={`Speed: ${Math.round(playbackRate * 100)}%`}
                 />
               </div>
               <div className="fullscreen">
@@ -302,27 +323,6 @@ const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
                   onClick={toggleFullscreen}
                   title="Toggle Fullscreen [ctrl+f]"
                 />
-              </div>
-            </div>
-            <div className="playbackRate section">
-              <label>
-                Playback Rate {`${Math.round(playbackRate * 100)}%`}
-              </label>
-              <div className="control">
-                <input
-                  type="range"
-                  onChange={changePlaybackRate}
-                  min={0.1}
-                  max={2.0}
-                  step={0.1}
-                  value={playbackRate}
-                  list="tickmarks"
-                />
-                <datalist id="tickmarks">
-                  {Array.from(Array(20)).map((_, i) => (
-                    <option key={i} value={(i + 1) / 10} />
-                  ))}
-                </datalist>
               </div>
             </div>
             <div className="section">Playback Position: {currentSeekTime}</div>

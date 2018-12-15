@@ -16,14 +16,14 @@
   color: var(--button-border-color);
 }
 .Displayer svg {
-  font-size: 1.5em;
+  /* font-size: 1.5em; */
 }
 .VideoController .section {
-  border: 1px solid var(--content-border-color);
-  border-radius: 0.25em;
-  margin: 0 0.5em 0.5em 0;
-  padding: 0.5em;
-  font-size: 0.75em;
+  /* border: 1px solid var(--content-border-color); */
+  /* border-radius: 0.25em; */
+  /* margin: 0 0.5em 0.5em 0; */
+  /* padding: 0.5em; */
+  /* font-size: 0.75em; */
 }
 .Displayer .section label {
   display: block;
@@ -44,17 +44,41 @@
   cursor: pointer;
   width: 25px;
 }
+.Displayer .controls.section .rate,
 .Displayer .controls.section .volume {
-  margin: 0.5em 0 0.5em 0;
+  /* border: 1px solid var(--content-border-color); */
+  /* border-radius: 5px; */
+  /* position: relative; */
 }
-.Displayer:fullscreen .controls.section .volume {
-  margin: 0;
+[tooltip] {
+  position: relative;
 }
-.Displayer .controls.section .volume input {
-  width: inherit;
+[tooltip]:hover::before,
+[tooltip]:focus::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 4px 6px 0 6px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.7) transparent transparent transparent;
+  z-index: 100;
 }
-.Displayer .playbackRate .control input {
-  width: 100%;
+[tooltip]:hover::after {
+  content: attr(tooltip);
+  position: absolute;
+  left: 50%;
+  top: -6px;
+  transform: translateX(-50%) translateY(-100%);
+  background: rgba(0, 0, 0, 0.7);
+  text-align: center;
+  color: #fff;
+  padding: 4px 2px;
+  font-size: 12px;
+  min-width: 80px;
+  border-radius: 5px;
+  pointer-events: none;
 }
 .Displayer .delete {
   position: absolute;
@@ -108,7 +132,7 @@
   background-color: rgba(0, 0, 0, 0.4);
   padding: 5px;
   border-radius: 5px;
-  opacity: 0;
+  opacity: 0.2;
 }
 .Displayer .VideoController:hover {
   opacity: 1;
