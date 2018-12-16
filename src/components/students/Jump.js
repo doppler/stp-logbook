@@ -145,7 +145,7 @@ const Jump = ({ match, history }) => {
               }`}</legend>
               <div className="jump-details">
                 <div>
-                  <div className="input-group">
+                  <div className="input-group stacked">
                     <label htmlFor="date">Date</label>
                     <input
                       type="date"
@@ -156,7 +156,7 @@ const Jump = ({ match, history }) => {
                       required
                     />
                   </div>
-                  <div className="input-group">
+                  <div className="input-group stacked">
                     <label htmlFor="instructor">Instructor</label>
                     <select
                       id="instructor"
@@ -173,7 +173,7 @@ const Jump = ({ match, history }) => {
                   </div>
                 </div>
                 <div>
-                  <div className="input-group">
+                  <div className="input-group stacked">
                     <label htmlFor="number">Jump #</label>
                     <input
                       type="number"
@@ -184,7 +184,7 @@ const Jump = ({ match, history }) => {
                       required
                     />
                   </div>
-                  <div className="input-group">
+                  <div className="input-group stacked">
                     <label htmlFor="diveFlow">Dive Flow</label>
                     <input
                       type="number"
@@ -197,7 +197,7 @@ const Jump = ({ match, history }) => {
                   </div>
                 </div>
                 <div>
-                  <div className="input-group">
+                  <div className="input-group stacked">
                     <label htmlFor="exitAltitude">Exit</label>
                     <select
                       value={jump.exitAltitude}
@@ -209,7 +209,7 @@ const Jump = ({ match, history }) => {
                       <ExitAltitudeOptions />
                     </select>
                   </div>
-                  <div className="input-group">
+                  <div className="input-group stacked">
                     <label htmlFor="deploymentAltitude">Pull</label>
                     <select
                       value={jump.deploymentAltitude}
@@ -223,7 +223,7 @@ const Jump = ({ match, history }) => {
                   </div>
                 </div>
                 <div>
-                  <div className="input-group">
+                  <div className="input-group stacked">
                     <label htmlFor="aircraft">Aircraft</label>
                     <select
                       value={jump.aircraft}
@@ -239,7 +239,7 @@ const Jump = ({ match, history }) => {
                       />
                     </select>
                   </div>
-                  <div className="input-group">
+                  <div className="input-group stacked">
                     <label htmlFor="freefallTime">FF Time</label>
                     <input
                       id="freefallTime"
@@ -252,7 +252,7 @@ const Jump = ({ match, history }) => {
                   </div>
                 </div>
               </div>
-              <div className="input-group">
+              <div className="input-group stacked">
                 <label
                   onClick={handleLabelClick}
                   onKeyDown={handleLabelClick}
@@ -269,7 +269,7 @@ const Jump = ({ match, history }) => {
                   required
                 />
               </div>
-              <div className="input-group">
+              <div className="input-group stacked">
                 <label
                   onClick={handleLabelClick}
                   onKeyDown={handleLabelClick}
@@ -286,7 +286,7 @@ const Jump = ({ match, history }) => {
                   required
                 />
               </div>
-              <div className="input-group">
+              <div className="input-group stacked">
                 <label
                   onClick={handleLabelClick}
                   onKeyDown={handleLabelClick}
@@ -303,7 +303,7 @@ const Jump = ({ match, history }) => {
                   required
                 />
               </div>
-              <div className="input-group">
+              <div className="input-group stacked">
                 <label htmlFor="notes">Notes</label>
                 <textarea
                   id="notes"

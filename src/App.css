@@ -27,15 +27,6 @@ span.currency-color {
   margin-top: 4px;
   filter: var(--currency-color-drop-shadow-color);
 }
-div.jump-details {
-  display: flex;
-}
-div.jump-details > div {
-  flex: 1;
-}
-.input-group {
-  margin: 0.2em 0px 0px 0.2em;
-}
 button {
   color: var(--button-text-color);
   font-size: 0.75em;
@@ -97,9 +88,19 @@ fieldset > legend {
 form button {
   margin-right: 2em;
 }
-.input-group {
-  /* width: 100%; */
+div.jump-details {
   display: flex;
+}
+div.jump-details > div {
+  flex: 1;
+}
+.input-group {
+  display: flex;
+  margin: 0.2em 0px 0px 0.2em;
+}
+.input-group.stacked {
+  flex-direction: column;
+  margin: 0.2em 0.5em 0 0.2em;
 }
 .input-group > input,
 .input-group > select,
@@ -108,21 +109,25 @@ form button {
   background-color: var(--input-bg-color);
   border: 1px solid var(--input-border-color);
   font-size: 1.25em;
-  width: 100%;
   padding-left: 5px;
 }
 .input-group *:first-child {
-  width: 10vw;
   padding: 0.5em 0 0.5em 0.5em;
-  display: flex;
-  font-weight: normal;
   color: var(--label-text-color);
   background-color: var(--label-bg-color);
   border: 1px solid var(--input-border-color);
   border-radius: 5px 0 0 5px;
 }
+.input-group.input-group.stacked *:first-child {
+  width: inherit;
+  padding: 0;
+  border-radius: 5px 5px 0 0;
+}
 .input-group *:last-child {
   border-radius: 0 5px 5px 0;
+}
+.input-group.stacked *:last-child {
+  border-radius: 0 0 5px 5px;
 }
 .input-group > input.error,
 .input-group > select.error,
