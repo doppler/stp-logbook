@@ -22,7 +22,7 @@ const Flash = ({ type, message }) => {
 
 Flash.propTypes = {
   type: PropTypes.string,
-  message: PropTypes.string
+  message: PropTypes.oneOfType([PropTypes.string, PropTypes.array])
 };
 
 const Header = () => {
