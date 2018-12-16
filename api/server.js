@@ -48,7 +48,7 @@ app.get("/api/videos/:student_id/:video_filename", (req, res) => {
     path.join(process.env.STP_VIDEO_STORAGE_PATH, student_id, video_filename),
     options,
     err => {
-      if (err) console.error(err);
+      if (err) console.error(err.code);
     }
   );
 });

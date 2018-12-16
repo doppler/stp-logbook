@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import HotKeys from "react-hot-keys";
 
-import "./Jump.css";
-
 import PhraseCloud from "./PhraseCloud";
 import VideoPane from "./VideoPane";
 
