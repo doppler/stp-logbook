@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { HotKeys } from "react-hotkeys";
 import {
@@ -26,8 +27,6 @@ const VideoPane = ({ studentId, _jump }) => {
   const [progress, setProgress] = useState(null);
 
   const handleDrop = async acceptedFiles => {
-    console.log(acceptedFiles);
-
     const videoFilename =
       [
         "Jump",
@@ -35,14 +34,12 @@ const VideoPane = ({ studentId, _jump }) => {
         "DF",
         jump.diveFlow,
         format(jump.date, "YYYY-MM-DD"),
-        Number(acceptedFiles[0].size).toString(16) // cache buster
+        Number(acceptedFiles[0].size).toString(16)
       ].join(" ") + ".mp4";
 
     const data = new FormData();
     data.append("file", acceptedFiles[0]);
     data.append("video_filename", videoFilename);
-
-    console.log(acceptedFiles);
 
     const xhr = new XMLHttpRequest();
     xhr.open("POST", `/api/videos/${studentId}`);
@@ -55,7 +52,7 @@ const VideoPane = ({ studentId, _jump }) => {
         flash({ success: `Saved ${updatedJump.videoFilename}` });
       }
     };
-    xhr.onerror = err => console.error(err);
+    xhr.onerror = err => console.error(err); // eslint-disable-line
     xhr.upload.onprogress = event => {
       if (event.lengthComputable) {
         const percent = Math.round((event.loaded / event.total) * 100);
@@ -79,12 +76,12 @@ const VideoPane = ({ studentId, _jump }) => {
     const vres = await fetch(videoUrl, { method: "DELETE" });
     const json = await vres.json();
     if (json.error) {
-      console.error(json.error);
+      console.error(json.error); // eslint-disable-line
       flash({ error: json.error });
       return false;
     } else {
       const updatedJump = { ...jump };
-      delete updatedJump.videoFilename;
+      Reflect.deleteProperty(updatedJump, "videoFilename");
       const res = await saveJump(updatedJump);
       setJump(updatedJump);
       setProgress(null);
@@ -110,6 +107,11 @@ const VideoPane = ({ studentId, _jump }) => {
   );
 };
 
+VideoPane.propTypes = {
+  studentId: PropTypes.string.isRequired,
+  _jump: PropTypes.object.isRequired
+};
+
 export default VideoPane;
 
 const Uploader = ({ handleDrop, progress }) => {
@@ -121,9 +123,14 @@ const Uploader = ({ handleDrop, progress }) => {
   );
 };
 
+Uploader.propTypes = {
+  handleDrop: PropTypes.func.isRequired,
+  progress: PropTypes.number
+};
+
 const currentTimeToMinutesAndSeconds = currentTime => {
-  let minutes = parseInt((currentTime / 60) % 60);
-  let seconds = parseInt(currentTime % 60);
+  let minutes = parseInt((currentTime / 60) % 60, 10);
+  let seconds = parseInt(currentTime % 60, 10);
   seconds = seconds < 10 ? `0${seconds}` : seconds;
   return `${minutes}:${seconds}`;
 };
@@ -131,9 +138,9 @@ const currentTimeToMinutesAndSeconds = currentTime => {
 const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
   const videoEl = useRef(document.createElement("video"));
   const displayerEl = useRef(document.createElement("div"));
-  window.displayerEl = displayerEl; //TODO remove
+  // window.displayerEl = displayerEl; //TODO remove
   const vid = videoEl.current;
-  window.vid = vid; //TODO remove
+  // window.vid = vid; //TODO remove
   const currentTime = vid.currentTime;
 
   const [currentSeekTime, setCurrentSeekTime] = useState(currentTime);
@@ -169,11 +176,11 @@ const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
   };
 
   const fastBackward = () => {
-    vid.currentTime = vid.currentTime - 1;
+    vid.currentTime -= 1;
   };
 
   const seekBackward = () => {
-    vid.currentTime = vid.currentTime - 1 / 30;
+    vid.currentTime -= 1 / 30;
   };
 
   const togglePlayback = () => {
@@ -181,11 +188,11 @@ const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
   };
 
   const seekForward = () => {
-    vid.currentTime = vid.currentTime + 1 / 30;
+    vid.currentTime += 1 / 30;
   };
 
   const fastForward = () => {
-    vid.currentTime = vid.currentTime + 1;
+    vid.currentTime += 1;
   };
 
   const handleScrubberChange = event => {
@@ -208,11 +215,11 @@ const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
 
   const [isFullscreen, toggleIsFullscreen] = useState(false);
   const toggleFullscreen = () => {
-    displayerEl.current.classList.contains("fullscreen")
+    return displayerEl.current.classList.contains("fullscreen")
       ? document.exitFullscreen()
       : displayerEl.current.requestFullscreen();
   };
-  displayerEl.current.onfullscreenchange = event => {
+  displayerEl.current.onfullscreenchange = () => {
     displayerEl.current.classList.toggle("fullscreen");
     toggleIsFullscreen(!isFullscreen);
   };
@@ -229,14 +236,14 @@ const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
   };
 
   const handlers = {
-    fastBackward: event => fastBackward(),
-    seekBackward: event => seekBackward(),
+    fastBackward: () => fastBackward(),
+    seekBackward: () => seekBackward(),
     togglePlayback: event => {
       event.preventDefault();
       togglePlayback();
     },
-    seekForward: event => seekForward(),
-    fastForward: event => fastForward(),
+    seekForward: () => seekForward(),
+    fastForward: () => fastForward(),
     decreasePlaybackRate: event => {
       event.preventDefault();
       decreasePlaybackRate();
@@ -245,8 +252,8 @@ const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
       event.preventDefault();
       increasePlaybackRate();
     },
-    toggleFullscreen: event => toggleFullscreen(),
-    toggleAudioMuted: event => toggleAudioMuted()
+    toggleFullscreen: () => toggleFullscreen(),
+    toggleAudioMuted: () => toggleAudioMuted()
   };
 
   return (
@@ -342,7 +349,7 @@ const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
               <input
                 type="range"
                 min={0}
-                max={vid.duration}
+                max={vid.duration || 1}
                 step={0.001}
                 value={currentSeekTime}
                 onChange={handleScrubberChange}
@@ -363,9 +370,19 @@ const Displayer = ({ videoUrl, handleDeleteClick, deleteConfirmation }) => {
   );
 };
 
+Displayer.propTypes = {
+  videoUrl: PropTypes.string.isRequired,
+  handleDeleteClick: PropTypes.func.isRequired,
+  deleteConfirmation: PropTypes.bool.isRequired
+};
+
 const ProgressBar = ({ progress }) => (
   <div className="ProgressBar">
     <div className="ProgressText">Uploading: {progress}%</div>
     <div className="Progress" style={{ width: `${progress}%` }} />
   </div>
 );
+
+ProgressBar.propTypes = {
+  progress: PropTypes.number.isRequired
+};
