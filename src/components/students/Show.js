@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import HotKeys from "react-hot-keys";
 
 import "./Show.css";
@@ -66,7 +67,6 @@ const Show = ({ match, history }) => {
   const [activeJumpRow, setActiveJumpRow] = useState(-1);
 
   const addJump = async () => {
-    console.group("addJump");
     const jump = nextJump();
     const jumpRes = await saveJump(jump);
     if (jumpRes.error) return flash(jumpRes);
@@ -77,11 +77,10 @@ const Show = ({ match, history }) => {
       success: `Saved ${student.name} - Jump ${jump.number} DF ${jump.diveFlow}`
     });
     setActiveJumpRow(activeJumpRow + 1);
-    console.groupEnd("addJump");
     history.push(`/students/${student._id}/jump/${jump._id}`);
   };
 
-  const onKeyUp = (keyName, e, handle) => {
+  const onKeyUp = (keyName, e) => {
     if (e.srcElement.type === "submit" && keyName === "enter") {
       return e.srcElement.click();
     }
@@ -170,6 +169,11 @@ const Show = ({ match, history }) => {
       </div>
     </HotKeys>
   );
+};
+
+Show.propTypes = {
+  match: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 export default Show;

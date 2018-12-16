@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import HotKeys from "react-hot-keys";
 
 import getInstructor from "../../db/getInstructor";
@@ -73,7 +74,7 @@ const Edit = ({ match, history }) => {
     setInstructor(updatedInstructor);
   };
 
-  const onKeyDown = (keyName, e, handle) => {
+  const onKeyDown = (keyName, e) => {
     if (e.srcElement.type === "submit" && keyName === "enter") {
       return e.srcElement.children[0].click();
     }
@@ -152,6 +153,11 @@ const Edit = ({ match, history }) => {
       </div>
     </HotKeys>
   );
+};
+
+Edit.propTypes = {
+  history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired
 };
 
 export default Edit;

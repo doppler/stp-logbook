@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import HotKeys from "react-hot-keys";
 import "./PhraseCloud.css";
 
@@ -32,7 +33,7 @@ const PhraseCloud = ({ setAttribute, phraseCloudKey, jump }) => {
     }
   };
 
-  const onKeyUp = (keyName, e, handle) => {
+  const onKeyUp = keyName => {
     if (document.querySelector("#PhraseCloud").classList.contains("hidden"))
       return null;
     switch (true) {
@@ -87,6 +88,12 @@ const PhraseCloud = ({ setAttribute, phraseCloudKey, jump }) => {
       </div>
     </HotKeys>
   );
+};
+
+PhraseCloud.propTypes = {
+  setAttribute: PropTypes.func.isRequired,
+  phraseCloudKey: PropTypes.string.isRequired,
+  jump: PropTypes.object.isRequired
 };
 
 export default PhraseCloud;

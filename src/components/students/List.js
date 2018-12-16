@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import HotKeys from "react-hot-keys";
 
 import parse from "date-fns/parse";
@@ -50,7 +51,7 @@ const List = ({ history }) => {
 
   const [activeStudentRow, setActiveStudentRow] = useState(0);
 
-  const onKeyDown = (keyName, e, handle) => {
+  const onKeyDown = (keyName, e) => {
     if (e.srcElement.type === "submit" && keyName === "enter") {
       return true;
     }
@@ -148,6 +149,10 @@ const List = ({ history }) => {
       </div>
     </HotKeys>
   );
+};
+
+List.propTypes = {
+  history: PropTypes.object.isRequired
 };
 
 export default List;

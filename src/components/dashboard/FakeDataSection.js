@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import DB from "../../DB";
 import createTestData from "../../utils/createTestData";
 
-export default ({ history }) => {
+const FakeDataSection = ({ history }) => {
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [aircraftCount, setAircraftCount] = useState(0);
   const [instructorCount, setInstructorCount] = useState(0);
@@ -42,7 +43,7 @@ export default ({ history }) => {
       setTimeout(() => setDeleteConfirmation(false), 1000);
       return false;
     }
-    DB.destroy().then(result => console.log("Deleted 'stp-logbook'", result));
+    DB.destroy().then(result => console.log("Deleted 'stp-logbook'", result)); // eslint-disable-line
     setAircraftCount(0);
     setInstructorCount(0);
     setStudentCount(0);
@@ -59,8 +60,8 @@ export default ({ history }) => {
           <p>
             Using this feature will <strong>COMPLETELY</strong> overwrite any
             data you have created. The data is stored locally in your browser,
-            so it's not the end of the world if you fuck it up, though. Just
-            sayin'. That said, feel free to create some fake data!
+            so it&apos;s not the end of the world if you fuck it up, though.
+            Just sayin&apos;. That said, feel free to create some fake data!
           </p>
         </div>
         <table>
@@ -105,3 +106,9 @@ export default ({ history }) => {
     </section>
   );
 };
+
+FakeDataSection.propTypes = {
+  history: PropTypes.object.isRequired
+};
+
+export default FakeDataSection;

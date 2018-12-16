@@ -14,7 +14,7 @@ const DatabaseSettingsForm = () => {
     }
   }, []);
 
-  const enableChangeCouchDbUrlValue = e => {
+  const enableChangeCouchDbUrlValue = () => {
     setChangingCouchDbUrlValue(true);
     const field = document.querySelector("#couchDbUrlValue");
     field.focus();
@@ -40,7 +40,6 @@ const DatabaseSettingsForm = () => {
       return true;
     }
     const validDb = await validCouchDb(couchDbUrlValue);
-    console.log(validDb);
     if (validDb) {
       localStorage.setItem("stp-logbook:couchDbUrl", couchDbUrlValue);
       setChangingCouchDbUrlValue(false);

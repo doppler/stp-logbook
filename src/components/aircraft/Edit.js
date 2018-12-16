@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import HotKeys from "react-hot-keys";
 
 import getSingleAircraft from "../../db/getSingleAircraft";
@@ -68,7 +69,7 @@ const Edit = ({ match, history }) => {
     setCurrentAircraft(updatedAC);
   };
 
-  const onKeyDown = (keyName, e, handle) => {
+  const onKeyDown = (keyName, e) => {
     if (e.srcElement.type === "submit" && keyName === "enter") {
       return e.srcElement.children[0].click();
     }
@@ -131,6 +132,11 @@ const Edit = ({ match, history }) => {
       </div>
     </HotKeys>
   );
+};
+
+Edit.propTypes = {
+  match: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 export default Edit;

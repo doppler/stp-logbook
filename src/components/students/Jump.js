@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import HotKeys from "react-hot-keys";
 
 import PhraseCloud from "./PhraseCloud";
@@ -111,14 +112,14 @@ const Jump = ({ match, history }) => {
     _save();
   };
 
-  const onKeyUp = (keyName, e, handle) => {
+  const onKeyUp = (keyName, e) => {
     e.stopPropagation();
     if (e.srcElement.type === "submit" && keyName === "enter") {
       return e.srcElement.children[0].click();
     }
+    const deleteJumpButton = document.getElementById("d");
     switch (true) {
       case keyName === "ctrl+d":
-        const deleteJumpButton = document.getElementById("d");
         deleteJumpButton.focus();
         deleteJumpButton.click();
         break;
@@ -337,6 +338,11 @@ const Jump = ({ match, history }) => {
       />
     </React.Fragment>
   );
+};
+
+Jump.propTypes = {
+  match: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 export default Jump;

@@ -7,21 +7,19 @@ import Show from "./Show";
 import Edit from "./Edit";
 import Jump from "./Jump";
 
-const StudentRouter = props => {
-  return (
-    <React.Fragment>
-      <Header />
-      <div className="Content">
-        <Switch>
-          <Route exact path="/students" component={List} />
-          <Route path="/students/:studentId/jump/:jumpId" component={Jump} />
-          <Route path="/students/:studentId/edit" component={Edit} />
-          <Route path="/students/new" component={Edit} />
-          <Route path="/students/:studentId" component={Show} />
-        </Switch>
-      </div>
-    </React.Fragment>
-  );
-};
+const StudentRouter = () => (
+  <React.Fragment>
+    <Header />
+    <div className="Content">
+      <Switch>
+        <Route exact path="/students" component={List} />
+        <Route path="/students/:studentId/jump/:jumpId" component={Jump} />
+        <Route path="/students/:studentId/edit" component={Edit} />
+        <Route path="/students/new" component={Edit} />
+        <Route path="/students/:studentId" component={Show} />
+      </Switch>
+    </div>
+  </React.Fragment>
+);
 
 export default StudentRouter;

@@ -1,11 +1,10 @@
 const handleFormError = errors => {
-  console.error(errors);
-  errors.map((error, i) => {
+  errors.map(error => {
     let el = document.getElementById(error.context.key);
     try {
       el.classList.add("error");
     } catch (error) {
-      console.error(error);
+      console.error(error); // eslint-disable-line
     }
 
     return null;
@@ -14,9 +13,9 @@ const handleFormError = errors => {
   try {
     errorFields.item(0).focus();
   } catch (error) {
-    console.error(error);
+    console.error(error); // eslint-disable-line
   }
   return false;
 };
 
-module.exports = handleFormError;
+export default handleFormError;

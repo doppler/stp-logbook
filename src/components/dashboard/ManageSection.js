@@ -1,6 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
 
-export default ({ history }) => (
+const ManageSection = ({ history }) => (
   <section>
     <details>
       <summary>Manage Instructors and Aircraft</summary>
@@ -17,3 +18,9 @@ export default ({ history }) => (
     </details>
   </section>
 );
+
+ManageSection.propTypes = {
+  history: PropTypes.object.isRequired
+};
+
+export default ManageSection;

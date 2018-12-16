@@ -1,6 +1,6 @@
 import React from "react";
 
-export default () => (
+const AboutSection = () => (
   <section>
     <details>
       <summary>About</summary>
@@ -14,8 +14,9 @@ export default () => (
         <strong>
           <code>stp-logbook</code>
         </strong>{" "}
-        will help skydive instructors log their students' jumps in an efficient
-        manner by providing clever shortcuts to typing common log entry phrases.
+        will help skydive instructors log their students&apos; jumps in an
+        efficient manner by providing clever shortcuts to typing common log
+        entry phrases.
       </p>
       <p>
         With a quick glance, instructors can determine when students are
@@ -27,8 +28,8 @@ export default () => (
           <code>stp-logbook</code>
         </strong>{" "}
         is largely navigable via keyboard shortcuts. Buttons which are keyboard
-        accessible have labels with the first letter highlighted. To "click" the
-        button, type{" "}
+        accessible have labels with the first letter highlighted. To
+        &quot;click&quot; the button, type{" "}
         <strong>
           <code>ctrl+[letter]</code>
         </strong>
@@ -38,8 +39,8 @@ export default () => (
         <strong>
           <code>stp-logbook</code>
         </strong>{" "}
-        is under active development since Tuesday, November 6th 2018, and it's
-        still got a long way to go.
+        is under active development since Tuesday, November 6th 2018, and
+        it&apos;s still got a long way to go.
       </p>
       <p>Planned features include:</p>
       <ul>
@@ -59,8 +60,8 @@ export default () => (
           <strong>
             <em>Drag and Drop Video</em>
           </strong>{" "}
-          management. Drag your student's video directly from your SD card to
-          the student's log entry.
+          management. Drag your student&apos;s video directly from your SD card
+          to the student&apos;s log entry.
         </li>
         <li>
           <strong>
@@ -79,3 +80,5 @@ export default () => (
     </details>
   </section>
 );
+
+export default AboutSection;

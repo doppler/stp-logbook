@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { store, collect } from "react-recollect";
 
 import "./Header.css";
@@ -17,6 +18,11 @@ const Flash = ({ type, message }) => {
     );
   }
   return <div className={`flash ${type}`}>{messageList || message}</div>;
+};
+
+Flash.propTypes = {
+  type: PropTypes.string.isRequired,
+  message: PropTypes.string.isRequired
 };
 
 const Header = () => {

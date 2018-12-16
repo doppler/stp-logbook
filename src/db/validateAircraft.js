@@ -1,4 +1,4 @@
-const Joi = require("joi");
+import Joi from "joi";
 
 const schema = Joi.object().keys({
   _id: Joi.string()
@@ -16,4 +16,4 @@ const validateAircraft = aircraft => {
   return result;
 };
 
-module.exports = validateAircraft;
+export default validateAircraft;

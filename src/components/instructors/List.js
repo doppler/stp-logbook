@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import HotKeys from "react-hot-keys";
-// import { store, collect } from "react-recollect";
 import getInstructors from "../../db//getInstructors";
 
 const List = ({ history }) => {
@@ -22,7 +22,7 @@ const List = ({ history }) => {
     history.push("/instructors/new");
   };
 
-  const onKeyDown = (keyName, e, handle) => {
+  const onKeyDown = (keyName, e) => {
     if (e.srcElement.type === "submit" && keyName === "enter") {
       return true;
     }
@@ -81,6 +81,10 @@ const List = ({ history }) => {
       </div>
     </HotKeys>
   );
+};
+
+List.propTypes = {
+  history: PropTypes.object.isRequired
 };
 
 export default List;

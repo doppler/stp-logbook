@@ -1,4 +1,4 @@
-const { store } = require("react-recollect");
+import { store } from "react-recollect";
 
 export default flash => {
   const type = Object.keys(flash)[0];

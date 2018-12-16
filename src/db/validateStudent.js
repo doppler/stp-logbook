@@ -1,4 +1,4 @@
-const Joi = require("joi");
+import Joi from "joi";
 
 const schema = Joi.object().keys({
   _id: Joi.string()
@@ -27,4 +27,4 @@ const validateStudent = student => {
   return result;
 };
 
-module.exports = validateStudent;
+export default validateStudent;

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import HotKeys from "react-hot-keys";
 import Header from "../Header";
 import ManageSection from "./ManageSection";
@@ -8,7 +9,7 @@ import FakeDataSection from "./FakeDataSection";
 import "./Dashboard.css";
 
 const Dashboard = ({ history }) => {
-  const onKeyDown = (keyName, e, handle) => {
+  const onKeyDown = keyName => {
     switch (true) {
       default:
         document.getElementById(keyName.match(/.$/)).click();
@@ -40,6 +41,10 @@ const Dashboard = ({ history }) => {
       </HotKeys>
     </React.Fragment>
   );
+};
+
+Dashboard.propTypes = {
+  history: PropTypes.object.isRequired
 };
 
 export default Dashboard;
