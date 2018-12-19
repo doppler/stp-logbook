@@ -20,7 +20,7 @@ const Dashboard = ({ history }) => {
   document.title = "STP: Dashboard";
 
   return (
-    <React.Fragment>
+    <>
       <Header />
       <HotKeys keyName="ctrl+s" onKeyDown={onKeyDown}>
         <div className="Dashboard Content">
@@ -39,7 +39,7 @@ const Dashboard = ({ history }) => {
           <FakeDataSection history={history} />
         </div>
       </HotKeys>
-    </React.Fragment>
+    </>
   );
 };
 

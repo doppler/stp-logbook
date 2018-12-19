@@ -8,7 +8,7 @@ import Edit from "./Edit";
 import Jump from "./Jump";
 
 const StudentRouter = () => (
-  <React.Fragment>
+  <>
     <Header />
     <div className="Content">
       <Switch>
@@ -19,7 +19,7 @@ const StudentRouter = () => (
         <Route path="/students/:studentId" component={Show} />
       </Switch>
     </div>
-  </React.Fragment>
+  </>
 );
 
 export default StudentRouter;

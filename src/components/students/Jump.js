@@ -136,7 +136,7 @@ const Jump = ({ match, history }) => {
   document.title = `STP: ${student.name} DF-${jump.diveFlow}`;
 
   return (
-    <React.Fragment>
+    <>
       <HotKeys keyName={"ctrl+s,ctrl+d,esc"} onKeyUp={onKeyUp}>
         <div className="Jump">
           <form onSubmit={_save}>
@@ -336,7 +336,7 @@ const Jump = ({ match, history }) => {
         phraseCloudKey={phraseCloudKey}
         jump={jump}
       />
-    </React.Fragment>
+    </>
   );
 };
 
