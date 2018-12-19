@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import HotKeys from "react-hot-keys";
 
 import PhraseCloud from "./PhraseCloud";
-import VideoPane from "./VideoPane";
+import VideoPane from "./VideoPane/";
 
 import format from "date-fns/format";
 

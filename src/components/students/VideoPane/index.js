@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import VideoPlayer from "./VideoPlayer";
 import format from "date-fns/format";
-import Dropzone from "react-dropzone";
-import saveJump from "../../db/saveJump";
-import flash from "../../utils/flash";
-import useDeleteConfirmation from "../../utils/useDeleteConfirmation";
+import saveJump from "../../../db/saveJump";
+import flash from "../../../utils/flash";
+import useDeleteConfirmation from "../../../utils/useDeleteConfirmation";
 import "./VideoPane.css";
+import { Uploader } from "./Uploader";
 
 const VideoPane = ({ studentId, _jump }) => {
   const [jump, setJump] = useState(_jump);
@@ -99,28 +99,3 @@ VideoPane.propTypes = {
 };
 
 export default VideoPane;
-
-const Uploader = ({ handleDrop, progress }) => {
-  if (progress) return <ProgressBar progress={progress} />;
-  return (
-    <Dropzone onDrop={handleDrop} accept="video/*">
-      Drag Video File Here
-    </Dropzone>
-  );
-};
-
-Uploader.propTypes = {
-  handleDrop: PropTypes.func.isRequired,
-  progress: PropTypes.number
-};
-
-const ProgressBar = ({ progress }) => (
-  <div className="ProgressBar">
-    <div className="ProgressText">Uploading: {progress}%</div>
-    <div className="Progress" style={{ width: `${progress}%` }} />
-  </div>
-);
-
-ProgressBar.propTypes = {
-  progress: PropTypes.number.isRequired
-};
