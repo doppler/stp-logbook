@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import HotKeys from "react-hot-keys";
+import { HotKeys } from "react-hotkeys";
 
 import PhraseCloud from "./PhraseCloud";
 import VideoPane from "./VideoPane/";
@@ -73,11 +73,8 @@ const Jump = ({ match, history }) => {
     return true;
   };
 
-  const _save = async e => {
-    if (e) {
-      // document.querySelector("input[type='submit']").click();
-      e.preventDefault();
-    }
+  const _save = async event => {
+    if (event) event.preventDefault();
     removeErrorClass();
     const res = await saveJump(jump);
     if (res.error) {
@@ -112,32 +109,22 @@ const Jump = ({ match, history }) => {
     _save();
   };
 
-  const onKeyUp = (keyName, e) => {
-    e.stopPropagation();
-    if (e.srcElement.type === "submit" && keyName === "enter") {
-      return e.srcElement.children[0].click();
-    }
-    const deleteJumpButton = document.getElementById("d");
-    switch (true) {
-      case keyName === "ctrl+d":
-        deleteJumpButton.focus();
-        deleteJumpButton.click();
-        break;
-      case keyName === "esc":
-        document.querySelector("#PhraseCloud").classList.add("hidden");
-        break;
-      default:
-        document.getElementById(keyName.match(/.$/)).click();
-        break;
-    }
-    return false;
-  };
+  useEffect(
+    () => {
+      document.title = `STP: ${student.name} DF-${jump.diveFlow}`;
+    },
+    [jump.diveFlow]
+  );
 
-  document.title = `STP: ${student.name} DF-${jump.diveFlow}`;
+  const handlers = {
+    "ctrl+s": () => _save(),
+    "ctrl+d": () => document.getElementById("d").click(),
+    esc: () => document.querySelector("#PhraseCloud").classList.add("hidden")
+  };
 
   return (
     <>
-      <HotKeys keyName={"ctrl+s,ctrl+d,esc"} onKeyUp={onKeyUp}>
+      <HotKeys handlers={handlers}>
         <div className="Jump">
           <form onSubmit={_save}>
             <fieldset>

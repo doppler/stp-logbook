@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import HotKeys from "react-hot-keys";
+import { HotKeys } from "react-hotkeys";
 
 import "./Show.css";
 
@@ -64,7 +64,7 @@ const Show = ({ match, history }) => {
     };
   };
 
-  const [activeJumpRow, setActiveJumpRow] = useState(-1);
+  const [activeRow, setActiveRow] = useState(-1);
 
   const addJump = async () => {
     const jump = nextJump();
@@ -76,45 +76,44 @@ const Show = ({ match, history }) => {
     flash({
       success: `Saved ${student.name} - Jump ${jump.number} DF ${jump.diveFlow}`
     });
-    setActiveJumpRow(activeJumpRow + 1);
+    setActiveRow(activeRow + 1);
     history.push(`/students/${student._id}/jump/${jump._id}`);
   };
 
-  const onKeyUp = (keyName, e) => {
-    if (e.srcElement.type === "submit" && keyName === "enter") {
-      return e.srcElement.click();
-    }
-    if (e.srcElement.type !== undefined) return false;
-    switch (true) {
-      case ["down", "j"].includes(keyName):
-        setActiveJumpRow(activeJumpRow + 1);
-        break;
-      case ["up", "k"].includes(keyName):
-        setActiveJumpRow(activeJumpRow - 1);
-        break;
-      case ["enter", "right"].includes(keyName):
-        history.push(
-          `/students/${student._id}/jump/${jumps[activeJumpRow]._id}`
-        );
-        break;
-      case keyName === "left":
-        history.push("/students");
-        break;
-      default:
-        document.getElementById(keyName.match(/.$/)).click();
-        break;
-    }
-  };
-  if (rowCount > 0 && activeJumpRow === rowCount) setActiveJumpRow(0);
-  if (rowCount > 0 && activeJumpRow === -1) setActiveJumpRow(rowCount - 1);
+  if (rowCount > 0 && activeRow === rowCount) setActiveRow(0);
+  if (rowCount > 0 && activeRow === -1) setActiveRow(rowCount - 1);
 
-  document.title = `STP: ${student.name}`;
+  useEffect(() => {
+    document.title = `STP: ${student.name}`;
+  }, []);
+
+  const keyMap = {
+    moveToNextRow: ["down", "j"],
+    moveToPrevRow: ["up", "k"],
+    selectCurrentRow: ["right", "enter"],
+    addJump: ["ctrl+a"],
+    editStudent: ["ctrl+e"]
+  };
+
+  const handlers = {
+    moveToNextRow: event => {
+      event.preventDefault();
+      setActiveRow(activeRow + 1);
+    },
+    moveToPrevRow: event => {
+      event.preventDefault();
+      setActiveRow(activeRow - 1);
+    },
+    selectCurrentRow: () =>
+      history.push(`/students/${student._id}/jump/${jumps[activeRow]._id}`),
+    addJump: () => document.getElementById("a").click(),
+    editStudent: () => document.getElementById("e").click()
+  };
+
+  useEffect(() => document.getElementById("tableBody").focus(), []);
 
   return (
-    <HotKeys
-      keyName="down,j,up,k,enter,right,left,ctrl+l,ctrl+a,ctrl+e"
-      onKeyUp={onKeyUp}
-    >
+    <HotKeys keyMap={keyMap} handlers={handlers}>
       <div className="Student">
         <div className="left">
           <h1>{student.name}</h1>
@@ -140,14 +139,14 @@ const Show = ({ match, history }) => {
                 <th>Video</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="tableBody" tabIndex={0}>
               {jumps.map((jump, i) => (
                 <tr
                   key={i}
                   onClick={() =>
                     history.push(`/students/${student._id}/jump/${jump._id}`)
                   }
-                  className={`hoverable ${i === activeJumpRow ? "active" : ""}`}
+                  className={`hoverable ${i === activeRow ? "active" : ""}`}
                 >
                   <td>
                     Jump {jump.number} - DF {jump.diveFlow}
