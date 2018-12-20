@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import HotKeys from "react-hot-keys";
+import { HotKeys } from "react-hotkeys";
 
 import getStudent from "../../db/getStudent";
 import save from "../../db/saveStudent";
@@ -70,21 +70,21 @@ const Edit = ({ match, history }) => {
 
   if (!student || instructors.length === 0) return null;
 
-  const onKeyDown = (keyName, e) => {
-    if (e.srcElement.type === "submit" && keyName === "enter") {
-      return e.srcElement.children[0].click();
-    }
-    switch (true) {
-      default:
-        document.getElementById(keyName.match(/.$/)).click();
-        break;
-    }
+  useEffect(
+    () => {
+      document.title = `STP: EDIT ${student.name}`;
+    },
+    [student.name]
+  );
+
+  useEffect(() => document.getElementById("name").focus(), []);
+
+  const handlers = {
+    "ctrl+s": () => saveStudent()
   };
 
-  document.title = `STP: EDIT ${student.name}`;
-
   return (
-    <HotKeys keyName="ctrl+s" onKeyDown={onKeyDown}>
+    <HotKeys handlers={handlers}>
       <div className="Edit">
         <form onSubmit={saveStudent}>
           <fieldset>
