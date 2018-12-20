@@ -25,3 +25,5 @@ yarn-error.log*
 
 api/db/*
 !api/db/.gitkeep
+
+stp-logbook/*
