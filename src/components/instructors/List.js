@@ -26,7 +26,9 @@ const List = ({ history }) => {
   if (rowCount > 0 && activeRow === rowCount) setActiveRow(0);
   if (rowCount > 0 && activeRow === -1) setActiveRow(rowCount - 1);
 
-  document.title = "STP: Instructors";
+  useEffect(() => {
+    document.title = "STP: Instructors";
+  }, []);
 
   const keyMap = {
     moveToNextRow: ["down", "j"],
@@ -36,8 +38,14 @@ const List = ({ history }) => {
   };
 
   const handlers = {
-    moveToNextRow: () => setActiveRow(activeRow + 1),
-    moveToPrevRow: () => setActiveRow(activeRow - 1),
+    moveToNextRow: event => {
+      event.preventDefault();
+      setActiveRow(activeRow + 1);
+    },
+    moveToPrevRow: event => {
+      event.preventDefault();
+      setActiveRow(activeRow - 1);
+    },
     selectCurrentRow: () =>
       history.push(`/instructors/${instructors[activeRow]._id}`),
     addInstructor: () => document.getElementById("a").click()

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import HotKeys from "react-hot-keys";
+import { HotKeys } from "react-hotkeys";
 
 import parse from "date-fns/parse";
 import format from "date-fns/format";
@@ -49,44 +49,41 @@ const List = ({ history }) => {
     );
   };
 
-  const [activeStudentRow, setActiveStudentRow] = useState(0);
-
-  const onKeyDown = (keyName, e) => {
-    if (e.srcElement.type === "submit" && keyName === "enter") {
-      return true;
-    }
-    if (e.srcElement.type !== undefined) return false;
-    switch (true) {
-      case ["down", "j"].includes(keyName):
-        setActiveStudentRow(activeStudentRow + 1);
-        break;
-      case ["up", "k"].includes(keyName):
-        setActiveStudentRow(activeStudentRow - 1);
-        break;
-      case ["enter", "right"].includes(keyName):
-        history.push(`/students/${filteredStudents[activeStudentRow]._id}`);
-        break;
-      case keyName === "left":
-        history.push("/");
-        break;
-      default:
-        document.getElementById(keyName.match(/.$/)).click();
-        break;
-    }
-  };
+  const [activeRow, setActiveRow] = useState(0);
 
   const rowCount = filteredStudents.length;
-  if (rowCount > 0 && activeStudentRow === rowCount) setActiveStudentRow(0);
-  if (rowCount > 0 && activeStudentRow === -1)
-    setActiveStudentRow(rowCount - 1);
+  if (rowCount > 0 && activeRow === rowCount) setActiveRow(0);
+  if (rowCount > 0 && activeRow === -1) setActiveRow(rowCount - 1);
 
-  document.title = "STP: Students";
+  useEffect(() => {
+    document.title = "STP: Students";
+  }, []);
+
+  const keyMap = {
+    moveToNextRow: ["down", "j"],
+    moveToPrevRow: ["up", "k"],
+    selectCurrentRow: ["right", "enter"],
+    addStudent: ["ctrl+a"]
+  };
+
+  const handlers = {
+    moveToNextRow: event => {
+      event.preventDefault();
+      setActiveRow(activeRow + 1);
+    },
+    moveToPrevRow: event => {
+      event.preventDefault();
+      setActiveRow(activeRow - 1);
+    },
+    selectCurrentRow: () =>
+      history.push(`/students/${filteredStudents[activeRow]._id}`),
+    addStudent: () => document.getElementById("a").click()
+  };
+
+  useEffect(() => document.getElementById("tableBody").focus());
 
   return (
-    <HotKeys
-      keyName="down,j,up,k,enter,right,left,ctrl+a"
-      onKeyDown={onKeyDown}
-    >
+    <HotKeys keyMap={keyMap} handlers={handlers}>
       <div className="List">
         <table id="students">
           <thead>
@@ -108,7 +105,7 @@ const List = ({ history }) => {
               </th>
             </tr>
           </thead>
-          <tbody tabIndex={0}>
+          <tbody id="tableBody" tabIndex={0}>
             {filteredStudents.map((student, i) => {
               const lastJump = student.jumps[student.jumps.length - 1];
               const daysSinceLastJump = lastJump
@@ -126,9 +123,7 @@ const List = ({ history }) => {
                 <tr
                   key={i}
                   onClick={() => handleStudentRowClick(student)}
-                  className={`hoverable ${
-                    i === activeStudentRow ? "active" : ""
-                  }`}
+                  className={`hoverable ${i === activeRow ? "active" : ""}`}
                 >
                   <td>{student.name}</td>
                   <td>
