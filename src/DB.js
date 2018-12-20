@@ -2,7 +2,18 @@ import PouchDB from "pouchdb";
 import PouchdbFind from "pouchdb-find";
 PouchDB.plugin(PouchdbFind);
 
-const DB = new PouchDB("stp-logbook", { auto_compaction: true });
+const dbOptions = {
+  auto_compaction: true
+};
+
+/* eslint-disable no-undef, global-require */
+if (process.env.NODE_ENV === "test") {
+  PouchDB.plugin(require("pouchdb-adapter-memory"));
+  dbOptions.adapter = "memory";
+}
+/* eslint-enable */
+
+const DB = new PouchDB("stp-logbook", dbOptions);
 
 (async () => {
   const masterURL = localStorage.getItem("stp-logbook:couchDbUrl");
