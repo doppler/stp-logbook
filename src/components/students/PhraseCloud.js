@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import HotKeys from "react-hot-keys";
+import { HotKeys } from "react-hotkeys";
 import "./PhraseCloud.css";
 
 import phraseCloud from "./phrase-cloud.json";
@@ -27,42 +27,35 @@ const PhraseCloud = ({ setAttribute, phraseCloudKey, jump }) => {
     setAttribute({ target: { id: phraseCloudKey, value: targetText } });
   };
 
-  const hidePhraseCloud = e => {
-    if (e.target.getAttribute("class") === "outer") {
+  const hidePhraseCloud = event => {
+    if (event.target.getAttribute("class") === "outer") {
       document.querySelector("#PhraseCloud").classList.toggle("hidden");
     }
   };
 
-  const onKeyUp = keyName => {
-    if (document.querySelector("#PhraseCloud").classList.contains("hidden"))
-      return null;
-    switch (true) {
-      case keyName === "ctrl+enter":
-        hidePhraseCloud();
-        break;
-      default:
-        handlePhraseClick({
-          target: { attributes: { "data-key": { value: keyName } } }
-        });
-        break;
-    }
+  const keyMap = {
+    hidePhraseCloud: "esc",
+    handlePhraseClick: Array.from(Array(26)).map((_, i) =>
+      String.fromCharCode(i + 97)
+    )
+  };
+
+  const handlers = {
+    hidePhraseCloud: event => hidePhraseCloud(event),
+    handlePhraseClick: event =>
+      handlePhraseClick({
+        target: { attributes: { "data-key": { value: event.key } } }
+      })
   };
 
   return (
-    <HotKeys
-      onKeyUp={onKeyUp}
-      keyName={
-        Array.from(Array(26))
-          .map((_, i) => String.fromCharCode(i + 97))
-          .join(",") + ",ctrl+enter"
-      }
-    >
+    <HotKeys keyMap={keyMap} handlers={handlers}>
       <div
         id="PhraseCloud"
         className={`outer hidden`}
         onClick={hidePhraseCloud}
       >
-        <div className="inner" onClick={null}>
+        <div className="inner" onClick={null} tabIndex={0}>
           <h2>
             {capitalize(phraseCloudKey)} Phrases{" "}
             <small>

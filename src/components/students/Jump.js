@@ -70,6 +70,8 @@ const Jump = ({ match, history }) => {
     const labelFor = e.target.attributes.for.value.replace(/-hidden$/, "");
     setPhraseCloudKey(labelFor);
     document.querySelector("#PhraseCloud").classList.toggle("hidden");
+    // eslint-disable-line TODO why isn't this working???
+    document.querySelector("#PhraseCloud .inner").focus();
     return true;
   };
 
