@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import HotKeys from "react-hot-keys";
+import { HotKeys } from "react-hotkeys";
 
 import getInstructor from "../../db/getInstructor";
 import saveInstructor from "../../db//saveInstructor";
@@ -33,8 +33,8 @@ const Edit = ({ match, history }) => {
 
   if (!instructor) return false;
 
-  const save = async e => {
-    e.preventDefault();
+  const save = async event => {
+    if (event) event.preventDefault();
     removeErrorClass();
     const res = await saveInstructor(instructor);
     if (res.error) {
@@ -74,21 +74,20 @@ const Edit = ({ match, history }) => {
     setInstructor(updatedInstructor);
   };
 
-  const onKeyDown = (keyName, e) => {
-    if (e.srcElement.type === "submit" && keyName === "enter") {
-      return e.srcElement.children[0].click();
-    }
-    switch (true) {
-      default:
-        document.getElementById(keyName.match(/.$/)).click();
-        break;
-    }
+  const keyMap = {
+    pressSaveButton: "ctrl+s",
+    pressDeleteButton: "ctrl+d"
+  };
+
+  const handlers = {
+    pressSaveButton: () => save(),
+    pressDeleteButton: () => document.getElementById("d").click()
   };
 
   document.title = `STP: Instructors EDIT ${instructor.name}`;
 
   return (
-    <HotKeys keyName="ctrl+s,ctrl+d" onKeyDown={onKeyDown}>
+    <HotKeys keyMap={keyMap} handlers={handlers}>
       <div className="Content">
         <form onSubmit={save}>
           <fieldset>
