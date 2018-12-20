@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import initializeDatabase from "./utils/initializeDatabase";
 
@@ -15,12 +15,14 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="App">
-        <Route exact path="/" component={Dashboard} />
-        <Route path="/students" component={StudentRouter} />
-        <Route path="/instructors" component={InstructorRouter} />
-        <Route path="/aircraft" component={AircraftRouter} />
-      </div>
+      <Router>
+        <div className="App">
+          <Route exact path="/" component={Dashboard} />
+          <Route path="/students" component={StudentRouter} />
+          <Route path="/instructors" component={InstructorRouter} />
+          <Route path="/aircraft" component={AircraftRouter} />
+        </div>
+      </Router>
     );
   }
 }
