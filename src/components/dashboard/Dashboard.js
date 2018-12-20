@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import HotKeys from "react-hot-keys";
+import { HotKeys } from "react-hotkeys";
 import Header from "../Header";
 import ManageSection from "./ManageSection";
 import DatabaseSettingsSection from "./DatabaseSettingsSection";
@@ -9,21 +9,19 @@ import FakeDataSection from "./FakeDataSection";
 import "./Dashboard.css";
 
 const Dashboard = ({ history }) => {
-  const onKeyDown = keyName => {
-    switch (true) {
-      default:
-        document.getElementById(keyName.match(/.$/)).click();
-        break;
-    }
-  };
-
   document.title = "STP: Dashboard";
+
+  useEffect(() => document.getElementById("s").focus(), []);
+
+  const handlers = {
+    "ctrl+s": () => document.getElementById("s").click()
+  };
 
   return (
     <>
       <Header />
-      <HotKeys keyName="ctrl+s" onKeyDown={onKeyDown}>
-        <div className="Dashboard Content">
+      <div className="Dashboard Content">
+        <HotKeys handlers={handlers}>
           <nav>
             <button
               className="hotkey-button"
@@ -37,8 +35,8 @@ const Dashboard = ({ history }) => {
           <ManageSection history={history} />
           <AboutSection />
           <FakeDataSection history={history} />
-        </div>
-      </HotKeys>
+        </HotKeys>
+      </div>
     </>
   );
 };
