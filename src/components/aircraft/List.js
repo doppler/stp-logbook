@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import HotKeys from "react-hot-keys";
+import { HotKeys } from "react-hotkeys";
 import getAircraft from "../../db/getAircraft";
 
 const List = ({ history }) => {
@@ -22,36 +22,32 @@ const List = ({ history }) => {
     history.push("/aircraft/new");
   };
 
-  const onKeyDown = (keyName, e) => {
-    if (e.srcElement.type === "submit" && keyName === "enter") {
-      return true;
-    }
-    if (e.srcElement.type !== undefined) return false;
-    switch (true) {
-      case ["down", "j"].includes(keyName):
-        setActiveRow(activeRow + 1);
-        break;
-      case ["up", "k"].includes(keyName):
-        setActiveRow(activeRow - 1);
-        break;
-      case ["enter", "right"].includes(keyName):
-        history.push(`/aircraft/${aircraft[activeRow]._id}`);
-        break;
-      default:
-        document.getElementById(keyName.match(/.$/)).click();
-        break;
-    }
-  };
-
   const rowCount = aircraft.length;
   if (rowCount > 0 && activeRow === rowCount) setActiveRow(0);
   if (rowCount > 0 && activeRow === -1) setActiveRow(rowCount - 1);
 
   document.title = "STP: Aircraft";
 
+  const keyMap = {
+    moveToNextRow: ["down", "j"],
+    moveToPrevRow: ["up", "k"],
+    selectCurrentRow: ["right", "enter"],
+    addAircraft: ["ctrl+a"]
+  };
+
+  const handlers = {
+    moveToNextRow: () => setActiveRow(activeRow + 1),
+    moveToPrevRow: () => setActiveRow(activeRow - 1),
+    selectCurrentRow: () =>
+      history.push(`/aircraft/${aircraft[activeRow]._id}`),
+    addAircraft: () => document.getElementById("a").click()
+  };
+
+  useEffect(() => document.getElementById("tableBody").focus());
+
   return (
-    <HotKeys keyName="down,j,up,k,enter,right,ctrl+a" onKeyDown={onKeyDown}>
-      <div className="Content">
+    <div className="Content">
+      <HotKeys keyMap={keyMap} handlers={handlers}>
         <table id="aircraft">
           <caption>Aircraft</caption>
           <thead>
@@ -60,7 +56,7 @@ const List = ({ history }) => {
               <th>Tail #</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="tableBody" tabIndex={0}>
             {aircraft.map((aircraft, i) => (
               <tr
                 key={i}
@@ -76,8 +72,8 @@ const List = ({ history }) => {
         <button id="a" onClick={addAircraft} className="hotkey-button small">
           Add Aircraft
         </button>
-      </div>
-    </HotKeys>
+      </HotKeys>
+    </div>
   );
 };
 

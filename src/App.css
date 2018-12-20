@@ -17,6 +17,9 @@
   background-color: var(--content-bg-color);
   overflow: scroll;
 }
+#tableBody:focus {
+  outline: none;
+}
 span.currency-color {
   float: right;
   width: 10px;
