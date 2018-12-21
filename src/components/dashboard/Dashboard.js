@@ -11,9 +11,7 @@ import "./Dashboard.css";
 const Dashboard = ({ history }) => {
   useEffect(() => {
     document.title = "STP: Dashboard";
-  }, {});
-
-  useEffect(() => document.getElementById("s").focus(), []);
+  }, []);
 
   const handlers = {
     "ctrl+s": () => document.getElementById("s").click()
