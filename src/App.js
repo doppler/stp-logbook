@@ -10,7 +10,9 @@ import InstructorRouter from "./components/instructors/InstructorRouter";
 import AircraftRouter from "./components/aircraft/AircraftRouter";
 
 const App = () => {
-  useEffect(() => initializeDatabase(), []);
+  useEffect(() => {
+    initializeDatabase();
+  }, []);
   return (
     <Router>
       <div className="App">

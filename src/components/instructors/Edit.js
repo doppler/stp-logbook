@@ -29,7 +29,9 @@ const Edit = ({ match, history }) => {
     }
   };
 
-  useEffect(() => fetchData(), []);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   if (!instructor) return false;
 
@@ -92,8 +94,8 @@ const Edit = ({ match, history }) => {
   );
 
   return (
-    <HotKeys keyMap={keyMap} handlers={handlers}>
-      <div className="Content">
+    <div className="Content">
+      <HotKeys keyMap={keyMap} handlers={handlers}>
         <form onSubmit={save}>
           <fieldset>
             <legend>
@@ -154,8 +156,8 @@ const Edit = ({ match, history }) => {
             ) : null}
           </fieldset>
         </form>
-      </div>
-    </HotKeys>
+      </HotKeys>
+    </div>
   );
 };
 

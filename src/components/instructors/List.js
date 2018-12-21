@@ -12,7 +12,9 @@ const List = ({ history }) => {
     setInstructors(instructors);
   };
 
-  useEffect(() => fetchData(), []);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleRowClick = instructor => {
     history.push(`/instructors/${instructor._id}`);

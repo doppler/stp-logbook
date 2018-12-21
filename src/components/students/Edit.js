@@ -35,7 +35,9 @@ const Edit = ({ match, history }) => {
     setInstructors(instructors);
   };
 
-  useEffect(() => fetchData(), []);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   if (!student && match.path === "/students/new") setStudent(initialState);
 

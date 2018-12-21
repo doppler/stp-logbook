@@ -21,7 +21,9 @@ const FakeDataSection = ({ history }) => {
     setStudentCount(sdocs.length);
   };
 
-  useEffect(() => fetchData(), []);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleCreateTestData = async () => {
     if (!deleteConfirmation) {

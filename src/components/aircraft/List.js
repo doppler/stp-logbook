@@ -12,7 +12,9 @@ const List = ({ history }) => {
     setAircraft(aircraft);
   };
 
-  useEffect(() => fetchData(), []);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleRowClick = aircraft => {
     history.push(`/aircraft/${aircraft._id}`);

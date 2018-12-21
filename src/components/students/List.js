@@ -34,7 +34,10 @@ const List = ({ history }) => {
     setStore({ students: students, filteredStudents: students });
   };
 
-  useEffect(() => fetchStudents(), []);
+  useEffect(() => {
+    fetchStudents();
+    return () => null;
+  }, []);
 
   const handleStudentRowClick = student => {
     history.push(`/students/${student._id}`);
