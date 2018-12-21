@@ -84,7 +84,12 @@ const Edit = ({ match, history }) => {
     pressDeleteButton: () => document.getElementById("d").click()
   };
 
-  document.title = `STP: Instructors EDIT ${instructor.name}`;
+  useEffect(
+    () => {
+      document.title = `STP: Instructors EDIT ${instructor.name}`;
+    },
+    [instructor.name]
+  );
 
   return (
     <HotKeys keyMap={keyMap} handlers={handlers}>

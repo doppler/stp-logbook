@@ -79,7 +79,12 @@ const Edit = ({ match, history }) => {
     pressDeleteButton: () => document.getElementById("d").click()
   };
 
-  document.title = `STP: Aircraft EDIT ${currentAircraft.name}`;
+  useEffect(
+    () => {
+      document.title = `STP: Aircraft EDIT ${currentAircraft.name}`;
+    },
+    [currentAircraft.name]
+  );
 
   return (
     <HotKeys keyMap={keyMap} handlers={handlers}>

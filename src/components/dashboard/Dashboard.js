@@ -9,7 +9,9 @@ import FakeDataSection from "./FakeDataSection";
 import "./Dashboard.css";
 
 const Dashboard = ({ history }) => {
-  document.title = "STP: Dashboard";
+  useEffect(() => {
+    document.title = "STP: Dashboard";
+  }, {});
 
   useEffect(() => document.getElementById("s").focus(), []);
 
