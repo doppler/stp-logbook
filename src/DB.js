@@ -22,11 +22,11 @@ const DB = new PouchDB("stp-logbook", dbOptions);
     const res = await fetch(masterURL);
     const json = await res.json();
     if (json.db_name) {
-      console.debug(`Starting replication with ${masterURL}`); // eslint-disable-line
+      // console.debug(`Starting replication with ${masterURL}`); // eslint-disable-line
       const opts = { live: true, retry: true };
 
       DB.replicate.from(masterURL).on("complete", info => {
-        console.debug(info); // eslint-disable-line
+        // console.debug(info); // eslint-disable-line
         DB.sync(masterURL, opts).on("error", error => console.error(error)); // eslint-disable-line
       });
     }
