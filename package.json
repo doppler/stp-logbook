@@ -54,7 +54,6 @@
   ],
   "devDependencies": {
     "concurrently": "^4.0.1",
-    "eslint": "^5.10.0",
     "eslint-plugin-jest": "^22.1.2",
     "express": "^4.16.4",
     "nodemon": "^1.18.6",
