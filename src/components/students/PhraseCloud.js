@@ -28,13 +28,19 @@ const PhraseCloud = ({ setAttribute, phraseCloudKey, jump }) => {
   };
 
   const hidePhraseCloud = event => {
-    if (event.target.getAttribute("class") === "outer") {
+    const clickedOuterDiv = event.target.getAttribute("class") === "outer";
+    const pressedHidePhraseCloudTrigger = ["Escape", "Enter"].includes(
+      event.key
+    );
+    if (clickedOuterDiv || pressedHidePhraseCloudTrigger) {
       document.querySelector("#PhraseCloud").classList.toggle("hidden");
+      document.getElementById(phraseCloudKey).focus();
+      window.scrollTo(0, 0);
     }
   };
 
   const keyMap = {
-    hidePhraseCloud: "esc",
+    hidePhraseCloud: ["esc", "ctrl+enter"],
     handlePhraseClick: Array.from(Array(26)).map((_, i) =>
       String.fromCharCode(i + 97)
     )

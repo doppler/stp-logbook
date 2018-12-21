@@ -65,13 +65,14 @@ const Jump = ({ match, history }) => {
     setJump(modifiedJump);
   };
 
-  const handleLabelClick = e => {
-    if (e.key && e.key.toLowerCase() !== "enter") return true;
-    const labelFor = e.target.attributes.for.value.replace(/-hidden$/, "");
+  const handleLabelClick = event => {
+    event.preventDefault();
+    if (event.key && event.key.toLowerCase() !== "enter") return true;
+    const labelFor = event.target.attributes.for.value;
     setPhraseCloudKey(labelFor);
     document.querySelector("#PhraseCloud").classList.toggle("hidden");
-    // eslint-disable-line TODO why isn't this working???
     document.querySelector("#PhraseCloud .inner").focus();
+    window.scrollTo(0, 0);
     return true;
   };
 
@@ -93,8 +94,8 @@ const Jump = ({ match, history }) => {
 
   const [deleteConfirmation, setDeleteConfirmation] = useDeleteConfirmation();
 
-  const deleteJump = async e => {
-    e.preventDefault();
+  const deleteJump = async event => {
+    event.preventDefault();
     if (!deleteConfirmation) {
       setDeleteConfirmation(true);
       return false;
