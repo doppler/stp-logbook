@@ -100,6 +100,9 @@ div.jump-details > div {
   display: flex;
   margin: 0.2em 0px 0px 0.2em;
 }
+.input-group > * {
+  flex: 1;
+}
 .input-group.stacked {
   flex-direction: column;
   margin: 0.2em 0.5em 0 0.2em;
@@ -119,6 +122,9 @@ div.jump-details > div {
   background-color: var(--label-bg-color);
   border: 1px solid var(--input-border-color);
   border-radius: 5px 0 0 5px;
+}
+.input-group:not(.stacked) *:first-child {
+  max-width: 7.5em;
 }
 .input-group.input-group.stacked *:first-child {
   width: inherit;
