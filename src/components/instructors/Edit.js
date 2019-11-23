@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { useRouteMatch, useHistory } from "react-router-dom";
 import { HotKeys } from "react-hotkeys";
 
 import getInstructor from "../../db/getInstructor";
@@ -11,15 +12,19 @@ import removeErrorClass from "../../utils/removeErrorClass";
 import useDeleteConfirmation from "../../utils/useDeleteConfirmation";
 
 const initialState = {
-  _id: Math.round(Math.random() * 2 ** 32).toString(16),
+  _id: `instructor-${Math.round(Math.random() * 2 ** 32).toString(16)}`,
   type: "instructor",
   name: "",
   email: "",
   phone: ""
 };
 
-const Edit = ({ match, history }) => {
+const Edit = () => {
+  const match = useRouteMatch();
+  const history = useHistory();
+
   const [instructor, setInstructor] = useState(null);
+  const [deleteConfirmation, setDeleteConfirmation] = useDeleteConfirmation();
 
   const fetchData = async () => {
     if (match.path === "/instructors/new") setInstructor(initialState);
@@ -32,6 +37,13 @@ const Edit = ({ match, history }) => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    document.title =
+      instructor && instructor.name
+        ? `STP: Instructors EDIT ${instructor.name}`
+        : "STP: Loading instructor";
+  }, [instructor]);
 
   if (!instructor) return false;
 
@@ -46,8 +58,6 @@ const Edit = ({ match, history }) => {
     flash({ success: `Saved ${instructor.name}` });
     history.goBack(1);
   };
-
-  const [deleteConfirmation, setDeleteConfirmation] = useDeleteConfirmation();
 
   const deleteInstructor = async e => {
     e.preventDefault();
@@ -85,13 +95,6 @@ const Edit = ({ match, history }) => {
     pressSaveButton: () => save(),
     pressDeleteButton: () => document.getElementById("d").click()
   };
-
-  useEffect(
-    () => {
-      document.title = `STP: Instructors EDIT ${instructor.name}`;
-    },
-    [instructor.name]
-  );
 
   return (
     <div className="Content">

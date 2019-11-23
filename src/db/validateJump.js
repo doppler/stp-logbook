@@ -1,15 +1,11 @@
 import Joi from "joi";
 
 const schema = Joi.object().keys({
-  _id: Joi.string()
-    .alphanum()
-    .required(),
+  _id: Joi.string().required(),
   _rev: Joi.string(),
   _deleted: Joi.boolean(),
   type: Joi.string().required(),
-  studentId: Joi.string()
-    .alphanum()
-    .required(),
+  studentId: Joi.string().required(),
   number: Joi.number()
     .min(1)
     .required(),

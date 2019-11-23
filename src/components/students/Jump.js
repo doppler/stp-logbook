@@ -1,4 +1,6 @@
+/* eslint-disable no-console */
 import React, { useState, useEffect } from "react";
+import { useRouteMatch, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { HotKeys } from "react-hotkeys";
 
@@ -18,27 +20,75 @@ import handleFormError from "../../utils/handleFormError";
 import removeErrorClass from "../../utils/removeErrorClass";
 import useDeleteConfirmation from "../../utils/useDeleteConfirmation";
 
-const Jump = ({ match, history }) => {
+const Jump = () => {
+  const match = useRouteMatch();
+  const history = useHistory();
   const [student, setStudent] = useState(null);
   const [jump, setJump] = useState(null);
   const [instructors, setInstructors] = useState([]);
   const [aircraft, setAircraft] = useState([]);
   const [phraseCloudKey, setPhraseCloudKey] = useState("exit");
-
-  const fetchData = async () => {
-    const student = await getStudent(match.params.studentId);
-    setStudent(student);
-    const jumps = await getJumps(student);
-    setJump(jumps.find(jump => jump._id === match.params.jumpId));
-    const instructors = await getInstructors();
-    setInstructors(instructors);
-    const aircraft = await getAircraft();
-    setAircraft(aircraft);
-  };
+  const [deleteConfirmation, setDeleteConfirmation] = useDeleteConfirmation();
 
   useEffect(() => {
+    const abortController = new AbortController();
+    const fetchData = async () => {
+      const student = await getStudent(match.params.studentId);
+      setStudent(student);
+      const jumps = await getJumps(student);
+      setJump(jumps.find(jump => jump._id === match.params.jumpId));
+      const instructors = await getInstructors();
+      setInstructors(instructors);
+      const aircraft = await getAircraft();
+      setAircraft(aircraft);
+    };
+
     fetchData();
+
+    return () => abortController.abort();
   }, []);
+
+  useEffect(() => {
+    document.title =
+      student && student.name && jump && jump.diveFlow
+        ? `STP: ${student.name} DF-${jump.diveFlow}`
+        : "STP: Loading jump";
+  }, [student, jump]);
+
+  const deleteJump = () => {
+    if (!deleteConfirmation) {
+      setDeleteConfirmation(true);
+      return false;
+    }
+    (async () => {
+      student.jumps.splice(student.jumps.indexOf(jump._id), 1);
+      const res = await saveStudent(student);
+      if (res.error) {
+        flash({ error: "Please check form for errors" });
+        return handleFormError(res.error);
+      }
+      const saved = await _save();
+      console.log("saved", saved);
+      flash({ success: `Deleted jump ${jump._id}` });
+      history.go(-1);
+    })();
+  };
+
+  const _save = async event => {
+    if (event) event.preventDefault();
+    removeErrorClass();
+    const res = await saveJump(jump);
+    if (res.error) {
+      flash({ error: res.error });
+      return handleFormError(res.error);
+    }
+    flash({
+      success: `${jump._deleted ? "Deleted" : "Saved"} ${student.name} - Jump ${
+        jump.number
+      } DF ${jump.diveFlow}`
+    });
+    return res;
+  };
 
   if (!student || !jump) {
     return null;
@@ -76,49 +126,6 @@ const Jump = ({ match, history }) => {
     return true;
   };
 
-  const _save = async event => {
-    if (event) event.preventDefault();
-    removeErrorClass();
-    const res = await saveJump(jump);
-    if (res.error) {
-      flash({ error: res.error });
-      return handleFormError(res.error);
-    }
-    flash({
-      success: `${jump._deleted ? "Deleted" : "Saved"} ${student.name} - Jump ${
-        jump.number
-      } DF ${jump.diveFlow}`
-    });
-    return res;
-  };
-
-  const [deleteConfirmation, setDeleteConfirmation] = useDeleteConfirmation();
-
-  const deleteJump = async event => {
-    event.preventDefault();
-    if (!deleteConfirmation) {
-      setDeleteConfirmation(true);
-      return false;
-    }
-    student.jumps.splice(student.jumps.indexOf(jump._id), 1);
-    const res = await saveStudent(student);
-    if (res.error) {
-      flash({ error: "Please check form for errors." });
-      return handleFormError(res.error);
-    }
-    flash({ success: `Deleted jump ${jump._id}` });
-    history.goBack(1);
-    jump._deleted = true;
-    _save();
-  };
-
-  useEffect(
-    () => {
-      document.title = `STP: ${student.name} DF-${jump.diveFlow}`;
-    },
-    [jump.diveFlow]
-  );
-
   const handlers = {
     "ctrl+s": () => _save(),
     "ctrl+d": () => document.getElementById("d").click(),
@@ -131,9 +138,7 @@ const Jump = ({ match, history }) => {
         <div className="Jump">
           <form onSubmit={_save}>
             <fieldset>
-              <legend>{`${student.name} - Jump ${jump.number} Dive Flow ${
-                jump.diveFlow
-              }`}</legend>
+              <legend>{`${student.name} - Jump ${jump.number} Dive Flow ${jump.diveFlow}`}</legend>
               <div className="jump-details">
                 <div>
                   <div className="input-group stacked">

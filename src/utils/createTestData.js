@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import DB from "../DB";
 import faker from "faker";
 import eachDay from "date-fns/each_day";
@@ -10,25 +11,25 @@ let aircraft, instructors, students;
 const createFakeAircraft = async () => {
   aircraft = [
     {
-      _id: randomId(),
+      _id: `aircraft-${randomId()}`,
       type: "aircraft",
       name: "Caravan-FL",
       tailNumber: "N123FL"
     },
     {
-      _id: randomId(),
+      _id: `aircraft-${randomId()}`,
       type: "aircraft",
       name: "Caravan-DZ",
       tailNumber: "N420DZ"
     },
     {
-      _id: randomId(),
+      _id: `aircraft-${randomId()}`,
       type: "aircraft",
       name: "Otter-BA",
       tailNumber: "N832BA"
     },
     {
-      _id: randomId(),
+      _id: `aircraft-${randomId()}`,
       type: "aircraft",
       name: "King Air-XZ",
       tailNumber: "N123XZ"
@@ -38,9 +39,9 @@ const createFakeAircraft = async () => {
 };
 
 const createFakeInstructors = async () => {
-  instructors = Array.from(Array(5)).map(i => {
+  instructors = Array.from(Array(5)).map(() => {
     return {
-      _id: randomId(),
+      _id: `instructor-${randomId()}`,
       type: "instructor",
       name: `${faker.name.firstName()} ${faker.name.lastName()}`,
       email: faker.internet.email(),
@@ -54,7 +55,7 @@ const randomDate = (start, end) =>
   new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 
 const createFakeJumps = ({ previousJumps, studentId }) => {
-  const startDate = randomDate(new Date(2018, 0, 1), new Date());
+  const startDate = randomDate(new Date(2019, 7, 1), new Date());
   const endDate = randomDate(startDate, new Date());
   const availableDates = eachDay(startDate, endDate);
   const numberOfJumps = Math.round(Math.random() * 18);
@@ -63,7 +64,7 @@ const createFakeJumps = ({ previousJumps, studentId }) => {
     const jumpDate = randomDate(lastDate, endDate);
     lastDate = jumpDate;
     const jump = {
-      _id: randomId(),
+      _id: `${studentId}-jump-${jumpDate.toISOString()}`,
       type: "jump",
       studentId: studentId,
       number: previousJumps + i,
@@ -94,7 +95,7 @@ const createFakeJumps = ({ previousJumps, studentId }) => {
 
 const createFakeStudent = () => {
   const student = {
-    _id: randomId(),
+    _id: `student-${randomId()}`,
     type: "student",
     name: `${faker.name.firstName()} ${faker.name.lastName()}`,
     email: faker.internet.email(),
@@ -112,14 +113,13 @@ const createFakeStudent = () => {
 };
 
 const createFakeStudents = async () => {
-  students = Array.from(Array(50)).map(i => {
+  students = Array.from(Array(50)).map(() => {
     return createFakeStudent();
   });
   return students;
 };
 
 const createTestData = async () => {
-  console.group("createTestData");
   aircraft = await createFakeAircraft();
   DB.bulkDocs(aircraft).then(result => console.debug(result));
 
@@ -128,8 +128,6 @@ const createTestData = async () => {
 
   students = await createFakeStudents();
   DB.bulkDocs(students).then(result => console.debug(result));
-
-  console.groupEnd("createTestData");
 
   return { aircraft, instructors, students };
 };

@@ -12,11 +12,11 @@ const StudentRouter = () => (
     <Header />
     <div className="Content">
       <Switch>
-        <Route exact path="/students" component={List} />
         <Route path="/students/:studentId/jump/:jumpId" component={Jump} />
         <Route path="/students/:studentId/edit" component={Edit} />
         <Route path="/students/new" component={Edit} />
         <Route path="/students/:studentId" component={Show} />
+        <Route path="/students" component={List} />
       </Switch>
     </div>
   </>

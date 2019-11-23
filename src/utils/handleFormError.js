@@ -1,5 +1,6 @@
 const handleFormError = errors => {
   errors.map(error => {
+    console.log(error.context, error);
     let el = document.getElementById(error.context.key);
     try {
       el.classList.add("error");

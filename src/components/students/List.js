@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { HotKeys } from "react-hotkeys";
 
@@ -15,8 +16,11 @@ const currencyColor = daysSinceLastJump => {
   return `hsl(${120 - daysSinceLastJump * 3}, 100%, 50%)`;
 };
 
-const List = ({ history }) => {
+const List = () => {
+  const tableRef = useRef(null);
+  const history = useHistory();
   const [store, setStore] = useState({ students: [], filteredStudents: [] });
+  const [filter, setFilter] = useState("");
   const { filteredStudents } = store;
 
   const sortStudentsByLastJump = students => {
@@ -28,22 +32,26 @@ const List = ({ history }) => {
     return students;
   };
 
-  const fetchStudents = async () => {
-    const students = await getStudents();
-    sortStudentsByLastJump(students);
-    setStore({ students: students, filteredStudents: students });
-  };
+  useEffect(() => {
+    const abortController = new AbortController();
+    const fetchStudents = async () => {
+      const students = await getStudents();
+      sortStudentsByLastJump(students);
+      setStore({ students: students, filteredStudents: students });
+    };
+
+    fetchStudents();
+    return () => abortController.abort();
+  }, []);
 
   useEffect(() => {
-    fetchStudents();
-    return () => null;
-  }, []);
+    if (tableRef.current) tableRef.current.focus();
+  }, [tableRef]);
 
   const handleStudentRowClick = student => {
     history.push(`/students/${student._id}`);
   };
 
-  const [filter, setFilter] = useState("");
   const handleFilterChange = e => {
     const value = e.target.value.toLowerCase();
     setFilter(value);
@@ -83,8 +91,6 @@ const List = ({ history }) => {
     addStudent: () => document.getElementById("a").click()
   };
 
-  useEffect(() => document.getElementById("tableBody").focus());
-
   return (
     <HotKeys keyMap={keyMap} handlers={handlers}>
       <div className="List">
@@ -108,7 +114,7 @@ const List = ({ history }) => {
               </th>
             </tr>
           </thead>
-          <tbody id="tableBody" tabIndex={0}>
+          <tbody id="tableBody" tabIndex={0} ref={tableRef}>
             {filteredStudents.map((student, i) => {
               const lastJump = student.jumps[student.jumps.length - 1];
               const daysSinceLastJump = lastJump

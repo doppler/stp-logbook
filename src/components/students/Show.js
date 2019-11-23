@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useRouteMatch, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { HotKeys } from "react-hotkeys";
 
@@ -13,20 +14,34 @@ import saveStudent from "../../db/saveStudent";
 import saveJump from "../../db/saveJump";
 import flash from "../../utils/flash";
 
-const Show = ({ match, history }) => {
+const Show = () => {
+  const match = useRouteMatch();
+  const history = useHistory();
+
   const [student, setStudent] = useState(null);
   const [jumps, setJumps] = useState(null);
+  const [activeRow, setActiveRow] = useState(-1);
+  const tableRef = useRef(null);
+
+  useEffect(() => {
+    document.title = `STP: ${student ? student.name : "Fetching student doc"}`;
+  }, [student]);
 
   const fetchData = async () => {
     const student = await getStudent(match.params.studentId);
     setStudent(student);
     const jumps = await getJumps(student);
     setJumps(jumps);
+    return null;
   };
 
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (tableRef.current) tableRef.current.focus();
+  }, [tableRef]);
 
   if (!student || !jumps || student._id !== match.params.studentId) {
     return null;
@@ -45,7 +60,7 @@ const Show = ({ match, history }) => {
           aircraft: "-"
         };
     return {
-      _id: Math.round(Math.random() * 1000000000).toString(16),
+      _id: `${student._id}-jump-${new Date().toISOString()}`,
       type: "jump",
       studentId: student._id,
       number: number + 1,
@@ -64,8 +79,6 @@ const Show = ({ match, history }) => {
     };
   };
 
-  const [activeRow, setActiveRow] = useState(-1);
-
   const addJump = async () => {
     const jump = nextJump();
     const jumpRes = await saveJump(jump);
@@ -82,10 +95,6 @@ const Show = ({ match, history }) => {
 
   if (rowCount > 0 && activeRow === rowCount) setActiveRow(0);
   if (rowCount > 0 && activeRow === -1) setActiveRow(rowCount - 1);
-
-  useEffect(() => {
-    document.title = `STP: ${student.name}`;
-  }, []);
 
   const keyMap = {
     moveToNextRow: ["down", "j"],
@@ -109,8 +118,6 @@ const Show = ({ match, history }) => {
     addJump: () => document.getElementById("a").click(),
     editStudent: () => document.getElementById("e").click()
   };
-
-  useEffect(() => document.getElementById("tableBody").focus(), []);
 
   return (
     <HotKeys keyMap={keyMap} handlers={handlers}>
@@ -139,7 +146,7 @@ const Show = ({ match, history }) => {
                 <th>Video</th>
               </tr>
             </thead>
-            <tbody id="tableBody" tabIndex={0}>
+            <tbody id="tableBody" tabIndex={0} ref={tableRef}>
               {jumps.map((jump, i) => (
                 <tr
                   key={i}

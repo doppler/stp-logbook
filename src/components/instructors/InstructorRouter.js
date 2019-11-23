@@ -9,9 +9,9 @@ const InstructorRouter = () => (
   <>
     <Header />
     <Switch>
-      <Route exact path="/instructors" component={List} />
       <Route path="/instructors/new" component={Edit} />
       <Route path="/instructors/:id" component={Edit} />
+      <Route path="/instructors" component={List} />
     </Switch>
   </>
 );

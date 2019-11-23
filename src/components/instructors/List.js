@@ -1,19 +1,34 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { HotKeys } from "react-hotkeys";
 import getInstructors from "../../db//getInstructors";
 
-const List = ({ history }) => {
+const List = () => {
+  const history = useHistory();
+  const tableRef = useRef(null);
   const [instructors, setInstructors] = useState([]);
   const [activeRow, setActiveRow] = useState(0);
 
-  const fetchData = async () => {
-    const instructors = await getInstructors();
-    setInstructors(instructors);
-  };
+  useEffect(() => {
+    if (tableRef.current) tableRef.current.focus();
+  }, [tableRef]);
 
   useEffect(() => {
+    const abortController = new AbortController();
+
+    const fetchData = async () => {
+      const instructors = await getInstructors();
+      setInstructors(instructors);
+    };
+
     fetchData();
+
+    return abortController.abort();
+  }, []);
+
+  useEffect(() => {
+    document.title = "STP: Instructors";
   }, []);
 
   const handleRowClick = instructor => {
@@ -27,10 +42,6 @@ const List = ({ history }) => {
   const rowCount = instructors.length;
   if (rowCount > 0 && activeRow === rowCount) setActiveRow(0);
   if (rowCount > 0 && activeRow === -1) setActiveRow(rowCount - 1);
-
-  useEffect(() => {
-    document.title = "STP: Instructors";
-  }, []);
 
   const keyMap = {
     moveToNextRow: ["down", "j"],
@@ -53,8 +64,6 @@ const List = ({ history }) => {
     addInstructor: () => document.getElementById("a").click()
   };
 
-  useEffect(() => document.getElementById("tableBody").focus());
-
   return (
     <div className="Content">
       <HotKeys keyMap={keyMap} handlers={handlers}>
@@ -67,7 +76,7 @@ const List = ({ history }) => {
               <th>Phone</th>
             </tr>
           </thead>
-          <tbody id="tableBody" tabIndex={0}>
+          <tbody id="tableBody" tabIndex={0} ref={tableRef}>
             {instructors.map((instructor, i) => (
               <tr
                 key={i}

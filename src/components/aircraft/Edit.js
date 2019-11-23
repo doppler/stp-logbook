@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { useRouteMatch, useHistory } from "react-router-dom";
 import { HotKeys } from "react-hotkeys";
 
 import getSingleAircraft from "../../db/getSingleAircraft";
@@ -10,26 +11,43 @@ import removeErrorClass from "../../utils/removeErrorClass";
 import useDeleteConfirmation from "../../utils/useDeleteConfirmation";
 
 const initialState = {
-  _id: Math.round(Math.random() * 2 ** 32).toString(16),
+  _id: `aircraft-${Math.round(Math.random() * 2 ** 32).toString(16)}`,
   type: "aircraft",
   name: "",
   tailNumber: ""
 };
 
-const Edit = ({ match, history }) => {
-  const [currentAircraft, setCurrentAircraft] = useState(null);
+const Edit = () => {
+  const match = useRouteMatch();
+  const history = useHistory();
 
-  const fetchData = async () => {
-    if (match.path === "/aircraft/new") setCurrentAircraft(initialState);
-    else {
-      const aircraft = await getSingleAircraft(match.params.id);
-      setCurrentAircraft(aircraft);
-    }
-  };
+  const [currentAircraft, setCurrentAircraft] = useState(null);
+  const [deleteConfirmation, setDeleteConfirmation] = useDeleteConfirmation();
 
   useEffect(() => {
+    const abortController = new AbortController();
+
+    const fetchData = async () => {
+      if (match.path === "/aircraft/new") setCurrentAircraft(initialState);
+      else {
+        const aircraft = await getSingleAircraft(match.params.id);
+        setCurrentAircraft(aircraft);
+      }
+    };
+
     fetchData();
-  }, []);
+
+    return () => abortController.abort();
+  }, [match]);
+
+  useEffect(() => {
+    document.title =
+      currentAircraft && currentAircraft.name
+        ? `STP: Aircraft EDIT ${currentAircraft.name}`
+        : "STP: Loading aircraft";
+
+    return () => {};
+  }, [currentAircraft]);
 
   if (!currentAircraft) return false;
 
@@ -44,8 +62,6 @@ const Edit = ({ match, history }) => {
     flash({ success: `Saved ${currentAircraft.name}` });
     history.goBack(1);
   };
-
-  const [deleteConfirmation, setDeleteConfirmation] = useDeleteConfirmation();
 
   const deleteAircraft = async e => {
     e.preventDefault();
@@ -80,13 +96,6 @@ const Edit = ({ match, history }) => {
     pressSaveButton: () => save(),
     pressDeleteButton: () => document.getElementById("d").click()
   };
-
-  useEffect(
-    () => {
-      document.title = `STP: Aircraft EDIT ${currentAircraft.name}`;
-    },
-    [currentAircraft.name]
-  );
 
   return (
     <div className="Content">

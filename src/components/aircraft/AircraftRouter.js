@@ -9,9 +9,9 @@ const AircraftRouter = () => (
   <>
     <Header />
     <Switch>
-      <Route exact path="/aircraft" component={List} />
       <Route path="/aircraft/new" component={Edit} />
       <Route path="/aircraft/:id" component={Edit} />
+      <Route path="/aircraft" component={List} />
     </Switch>
   </>
 );

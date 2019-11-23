@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import DB from "../../DB";
 import createTestData from "../../utils/createTestData";
 
-const FakeDataSection = ({ history }) => {
+const FakeDataSection = () => {
+  const history = useHistory();
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [aircraftCount, setAircraftCount] = useState(0);
   const [instructorCount, setInstructorCount] = useState(0);

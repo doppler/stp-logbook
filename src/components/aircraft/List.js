@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { HotKeys } from "react-hotkeys";
 import getAircraft from "../../db/getAircraft";
 
-const List = ({ history }) => {
+const List = () => {
+  const history = useHistory();
   const [aircraft, setAircraft] = useState([]);
   const [activeRow, setActiveRow] = useState(0);
 
-  const fetchData = async () => {
-    const aircraft = await getAircraft();
-    setAircraft(aircraft);
-  };
-
   useEffect(() => {
+    const abortController = new AbortController();
+    const fetchData = async () => {
+      const aircraft = await getAircraft();
+      setAircraft(aircraft);
+    };
+
     fetchData();
+
+    return () => abortController.abort();
   }, []);
 
   const handleRowClick = aircraft => {

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useRouteMatch, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { HotKeys } from "react-hotkeys";
 
@@ -11,7 +12,7 @@ import handleFormError from "../../utils/handleFormError";
 import removeErrorClass from "../../utils/removeErrorClass";
 
 const initialState = {
-  _id: Math.round(Math.random() * 2 ** 32).toString(16),
+  _id: `student-${Math.round(Math.random() * 2 ** 32).toString(16)}`,
   type: "student",
   name: "",
   email: "",
@@ -21,23 +22,42 @@ const initialState = {
   jumps: []
 };
 
-const Edit = ({ match, history }) => {
+const Edit = () => {
+  const match = useRouteMatch();
+  const history = useHistory();
+
+  const nameRef = useRef(null);
   const [student, setStudent] = useState(null);
   const [instructors, setInstructors] = useState([]);
 
-  const fetchData = async () => {
-    if (match.path === "/students/new") setStudent(initialState);
-    else {
-      const student = await getStudent(match.params.studentId);
-      setStudent(student);
-    }
-    const instructors = await getInstructors();
-    setInstructors(instructors);
-  };
+  useEffect(() => {
+    const abortController = new AbortController();
+
+    const fetchData = async () => {
+      if (match.path === "/students/new") setStudent(initialState);
+      else {
+        const student = await getStudent(match.params.studentId);
+        setStudent(student);
+      }
+      const instructors = await getInstructors();
+      setInstructors(instructors);
+    };
+
+    fetchData();
+
+    return () => abortController.abort();
+  }, []);
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    document.title =
+      student && student.name
+        ? `STP: EDIT ${student.name}`
+        : "STP: Loading student";
+  }, [student]);
+
+  useEffect(() => {
+    if (nameRef.current) nameRef.current.focus();
+  }, [nameRef]);
 
   if (!student && match.path === "/students/new") setStudent(initialState);
 
@@ -72,15 +92,6 @@ const Edit = ({ match, history }) => {
 
   if (!student || instructors.length === 0) return null;
 
-  useEffect(
-    () => {
-      document.title = `STP: EDIT ${student.name}`;
-    },
-    [student.name]
-  );
-
-  useEffect(() => document.getElementById("name").focus(), []);
-
   const handlers = {
     "ctrl+s": () => saveStudent()
   };
@@ -98,6 +109,7 @@ const Edit = ({ match, history }) => {
               <label htmlFor="name">Name</label>
               <input
                 id="name"
+                ref={nameRef}
                 onChange={setAttribute}
                 value={student.name}
                 placeholder="Full Name"

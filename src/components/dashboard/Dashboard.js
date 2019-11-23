@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { HotKeys } from "react-hotkeys";
 import Header from "../Header";
@@ -8,7 +9,8 @@ import AboutSection from "./AboutSection";
 import FakeDataSection from "./FakeDataSection";
 import "./Dashboard.css";
 
-const Dashboard = ({ history }) => {
+const Dashboard = () => {
+  const history = useHistory();
   useEffect(() => {
     document.title = "STP: Dashboard";
   }, []);
