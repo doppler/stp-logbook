@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import { useRouteMatch, useHistory } from "react-router-dom";
 import { HotKeys } from "react-hotkeys";
 
@@ -162,11 +161,6 @@ const Edit = () => {
       </HotKeys>
     </div>
   );
-};
-
-Edit.propTypes = {
-  history: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired
 };
 
 export default Edit;

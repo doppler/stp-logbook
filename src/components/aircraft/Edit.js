@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import { useRouteMatch, useHistory } from "react-router-dom";
 import { HotKeys } from "react-hotkeys";
 
@@ -45,8 +44,6 @@ const Edit = () => {
       currentAircraft && currentAircraft.name
         ? `STP: Aircraft EDIT ${currentAircraft.name}`
         : "STP: Loading aircraft";
-
-    return () => {};
   }, [currentAircraft]);
 
   if (!currentAircraft) return false;
@@ -147,11 +144,6 @@ const Edit = () => {
       </HotKeys>
     </div>
   );
-};
-
-Edit.propTypes = {
-  match: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired
 };
 
 export default Edit;

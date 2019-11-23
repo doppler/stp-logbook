@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 import React, { useState, useEffect } from "react";
 import { useRouteMatch, useHistory } from "react-router-dom";
-import PropTypes from "prop-types";
 import { HotKeys } from "react-hotkeys";
 
 import PhraseCloud from "./PhraseCloud";
@@ -333,11 +332,6 @@ const Jump = () => {
       />
     </>
   );
-};
-
-Jump.propTypes = {
-  match: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired
 };
 
 export default Jump;

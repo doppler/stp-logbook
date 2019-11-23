@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
-import PropTypes from "prop-types";
 import { HotKeys } from "react-hotkeys";
 
 import parse from "date-fns/parse";
@@ -153,10 +152,6 @@ const List = () => {
       </div>
     </HotKeys>
   );
-};
-
-List.propTypes = {
-  history: PropTypes.object.isRequired
 };
 
 export default List;

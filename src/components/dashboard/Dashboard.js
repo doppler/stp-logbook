@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import PropTypes from "prop-types";
 import { HotKeys } from "react-hotkeys";
 import Header from "../Header";
 import ManageSection from "./ManageSection";
@@ -41,10 +40,6 @@ const Dashboard = () => {
       </div>
     </>
   );
-};
-
-Dashboard.propTypes = {
-  history: PropTypes.object.isRequired
 };
 
 export default Dashboard;

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import PropTypes from "prop-types";
 import DB from "../../DB";
 import createTestData from "../../utils/createTestData";
 
@@ -109,10 +108,6 @@ const FakeDataSection = () => {
       </details>
     </section>
   );
-};
-
-FakeDataSection.propTypes = {
-  history: PropTypes.object.isRequired
 };
 
 export default FakeDataSection;

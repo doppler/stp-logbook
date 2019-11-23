@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRouteMatch, useHistory } from "react-router-dom";
-import PropTypes from "prop-types";
 import { HotKeys } from "react-hotkeys";
 
 import "./Show.css";
@@ -175,11 +174,6 @@ const Show = () => {
       </div>
     </HotKeys>
   );
-};
-
-Show.propTypes = {
-  match: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired
 };
 
 export default Show;

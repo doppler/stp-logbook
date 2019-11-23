@@ -1,6 +1,5 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import PropTypes from "prop-types";
 
 const ManageSection = () => {
   const history = useHistory();
@@ -21,10 +20,6 @@ const ManageSection = () => {
       </details>
     </section>
   );
-};
-
-ManageSection.propTypes = {
-  history: PropTypes.object.isRequired
 };
 
 export default ManageSection;
