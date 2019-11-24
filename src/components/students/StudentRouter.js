@@ -16,7 +16,7 @@ const StudentRouter = () => (
         <Route path="/students/:studentId/edit" component={Edit} />
         <Route path="/students/new" component={Edit} />
         <Route path="/students/:studentId" component={Show} />
-        <Route path="/students" component={List} />
+        <Route path="/" component={List} />
       </Switch>
     </div>
   </>

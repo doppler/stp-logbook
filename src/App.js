@@ -16,10 +16,11 @@ const App = () => {
   return (
     <Router>
       <div className="App">
-        <Route exact path="/" component={Dashboard} />
-        <Route path="/students" component={StudentRouter} />
+        <Route path="/dashboard" component={Dashboard} />
         <Route path="/instructors" component={InstructorRouter} />
         <Route path="/aircraft" component={AircraftRouter} />
+        <Route path="/students" component={StudentRouter} />
+        <Route exact path="/" component={StudentRouter} />
       </div>
     </Router>
   );
